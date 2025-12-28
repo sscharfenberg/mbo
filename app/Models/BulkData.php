@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Set extends Model
+class BulkData extends Model
 {
     use HasUuids;
 
@@ -28,7 +28,7 @@ class Set extends Model
      *
      * @var string
      */
-    protected $table = 'sets';
+    protected $table = 'bulk_data';
 
     /**
      * The primary key associated with the table.
@@ -51,18 +51,15 @@ class Set extends Model
      */
     protected $fillable = [
         'id',
-        'code',
+        'type',
+        'updated_at',
+        'uri',
         'name',
-        'block_code',
-        'block',
-        'parent_set_code',
-        'card_count',
-        'printed_size',
-        'set_type',
-        'digital',
-        'scryfall_uri',
-        'icon',
-        'released_at',
+        'description',
+        'size',
+        'download_uri',
+        'content_type',
+        'content_encoding',
     ];
 
     /**
@@ -71,8 +68,6 @@ class Set extends Model
      * @var array
      */
     protected $casts = [
-        'digital' => 'boolean',
-        'released_at' => 'date'
+        'updated_at' => 'datetime'
     ];
-
 }

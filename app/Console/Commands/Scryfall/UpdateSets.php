@@ -7,7 +7,7 @@ use App\Services\Scryfall\ScryfallSetService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class Sets extends Command
+class UpdateSets extends Command
 {
     /**
      * The name and signature of the console command.
@@ -33,10 +33,14 @@ class Sets extends Command
         $sss = new ScryfallSetService();
         $start = now();
         $this->info("artisan command 'scryfall:sets' started.");
+        Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:sets' started.");
+        Log::channel('scryfall')->info("=======================================================");
         $sss->updateSets($this->option('full'));
         $ms = $start->diffInMilliseconds(now());
+        Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:sets' finished in ".$fd->formatMs($ms).".");
+        Log::channel('scryfall')->info("=======================================================");
         $this->info("artisan command 'scryfall:sets' finished in ".$fd->formatMs($ms).".");
     }
 }

@@ -67,6 +67,13 @@ return [
             'throw' => true,
             'report' => false,
         ],
+        'scryfall-bulk' => [
+            'driver' => 'local',
+            'root' => storage_path('app/scryfall-bulk'),
+            'visibility' => 'private',
+            'throw' => true,
+            'report' => true,
+        ],
 
     ],
 

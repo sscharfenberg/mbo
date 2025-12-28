@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class Set extends Model
+class OracleCard extends Model
 {
+
     use HasUuids;
 
     /**
@@ -28,7 +29,7 @@ class Set extends Model
      *
      * @var string
      */
-    protected $table = 'sets';
+    protected $table = 'oracle_card';
 
     /**
      * The primary key associated with the table.
@@ -49,30 +50,13 @@ class Set extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'id',
-        'code',
-        'name',
-        'block_code',
-        'block',
-        'parent_set_code',
-        'card_count',
-        'printed_size',
-        'set_type',
-        'digital',
-        'scryfall_uri',
-        'icon',
-        'released_at',
-    ];
+    protected $fillable = [];
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'digital' => 'boolean',
-        'released_at' => 'date'
-    ];
+    protected $casts = [];
 
 }

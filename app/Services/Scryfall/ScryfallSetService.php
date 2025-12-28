@@ -45,10 +45,10 @@ class ScryfallSetService
             $response = Http::withHeaders(config('binder.scryfall.header'))
                 ->get($uri);
             if ($response->successful()) {
-                Storage::disk('set-icon')->put($fileName, (string) $response->body());
+                Storage::disk('set-icon')->put($fileName, $response->body());
                 Log::channel('scryfall')->debug("created SVG in storage disk 'set-icon': $fileName");
             } else {
-                Log::channel('scryfall')->debug("error calling icon uri '$uri' from scryfall: ".$response->body());
+                Log::channel('scryfall')->error("error calling icon uri '$uri' from scryfall: ".$response->body());
             }
         }
         return "/set-icon/".$fileName;
@@ -81,7 +81,7 @@ class ScryfallSetService
         if (array_key_exists('printed_size', $set)) { $arr['printed_size'] = $set['printed_size']; }
         $newSet = Set::create($arr);
         if ($newSet->wasRecentlyCreated) {
-            Log::channel('scryfall')->debug("created set [$newSet->code] '$newSet->name'.");
+            Log::channel('scryfall')->debug("created set [$newSet->code] $newSet->name.");
         }
     }
 

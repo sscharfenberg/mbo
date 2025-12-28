@@ -28,7 +28,6 @@ return new class extends Migration
             $table->string('scryfall_uri', length: 64);
             $table->string('icon', length: 64);
             $table->date('released_at')->nullable();
-            $table->timestamps();
         });
     }
 
