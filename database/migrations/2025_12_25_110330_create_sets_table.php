@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('parent_set_code', length: 6)->nullable();
             $table->unsignedSmallInteger('card_count')->default(0);
             $table->unsignedSmallInteger('printed_size')->default(0);
-            $table->enum('set_type', config('binder.scryfall.set_types'))->nullable();
+            $table->enum('set_type', config('mbo.scryfall.set_types'))->nullable();
             $table->boolean('digital')->default(false);
             $table->string('scryfall_uri', length: 64);
             $table->string('icon', length: 64);

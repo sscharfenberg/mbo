@@ -42,7 +42,7 @@ class ScryfallSetService
     {
         $fileName = $code.".svg";
         if (Storage::disk('set-icon')->missing($fileName)) {
-            $response = Http::withHeaders(config('binder.scryfall.header'))
+            $response = Http::withHeaders(config('mbo.scryfall.header'))
                 ->get($uri);
             if ($response->successful()) {
                 Storage::disk('set-icon')->put($fileName, $response->body());
@@ -94,7 +94,7 @@ class ScryfallSetService
     {
         $this->setup($full);
         try {
-            $response = Http::withHeaders(config('binder.scryfall.header'))
+            $response = Http::withHeaders(config('mbo.scryfall.header'))
                 ->get('https://api.scryfall.com/sets');
             if ($response->successful()) {
                 $sets = $response->json();

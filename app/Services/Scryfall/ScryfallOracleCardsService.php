@@ -4,6 +4,7 @@ namespace App\Services\Scryfall;
 
 use App\Models\BulkData;
 use App\Services\FormatService;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Cerbero\JsonParser\JsonParser;
@@ -19,45 +20,67 @@ class ScryfallOracleCardsService
      */
     private function cleanup ($fileName): void
     {
-        Storage::disk('scryfall-bulk')->delete($fileName);
-        Log::channel('scryfall')->info("deleted '$fileName' from disk 'scryfall-bulk'.");
+        if (env('APP_ENV') == 'production') {
+            Storage::disk('scryfall-bulk')->delete($fileName);
+            Log::channel('scryfall')->info("deleted '$fileName' from disk 'scryfall-bulk'.");
+        }
+    }
+
+
+    private function traverseJson($fileName): void
+    {
+        JsonParser::parse(Storage::disk('scryfall-bulk')->get($fileName))->traverse(function (mixed $value, string|int $key, JsonParser $parser) {
+            dd($value);
+        });
     }
 
 
     /**
+     * @function download json file, and place it into "scryfall-bulk" disk
+     * @param string $fileName
+     * @return bool
+     * @throws ConnectionException
+     */
+    private function downloadJson(string $fileName): bool
+    {
+        $f = new FormatService();
+        $start = now();
+        $bd = BulkData::where('type', '=', 'oracle_cards')->first();
+        $uri = $bd->download_uri;
+        Log::channel('scryfall')->notice('Starting download for oracle cards from url '.$uri);
+        $response = Http::withHeaders(config('mbo.scryfall.header'))->get($uri);
+        if ($response->failed()) {
+            Log::channel('scryfall')->critical("error calling oracle uri '$uri' from scryfall: ".$response->body());
+            return false;
+        }
+        Storage::disk('scryfall-bulk')->put($fileName, $response->body());
+        $realSize = Storage::disk('scryfall-bulk')->size($fileName);
+        if ($realSize != $bd->size) {
+            Log::channel('scryfall')->error("downloaded size for '$fileName' ($realSize) differs from expected size ($bd->size).");
+            return false;
+        }
+        Log::channel('scryfall')->debug("downloaded '$fileName' from scryfall to disk 'scryfall-bulk'.");
+        Log::channel('scryfall')->debug("filesize for '$fileName' ($realSize = ".$f->formatBytes($realSize).") as expected.");
+        $ms = $start->diffInMilliseconds(now());
+        Log::channel('scryfall')->notice("downloaded oracle_cards.json in ".$f->formatMs($ms).".");
+        return true;
+    }
+
+    /**
      * @function
      * @return void
-     * @throws \Illuminate\Http\Client\ConnectionException
+     * @throws ConnectionException
      */
     public function updateOracleCards(): void
     {
-        $start = now();
-        $f = new FormatService();
-        $bd = BulkData::where('type', '=', 'oracle_cards')->first();
-        $uri = $bd->download_uri;
-        $fileName = $bd->type.".json";
-        Log::channel('scryfall')->info('Starting download for oracle cards: '.$uri);
-        $response = Http::withHeaders(config('binder.scryfall.header'))
-            ->get($uri);
-        if ($response->successful()) {
-            Storage::disk('scryfall-bulk')->put($fileName, $response->body());
-            $realSize = Storage::disk('scryfall-bulk')->size($fileName);
-            if ($realSize == $bd->size) {
-                Log::channel('scryfall')->debug("downloaded '$fileName' from scryfall to disk 'scryfall-bulk'.");
-                Log::channel('scryfall')->debug("filesize for '$fileName' ($realSize = ".$f->formatBytes($realSize).") as expected.");
-            } else {
-                Log::channel('scryfall')->error("downloaded size for '$fileName' ($realSize) differs from expected size ($bd->size).");
+        $fileName = "oracle_cards.json";
+        if (Storage::disk('scryfall-bulk')->missing($fileName)) {
+            if (!$this->downloadJson($fileName)) {
+                Log::channel('scryfall')->error("error downloading oracle cards, aborting.");
+                return; // error downloading file, abort
             }
-            // traverse local json
-        } else {
-            Log::channel('scryfall')->error("error calling icon uri '$uri' from scryfall: ".$response->body());
         }
-
-//        JsonParser::parse($bd->download_uri)->traverse(function (mixed $value, string|int $key, JsonParser $parser) {
-//            // lazily load one key and value at a time, we can also access the parser if needed
-//            dd($value);
-//        });
-
+        $this->traverseJson($fileName);
         $this->cleanup($fileName);
     }
 
