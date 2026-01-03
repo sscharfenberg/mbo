@@ -30,7 +30,7 @@ class OracleCard extends Model
      *
      * @var string
      */
-    protected $table = 'oracle_card';
+    protected $table = 'oracle_cards';
 
     /**
      * The primary key associated with the table.
@@ -63,7 +63,6 @@ class OracleCard extends Model
         'mana_cost',
         'color_identity',
         'colors',
-        'oracle_text',
         'legalities',
         'image_uris',
         'reserved',
@@ -80,9 +79,7 @@ class OracleCard extends Model
         'reserved' => 'boolean',
         'game_changer' => 'boolean',
         'legalities' => AsCollection::class,
-        'image_uris' => AsCollection::class,
-        'color_identity' => AsCollection::class,
-        'colors' => AsCollection::class,
+        'image_uris' => AsCollection::class
     ];
 
 }

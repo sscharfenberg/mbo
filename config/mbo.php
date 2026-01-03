@@ -90,14 +90,6 @@ return [
             'sa',
             'ph',
             'qya'
-        ],
-        'color_identity' => [
-            'W',
-            'U',
-            'B',
-            'R',
-            'G',
-            'C'
         ]
     ]
 
