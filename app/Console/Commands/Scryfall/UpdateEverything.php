@@ -31,15 +31,14 @@ class UpdateEverything extends Command
     protected int $fullSetUpdateWeekDay = 7;
 
     /**
-     * @function sleep for $seconds, then return the accumulated idle seconds.
-     * @param int $seconds
+     * @function sleep for a configured amount of seconds, then return the idled seconds
      * @return int
      */
-    private function sleep(int $seconds): int
+    private function sleep(): int
     {
         $duration = 2;
         sleep($duration);
-        return $seconds + $duration;
+        return $duration;
     }
 
     /**
@@ -60,13 +59,14 @@ class UpdateEverything extends Command
         } else {
             $this->call('scryfall:sets');
         }
-        $waitTime = $this->sleep($waitTime);
+        $waitTime += $this->sleep();
         // bulk data. we need this information for all of the other commands
         $this->call('scryfall:bulk');
-        $waitTime = $this->sleep($waitTime);
+        $waitTime += $this->sleep();
         // update oracle cards
         $this->call('scryfall:oracle');
-//        $waitTime = $this->sleep($waitTime);
+        $waitTime += $this->sleep();
+        $this->call('scryfall:all_cards');
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:update' finished in ".$fd->formatMs($ms).", including $waitTime seconds idle time.");

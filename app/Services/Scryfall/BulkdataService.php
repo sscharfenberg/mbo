@@ -3,13 +3,56 @@
 namespace App\Services\Scryfall;
 
 use App\Models\BulkData;
+use App\Services\FormatService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
-class ScryfallBulkdataService
+class BulkdataService
 {
+
+    /**
+     * @function download json file, and place it into "scryfall-bulk" disk
+     * @param string $type
+     * @return bool
+     */
+    public function downloadJson(string $type): bool
+    {
+        $fileName = $type.".json";
+        $f = new FormatService();
+        $start = now();
+        $bd = BulkData::where('type', '=', $type)->first();
+        $uri = $bd->download_uri;
+        try {
+            Log::channel('scryfall')->notice("starting download of '$fileName' from scryfall.");
+            $response = Http::withHeaders(config('mbo.scryfall.header'))
+                ->timeout(-1) // disable timeouts since we want to download large files.
+                ->get($uri);
+            if ($response->failed()) {
+                Log::channel('scryfall')->critical("error calling oracle uri '$uri' from scryfall: ".$response->body());
+                return false;
+            } else {
+                Storage::disk('scryfall-bulk')->put($fileName, $response->body());
+                $realSize = Storage::disk('scryfall-bulk')->size($fileName);
+                $realSizeFormatted = number_format($realSize, 0, ',', '.');
+                if ($realSize != $bd->size) {
+                    Log::channel('scryfall')->error("downloaded size for '$fileName' ($realSize) differs from expected size ($bd->size).");
+                    return false;
+                }
+                Log::channel('scryfall')->debug("downloaded '$fileName' from scryfall to disk 'scryfall-bulk'.");
+                Log::channel('scryfall')->debug("filesize for '$fileName' ($realSizeFormatted = ".$f->formatBytes($realSize).") as expected.");
+                $ms = $start->diffInMilliseconds(now());
+                Log::channel('scryfall')->notice("downloaded '$fileName' in ".$f->formatMs($ms).".");
+                return true;
+            }
+        } catch (\Exception $e) {
+            Log::channel('scryfall')->error("error downloading '$fileName': ".$e->getMessage());
+            Log::channel('scryfall')->error($e->getTraceAsString());
+            return false;
+        }
+    }
 
     /**
      * @function setup: prune db table

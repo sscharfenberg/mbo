@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Scryfall;
 
 use App\Services\FormatService;
-use App\Services\Scryfall\ScryfallBulkdataService;
+use App\Services\Scryfall\BulkdataService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -29,7 +29,7 @@ class UpdateBulkData extends Command
     public function handle()
     {
         $fd = new FormatService();
-        $bds = new ScryfallBulkdataService();
+        $bds = new BulkdataService();
         $start = now();
         $this->info("artisan command 'scryfall:bulk' started.");
         Log::channel('scryfall')->info("=======================================================");

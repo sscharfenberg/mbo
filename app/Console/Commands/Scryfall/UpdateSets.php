@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Scryfall;
 
 use App\Services\FormatService;
-use App\Services\Scryfall\ScryfallSetService;
+use App\Services\Scryfall\SetsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -30,13 +30,13 @@ class UpdateSets extends Command
     public function handle(): void
     {
         $fd = new FormatService();
-        $sss = new ScryfallSetService();
+        $s = new SetsService();
         $start = now();
         $this->info("artisan command 'scryfall:sets' started.");
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:sets' started.");
         Log::channel('scryfall')->info("=======================================================");
-        $sss->updateSets($this->option('full'));
+        $s->updateSets($this->option('full'));
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:sets' finished in ".$fd->formatMs($ms).".");
