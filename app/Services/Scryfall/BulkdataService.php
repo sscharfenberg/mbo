@@ -14,6 +14,12 @@ class BulkdataService
 {
 
     /**
+     * the image formats that should be used, from highest priority to lowest.
+     * @var string[]
+     */
+    protected array $imageFormats = ["large", "normal", "small", "png"];
+
+    /**
      * @function download json file, and place it into "scryfall-bulk" disk
      * @param string $type
      * @return bool
@@ -69,6 +75,53 @@ class BulkdataService
             Storage::disk('scryfall-bulk')->delete($fileName);
             Log::channel('scryfall')->notice("deleted '$fileName' from disk 'scryfall-bulk'.");
         }
+    }
+
+    /**
+     * @function get image uri from arrays
+     * @param array $card
+     * @return array
+     */
+    public function getImageUris (array $card): array
+    {
+        // if the card itself has an 'image_uris' array with length > 0, use the image from there
+        if (array_key_exists('image_uris', $card) && count($card['image_uris']) > 0) {
+            foreach ($this->imageFormats as $format) {
+                if (array_key_exists($format, $card['image_uris'])) {
+                    return [$card['image_uris'][$format]];
+                }
+            }
+        }
+        // if the card has at least one card_face, get the image_uris from there.
+        else if (array_key_exists('card_faces', $card) && count($card['card_faces']) > 0) {
+            $uris = [];
+            foreach ($card['card_faces'] as $face) { // loop card faces
+                if (
+                    array_key_exists('image_uris', $face)
+                    && count($face['image_uris']) > 0
+                    && strlen($this->getCardFaceImageUri($face)) > 0
+                ) {
+                    $uris[] = $this->getCardFaceImageUri($face);
+                }
+            }
+            return $uris;
+        }
+        return []; // no image uris at all.
+    }
+
+    /**
+     * @function get the image uri for a card face
+     * @param array $face
+     * @return string
+     */
+    private function getCardFaceImageUri (array $face): string
+    {
+        foreach ($this->imageFormats as $format) { // loop formats and check if there is a image_uri key.
+            if (array_key_exists($format, $face['image_uris'])) {
+                return $face['image_uris'][$format];
+            }
+        }
+        return "";
     }
 
     /**

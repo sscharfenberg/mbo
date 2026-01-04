@@ -66,7 +66,7 @@ class UpdateEverything extends Command
         // update oracle cards
         $this->call('scryfall:oracle');
         $waitTime += $this->sleep();
-        $this->call('scryfall:all_cards');
+        $this->call('scryfall:default_cards');
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:update' finished in ".$fd->formatMs($ms).", including $waitTime seconds idle time.");

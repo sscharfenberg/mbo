@@ -14,12 +14,6 @@ class OracleCardsService
 {
 
     /**
-     * the image formats that should be used, from highest priority to lowest.
-     * @var string[]
-     */
-    protected array $imageFormats = ["large", "normal", "small", "png"];
-
-    /**
      * @function truncate oracle_cards table
      * @return void
      */
@@ -32,76 +26,30 @@ class OracleCardsService
     }
 
     /**
-     * @function get the image uris for a card face
-     * @param array $face
-     * @return string
-     */
-    private function getCardFaceImageUris (array $face): string
-    {
-        foreach ($this->imageFormats as $format) { // loop formats and check if there is a image_uri key.
-            if (array_key_exists($format, $face['image_uris'])) {
-                return $face['image_uris'][$format];
-            }
-        }
-        return "";
-    }
-
-    /**
-     * @function get image uri from array
-     * @param array $card
-     * @return array
-     */
-    private function getImageUris (array $card): array
-    {
-        // if the card itself has an 'image_uris' array with length > 0, use the image from there
-        if (array_key_exists('image_uris', $card) && count($card['image_uris']) > 0) {
-            foreach ($this->imageFormats as $format) {
-                if (array_key_exists($format, $card['image_uris'])) {
-                    return [$card['image_uris'][$format]];
-                }
-            }
-        }
-        // if the card has at least one card_face, get the image_uris from there.
-        else if (array_key_exists('card_faces', $card) && count($card['card_faces']) > 0) {
-            $uris = [];
-            foreach ($card['card_faces'] as $face) { // loop card faces
-                if (
-                    array_key_exists('image_uris', $face)
-                    && count($face['image_uris']) > 0
-                    && strlen($this->getCardFaceImageUris($face)) > 0
-                ) {
-                    $uris[] = $this->getCardFaceImageUris($face);
-                }
-            }
-            return $uris;
-        }
-        return []; // no image uris at all.
-    }
-
-    /**
      * @function insert single oracle card into database
      * @param array $card
      * @return void
      */
     private function insertCard (array $card): void
     {
+        $bds = new BulkdataService();
         // non nullable values
         $arr = [
             'id' => $card['oracle_id'],
             'name' => $card['name'],
             'collector_number' => $card['collector_number'],
-            'layout' => $card['layout'],
             'type_line' => $card['type_line'],
             'lang' => $card['lang'],
             'cmc' => $card['cmc'],
             'legalities' => $card['legalities'],
-            'image_uris' => $this->getImageUris($card),
+            'image_uris' => $bds->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
             'reserved' => $card['reserved'],
             'game_changer' => $card['game_changer'],
             'scryfall_uri' => $card['scryfall_uri'],
         ];
         // nullable values
         if (array_key_exists('mana_cost', $card)) { $arr['mana_cost'] = $card['mana_cost']; }
+        if (array_key_exists('layout', $card)) { $arr['layout'] = $card['layout']; }
         if (array_key_exists('colors', $card) && count($card['colors']) > 0) {
             $arr['colors'] = implode("", $card['colors']);
         }

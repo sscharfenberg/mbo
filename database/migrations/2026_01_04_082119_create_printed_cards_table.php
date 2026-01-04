@@ -17,7 +17,7 @@ return new class extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
             $table->uuid('id')->primary();
             $table->string('name', 155);
-            $table->string('collector_number', 8);
+            $table->string('collector_number', 10);
             $table->enum('layout', config('mbo.scryfall.card_layout'));
             $table->enum('lang', config('mbo.scryfall.lang'));
             $table->json('image_uris')->nullable();

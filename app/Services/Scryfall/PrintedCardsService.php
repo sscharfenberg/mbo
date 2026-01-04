@@ -2,6 +2,7 @@
 
 namespace App\Services\Scryfall;
 
+use App\Models\PrintedCard;
 use App\Services\FormatService;
 use App\Services\Scryfall\BulkdataService;
 use Cerbero\JsonParser\JsonParser;
@@ -19,9 +20,43 @@ class PrintedCardsService
     private function preRunCleanup(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-//        OracleCard::truncate();
+        PrintedCard::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Log::channel('scryfall')->notice("truncated printed_cards table.");
+    }
+
+    /**
+     * @function insert single PrintedCard into database
+     * @param array $card
+     * @return void
+     */
+    private function insertCard(array $card): void
+    {
+        $bds = new BulkdataService();
+        // non nullable values
+        $arr = [
+            'id' => $card['id'],
+            'name' => $card['name'],
+            'collector_number' => $card['collector_number'],
+            'lang' => $card['lang'],
+            'image_uris' => $bds->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
+            'finishes' => $card['finishes'],
+            'games' => $card['games'],
+            'prices' => $card['prices'],
+            'digital' => $card['digital'],
+            'rarity' => $card['rarity'],
+            'set_id' => $card['set_id'],
+        ];
+        // nullable values
+        if (array_key_exists('oracle_id', $card)) { $arr['oracle_id'] = $card['oracle_id']; }
+        if (array_key_exists('layout', $card)) { $arr['layout'] = $card['layout']; }
+        // insert into db
+        try {
+            PrintedCard::create($arr);
+        } catch (\Exception $e) {
+            Log::channel('scryfall')->error("error inserting PrintedCard [".strtoupper($card['set'])."] ".$card['name'].": ".$e->getMessage());
+            Log::channel('scryfall')->error($e->getTraceAsString());
+        }
     }
 
     /**
@@ -36,8 +71,7 @@ class PrintedCardsService
         $count = 0;
         Log::channel('scryfall')->notice("begin traversing $fileName.");
         JsonParser::parse(Storage::disk('scryfall-bulk')->get($fileName))->traverse(function (mixed $value, string|int $key, JsonParser $parser) use (&$count) {
-//            $this->insertCard($value);
-            dd($value);
+            $this->insertCard($value);
             $count++;
         });
         $ms = $start->diffInMilliseconds(now());
@@ -51,7 +85,7 @@ class PrintedCardsService
      */
     public function updateAllCards(): void
     {
-        $type = "all_cards";
+        $type = "default_cards";
         $bds = new BulkDataService();
         if (!$bds->prepareJson($type)) {
             Log::channel('scryfall')->error("error preparing '$type.json', aborting.");
