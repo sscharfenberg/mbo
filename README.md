@@ -45,9 +45,25 @@ StyleLint should be run while editing in the IDE. This does not work well in `.v
 
 ## Artisan commands
 
-### `php artisan scryfall:sets [--full]`
+### `php artisan scryfall:update`
 
-This command gets all the sets from scryfall and updates the database accordingly. `--full` option cleans `set-icon` storage disk before contacting scryfall, without the option only missing `.svg` files will get downloaded. Use the normal command daily, and the `--full` update once every week.
+Updates everything and calls all later commands after one another. Use this for a daily cronjob. Warning - daily download of 2.5Gb data from scryfall.
+
+### `php artisan scryfall:sets`
+
+This command gets all the sets from scryfall and updates the database accordingly. On sundays `set-icon` storage disk will be pruned before contacting scryfall, all other days do not prune the storage disk.
+
+### `php artisan scryfall:bulk`
+
+Get meta information for bulk data from scryfall - URLs and expected filesize.
+
+### `php artisan scryfall:oracle`
+
+Get Oracle cards from scryfall and update the database oracle_cards table.
+
+### `php artisan scryfall:all_cards`
+
+Get information about all cards from scryfall and update the database printed_cards table.
 
 ## NPM commands
 
@@ -82,4 +98,4 @@ APP_URL=http://[yourhostname].noip.com
 Run Eslint and Stylelint separately.
 
 ## License
-`MixTape` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+`MBO` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
