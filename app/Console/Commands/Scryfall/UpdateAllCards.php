@@ -4,7 +4,7 @@ namespace App\Console\Commands\Scryfall;
 
 use App\Services\FormatService;
 
-use App\Services\Scryfall\AllCardsService;
+use App\Services\Scryfall\PrintedCardsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -30,7 +30,7 @@ class UpdateAllCards extends Command
     public function handle(): void
     {
         $fd = new FormatService();
-        $ac = new AllCardsService();
+        $ac = new PrintedCardsService();
         $start = now();
         $this->info("artisan command 'scryfall:all_cards' started.");
         Log::channel('scryfall')->info("=======================================================");

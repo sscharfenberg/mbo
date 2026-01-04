@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oracle_cards', function (Blueprint $table) {
+        Schema::create('printed_cards', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
@@ -19,17 +19,24 @@ return new class extends Migration
             $table->string('name', 155);
             $table->string('collector_number', 8);
             $table->enum('layout', config('mbo.scryfall.card_layout'));
-            $table->string('type_line', 128);
             $table->enum('lang', config('mbo.scryfall.lang'));
-            $table->float('cmc');
-            $table->string('mana_cost', 64)->nullable();
-            $table->string('color_identity', 6)->nullable();
-            $table->string('colors', 6)->nullable();
-            $table->json('legalities');
             $table->json('image_uris')->nullable();
-            $table->boolean('reserved')->default(false);
-            $table->boolean('game_changer')->default(false);
-            $table->string('scryfall_uri', 255);
+            $table->json('finishes');
+            $table->json('games');
+            $table->json('prices');
+            $table->boolean('digital')->default(false);
+            $table->enum('rarity', config('mbo.scryfall.rarity'));
+            $table->foreignUuid('set_id')
+                ->constrained()
+                ->references('id')
+                ->on('sets')
+                ->onDelete('cascade');
+            $table->foreignUuid('oracle_id')
+                ->nullable()
+                ->constrained()
+                ->references('id')
+                ->on('oracle_cards')
+                ->onDelete('cascade');
         });
     }
 
@@ -38,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('oracle_cards');
+        Schema::dropIfExists('printed_cards');
     }
 };

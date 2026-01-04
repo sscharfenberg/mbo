@@ -18,10 +18,14 @@ class BulkdataService
      * @param string $type
      * @return bool
      */
-    public function downloadJson(string $type): bool
+    public function prepareJson(string $type): bool
     {
         $fileName = $type.".json";
         $f = new FormatService();
+        if (Storage::disk('scryfall-bulk')->exists($fileName)) {
+            Log::channel('scryfall')->notice("JSON file '$fileName' already exists in disk 'scryfall-bulk'.");
+            return true;
+        }
         $start = now();
         $bd = BulkData::where('type', '=', $type)->first();
         $uri = $bd->download_uri;
@@ -55,10 +59,23 @@ class BulkdataService
     }
 
     /**
+     * @function cleanup after processing.
+     * @param $fileName
+     * @return void
+     */
+    public function postRunCleanup ($fileName): void
+    {
+        if (env('APP_ENV') == 'production') {
+            Storage::disk('scryfall-bulk')->delete($fileName);
+            Log::channel('scryfall')->notice("deleted '$fileName' from disk 'scryfall-bulk'.");
+        }
+    }
+
+    /**
      * @function setup: prune db table
      * @return void
      */
-    private function setup(): void
+    private function preRunCleanup(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         BulkData::truncate();
@@ -98,7 +115,7 @@ class BulkdataService
     public function getBulkMetadata(): void
     {
         Log::channel('scryfall')->debug('Updating bulk metadata from scryfall.');
-        $this->setup();
+        $this->preRunCleanup();
         try {
             $response = Http::accept('application/json')
                 ->get('https://api.scryfall.com/bulk-data');

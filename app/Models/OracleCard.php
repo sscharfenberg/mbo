@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OracleCard extends Model
 {
@@ -53,7 +54,6 @@ class OracleCard extends Model
      */
     protected $fillable = [
         'id',
-        'oracle_id',
         'name',
         'collector_number',
         'layout',
@@ -81,5 +81,13 @@ class OracleCard extends Model
         'legalities' => AsCollection::class,
         'image_uris' => AsCollection::class
     ];
+
+    /**
+     * Get the songs for the artist.
+     */
+    public function printings(): HasMany
+    {
+        return $this->hasMany(PrintedCard::class, 'oracle_id', 'oracle_id');
+    }
 
 }

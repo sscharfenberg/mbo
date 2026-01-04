@@ -4,6 +4,7 @@ namespace App\Services\Scryfall;
 
 use App\Models\OracleCard;
 use App\Services\FormatService;
+use App\Services\Scryfall\BulkdataService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Cerbero\JsonParser\JsonParser;
@@ -17,19 +18,6 @@ class OracleCardsService
      * @var string[]
      */
     protected array $imageFormats = ["large", "normal", "small", "png"];
-
-    /**
-     * @function cleanup after processing.
-     * @param $fileName
-     * @return void
-     */
-    private function postRunCleanup ($fileName): void
-    {
-        if (env('APP_ENV') == 'production') {
-            Storage::disk('scryfall-bulk')->delete($fileName);
-            Log::channel('scryfall')->notice("deleted '$fileName' from disk 'scryfall-bulk'.");
-        }
-    }
 
     /**
      * @function truncate oracle_cards table
@@ -99,7 +87,7 @@ class OracleCardsService
     {
         // non nullable values
         $arr = [
-            'id' => $card['id'],
+            'id' => $card['oracle_id'],
             'name' => $card['name'],
             'collector_number' => $card['collector_number'],
             'layout' => $card['layout'],
@@ -113,7 +101,6 @@ class OracleCardsService
             'scryfall_uri' => $card['scryfall_uri'],
         ];
         // nullable values
-        if (array_key_exists('oracle_id', $card)) { $arr['oracle_id'] = $card['oracle_id']; }
         if (array_key_exists('mana_cost', $card)) { $arr['mana_cost'] = $card['mana_cost']; }
         if (array_key_exists('colors', $card) && count($card['colors']) > 0) {
             $arr['colors'] = implode("", $card['colors']);
@@ -161,15 +148,13 @@ class OracleCardsService
     {
         $type = "oracle_cards";
         $bds = new BulkDataService();
-        if (Storage::disk('scryfall-bulk')->missing($type.".json")) {
-            if (!$bds->downloadJson($type)) {
-                Log::channel('scryfall')->error("error downloading '$type.json', aborting.");
-                return; // error downloading file, abort
-            }
+        if (!$bds->prepareJson($type)) {
+            Log::channel('scryfall')->error("error preparing '$type.json', aborting.");
+            return; // error downloading file, abort
         }
         $this->preRunCleanup();
         $this->traverseJson($type.".json");
-        $this->postRunCleanup($type.".json");
+        $bds->postRunCleanup($type.".json");
     }
 
 }

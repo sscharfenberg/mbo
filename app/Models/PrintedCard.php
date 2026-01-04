@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Set extends Model
+class PrintedCard extends Model
 {
+
     use HasUuids;
 
     /**
@@ -29,7 +31,7 @@ class Set extends Model
      *
      * @var string
      */
-    protected $table = 'sets';
+    protected $table = 'printed_cards';
 
     /**
      * The primary key associated with the table.
@@ -52,18 +54,18 @@ class Set extends Model
      */
     protected $fillable = [
         'id',
-        'code',
         'name',
-        'block_code',
-        'block',
-        'parent_set_code',
-        'card_count',
-        'printed_size',
-        'set_type',
+        'collector_number',
+        'layout',
+        'lang',
+        'image_uris',
+        'finishes',
+        'games',
+        'prices',
         'digital',
-        'scryfall_uri',
-        'icon',
-        'released_at',
+        'rarity',
+        'set_id',
+        'oracle_id'
     ];
 
     /**
@@ -72,16 +74,29 @@ class Set extends Model
      * @var array
      */
     protected $casts = [
-        'digital' => 'boolean',
-        'released_at' => 'date'
+        'image_uris' => AsCollection::class,
+        'finishes' => AsCollection::class,
+        'games' => AsCollection::class,
+        'prices' => AsCollection::class,
+        'digital' => 'boolean'
     ];
 
     /**
-     * Get the printed cards for the set.
+     * Get the oracle card associated with this printed card.
+     * @return belongsTo
      */
-    public function printedCards(): HasMany
+    public function oracle(): belongsTo
     {
-        return $this->hasMany(PrintedCard::class, 'set_id', 'id');
+        return $this->belongsTo(OracleCard::class, 'oracle_id', 'oracle_id');
+    }
+
+    /**
+     * Get the artist associated with the song.
+     * @return belongsTo
+     */
+    public function set(): belongsTo
+    {
+        return $this->belongsTo(Set::class, 'set_id', 'id');
     }
 
 }

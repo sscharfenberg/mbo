@@ -1,4 +1,6 @@
-# MTG Binder Organization
+# MTG Binder Organizer
+
+Work-In-Progress. Not usable right now.
 
 ## Requirements
 

@@ -45,7 +45,7 @@ return [
             'memorabilia',
             'minigame'
         ],
-        'card_layouts' => [
+        'card_layout' => [
             'normal',
             'split',
             'flip',
@@ -90,6 +90,14 @@ return [
             'sa',
             'ph',
             'qya'
+        ],
+        'rarity' => [
+            'common',
+            'uncommon',
+            'rare',
+            'special',
+            'mythic',
+            'bonus'
         ]
     ]
 
