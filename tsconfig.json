@@ -1,0 +1,18 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.json",
+  "files": [],
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "types": ["vite/client"]
+  },
+  "include": [
+    "resources/types/**/*.d.ts",
+    "resources/**/*.vue",
+    "resources/**/*.ts",
+    "vite.config.ts",
+    "node_modules/@sscharfenberg/progressbar/progressbar.js"
+  ]
+}

@@ -1,0 +1,1 @@
+{"root":["./resources/types/env.d.ts","./resources/types/inertia.d.ts","./resources/types/node_modules.d.ts","./resources/types/vue-shim.d.ts","./resources/app/pages/start/startpage.vue","./resources/app/main.ts","./vite.config.ts"],"version":"5.9.3"}
