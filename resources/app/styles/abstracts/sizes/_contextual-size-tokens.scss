@@ -1,0 +1,68 @@
+/******************************************************************************
+ * contextual size tokens
+ * @type {Sass}
+ * these variables are used in other scss files or vue components.
+ * this file gets @forwarded from _index.scss
+ * use
+ * @use "Abstracts/sizes" as s;
+ *****************************************************************************/
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "global-size-tokens" as s;
+
+// size tokens used everywhere in the app.
+$app: (
+    "max": (
+        "cage": map.get(s.$max, "cage"),
+        "form": map.get(s.$max, "form")
+    ),
+    "font-size": (
+        "base": s.$base * 0.9,
+        "portrait": s.$base * 1,
+        "landscape": s.$base * 1,
+        "desktop": s.$base * 1
+    ),
+    "icons": (
+        "tiny": s.$base,
+        "small": s.$base * 1.2,
+        "medium": s.$base * 1.5,
+        "large": s.$base * 2,
+        "xlarge": s.$base * 4,
+        "max": s.$base * 6
+    ),
+    "border": (
+        "base": math.round(s.$base * 0.125),
+        "featured": math.round(s.$base * 0.375)
+    ),
+    "radius": (
+        "base": math.round(s.$base * 0.25),
+        "featured": math.round(s.$base * 0.375)
+    ),
+    "padding": (
+        "base": math.round(s.$base * 0.5),
+        "portrait": math.round(s.$base * 1),
+        "landscape": math.round(s.$base * 1.15),
+        "desktop": math.round(s.$base * 1.5)
+    )
+) !default;
+
+// size tokens for header landmark
+$header: () !default;
+
+// size tokens for main landmark
+$main: () !default;
+
+// size tokens for widgets
+$widget: () !default;
+
+// size tokens for .form-input
+$form: () !default;
+
+// size tokens for search results
+$search: () !default;
+
+// size tokens for app-button
+$button: () !default;
+
+// size tokens for footer landmark
+$footer: () !default;

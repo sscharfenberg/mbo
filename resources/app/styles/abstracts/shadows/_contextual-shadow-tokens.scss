@@ -1,0 +1,15 @@
+/******************************************************************************
+ * contextual shadow tokens
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map";
+@use "sass:color";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "global-shadow-tokens" as shg;
+
+// default contextual tokens
+$app: () !default;
+$header: () !default;
+$main: () !default;
+$footer: () !default;

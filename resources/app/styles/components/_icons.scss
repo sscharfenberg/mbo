@@ -1,0 +1,79 @@
+/******************************************************************************
+ * app svg icon styles
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:meta"; // https://sass-lang.com/documentation/modules/meta/
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+
+.icon {
+    display: inline-block;
+
+    width: var(--icon-size);
+    height: var(--icon-size);
+    flex: 0 0 var(--icon-size);
+
+    vertical-align: middle;
+
+    fill: currentcolor;
+
+    &.tiny {
+        --icon-size: #{map.get(s.$app, "icons", "tiny")};
+    }
+
+    &.small {
+        --icon-size: #{map.get(s.$app, "icons", "small")};
+    }
+
+    &.medium {
+        --icon-size: #{map.get(s.$app, "icons", "medium")};
+    }
+
+    &.large {
+        --icon-size: #{map.get(s.$app, "icons", "large")};
+    }
+
+    &.xlarge {
+        --icon-size: #{map.get(s.$app, "icons", "xlarge")};
+    }
+
+    &.max {
+        --icon-size: #{map.get(s.$app, "icons", "max")};
+    }
+
+    // rotating icon
+    &.rotate {
+        @media (prefers-reduced-motion: no-preference) {
+            animation: icon-rotate map.get(ti.$timings, "slowish") linear infinite;
+        }
+    }
+
+    &.required {
+        fill: map.get(c.$app, "icon-required");
+    }
+
+    &.pull-left {
+        margin-right: auto;
+    }
+
+    &.pull-right {
+        margin-left: auto;
+    }
+
+    &-sprite {
+        display: none;
+    }
+}
+
+// rotating
+@keyframes icon-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

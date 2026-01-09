@@ -1,0 +1,27 @@
+/******************************************************************************
+ * contextual typography tokens
+ * @type {Sass}
+ * these variables are used in other scss files or vue components.
+ * this file gets @forwarded from _index.scss
+ * use
+ * @use "Abstracts/typography" as t;
+ *****************************************************************************/
+@use "sass:map";
+@use "global-typo-tokens" as t;
+
+$app: (
+    "base": map.get(t.$font, "text"),
+    "paragraph": map.get(t.$font, "text"),
+    "headline": map.get(t.$font, "headline"),
+    "link": map.get(t.$font, "text"),
+    "button": map.get(t.$font, "text")
+) !default;
+$header: (
+    "title": map.get($app, "headline")
+) !default;
+$main: (
+    "song-name": map.get($app, "headline"),
+    "page-header": map.get($app, "headline"),
+    "path": map.get(t.$font, "mono")
+) !default;
+$footer: () !default;

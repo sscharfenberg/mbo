@@ -1,0 +1,61 @@
+/******************************************************************************
+ * sass mixin: media query set
+ * @type {Sass}
+ *****************************************************************************/
+@use "./mq" as *;
+
+/**
+ * @mixin mqset
+ * this mixins creates a set of media queries. Use it if you have only one property that needs to be different across
+ * the breakpoints. if you need more than one property, you should write the media queries by yourself
+ *
+ * @param {string} $property - the CSS property for the media query set
+ * @param {string} $base - CSS value for base breakpoint
+ * @param {string} $portrait - CSS value for portrait breakpoint
+ * @param {string} $landscape - CSS value for landscape breakpoint
+ * @param {string} $desktop - CSS value for desktop breakpoint
+ * @param {string} $full - CSS value for full breakpoint
+ * @returns "property: value" for each of the breakpoints
+ *
+ * @usage
+ * @include m.mqset(
+ *    "margin-bottom",
+ *    map.get(s.$header, "unauthed-margin-bottom", "base"),
+ *    map.get(s.$header, "unauthed-margin-bottom", "portrait"),
+ *    map.get(s.$header, "unauthed-margin-bottom", "landscape"),
+ *    map.get(s.$header, "unauthed-margin-bottom", "desktop"),
+ *    map.get(s.$header, "unauthed-margin-bottom", "full")
+ * );
+ *
+ */
+/* stylelint-disable */
+@mixin mqset($property, $base, $portrait: "", $landscape: "", $desktop: "", $full: "") {
+    & {
+        #{$property}: $base;
+    }
+
+    @if $portrait != "" {
+        @include mq("portrait") {
+            #{$property}: $portrait;
+        }
+    }
+
+    @if $landscape != "" {
+        @include mq("landscape") {
+            #{$property}: $landscape;
+        }
+    }
+
+    @if $desktop != "" {
+        @include mq("desktop") {
+            #{$property}: $desktop;
+        }
+    }
+
+    @if $full != "" {
+        @include mq("full") {
+            #{$property}: $full;
+        }
+    }
+}
+/* stylelint-enable */

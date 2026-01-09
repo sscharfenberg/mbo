@@ -1,0 +1,9 @@
+/******************************************************************************
+ * main size definitions
+ * @type {Sass}
+ * this is the main sizes file that should be included from other scss files
+ * or .vue components. Do not import tokens!
+ * instead, use this:
+ * @use "Abstracts/sizes" as s;
+ *****************************************************************************/
+@forward "contextual-size-tokens";

@@ -1,0 +1,232 @@
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.child,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.child,
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {
+    cursor: default !important;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.child::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.child::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty::before {
+    display: none !important;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
+    cursor: pointer;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before {
+    display: inline-block;
+
+    box-sizing: border-box;
+    border-top: 5px solid transparent;
+    border-right: 0 solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid rgb(0 0 0 / 50%);
+    margin-right: 0.5em;
+
+    content: "";
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control.arrow-right::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control.arrow-right::before {
+    border-top: 5px solid transparent;
+    border-right: 10px solid rgb(0 0 0 / 50%);
+    border-bottom: 5px solid transparent;
+    border-left: 0 solid transparent;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr.dtr-expanded > td.dtr-control::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr.dtr-expanded > th.dtr-control::before {
+    border-top: 10px solid rgb(0 0 0 / 50%);
+    border-right: 5px solid transparent;
+    border-bottom: 0 solid transparent;
+    border-left: 5px solid transparent;
+}
+
+table.dataTable.dtr-inline.collapsed.compact > tbody > tr > td.dtr-control,
+table.dataTable.dtr-inline.collapsed.compact > tbody > tr > th.dtr-control {
+    padding-left: 0.333em;
+}
+
+table.dataTable.dtr-column > tbody > tr > td.dtr-control,
+table.dataTable.dtr-column > tbody > tr > th.dtr-control,
+table.dataTable.dtr-column > tbody > tr > td.control,
+table.dataTable.dtr-column > tbody > tr > th.control {
+    cursor: pointer;
+}
+
+table.dataTable.dtr-column > tbody > tr > td.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr > th.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr > td.control::before,
+table.dataTable.dtr-column > tbody > tr > th.control::before {
+    display: inline-block;
+
+    box-sizing: border-box;
+    border-top: 5px solid transparent;
+    border-right: 0 solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid rgb(0 0 0 / 50%);
+
+    content: "";
+}
+
+table.dataTable.dtr-column > tbody > tr > td.dtr-control.arrow-right::before,
+table.dataTable.dtr-column > tbody > tr > th.dtr-control.arrow-right::before,
+table.dataTable.dtr-column > tbody > tr > td.control.arrow-right::before,
+table.dataTable.dtr-column > tbody > tr > th.control.arrow-right::before {
+    border-top: 5px solid transparent;
+    border-right: 10px solid rgb(0 0 0 / 50%);
+    border-bottom: 5px solid transparent;
+    border-left: 0 solid transparent;
+}
+
+table.dataTable.dtr-column > tbody > tr.dtr-expanded td.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr.dtr-expanded th.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr.dtr-expanded td.control::before,
+table.dataTable.dtr-column > tbody > tr.dtr-expanded th.control::before {
+    border-top: 10px solid rgb(0 0 0 / 50%);
+    border-right: 5px solid transparent;
+    border-bottom: 0 solid transparent;
+    border-left: 5px solid transparent;
+}
+
+table.dataTable > tbody > tr.child {
+    padding: 0.5em 1em;
+}
+
+table.dataTable > tbody > tr.child:hover {
+    background: transparent !important;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details {
+    display: inline-block;
+
+    padding: 0;
+    margin: 0;
+
+    list-style-type: none;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li {
+    padding: 0.5em 0;
+    border-bottom: 1px solid #efefef;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li:first-child {
+    padding-top: 0;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+table.dataTable > tbody > tr.child span.dtr-title {
+    display: inline-block;
+
+    min-width: 75px;
+
+    font-weight: bold;
+}
+
+div.dtr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 10em 1em;
+}
+
+div.dtr-modal div.dtr-modal-display {
+    position: absolute;
+    inset: 0;
+    z-index: 102;
+
+    overflow: auto;
+    width: 50%;
+    height: fit-content;
+    max-height: 75%;
+    border: 1px solid black;
+    margin: auto;
+
+    background-color: #f5f5f7;
+    border-radius: 0.5em;
+    box-shadow: 0 12px 30px rgb(0 0 0 / 60%);
+}
+
+div.dtr-modal div.dtr-modal-content {
+    position: relative;
+
+    padding: 2.5em;
+}
+
+div.dtr-modal div.dtr-modal-content h2 {
+    margin-top: 0;
+}
+
+div.dtr-modal div.dtr-modal-close {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 12;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 3px;
+
+    text-align: center;
+
+    cursor: pointer;
+}
+
+div.dtr-modal div.dtr-modal-background {
+    position: fixed;
+    inset: 0;
+    z-index: 101;
+
+    background: rgb(0 0 0 / 60%);
+}
+
+@media screen and (width <= 767px) {
+    div.dtr-modal div.dtr-modal-display {
+        width: 95%;
+    }
+}
+
+html.dark table.dataTable > tbody > tr > td.dtr-control::before,
+html[data-bs-theme="dark"] table.dataTable > tbody > tr > td.dtr-control::before {
+    border-left-color: rgb(255 255 255 / 50%) !important;
+}
+
+html.dark table.dataTable > tbody > tr > td.dtr-control.arrow-right::before,
+html[data-bs-theme="dark"] table.dataTable > tbody > tr > td.dtr-control.arrow-right::before {
+    border-right-color: rgb(255 255 255 / 50%) !important;
+}
+
+html.dark table.dataTable > tbody > tr.dtr-expanded > td.dtr-control::before,
+html.dark table.dataTable > tbody > tr.dtr-expanded > th.dtr-control::before,
+html[data-bs-theme="dark"] table.dataTable > tbody > tr.dtr-expanded > td.dtr-control::before,
+html[data-bs-theme="dark"] table.dataTable > tbody > tr.dtr-expanded > th.dtr-control::before {
+    border-top-color: rgb(255 255 255 / 50%) !important;
+    border-right-color: transparent !important;
+    border-left-color: transparent !important;
+}
+
+html.dark table.dataTable > tbody > tr.child ul.dtr-details > li,
+html[data-bs-theme="dark"] table.dataTable > tbody > tr.child ul.dtr-details > li {
+    border-bottom-color: rgb(64 67 70);
+}
+
+html.dark div.dtr-modal div.dtr-modal-display,
+html[data-bs-theme="dark"] div.dtr-modal div.dtr-modal-display {
+    border: 1px solid rgb(255 255 255 / 15%);
+
+    background-color: rgb(33 37 41);
+}

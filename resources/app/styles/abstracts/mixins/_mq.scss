@@ -1,0 +1,33 @@
+/******************************************************************************
+ * sass mixin: media query
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "Abstracts/sizes/global-size-tokens" as sg;
+
+/*
+ * @mixin media query "mq"
+ * @param {String} $breakpoint - Breakpoint
+ * @param {Boolean} $mobile-first - true for mobile first, false for desktop first
+ * @return {string} - The generated media query
+ * @throws {error} - If the provided $breakpoint does not exist
+ * @usage:
+ *     @include mq("phone") {
+ *         font-size: 12px;
+ *     }
+ */
+@mixin mq($breakpoint, $mobile-first: true) {
+    @if map.has-key(sg.$breakpoints, $breakpoint) {
+        @if $mobile-first {
+            @media (min-width: #{map.get(sg.$breakpoints, $breakpoint)}) {
+                @content;
+            }
+        } @else {
+            @media (max-width: #{map.get(sg.$breakpoints, $breakpoint) - 1px}) {
+                @content;
+            }
+        }
+    } @else {
+        @error "Unfortunately, no value could be retrieved from `#{$breakpoint}`. Please make sure it is defined in `$breakpoints` map.";
+    }
+}

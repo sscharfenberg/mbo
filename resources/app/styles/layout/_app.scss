@@ -1,0 +1,26 @@
+/******************************************************************************
+ * app layout
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "Abstracts/mixins" as m;
+@use "Abstracts/sizes" as s;
+
+#app {
+    display: flex;
+    flex-direction: column;
+
+    max-width: map.get(s.$app, "max", "cage");
+
+    min-height: 100dvh;
+    margin: 0 auto;
+
+    @include m.mqset(
+        "padding",
+        #{map.get(s.$app, "padding", "base")},
+        #{map.get(s.$app, "padding", "portrait")},
+        #{map.get(s.$app, "padding", "landscape")},
+        #{map.get(s.$app, "padding", "desktop")}
+    );
+}

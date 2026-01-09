@@ -1,0 +1,51 @@
+/******************************************************************************
+ * global color definitions
+ * @type {Sass}
+ * this global definitions should not be @used in other scss files
+ * instead, use
+ * @use "Abstracts/colors" as c;
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+
+// brand colors ===============================================================
+$brand: (
+    // brand colors #1 and #2 are for dark(er) colors that have a bright(er) contrast
+    "viking": (
+            "color": #6fc3df,
+            "contrast": #424242
+        ),
+    "gorse": (
+        "color": #ffe64d,
+        "contrast": #424242
+    ),
+    "christine": (
+        "color": #b35d0a,
+        "contrast": #fff
+    )
+) !default;
+
+// greyscale ==================================================================
+$grey: (
+    "white": #fff,
+    "astral": #f6f6f6,
+    "mystic": #ededed,
+    "infra": #dadada,
+    "fog": #c7c7bf,
+    "iron": #afb2b2,
+    "slate": #929292,
+    "charcoal": #7e7e7e,
+    "asher": #555f61,
+    "abbey": #4c4f56,
+    "bunker": #383839,
+    "ebony": #1b1a1a,
+    "black": #000
+) !default;
+
+// action state colors ========================================================
+$state: (
+    "success": #15a20b,
+    "warning": #ffaa45,
+    "error": #c6170f,
+    "pending": #006dc9
+) !default;

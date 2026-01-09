@@ -1,0 +1,137 @@
+/******************************************************************************
+ * .form-select
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map";
+@use "Abstracts/mixins" as m;
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+@use "Abstracts/z-indexes" as z;
+
+.form-select {
+    display: flex;
+    position: relative;
+
+    flex-grow: 1;
+    flex-direction: column;
+
+    > button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        height: map.get(s.$form, "select-height");
+        padding: map.get(s.$form, "select-padding");
+        border: map.get(s.$form, "select-border") solid map.get(c.$form, "select-border");
+
+        background-color: map.get(c.$form, "select-background");
+        color: map.get(c.$form, "select-surface");
+
+        border-radius: map.get(s.$form, "select-radius");
+
+        line-height: map.get(s.$form, "select-height");
+
+        &:not(:disabled) {
+            cursor: pointer;
+        }
+    }
+
+    .clear-btn {
+        border: 0;
+
+        background: transparent;
+
+        cursor: pointer;
+
+        transition: color map.get(ti.$timings, "fast") linear;
+
+        &:hover {
+            color: map.get(c.$form, "select-clear");
+        }
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+
+        gap: 1ch;
+    }
+
+    .menu {
+        display: flex;
+        position: absolute;
+        top: #{map.get(s.$form, "select-height") + 2px};
+        right: 0;
+        left: 0;
+
+        z-index: map.get(z.$index, "form");
+        flex-direction: column;
+
+        overflow: hidden;
+
+        min-height: 200px;
+        max-height: 30vh;
+
+        border-bottom-right-radius: map.get(s.$form, "option-menu-radius");
+        border-bottom-left-radius: map.get(s.$form, "option-menu-radius");
+    }
+
+    .caret {
+        display: block;
+
+        width: 0;
+        height: 0;
+        border-width: map.get(s.$form, "select-caret") map.get(s.$form, "select-caret") 0;
+
+        border-style: solid;
+        border-color: map.get(c.$form, "select-caret") transparent transparent;
+
+        transition: transform map.get(ti.$timings, "fast") linear;
+    }
+
+    > button.open > .caret {
+        transform: rotate(180deg);
+    }
+
+    .menu-items {
+        overflow-y: auto;
+    }
+
+    .form-option {
+        display: flex;
+        align-items: center;
+
+        width: 100%;
+        padding: map.get(s.$form, "option-padding");
+        border: 0;
+
+        color: map.get(c.$form, "option-surface");
+
+        text-align: left;
+
+        cursor: pointer;
+
+        transition:
+            background-color map.get(ti.$timings, "fast") linear,
+            color map.get(ti.$timings, "fast") linear;
+
+        &:nth-child(odd) {
+            background-color: map.get(c.$form, "option-background-odd");
+        }
+
+        &:nth-child(even) {
+            background-color: map.get(c.$form, "option-background-even");
+        }
+
+        &:hover {
+            background-color: map.get(c.$form, "option-background-hover");
+            color: map.get(c.$form, "option-surface-hover");
+        }
+
+        &.selected {
+            background-color: map.get(c.$form, "option-background-selected");
+            color: map.get(c.$form, "option-surface-selected");
+        }
+    }
+}

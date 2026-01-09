@@ -1,0 +1,57 @@
+/******************************************************************************
+ * global shadow tokens
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:color";
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/colors/global-color-tokens" as cg;
+@use "Abstracts/sizes" as s;
+
+$-tl: inset #{map.get(s.$app, "border", "base")} #{map.get(s.$app, "border", "base")} map.get(c.$app, "inset-color");
+$-tr: inset -#{map.get(s.$app, "border", "base")} #{map.get(s.$app, "border", "base")} map.get(c.$app, "inset-color");
+$-br: inset -#{map.get(s.$app, "border", "base")} -#{map.get(s.$app, "border", "base")} map.get(c.$app, "inset-color");
+$-bl: inset #{map.get(s.$app, "border", "base")} -#{map.get(s.$app, "border", "base")} map.get(c.$app, "inset-color");
+
+// text-shadow
+$-text-tl: #{map.get(s.$app, "border", "base")} #{map.get(s.$app, "border", "base")}
+    light-dark(map.get(cg.$grey, "asher"), map.get(cg.$grey, "iron"));
+$-text-tr: -#{map.get(s.$app, "border", "base")} #{map.get(s.$app, "border", "base")}
+    light-dark(map.get(cg.$grey, "asher"), map.get(cg.$grey, "iron"));
+$-text-br: -#{map.get(s.$app, "border", "base")} -#{map.get(s.$app, "border", "base")}
+    light-dark(map.get(cg.$grey, "asher"), map.get(cg.$grey, "iron"));
+$-text-bl: #{map.get(s.$app, "border", "base")} -#{map.get(s.$app, "border", "base")}
+    light-dark(map.get(cg.$grey, "asher"), map.get(cg.$grey, "iron"));
+$text-shadow:
+    #{$-text-tl,
+    $-text-tr,
+    $-text-br,
+    $-text-bl};
+
+// inset shadows - set to "none" to disable globally.
+$inset: (
+    "tl": $-tl,
+    "tr": $-tr,
+    "br": $-br,
+    "bl": $-bl,
+    "full": #{$-tl,
+    $-tr,
+    $-br,
+    $-bl}
+);
+
+// box-shadows accept four size params: offset-x | offset-y | blur-radius | spread-radius
+$box: (
+    "0dp": 1px 1px 3px 2px light-dark(color.adjust(#000, $alpha: -0.93), color.adjust(#aaa, $alpha: -0.83)),
+    "1dp": 3px 3px 5px 3px light-dark(color.adjust(#000, $alpha: -0.83), color.adjust(#aaa, $alpha: -0.73)),
+    "2dp": 5px 5px 8px 2px light-dark(color.adjust(#000, $alpha: -0.73), color.adjust(#aaa, $alpha: -0.63)),
+    "4dp": 5px 5px 10px 3px light-dark(color.adjust(#000, $alpha: -0.63), color.adjust(#aaa, $alpha: -0.53))
+);
+
+// text-shadows accept three size params: offset-x | offset-y | blur-radius
+$text: (
+    "0dp": 0 2px 3px light-dark(color.adjust(#000, $alpha: -0.73), color.adjust(#fff, $alpha: -0.63)),
+    "1dp": 3px 3px 5px light-dark(color.adjust(#000, $alpha: -0.63), color.adjust(#fff, $alpha: -0.53)),
+    "2dp": 5px 5px 8px light-dark(color.adjust(#000, $alpha: -0.53), color.adjust(#fff, $alpha: -0.43)),
+    "4dp": 5px 5px 10px light-dark(color.adjust(#000, $alpha: -0.43), color.adjust(#fff, $alpha: -0.33))
+);

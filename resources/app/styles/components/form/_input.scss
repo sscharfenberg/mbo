@@ -1,0 +1,32 @@
+/******************************************************************************
+ * form input styles (basic)
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map";
+@use "Abstracts/sizes" as s;
+@use "Abstracts/colors" as c;
+@use "Abstracts/timings" as ti;
+
+.form-input {
+    width: 100%;
+    max-width: 480px;
+    padding: map.get(s.$form, "padding");
+    border: map.get(s.$form, "border") solid map.get(c.$form, "border");
+
+    background-color: map.get(c.$form, "background");
+    color: map.get(c.$form, "surface");
+
+    outline: 0;
+
+    border-radius: map.get(s.$form, "radius");
+
+    transition:
+        color map.get(ti.$timings, "fast") linear,
+        border-color map.get(ti.$timings, "fast") linear;
+
+    &:not([readonly]):focus,
+    &:not([readonly]):active {
+        color: map.get(c.$form, "surface-focus");
+        border-color: map.get(c.$form, "border-focus");
+    }
+}

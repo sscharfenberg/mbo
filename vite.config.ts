@@ -68,10 +68,9 @@ export default defineConfig({
         alias: {
             "~": path.resolve(__dirname, "node_modules"),
             "@": path.resolve(__dirname, "resources/app"),
-            // Assets: path.resolve(__dirname, "resources/app/assets"),
-            // Views: path.resolve(__dirname, "resources/app/views"),
-            // Components: path.resolve(__dirname, "resources/app/components"),
-            // Abstracts: path.resolve(__dirname, "resources/app/styles/abstracts")
+            Assets: path.resolve(__dirname, "resources/app/assets"),
+            Components: path.resolve(__dirname, "resources/app/components"),
+            Abstracts: path.resolve(__dirname, "resources/app/styles/abstracts")
         }
     },
 

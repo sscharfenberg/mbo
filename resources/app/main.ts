@@ -1,6 +1,7 @@
 /******************************************************************************
  * Main app entrypoint
  *****************************************************************************/
+import "@/styles/app.scss";
 import { createInertiaApp, router } from "@inertiajs/vue3";
 import { doesProgressBarExist, finishProgress, setProgress, startProgress } from "@sscharfenberg/progressbar/progressbar.js";
 import type { DefineComponent } from "vue";

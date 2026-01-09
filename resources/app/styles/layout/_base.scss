@@ -1,0 +1,51 @@
+/******************************************************************************
+ * base layout: *, html and body tags
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/mixins" as m;
+@use "Abstracts/typography" as t;
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: map.get(s.$app, "font-size", "base");
+
+    @include m.mq("portrait") {
+        font-size: map.get(s.$app, "font-size", "portrait");
+    }
+
+    @include m.mq("landscape") {
+        font-size: map.get(s.$app, "font-size", "landscape");
+    }
+
+    @include m.mq("desktop") {
+        font-size: map.get(s.$app, "font-size", "desktop");
+    }
+}
+
+body {
+    min-height: 100vh;
+
+    // background: map.get(c.$app, "background");
+    background-image: map.get(c.$app, "background-light");
+    background-attachment: fixed;
+    background-position: top left;
+    background-size: cover;
+    color: map.get(c.$app, "surface");
+
+    font-family: map.get(t.$app, "base");
+    line-height: 1.4;
+    text-decoration-skip-ink: auto;
+}
+
+@include m.theme-dark("body") {
+    background-image: map.get(c.$app, "background-dark");
+}

@@ -1,0 +1,48 @@
+/******************************************************************************
+ * sass mixin: theme-dark
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:selector"; // https://sass-lang.com/documentation/modules/selector/
+
+/**
+ * @mixin theme-dark
+ * this mixin applies nested style rules to the current selector, if dark mode is currently selected
+ * styles are applied for color-scheme="light dark", while OS preferences are set to "dark"
+ * and if "color-scheme" is set to "dark"
+ * applying a filter this way allows us to have "outline" images, mainly logos.
+ * note: "color-scheme" is a app setting stored in localstorage and applied to the head meta tag.
+ * @param {string} $child - the current selector
+ * @usage
+ * @layer framework {
+ *    .logo {
+ *       ...
+ *    }
+ *    @include m.theme-dark(".logo") {
+ *       filter: brightness(0) invert(0.95);
+ *    }
+ * }
+ * @generates
+ * @media (prefers-color-scheme: dark){
+ *   :root:has(meta[name=color-scheme][content="light dark"]) .logo[data-v-45769640]{
+ *     filter:brightness(0) invert(.95)
+ *   }
+ * }
+ * :root:has(meta[name=color-scheme][content=dark]) .logo[data-v-45769640]{
+ *   filter:brightness(0) invert(.95)}
+ * }
+ */
+@mixin theme-dark($child) {
+    @at-root :root:has(meta[name="color-scheme"][content="light dark"]) {
+        @media (prefers-color-scheme: dark) {
+            #{selector.nest($child)} {
+                @content;
+            }
+        }
+    }
+
+    @at-root :root:has(meta[name="color-scheme"][content="dark"]) {
+        #{selector.nest($child)} {
+            @content;
+        }
+    }
+}

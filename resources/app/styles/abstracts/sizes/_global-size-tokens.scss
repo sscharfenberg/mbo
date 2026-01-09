@@ -1,0 +1,40 @@
+/******************************************************************************
+ * global size tokens
+ * @type {Sass}
+ * these variables are used in other scss files or vue components.
+ * this file gets @forwarded from _index.scss
+ * use
+ * @use "Abstracts/sizes" as s;
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+
+// base size ==================================================================
+$base: 16px !default;
+
+// breakpoint map =============================================================
+// min-width media queries, mobile first by default
+$breakpoints: (
+    "portrait": 480px,
+    "landscape": 768px,
+    "desktop": 1024px,
+    "full": 1440px
+) !default;
+
+// max container width ========================================================
+$max: (
+    "cage": math.round($base * 90),
+    "form": math.round($base * 64)
+) !default;
+
+// border =====================================================================
+$border: (
+    "base": math.round($base * 0.125),
+    "featured": math.round($base * 0.375)
+) !default;
+
+// border-radius ==============================================================
+$radius: (
+    "base": math.round($base * 0.25),
+    "featured": math.round($base * 1)
+) !default;

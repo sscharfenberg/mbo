@@ -1,0 +1,20 @@
+@charset "UTF-8";
+@use "sass:meta"; // https://sass-lang.com/documentation/modules/meta/
+
+@layer reset {
+    @include meta.load-css("normalize.css");
+}
+
+@layer framework {
+    @include meta.load-css("layout");
+}
+
+@layer vendor {
+    @include meta.load-css("vendor");
+}
+
+@layer components {
+    @include meta.load-css("components");
+}
+
+@layer theme, utilities;

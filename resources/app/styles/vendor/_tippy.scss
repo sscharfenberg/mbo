@@ -1,0 +1,29 @@
+/******************************************************************************
+ * vendor styles for VueTippy
+ * https://vue-tippy.netlify.app/
+ * @type {Sass}
+ *****************************************************************************/
+
+@use "sass:map";
+@use "Abstracts/colors" as c;
+
+.tippy-box {
+    background-color: map.get(c.$main, "tooltip-background") !important;
+    color: map.get(c.$main, "tooltip-surface") !important;
+}
+
+.tippy-box[data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: map.get(c.$main, "tooltip-background") !important;
+}
+
+.tippy-box[data-placement^="bottom"] > .tippy-arrow::before {
+    border-bottom-color: map.get(c.$main, "tooltip-background") !important;
+}
+
+.tippy-box[data-placement^="left"] > .tippy-arrow::before {
+    border-left-color: map.get(c.$main, "tooltip-background") !important;
+}
+
+.tippy-box[data-placement^="right"] > .tippy-arrow::before {
+    border-right-color: map.get(c.$main, "tooltip-background") !important;
+}

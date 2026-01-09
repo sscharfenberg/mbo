@@ -1,0 +1,41 @@
+/******************************************************************************
+ * sass mixin: font-face
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:string"; // https://sass-lang.com/documentation/modules/string
+@use "sass:list"; // https://sass-lang.com/documentation/modules/string
+
+/**
+ * @mixin font-face declaration.
+ * note: vite copies font files from src/frontend/assets/fonts/ to dist/assets/
+ * with a cache busting hash
+ * NOTE: google webfont helper generates the css for you to be pasted into .scss files.
+ * this mixin might create more work. use only for non google webfont helper fonts.
+ *
+ * @param {string} $font-family - The font family name.
+ * @param {string} $src - The font source.
+ * @param {number} $font-weight - The font weight.
+ * @param {string} $font-style - The font style.
+ * @param {string} $font-display - The font display.
+ * @return {string} - The generated font-face declaration.
+ * @throws {error} - If the font format is not .{woff|woff2}.
+ * @usage
+ * @use "Abstracts/mixins" as m;
+ * @include m.font-face("Roboto", "roboto-v47-latin-ext-italic.woff2", 400, "italic");
+ *
+ */
+@mixin font-face($font-family: null, $src: null, $font-weight: 400, $font-style: normal, $font-display: swap) {
+    @if not string.index($src, ".woff") {
+        @error 'This is not a .woff / .woff2 font file. Please use .woff2.';
+    }
+
+    @font-face {
+        $lst: string.split($src, ".");
+        font-display: $font-display;
+        font-family: $font-family;
+        font-style: $font-style;
+        font-weight: $font-weight;
+
+        src: url("Fonts/#{$src}") format(string.quote(list.nth($lst, list.length($lst))));
+    }
+}
