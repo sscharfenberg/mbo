@@ -3,11 +3,21 @@
  *****************************************************************************/
 import "@/styles/app.scss";
 import { createInertiaApp, router } from "@inertiajs/vue3";
-import { doesProgressBarExist, finishProgress, setProgress, startProgress } from "@sscharfenberg/progressbar/progressbar.js";
+import {
+    doesProgressBarExist,
+    finishProgress,
+    setProgress,
+    startProgress
+} from "@sscharfenberg/progressbar/progressbar.js";
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
+import { createI18n } from "vue-i18n";
 const progressBarSettings = { ariaLabel: "Ladefortschritt" };
 let timeout: ReturnType<typeof setTimeout>;
+
+const i18n = createI18n({
+    legacy: false
+});
 
 /**
  * mount Inertia App
@@ -26,6 +36,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(i18n)
             .mount(el);
     },
     progress: false // disable inertia NProgress implementation for more control
@@ -43,7 +54,7 @@ router.on("start", () => {
 /**
  * @function on router progress
  */
-router.on("progress", (event) => {
+router.on("progress", event => {
     if (doesProgressBarExist() && event.detail.progress?.percentage) {
         setProgress((event.detail.progress.percentage / 100) * 0.9);
     }

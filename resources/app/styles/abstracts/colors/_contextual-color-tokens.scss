@@ -12,10 +12,8 @@
 
 // app base colors
 $app: (
-    "background-dark": #{linear-gradient(hsl(from #111 h s l / 70%) 0 0),
-    url("Assets/images/bg-dark.jpg")},
-    "background-light": #{linear-gradient(hsl(from #eee h s l / 70%) 0 0),
-    url("Assets/images/bg-light.jpg")},
+    "background-dark": url("Assets/images/page-bg.jpg"),
+    "background-light": url("Assets/images/page-bg.jpg"),
     "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
     "spinner-1": light-dark(map.get(c.$brand, "viking", color), map.get(c.$brand, "viking", color)),
     "spinner-2": light-dark(map.get(c.$brand, "christine", color), map.get(c.$brand, "christine", color)),

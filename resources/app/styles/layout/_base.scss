@@ -37,7 +37,7 @@ body {
     // background: map.get(c.$app, "background");
     background-image: map.get(c.$app, "background-light");
     background-attachment: fixed;
-    background-position: top left;
+    background-position: center center;
     background-size: cover;
     color: map.get(c.$app, "surface");
 

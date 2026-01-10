@@ -3,6 +3,7 @@ import laravelPlugin from "laravel-vite-plugin";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import vitePluginVueDevtools from "vite-plugin-vue-devtools";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,8 +29,8 @@ export default defineConfig({
         // https://github.com/laravel/vite-plugin
         // https://laravel.com/docs/12.x/vite
         laravelPlugin({
-            input: ['resources/app/main.ts'],
-            refresh: true,
+            input: ["resources/app/main.ts"],
+            refresh: true
         }),
 
         // https://github.com/vitejs/vite/tree/main/packages/plugin-vue
@@ -59,6 +60,61 @@ export default defineConfig({
         // https://www.npmjs.com/package/vite-plugin-vue-devtools
         vitePluginVueDevtools(),
 
+        // https://www.npmjs.com/package/vite-plugin-image-optimizer
+        ViteImageOptimizer({
+            test: /\.(jpe?g|png|webp|svg|avif)$/i,
+            exclude: undefined,
+            include: undefined,
+            includePublic: true,
+            logStats: true,
+            ansiColors: true,
+            svg: {
+                multipass: true,
+                plugins: [
+                    {
+                        name: "preset-default",
+                        params: {
+                            overrides: {
+                                cleanupNumericValues: false,
+                                removeViewBox: false // https://github.com/svg/svgo/issues/1128
+                            },
+                            cleanupIDs: {
+                                minify: false,
+                                remove: false
+                            },
+                            convertPathData: false
+                        }
+                    },
+                    "sortAttrs",
+                    {
+                        name: "addAttributesToSVGElement",
+                        params: {
+                            attributes: [{ xmlns: "http://www.w3.org/2000/svg" }]
+                        }
+                    }
+                ]
+            },
+            png: {
+                // https://sharp.pixelplumbing.com/api-output#png
+                quality: 100
+            },
+            jpeg: {
+                // https://sharp.pixelplumbing.com/api-output#jpeg
+                quality: 60
+            },
+            jpg: {
+                // https://sharp.pixelplumbing.com/api-output#jpeg
+                quality: 60
+            },
+            webp: {
+                // https://sharp.pixelplumbing.com/api-output#webp
+                lossless: true
+            },
+            avif: {
+                // https://sharp.pixelplumbing.com/api-output#avif
+                lossless: true
+            }
+        })
     ],
 
     /*
@@ -88,7 +144,7 @@ export default defineConfig({
 
     server: {
         watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
-    },
+            ignored: ["**/storage/framework/views/**"]
+        }
+    }
 });
