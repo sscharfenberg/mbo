@@ -16,25 +16,18 @@
 }
 
 html {
-    font-size: map.get(s.$app, "font-size", "base");
-
-    @include m.mq("portrait") {
-        font-size: map.get(s.$app, "font-size", "portrait");
-    }
-
-    @include m.mq("landscape") {
-        font-size: map.get(s.$app, "font-size", "landscape");
-    }
-
-    @include m.mq("desktop") {
-        font-size: map.get(s.$app, "font-size", "desktop");
-    }
+    @include m.mqset(
+        "font-size",
+        #{map.get(s.$app, "font", "base")},
+        #{map.get(s.$app, "font", "portrait")},
+        #{map.get(s.$app, "font", "landscape")},
+        #{map.get(s.$app, "font", "desktop")}
+    );
 }
 
 body {
     min-height: 100vh;
 
-    // background: map.get(c.$app, "background");
     background-image: map.get(c.$app, "background-light");
     background-attachment: fixed;
     background-position: center center;

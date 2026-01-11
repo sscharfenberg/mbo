@@ -33,8 +33,34 @@ $border: (
     "featured": math.round($base * 0.375)
 ) !default;
 
+// font sizes =================================================================
+$font: (
+    "base": math.round($base * 0.85),
+    "portrait": math.round($base * 0.9),
+    "landscape": math.round($base * 1),
+    "desktop": math.round($base * 1)
+) !default;
+
+// icons ======================================================================
+$icons: (
+    "tiny": math.round($base * 1),
+    "small": math.round($base * 1.2),
+    "medium": math.round($base * 1.5),
+    "large": math.round($base * 2),
+    "xlarge": math.round($base * 4),
+    "max": math.round($base * 6)
+) !default;
+
 // border-radius ==============================================================
 $radius: (
     "base": math.round($base * 0.25),
-    "featured": math.round($base * 1)
+    "featured": math.round($base * 0.375)
+) !default;
+
+// padding ====================================================================
+$padding: (
+    "base": math.round($base * 0.5),
+    "portrait": math.round($base * 1),
+    "landscape": math.round($base * 1.15),
+    "desktop": math.round($base * 1.5)
 ) !default;
