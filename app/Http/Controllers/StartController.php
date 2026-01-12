@@ -15,7 +15,6 @@ class StartController extends Controller
      */
     public function show(\Illuminate\Http\Request $request): \Inertia\Response
     {
-//        sleep(5);
         return Inertia::render('Start/StartPage', [
             'request' => $request,
         ]);

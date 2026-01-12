@@ -9,7 +9,10 @@
 @use "global-shadow-tokens" as shg;
 
 // default contextual tokens
-$app: () !default;
+$app: (
+    "progress": map.get(shg.$box, "1dp"),
+    "progress-bar": map.get(shg.$box, "0dp")
+) !default;
 $header: () !default;
 $main: () !default;
 $footer: () !default;

@@ -23,7 +23,11 @@ $app: (
         "portrait": map.get(s.$padding, "portrait"),
         "landscape": map.get(s.$padding, "landscape"),
         "desktop": map.get(s.$padding, "desktop")
-    )
+    ),
+    "cage": map.get(s.$max, "cage"),
+    "progress-bar-height": math.round(s.$base * 1),
+    "progress-bar-padding": math.round(s.$base * 0.125),
+    "progress-radius": map.get(s.$radius, "base")
 ) !default;
 
 // size tokens for header landmark

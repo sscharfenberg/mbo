@@ -12,7 +12,7 @@ import {
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
 import { createI18n } from "vue-i18n";
-const progressBarSettings = { ariaLabel: "Ladefortschritt" };
+const progressBarSettings = { ariaLabel: "Ladefortschritt", parent: "#app" };
 let timeout: ReturnType<typeof setTimeout>;
 
 const i18n = createI18n({
@@ -48,6 +48,7 @@ createInertiaApp({
  * @function on router start
  */
 router.on("start", () => {
+    console.log("router start");
     timeout = setTimeout(() => startProgress(progressBarSettings), 250);
 });
 
@@ -55,6 +56,7 @@ router.on("start", () => {
  * @function on router progress
  */
 router.on("progress", event => {
+    console.log(event.detail);
     if (doesProgressBarExist() && event.detail.progress?.percentage) {
         setProgress((event.detail.progress.percentage / 100) * 0.9);
     }

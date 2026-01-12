@@ -14,7 +14,23 @@
 $app: (
     "background-dark": url("Assets/images/bg-dark.jpg"),
     "background-light": url("Assets/images/bg-light.jpg"),
-    "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog"))
+    "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+    "progress-background": light-dark(
+            color.adjust(map.get(c.$grey, "mystic"), $alpha: -0.25),
+            color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.05)
+        ),
+    "progress-border": light-dark(map.get(c.$grey, "iron"), color.invert(map.get(c.$grey, "iron"))),
+    "progress-gradient": linear-gradient(
+            135deg,
+            rgb(255 255 255 / 15%) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgb(255 255 255 / 15%) 50%,
+            rgb(255 255 255 / 15%) 75%,
+            transparent 75%,
+            transparent
+        ),
+    "progress-bar": map.get(c.$state, "pending")
 ) !default;
 
 // header colors

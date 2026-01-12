@@ -22,11 +22,11 @@ h1 {
     letter-spacing: 0.03em;
 
     @include m.mqset(
-        "font",
-        #{map.get(s.$header, "font-size", "base")},
-        #{map.get(s.$header, "font-size", "portrait")},
-        #{map.get(s.$header, "font-size", "landscape")},
-        #{map.get(s.$header, "font-size", "desktop")}
+        "font-size",
+        #{map.get(s.$header, "font", "base")},
+        #{map.get(s.$header, "font", "portrait")},
+        #{map.get(s.$header, "font", "landscape")},
+        #{map.get(s.$header, "font", "desktop")}
     );
 }
 </style>

@@ -1,0 +1,53 @@
+/********************************************************************************
+ * progress styles
+ * @type {Sass}
+ *******************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+@use "Abstracts/colors" as c;
+@use "Abstracts/z-indexes" as z;
+@use "Abstracts/shadows" as sh;
+
+.progressbar {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: map.get(z.$index, "progress");
+
+    box-sizing: border-box;
+    width: 100%;
+    height: map.get(s.$app, "progress-bar-height");
+
+    padding: map.get(s.$app, "progress-bar-padding");
+    border: none;
+
+    background: map.get(c.$app, "progress-background");
+    box-shadow: map.get(sh.$app, "progress");
+
+    &__bar {
+        --bar-percentage: 10%;
+
+        position: relative;
+
+        width: var(--bar-percentage);
+        height: 100%;
+
+        background: map.get(c.$app, "progress-bar") map.get(c.$app, "progress-gradient");
+        background-size: 40px 40px;
+        border-radius: 0 map.get(s.$app, "progress-radius") map.get(s.$app, "progress-radius") 0;
+        box-shadow: map.get(sh.$app, "progress-bar");
+
+        animation: progress-bar-stripes map.get(ti.$timings, "glacial") linear infinite;
+        transition: width map.get(ti.$timings, "fast") linear;
+    }
+}
+
+@keyframes progress-bar-stripes {
+    from {
+        background-position: 40px 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
+}
