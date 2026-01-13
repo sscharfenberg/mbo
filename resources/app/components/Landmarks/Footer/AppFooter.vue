@@ -6,8 +6,8 @@ import { Link } from "@inertiajs/vue3";
     <footer>
         &copy; Sven Scharfenberg 2025
         <nav aria-label="Footer Navigation">
-            <Link href="/privacy">Datenschutz</Link>
-            <Link href="/imprint">Impressum</Link>
+            <Link class="text-link" href="/privacy">Datenschutz</Link>
+            <Link class="text-link" href="/imprint">Impressum</Link>
             <a href="https://github.com/sscharfenberg/mbo"><img src="./github.svg" alt="Github Repository" /></a>
         </nav>
     </footer>

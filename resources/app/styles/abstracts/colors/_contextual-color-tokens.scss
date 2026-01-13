@@ -30,7 +30,13 @@ $app: (
             transparent 75%,
             transparent
         ),
-    "progress-bar": map.get(c.$state, "pending")
+    "progress-bar": map.get(c.$state, "pending"),
+    "textlink-surface": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "textlink-surface-hover": light-dark(
+            color.adjust(map.get(c.$grey, "asher"), $lightness: -20%),
+            color.adjust(map.get(c.$grey, "fog"), $lightness: 20%)
+        ),
+    "textlink-decoration": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog"))
 ) !default;
 
 // header colors

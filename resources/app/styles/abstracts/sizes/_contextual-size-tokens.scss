@@ -27,7 +27,9 @@ $app: (
     "cage": map.get(s.$max, "cage"),
     "progress-bar-height": math.round(s.$base * 1),
     "progress-bar-padding": math.round(s.$base * 0.125),
-    "progress-radius": map.get(s.$radius, "base")
+    "progress-radius": map.get(s.$radius, "base"),
+    "textlink-underline-thickness": #{map.get(s.$border, "base") * 1.5},
+    "textlink-underline-offset": #{map.get(s.$border, "base") * 2}
 ) !default;
 
 // size tokens for header landmark
