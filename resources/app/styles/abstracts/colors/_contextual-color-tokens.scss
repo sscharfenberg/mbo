@@ -36,7 +36,12 @@ $app: (
             color.adjust(map.get(c.$grey, "asher"), $lightness: -20%),
             color.adjust(map.get(c.$grey, "fog"), $lightness: 20%)
         ),
-    "textlink-decoration": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog"))
+    "textlink-decoration": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "usermenu-background": light-dark(
+            color.adjust(map.get(c.$grey, "infra"), $alpha: -0.25),
+            color.adjust(map.get(c.$grey, "asher"), $alpha: -0.25)
+        ),
+    "usermenu-surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "infra"))
 ) !default;
 
 // header colors
@@ -45,8 +50,29 @@ $header: () !default;
 // colors for main landmark
 $main: () !default;
 
-// widget colors
-$widget: () !default;
+// popover component
+$popover: (
+    "background": light-dark(
+            color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
+            color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
+        ),
+    "item-background": light-dark(
+            color.adjust(map.get(c.$grey, "infra"), $alpha: -0.5),
+            color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.5)
+        ),
+    "item-background-hover": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+    "item-surface": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
+    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
+    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
+) !default;
+
+// theme switch component
+$theme: (
+    "background": light-dark(map.get(c.$grey, "astral"), map.get(c.$grey, "ebony")),
+    "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+    "background-selected": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "surface-selected": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast"))
+) !default;
 
 // styles for app-button
 $button: () !default;

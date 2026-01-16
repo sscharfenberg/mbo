@@ -12,20 +12,20 @@
 $brand: (
     // brand colors #1 and #2 are for dark(er) colors that have a bright(er) contrast
     "light1": (
-            "color": #6fc3df,
-            "contrast": #424242
+            "color": #5ea0cf,
+            "contrast": #1e2761
         ),
     "light2": (
-        "color": #ffe64d,
-        "contrast": #424242
+        "color": #fbef76,
+        "contrast": #d50707
     ),
     "dark1": (
-        "color": #b35d0a,
-        "contrast": #fff
+        "color": #1e2761,
+        "contrast": #5ea0cf
     ),
     "dark2": (
-        "color": #b35d0a,
-        "contrast": #fff
+        "color": #300,
+        "contrast": #d09683
     )
 ) !default;
 

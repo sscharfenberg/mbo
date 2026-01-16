@@ -22,7 +22,7 @@ footer {
     display: flex;
     flex-direction: column;
 
-    gap: 1ch;
+    gap: 2ch;
 
     @include m.mq("portrait") {
         align-items: center;
@@ -44,6 +44,7 @@ footer {
             flex-direction: row;
 
             margin-left: auto;
+            gap: 1.5ch;
         }
     }
 

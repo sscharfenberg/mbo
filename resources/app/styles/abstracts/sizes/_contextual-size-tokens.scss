@@ -29,7 +29,8 @@ $app: (
     "progress-bar-padding": math.round(s.$base * 0.125),
     "progress-radius": map.get(s.$radius, "base"),
     "textlink-underline-thickness": #{map.get(s.$border, "base") * 1.5},
-    "textlink-underline-offset": #{map.get(s.$border, "base") * 2}
+    "textlink-underline-offset": #{map.get(s.$border, "base") * 2},
+    "icon": s.$icons
 ) !default;
 
 // size tokens for header landmark
@@ -45,8 +46,18 @@ $header: (
 // size tokens for main landmark
 $main: () !default;
 
-// size tokens for widgets
-$widget: () !default;
+// popover component
+$popover: (
+    "radius": map.get(s.$radius, "base"),
+    "padding": math.round(s.$base * 0.5),
+    "border": map.get(s.$border, "base")
+) !default;
+
+// theme switch component
+$theme: (
+    "radius": map.get(s.$radius, "featured"),
+    "padding": math.round(s.$base * 0.2) math.round(s.$base * 0.5)
+) !default;
 
 // size tokens for .form-input
 $form: () !default;

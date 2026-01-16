@@ -1,0 +1,86 @@
+/******************************************************************************
+ * popover content wrapper
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+
+.popover-button {
+    display: inline-block;
+
+    padding: 0.5ch;
+    border: 0;
+
+    background-color: map.get(c.$app, "usermenu-background");
+    color: map.get(c.$app, "usermenu-surface");
+    border-radius: 100vw;
+
+    cursor: pointer;
+    anchor-name: v-bind(reference);
+}
+
+.popover-content {
+    position: absolute;
+
+    inset: anchor(bottom) anchor(right) auto auto;
+    z-index: 5;
+
+    min-width: 20ch;
+    max-width: 50dvw;
+    padding: map.get(s.$popover, "padding");
+    border: 0;
+    margin-block-start: 4px;
+
+    background-color: map.get(c.$popover, "background");
+
+    backdrop-filter: blur(12px);
+    border-radius: map.get(s.$popover, "radius");
+
+    position-anchor: v-bind(reference);
+    position-try-fallbacks: --bottom;
+
+    &:popover-open {
+        display: flex;
+    }
+
+    &::before {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+
+        border: map.get(s.$popover, "border") solid transparent;
+
+        background: linear-gradient(
+                to bottom right,
+                map.get(c.$popover, "border-from"),
+                map.get(c.$popover, "border-to")
+            )
+            border-box;
+
+        border-radius: inherit;
+        mask:
+            linear-gradient(black, black) border-box,
+            linear-gradient(black, black) padding-box;
+        mask-composite: subtract;
+
+        content: "";
+    }
+}
+
+.popover-list {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+@position-try --bottom {
+    inset: unset;
+    right: anchor(right);
+    bottom: anchor(top);
+
+    margin-block: 0 4px;
+}

@@ -20,27 +20,27 @@
     fill: currentcolor;
 
     &.tiny {
-        --icon-size: #{map.get(s.$app, "icons", "tiny")};
+        --icon-size: #{map.get(s.$app, "icon", "tiny")};
     }
 
     &.small {
-        --icon-size: #{map.get(s.$app, "icons", "small")};
+        --icon-size: #{map.get(s.$app, "icon", "small")};
     }
 
     &.medium {
-        --icon-size: #{map.get(s.$app, "icons", "medium")};
+        --icon-size: #{map.get(s.$app, "icon", "medium")};
     }
 
     &.large {
-        --icon-size: #{map.get(s.$app, "icons", "large")};
+        --icon-size: #{map.get(s.$app, "icon", "large")};
     }
 
     &.xlarge {
-        --icon-size: #{map.get(s.$app, "icons", "xlarge")};
+        --icon-size: #{map.get(s.$app, "icon", "xlarge")};
     }
 
     &.max {
-        --icon-size: #{map.get(s.$app, "icons", "max")};
+        --icon-size: #{map.get(s.$app, "icon", "max")};
     }
 
     // rotating icon
@@ -48,10 +48,6 @@
         @media (prefers-reduced-motion: no-preference) {
             animation: icon-rotate map.get(ti.$timings, "slowish") linear infinite;
         }
-    }
-
-    &.required {
-        fill: map.get(c.$app, "icon-required");
     }
 
     &.pull-left {

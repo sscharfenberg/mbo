@@ -1,0 +1,71 @@
+@use "sass:map";
+@use "Abstracts/z-indexes" as z;
+@use "Abstracts/timings" as ti;
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+.theme-switch {
+    &__list {
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+
+        &::before {
+            display: block;
+            position: absolute;
+            top: 0;
+
+            z-index: map.get(z.$index, "background");
+
+            width: calc(100% / 3);
+            height: 100%;
+
+            background-color: map.get(c.$theme, "background-selected");
+            border-radius: map.get(s.$theme, "radius");
+
+            content: "";
+
+            transition:
+                left map.get(ti.$timings, "fast") linear,
+                background-color map.get(ti.$timings, "fast") linear;
+        }
+
+        input {
+            display: none;
+        }
+
+        &:has(input:nth-of-type(1):checked)::before {
+            left: 0;
+        }
+
+        &:has(input:nth-of-type(2):checked)::before {
+            left: 33%;
+        }
+
+        &:has(input:nth-of-type(3):checked)::before {
+            left: 66%;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+
+        padding: map.get(s.$theme, "padding");
+        gap: 4px;
+
+        color: map.get(c.$theme, "surface");
+
+        line-height: 1;
+
+        cursor: pointer;
+
+        transition: color map.get(ti.$timings, "fast") linear;
+
+        input:checked + & {
+            color: map.get(c.$theme, "surface-selected");
+        }
+    }
+}
