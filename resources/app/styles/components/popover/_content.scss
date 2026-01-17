@@ -8,17 +8,22 @@
 @use "Abstracts/timings" as ti;
 
 .popover-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 
     padding: 0.5ch;
     border: 0;
+    gap: 0.5ch;
 
     background-color: map.get(c.$app, "usermenu-background");
     color: map.get(c.$app, "usermenu-surface");
-    border-radius: 100vw;
 
     cursor: pointer;
     anchor-name: v-bind(reference);
+
+    &--rounded {
+        border-radius: 100vw;
+    }
 }
 
 .popover-content {
@@ -27,7 +32,6 @@
     inset: anchor(bottom) anchor(right) auto auto;
     z-index: 5;
 
-    min-width: 20ch;
     max-width: 50dvw;
     padding: map.get(s.$popover, "padding");
     border: 0;

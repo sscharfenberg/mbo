@@ -8,9 +8,14 @@ const props = defineProps({
     },
     label: String,
     ariaLabel: String,
+    classString: String,
     reference: {
         type: String,
         default: Math.random().toString(36).substring(2)
+    },
+    width: {
+        type: String,
+        default: "20ch"
     }
 });
 const reference = ref("--" + props.reference);
@@ -18,8 +23,14 @@ const reference = ref("--" + props.reference);
 
 <template>
     <div class="popover">
-        <button :popovertarget="props.reference" :aria-label="ariaLabel || `Menu öffnen`" class="popover-button">
+        <button
+            :popovertarget="props.reference"
+            :aria-label="ariaLabel || `Menu öffnen`"
+            class="popover-button"
+            :class="classString"
+        >
             <app-icon :name="icon" />
+            {{ label }}
         </button>
         <dialog :id="props.reference" popover class="popover-content">
             <slot />
@@ -36,6 +47,8 @@ const reference = ref("--" + props.reference);
 }
 
 .popover-content {
+    min-width: v-bind(width);
+
     position-anchor: v-bind(reference);
 }
 </style>

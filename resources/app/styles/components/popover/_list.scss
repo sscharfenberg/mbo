@@ -29,11 +29,12 @@
         width: 100%;
         padding: 0.4lh 1ch;
         border: 0;
-        gap: 0.5ch;
+        gap: 1ch;
 
         background-color: map.get(c.$popover, "item-background");
         color: map.get(c.$popover, "item-surface");
 
+        line-height: 1;
         text-align: left;
         text-decoration: none;
 

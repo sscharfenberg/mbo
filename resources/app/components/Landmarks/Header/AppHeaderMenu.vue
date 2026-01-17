@@ -7,11 +7,33 @@ import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
 <template>
     <nav aria-label="User Navigation">
         <pop-over
-            icon="account"
-            aria-label="Export als Datei zur Verwendung mit anderen Playern"
-            reference="exportPlaylist"
+            icon="language"
+            label="de"
+            aria-label="Switch language"
+            class-string="popover-button--rounded"
+            reference="languageMenu"
+            width="10ch"
         >
             <ul class="popover-list">
+                <li>
+                    <a class="popover-list-item" href="https://www.google.com"
+                        ><img class="flag" src="./de.svg" alt="Deutsche Sprache" /> DE</a
+                    >
+                </li>
+                <li>
+                    <a class="popover-list-item" href="https://www.google.com"
+                        ><img class="flag" src="./en.svg" alt="English Language" /> EN</a
+                    >
+                </li>
+            </ul>
+        </pop-over>
+        <pop-over
+            icon="account"
+            aria-label="Navigation related to your user account"
+            class-string="popover-button--rounded"
+            reference="userMenu"
+        >
+            <ul class="popover-list popover-list--short">
                 <li>
                     <a class="popover-list-item" href="https://www.google.com">
                         <app-icon name="register" :size="1" />
@@ -47,6 +69,14 @@ import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
 @use "Abstracts/colors" as c;
 
 nav {
+    display: flex;
+
     margin-left: auto;
+    gap: 1ch;
+}
+
+.flag {
+    width: 32px;
+    height: 19.2px;
 }
 </style>
