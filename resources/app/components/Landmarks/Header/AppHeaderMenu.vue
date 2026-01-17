@@ -76,7 +76,7 @@ nav {
 }
 
 .flag {
-    width: 32px;
-    height: 19.2px;
+    width: 24px;
+    height: 14.4px;
 }
 </style>

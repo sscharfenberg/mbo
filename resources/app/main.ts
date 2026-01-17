@@ -12,6 +12,7 @@ import {
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
 import { createI18n } from "vue-i18n";
+import AppLayout from "./components/Layout/AppLayout.vue";
 const progressBarSettings = { ariaLabel: "Ladefortschritt", parent: "#app" };
 let timeout: ReturnType<typeof setTimeout>;
 
@@ -23,15 +24,16 @@ const i18n = createI18n({
  * mount Inertia App
  */
 createInertiaApp({
-    resolve: name => {
-        const pages = import.meta.glob<DefineComponent>("./pages/**/*.vue");
-        const page = pages[`./pages/${name}.vue`];
-
-        if (!page) {
+    resolve: async name => {
+        const pages = import.meta.glob<{ default: DefineComponent }>("./pages/**/*.vue");
+        const pageLoader = pages[`./pages/${name}.vue`];
+        if (!pageLoader) {
             throw new Error(`Page not found: ${name}`);
         }
 
-        return page(); // This returns the Promise that resolves to the component
+        const page = await pageLoader();
+        page.default.layout = page.default.layout || AppLayout;
+        return page.default;
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
@@ -39,6 +41,7 @@ createInertiaApp({
             .use(i18n)
             .mount(el);
     },
+    title: title => (title ? `MBO: ${title}` : `MBO`),
     progress: false // disable inertia NProgress implementation for more control
 }).then(() => {
     console.log("app created");
