@@ -20,9 +20,9 @@ const i18n = createI18n({
     legacy: false
 });
 
-/**
+/******************************************************************************
  * mount Inertia App
- */
+ *****************************************************************************/
 createInertiaApp({
     resolve: async name => {
         const pages = import.meta.glob<{ default: DefineComponent }>("./pages/**/*.vue");
@@ -47,27 +47,17 @@ createInertiaApp({
     console.log("app created");
 });
 
-/**
- * @function on router start
- */
+/******************************************************************************
+ * Inertia router
+ *****************************************************************************/
 router.on("start", () => {
-    console.log("router start");
     timeout = setTimeout(() => startProgress(progressBarSettings), 250);
 });
-
-/**
- * @function on router progress
- */
 router.on("progress", event => {
-    console.log(event.detail);
     if (doesProgressBarExist() && event.detail.progress?.percentage) {
         setProgress((event.detail.progress.percentage / 100) * 0.9);
     }
 });
-
-/**
- * @function on router finish
- */
 router.on("finish", event => {
     clearTimeout(timeout);
     if (doesProgressBarExist() && event.detail.visit.completed) {
