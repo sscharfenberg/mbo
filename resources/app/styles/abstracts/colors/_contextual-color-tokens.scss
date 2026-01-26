@@ -48,7 +48,11 @@ $app: (
 $header: () !default;
 
 // colors for main landmark
-$main: () !default;
+$main: (
+    "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "ebony")) h s l / 25%),
+    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
+    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
+) !default;
 
 // popover component
 $popover: (

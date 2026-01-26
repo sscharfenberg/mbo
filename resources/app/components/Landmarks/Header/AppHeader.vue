@@ -5,12 +5,10 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 </script>
 
 <template>
-    <header>
-        <div class="app-header">
-            <app-header-logo />
-            <app-header-title />
-            <app-header-menu />
-        </div>
+    <header class="app-header">
+        <app-header-logo />
+        <app-header-title />
+        <app-header-menu />
     </header>
 </template>
 
@@ -24,12 +22,22 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
     align-items: center;
     justify-content: flex-start;
 
+    gap: 1ch;
+
+    @include m.mq("portrait") {
+        gap: 1.5ch;
+    }
+
+    @include m.mq("landscape") {
+        gap: 2ch;
+    }
+
     @include m.mqset(
         "padding",
-        #{map.get(s.$header, "padding", "base") 0},
-        #{map.get(s.$header, "padding", "portrait") 0},
-        #{map.get(s.$header, "padding", "landscape") 0},
-        #{map.get(s.$header, "padding", "desktop") 0}
+        map.get(s.$header, "padding", "base"),
+        map.get(s.$header, "padding", "portrait"),
+        map.get(s.$header, "padding", "landscape"),
+        map.get(s.$header, "padding", "desktop")
     );
     @include m.mqset(
         "gap",

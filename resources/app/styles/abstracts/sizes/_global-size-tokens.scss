@@ -54,7 +54,7 @@ $icons: (
 // border-radius ==============================================================
 $radius: (
     "base": math.round($base * 0.25),
-    "featured": math.round($base * 0.375)
+    "featured": math.round($base * 0.5)
 ) !default;
 
 // padding ====================================================================

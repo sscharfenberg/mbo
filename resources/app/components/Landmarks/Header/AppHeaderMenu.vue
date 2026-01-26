@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from "@inertiajs/vue3";
 import AppIcon from "Components/AppIcon/AppIcon.vue";
 import PopOver from "Components/Popover/PopOver.vue";
 import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
@@ -35,10 +36,9 @@ import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
         >
             <ul class="popover-list popover-list--short">
                 <li>
-                    <a class="popover-list-item" href="https://www.google.com">
-                        <app-icon name="register" :size="1" />
-                        Registration
-                    </a>
+                    <Link class="popover-list-item" href="/auth/register"
+                        ><app-icon name="register" :size="1" /> Registration</Link
+                    >
                 </li>
                 <li>
                     <a class="popover-list-item" href="https://www.google.com">

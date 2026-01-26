@@ -33,6 +33,14 @@ footer {
         }
     }
 
+    @include m.mqset(
+        "padding",
+        map.get(s.$footer, "padding", "base"),
+        map.get(s.$footer, "padding", "portrait"),
+        map.get(s.$footer, "padding", "landscape"),
+        map.get(s.$footer, "padding", "desktop")
+    );
+
     > nav {
         display: flex;
         flex-direction: column;

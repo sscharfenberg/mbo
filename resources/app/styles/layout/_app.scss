@@ -15,12 +15,4 @@
 
     min-height: 100dvh;
     margin: 0 auto;
-
-    @include m.mqset(
-        "padding",
-        #{map.get(s.$app, "padding", "base")},
-        #{map.get(s.$app, "padding", "portrait")},
-        #{map.get(s.$app, "padding", "landscape")},
-        #{map.get(s.$app, "padding", "desktop")}
-    );
 }
