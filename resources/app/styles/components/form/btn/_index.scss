@@ -1,0 +1,67 @@
+/******************************************************************************
+ * .btn
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+@use "Abstracts/typography" as t;
+@forward "custom-properties";
+@forward "keyframes";
+
+// base styling for all .btn variants
+[class|="btn"] {
+    padding: map.get(s.$button, "padding");
+    border: map.get(s.$button, "border") solid transparent;
+
+    background:
+        radial-gradient(circle, var(--button-fill) var(--button-fill-stop), transparent) padding-box,
+        radial-gradient(circle 120px at var(--rg-1-x) var(--rg-1-y), map.get(c.$button, "rainbow", "100"), transparent)
+            border-box,
+        radial-gradient(circle 150px at var(--rg-2-x) var(--rg-2-y), map.get(c.$button, "rainbow", "200"), transparent)
+            border-box,
+        radial-gradient(circle 200px at var(--rg-4-x) var(--rg-4-y), map.get(c.$button, "rainbow", "400"), transparent)
+            border-box,
+        radial-gradient(circle 160px at var(--rg-3-x) var(--rg-3-y), map.get(c.$button, "rainbow", "300"), transparent)
+            border-box;
+    background-repeat: no-repeat;
+    background-position:
+        center,
+        center,
+        bottom right,
+        top left,
+        top right,
+        bottom left;
+    color: map.get(c.$button, "surface");
+    border-radius: 100vw;
+
+    font-family: map.get(t.$app, "button");
+
+    cursor: pointer;
+
+    animation: gradient-movement 5s alternate infinite ease-in-out;
+    animation-delay: calc(sibling-index() * -#{map.get(ti.$timings, "delayed")});
+    transition:
+        color map.get(ti.$timings, "fast"),
+        --button-fill map.get(ti.$timings, "slow"),
+        --button-fill-stop map.get(ti.$timings, "medium");
+
+    &:hover,
+    &:focus-visible {
+        --button-fill-stop: 100%;
+        --button-fill: #{map.get(c.$button, "background")};
+    }
+}
+
+// default button
+.btn-default {
+    --button-fill-stop: 100%;
+    --button-fill: #{map.get(c.$button, "background")};
+
+    &:hover,
+    &:focus-visible {
+        --button-fill-stop: 0%;
+        --button-fill: transparent;
+    }
+}

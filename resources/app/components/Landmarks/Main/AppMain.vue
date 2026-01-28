@@ -25,10 +25,10 @@ main {
     );
     @include m.mqset(
         "margin",
-        map.get(s.$app, "padding", "base"),
-        map.get(s.$app, "padding", "portrait"),
-        map.get(s.$app, "padding", "landscape"),
-        map.get(s.$app, "padding", "desktop")
+        #{0 map.get(s.$app, "padding", "base")},
+        #{0 map.get(s.$app, "padding", "portrait")},
+        #{0 map.get(s.$app, "padding", "landscape")},
+        #{0 map.get(s.$app, "padding", "desktop")}
     );
     @include m.mqset(
         "border-radius",

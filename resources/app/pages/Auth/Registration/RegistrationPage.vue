@@ -9,6 +9,9 @@ import FormGroup from "Components/Form/FormGroup.vue";
         <form-group for-id="password" label="Passwort"
             ><input type="password" name="password" id="password"
         /></form-group>
-        <form-group><button type="submit" class="btn-primary">Submit!</button></form-group>
+        <form-group>
+            <button type="submit" class="btn-primary">Submit!</button>
+            <button type="submit" class="btn-default">Reset</button>
+        </form-group>
     </form>
 </template>

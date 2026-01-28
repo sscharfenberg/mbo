@@ -53,3 +53,19 @@ $state: (
     "error": #c6170f,
     "pending": #006dc9
 ) !default;
+
+// rainbow colors =============================================================
+$rainbow: (
+    "dark": (
+        "100": deeppink,
+        "200": royalblue,
+        "300": rebeccapurple,
+        "400": #008f00
+    ),
+    "light": (
+        "100": #ff0,
+        "200": #f0f,
+        "300": #f00,
+        "400": #b0e0e6
+    )
+);

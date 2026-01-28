@@ -79,7 +79,16 @@ $theme: (
 ) !default;
 
 // styles for app-button
-$button: () !default;
+$button: (
+    "rainbow": (
+        "100": light-dark(map.get(c.$rainbow, "light", "100"), map.get(c.$rainbow, "dark", "100")),
+        "200": light-dark(map.get(c.$rainbow, "light", "200"), map.get(c.$rainbow, "dark", "200")),
+        "300": light-dark(map.get(c.$rainbow, "light", "300"), map.get(c.$rainbow, "dark", "300")),
+        "400": light-dark(map.get(c.$rainbow, "light", "400"), map.get(c.$rainbow, "dark", "400"))
+    ),
+    "background": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+    "surface": light-dark(#000, #fff)
+) !default;
 
 // colors for form inputs
 $form: () !default;

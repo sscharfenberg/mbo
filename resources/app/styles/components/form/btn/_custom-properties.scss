@@ -1,0 +1,63 @@
+/**
+ * custom properties
+ */
+
+@property --button-fill {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+}
+
+@property --button-fill-stop {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 0%;
+}
+
+@property --rg-1-x {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 0%;
+}
+
+@property --rg-1-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 50%;
+}
+
+@property --rg-2-x {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 20%;
+}
+
+@property --rg-2-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 70%;
+}
+
+@property --rg-3-x {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 70%;
+}
+
+@property --rg-3-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 20%;
+}
+
+@property --rg-4-x {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 50%;
+}
+
+@property --rg-4-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 50%;
+}

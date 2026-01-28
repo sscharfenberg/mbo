@@ -60,6 +60,12 @@ $main: (
     "border": map.get(s.$border, "base")
 ) !default;
 
+// .btn component
+$button: (
+    "padding": 0.5lh 4ch,
+    "border": map.get(s.$border, "featured")
+) !default;
+
 // popover component
 $popover: (
     "radius": map.get(s.$radius, "base"),

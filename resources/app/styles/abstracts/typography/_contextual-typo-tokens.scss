@@ -10,7 +10,8 @@
 @use "global-typo-tokens" as t;
 
 $app: (
-    "base": map.get(t.$font, "text")
+    "base": map.get(t.$font, "text"),
+    "button": map.get(t.$font, "headline")
 ) !default;
 $header: () !default;
 $main: () !default;
