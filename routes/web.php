@@ -11,9 +11,3 @@ Route::get('/', [\App\Http\Controllers\StartController::class, 'show']);
 Route::get('/privacy', [\App\Http\Controllers\GuestController::class, 'privacy']);
 // Imprint
 Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint']);
-
-/**
- * Authentification
- */
-Route::get('/auth/register', [\App\Http\Controllers\Auth\RegistrationController::class, 'show']);
-Route::post('/auth/register', [\App\Http\Controllers\Auth\RegistrationController::class, 'create']);

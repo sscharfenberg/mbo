@@ -87,11 +87,18 @@ $button: (
         "400": light-dark(map.get(c.$rainbow, "light", "400"), map.get(c.$rainbow, "dark", "400"))
     ),
     "background": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
-    "surface": light-dark(#000, #fff)
+    "surface": light-dark(#000, #fff),
+    "background-disabled": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "abbey")),
+    "surface-disabled": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "border-disabled": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "asher"))
 ) !default;
 
 // colors for form inputs
-$form: () !default;
+$form: (
+    "error-background": map.get(c.$state, "warning"),
+    "error-surface": map.get(c.$state, "error"),
+    "error-border": map.get(c.$state, "error")
+) !default;
 
 // colors for search results
 $search: () !default;

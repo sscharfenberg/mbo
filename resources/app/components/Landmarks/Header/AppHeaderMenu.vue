@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
-import AppIcon from "Components/AppIcon/AppIcon.vue";
 import PopOver from "Components/Popover/PopOver.vue";
+import Icon from "Components/Visual/Icon/Icon.vue";
 import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
 </script>
 
@@ -36,25 +36,25 @@ import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
         >
             <ul class="popover-list popover-list--short">
                 <li>
-                    <Link class="popover-list-item" href="/auth/register"
-                        ><app-icon name="register" :size="1" /> Registration</Link
+                    <Link class="popover-list-item" href="/register"
+                        ><icon name="register" :size="1" /> Registration</Link
                     >
                 </li>
                 <li>
-                    <a class="popover-list-item" href="https://www.google.com">
-                        <app-icon name="login" :size="1" />
+                    <a class="popover-list-item" href="/login">
+                        <icon name="login" :size="1" />
                         Login
                     </a>
                 </li>
                 <li>
                     <a class="popover-list-item" href="https://www.google.com">
-                        <app-icon name="user-settings" :size="1" />
+                        <icon name="user-settings" :size="1" />
                         Settings
                     </a>
                 </li>
                 <li>
                     <a class="popover-list-item" href="https://www.google.com">
-                        <app-icon name="logout" :size="1" />
+                        <icon name="logout" :size="1" />
                         Logout
                     </a>
                 </li>

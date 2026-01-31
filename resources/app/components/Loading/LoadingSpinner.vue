@@ -1,0 +1,102 @@
+<script setup lang="ts">
+const props = defineProps({
+    size: {
+        type: Number,
+        default: 4
+    }
+});
+const pixelSize = `${props.size * 12}px`;
+</script>
+
+<template>
+    <span class="loading-spinner"></span>
+</template>
+
+<style scoped lang="scss">
+@use "sass:map";
+@use "Abstracts/colors" as c;
+
+.loading-spinner {
+    --pixel-size: v-bind(pixelSize);
+
+    width: var(--pixel-size);
+    height: var(--pixel-size);
+    transform: rotateZ(45deg);
+
+    color: currentcolor;
+    border-radius: 50%;
+    perspective: 1000px;
+
+    font-size: var(--pixel-size);
+
+    &::before,
+    &::after {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: inherit;
+        height: inherit;
+        transform: rotateX(70deg);
+
+        border-radius: 50%;
+
+        content: "";
+
+        animation: 1s spin linear infinite;
+    }
+
+    &::after {
+        transform: rotateY(70deg);
+
+        color: currentcolor;
+
+        animation-delay: 0.4s;
+    }
+
+    &__outer {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+    }
+}
+</style>
+
+<style lang="scss">
+@keyframes spin {
+    0%,
+    100% {
+        box-shadow: 0.2em 0 0 0 currentcolor;
+    }
+
+    12% {
+        box-shadow: 0.2em 0.2em 0 0 currentcolor;
+    }
+
+    25% {
+        box-shadow: 0 0.2em 0 0 currentcolor;
+    }
+
+    37% {
+        box-shadow: -0.2em 0.2em 0 0 currentcolor;
+    }
+
+    50% {
+        box-shadow: -0.2em 0 0 0 currentcolor;
+    }
+
+    62% {
+        box-shadow: -0.2em -0.2em 0 0 currentcolor;
+    }
+
+    75% {
+        box-shadow: 0 -0.2em 0 0 currentcolor;
+    }
+
+    87% {
+        box-shadow: 0.2em -0.2em 0 0 currentcolor;
+    }
+}
+</style>

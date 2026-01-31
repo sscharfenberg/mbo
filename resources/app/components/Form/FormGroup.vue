@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import Icon from "Components/Visual/Icon/Icon.vue";
+
 defineProps({
     forId: String,
-    label: String
+    label: String,
+    error: {
+        type: String,
+        default: ""
+    }
 });
 </script>
 
@@ -9,12 +15,21 @@ defineProps({
     <div class="form-group">
         <label v-if="label?.length" :for="forId">{{ label }}</label>
         <span v-else class="label" />
-        <div class="input"><slot /></div>
+        <div class="input">
+            <slot />
+            <div v-if="error.length" class="error">
+                <icon name="error" />
+                {{ error }}
+            </div>
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+@use "sass:map";
 @use "Abstracts/mixins" as m;
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
 
 .form-group {
     display: flex;
@@ -39,6 +54,19 @@ defineProps({
         @include m.mq("landscape") {
             flex: 0 0 65%;
             gap: 2ch;
+        }
+
+        > .error {
+            display: flex;
+            align-items: flex-start;
+
+            padding: 1ex 1.5ch;
+            border: 2px solid map.get(c.$form, "error-border");
+            margin-top: 1ex;
+            gap: 1ch;
+
+            background-color: map.get(c.$form, "error-background");
+            color: map.get(c.$form, "error-surface");
         }
     }
 }

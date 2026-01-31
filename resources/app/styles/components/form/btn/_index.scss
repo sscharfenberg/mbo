@@ -7,13 +7,19 @@
 @use "Abstracts/sizes" as s;
 @use "Abstracts/timings" as ti;
 @use "Abstracts/typography" as t;
+@use "Abstracts/mixins" as m;
 @forward "custom-properties";
 @forward "keyframes";
 
 // base styling for all .btn variants
 [class|="btn"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     padding: map.get(s.$button, "padding");
     border: map.get(s.$button, "border") solid transparent;
+    gap: 0.5ch;
 
     background:
         radial-gradient(circle, var(--button-fill) var(--button-fill-stop), transparent) padding-box,
@@ -37,8 +43,13 @@
     border-radius: 100vw;
 
     font-family: map.get(t.$app, "button");
+    font-size: 1.2rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1ch;
 
     cursor: pointer;
+    user-select: none;
 
     animation: gradient-movement 5s alternate infinite ease-in-out;
     animation-delay: calc(sibling-index() * -#{map.get(ti.$timings, "delayed")});
@@ -51,6 +62,23 @@
     &:focus-visible {
         --button-fill-stop: 100%;
         --button-fill: #{map.get(c.$button, "background")};
+    }
+
+    &[disabled] {
+        background: map.get(c.$button, "background-disabled");
+        color: map.get(c.$button, "surface-disabled");
+        border-color: map.get(c.$button, "border-disabled");
+
+        font-style: italic;
+
+        cursor: not-allowed;
+
+        --button-fill-stop: 100%;
+        --button-fill: #{map.get(c.$button, "background-disabled")};
+    }
+
+    @include m.mq("landscape") {
+        gap: 1ch;
     }
 }
 

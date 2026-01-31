@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppIcon from "Components/AppIcon/AppIcon.vue";
+import Icon from "Components/Visual/Icon/Icon.vue";
 
 const props = defineProps({
     name: {
@@ -32,6 +32,6 @@ const emit = defineEmits(["radio"]);
         :checked="selected"
     />
     <label :for="'theme' + label" :aria-label="label" class="theme-switch__item">
-        <app-icon :name="icon" />
+        <icon :name="icon" />
     </label>
 </template>

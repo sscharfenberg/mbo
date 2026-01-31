@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppIcon from "Components/AppIcon/AppIcon.vue";
+import Icon from "Components/Visual/Icon/Icon.vue";
 import { ref } from "vue";
 const props = defineProps({
     icon: {
@@ -29,7 +29,7 @@ const reference = ref("--" + props.reference);
             class="popover-button"
             :class="classString"
         >
-            <app-icon :name="icon" />
+            <icon :name="icon" />
             {{ label }}
         </button>
         <dialog :id="props.reference" popover class="popover-content">

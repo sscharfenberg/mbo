@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\App;
 
 class RegistrationController extends Controller
 {
@@ -30,10 +31,18 @@ class RegistrationController extends Controller
     {
         // validate the request
         $validated = $request->validate([
-            'name' => 'required',
-            'email' => ['required', 'email:rfc,dns'],
+            'name' => [
+                'required',
+                'unique:users',
+                'max:'.config('mbo.db.user.name')
+            ],
+            'email' => [
+                'required',
+                'email:rfc,dns'
+            ],
             'password' => 'required',
         ]);
+
 
         // create user
         User::create($validated);

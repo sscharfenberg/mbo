@@ -62,7 +62,7 @@ $main: (
 
 // .btn component
 $button: (
-    "padding": 0.5lh 4ch,
+    "padding": 0.25lh 3ch,
     "border": map.get(s.$border, "featured")
 ) !default;
 
