@@ -7,6 +7,14 @@ defineProps({
     error: {
         type: String,
         default: ""
+    },
+    invalid: {
+        type: Boolean,
+        default: false
+    },
+    validating: {
+        type: Boolean,
+        default: true
     }
 });
 </script>
@@ -15,9 +23,12 @@ defineProps({
     <div class="form-group">
         <label v-if="label?.length" :for="forId">{{ label }}</label>
         <span v-else class="label" />
-        <div class="input">
-            <slot />
-            <div v-if="error.length" class="error">
+        <div class="input-col">
+            <div class="input">
+                <slot />
+                <div class="validating">Validating.</div>
+            </div>
+            <div v-if="invalid" class="error">
                 <icon name="error" />
                 {{ error }}
             </div>
@@ -48,26 +59,34 @@ defineProps({
         flex-grow: 1;
     }
 
-    .input {
+    .input-col {
         flex: 0 0 100%;
 
         @include m.mq("landscape") {
             flex: 0 0 65%;
             gap: 2ch;
         }
+    }
 
-        > .error {
-            display: flex;
-            align-items: flex-start;
+    .input {
+        display: flex;
 
-            padding: 1ex 1.5ch;
-            border: 2px solid map.get(c.$form, "error-border");
-            margin-top: 1ex;
-            gap: 1ch;
-
-            background-color: map.get(c.$form, "error-background");
-            color: map.get(c.$form, "error-surface");
+        > :not(.validating, .btn-primary) {
+            flex-grow: 1;
         }
+    }
+
+    .error {
+        display: flex;
+        align-items: flex-start;
+
+        padding: 1ex 1.5ch;
+        border: 2px solid map.get(c.$form, "error-border");
+        margin-top: 1ex;
+        gap: 1ch;
+
+        background-color: map.get(c.$form, "error-background");
+        color: map.get(c.$form, "error-surface");
     }
 }
 </style>

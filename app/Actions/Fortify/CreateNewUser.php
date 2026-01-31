@@ -4,7 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use App\Traits\PasswordValidationRules;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -13,6 +13,10 @@ class CreateNewUser implements CreatesNewUsers
 
     use PasswordValidationRules;
 
+    public function __construct(
+        protected Request $request
+    ) {}
+
     /**
      * Validate and create a newly registered user.
      *
@@ -20,17 +24,25 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:'.config('mbo.db.user.name')],
-            'email' => [
-                'required',
-                'string',
-                'email:rfc,dns',
-                'max:255',
-            ],
-            'password' => $this->passwordRules(),
-            'password_confirmation' => ['same:password'],
-        ])->validate();
+        precognitive(function () {
+            $this->request->validate([
+                'name' => [
+                    'required',
+                    'string',
+                    'max:'.config('mbo.db.user.name.max'),
+                    'min:'.config('mbo.db.user.name.min'),
+                    'unique:users'
+                ],
+                'email' => [
+                    'required',
+                    'string',
+                    'email:rfc,dns',
+                    'max:255',
+                ],
+                'password' => $this->passwordRules(),
+                'password_confirmation' => ['same:password'],
+            ]);
+        });
 
         return User::create([
             'name' => $input['name'],

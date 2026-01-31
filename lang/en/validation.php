@@ -179,22 +179,23 @@ return [
     */
 
     'custom' => [
-        "name" => [
-            "required" => "Please enter the username.",
-            "unique" => "The username has already been taken",
-            "max" => "The username can not have more than :max characters."
+        'name' => [
+            'required' => 'Please enter the username.',
+            'unique' => 'The username has already been taken',
+            'max' => 'The username can not have more than :max characters.',
+            'min' => 'The username must have at least :min characters.'
         ],
-        "email" => [
-            "required" => "Please enter the email address.",
-            "email" => "This does not seem to be a valid e-mail-address.",
-            "max" => "The e-mail can not have more than :max characters."
+        'email' => [
+            'required' => 'Please enter the email address.',
+            'email' => 'This does not seem to be a valid e-mail-address.',
+            'max' => 'The e-mail can not have more than :max characters.'
         ],
-        "password" => [
-            "required" => "Please enter the password.",
-            "min" => "The password can not be less than :min characters."
+        'password' => [
+            'required' => 'Please enter the password.',
+            'min' => 'The password can not be less than :min characters.'
         ],
-        "password_confirmation" => [
-            "same" => "The password confirmation does not match.",
+        'password_confirmation' => [
+            'same' => 'The password confirmation does not match.',
         ]
     ],
 

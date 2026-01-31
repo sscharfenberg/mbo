@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 
 class FortifyServiceProvider extends ServiceProvider
 {
