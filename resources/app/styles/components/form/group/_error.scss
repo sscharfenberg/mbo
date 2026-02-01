@@ -1,0 +1,20 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+.form-group {
+    // area with error message(s)
+    &__error {
+        display: flex;
+        align-items: flex-start;
+
+        padding: 1ex 1.5ch;
+        border: map.get(s.$form, "error", "border") solid map.get(c.$form, "error", "border");
+        margin-top: 1ex;
+        gap: 1ch;
+
+        background-color: map.get(c.$form, "error", "background");
+        color: map.get(c.$form, "error", "surface");
+        border-radius: map.get(s.$form, "error", "radius");
+    }
+}

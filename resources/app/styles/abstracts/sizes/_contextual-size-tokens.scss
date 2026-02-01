@@ -73,7 +73,7 @@ $glass: (
 
 // .btn component
 $button: (
-    "padding": 0.25lh 3ch,
+    "padding": 0.2lh 3ch,
     "border": map.get(s.$border, "featured")
 ) !default;
 
@@ -93,16 +93,18 @@ $theme: (
 // size tokens for .form-input
 $form: (
     "input": (
-        "radius": map.get(s.$radius, "base"),
+        "radius": 100vw,
+        "border": map.get(s.$border, "base"),
+        "line-height": map.get(s.$icons, "medium")
+    ),
+    "error": (
+        "radius": map.get(s.$radius, "featured"),
         "border": map.get(s.$border, "base")
     )
 ) !default;
 
 // size tokens for search results
 $search: () !default;
-
-// size tokens for app-button
-$button: () !default;
 
 // size tokens for footer landmark
 $footer: (

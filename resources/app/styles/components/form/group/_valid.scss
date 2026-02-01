@@ -1,0 +1,29 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+
+.form-group {
+    // green checkbox icon for validated fields
+    &--validated {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        right: 1.5ch;
+        place-items: center;
+
+        width: 20px;
+        height: 20px;
+
+        transform: translateY(-50%);
+
+        background-color: map.get(c.$form, "input", "background-validated");
+        color: map.get(c.$form, "input", "surface-validated");
+        border-radius: 100dvw;
+    }
+
+    // loading spinner if a validation is in progress
+    &--validating {
+        position: absolute;
+        top: 9px; // TODO: remove magic number ...
+        right: 1.5ch;
+    }
+}

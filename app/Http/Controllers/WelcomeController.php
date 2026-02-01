@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class StartController extends Controller
+class WelcomeController extends Controller
 {
 
     /**
@@ -15,7 +15,7 @@ class StartController extends Controller
      */
     public function show(\Illuminate\Http\Request $request): \Inertia\Response
     {
-        return Inertia::render('Start/StartPage', [
+        return Inertia::render('Guest/Welcome', [
             'request' => $request,
         ]);
     }

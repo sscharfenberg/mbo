@@ -16,7 +16,7 @@ class GuestController extends Controller
      */
     public function imprint(Request $request): Response
     {
-        return Inertia::render('Guest/ImprintPage', [
+        return Inertia::render('Guest/Imprint', [
             'request' => $request,
         ]);
     }
@@ -28,7 +28,7 @@ class GuestController extends Controller
      */
     public function privacy(Request $request): Response
     {
-        return Inertia::render('Guest/PrivacyPage', [
+        return Inertia::render('Guest/Privacy', [
             'request' => $request,
         ]);
     }

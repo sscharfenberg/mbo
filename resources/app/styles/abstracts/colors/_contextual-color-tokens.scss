@@ -30,7 +30,10 @@ $app: (
             transparent 75%,
             transparent
         ),
-    "progress-bar": map.get(c.$state, "pending"),
+    "progress-bar": light-dark(
+            map.get(c.$state, "light", "pending", "color"),
+            map.get(c.$state, "dark", "pending", "color")
+        ),
     "textlink-surface": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
     "textlink-surface-hover": light-dark(
             color.adjust(map.get(c.$grey, "asher"), $lightness: -20%),
@@ -122,7 +125,7 @@ $form: (
                 color.adjust(map.get(c.$grey, "black"), $alpha: -0.25)
             ),
         "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
-        "border-focus": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+        "border-focus": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
         "background-focus": light-dark(#fff, #000),
         "surface-focus": light-dark(#000, #fff),
         "background-validated": light-dark(

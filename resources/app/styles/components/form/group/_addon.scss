@@ -5,7 +5,7 @@
 
 .form-group {
     &__addon {
-        padding: 0.75ex;
+        padding: 0.75ex 1ch 0.75ex 1.5ch;
         border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
 
         background-color: map.get(c.$form, "input", "background");
