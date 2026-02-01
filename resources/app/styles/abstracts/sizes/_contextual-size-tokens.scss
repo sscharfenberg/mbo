@@ -51,11 +51,22 @@ $header: (
 
 // size tokens for main landmark
 $main: (
+    "max-narrow": map.get(s.$breakpoints, "landscape")
+) !default;
+
+// size tokens for frosted glass
+$glass: (
     "radius": (
         "base": map.get(s.$radius, "featured"),
         "portrait": map.get(s.$radius, "featured") * 1.5,
         "landscape": map.get(s.$radius, "featured") * 2,
         "desktop": map.get(s.$radius, "featured") * 4
+    ),
+    "padding": (
+        "base": map.get(s.$padding, "base"),
+        "portrait": map.get(s.$padding, "portrait"),
+        "landscape": map.get(s.$padding, "landscape"),
+        "desktop": map.get(s.$padding, "desktop")
     ),
     "border": map.get(s.$border, "base")
 ) !default;
@@ -80,7 +91,12 @@ $theme: (
 ) !default;
 
 // size tokens for .form-input
-$form: () !default;
+$form: (
+    "input": (
+        "radius": map.get(s.$radius, "base"),
+        "border": map.get(s.$border, "base")
+    )
+) !default;
 
 // size tokens for search results
 $search: () !default;

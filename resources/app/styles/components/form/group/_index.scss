@@ -1,0 +1,81 @@
+@use "sass:map";
+@use "Abstracts/mixins" as m;
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@forward "addon";
+@forward "input";
+
+.form-group {
+    display: flex;
+    flex-flow: column wrap;
+
+    gap: 1ex;
+
+    @include m.mq("landscape") {
+        flex-flow: row wrap;
+
+        gap: 2ch;
+    }
+
+    > label,
+    > .label {
+        flex-grow: 1;
+    }
+
+    &__input {
+        position: relative;
+
+        flex: 0 0 100%;
+
+        @include m.mq("landscape") {
+            flex: 0 0 65%;
+            gap: 2ch;
+        }
+    }
+
+    &__error {
+        display: flex;
+        align-items: flex-start;
+
+        padding: 1ex 1.5ch;
+        border: 2px solid map.get(c.$form, "error", "border");
+        margin-top: 1ex;
+        gap: 1ch;
+
+        background-color: map.get(c.$form, "error", "background");
+        color: map.get(c.$form, "error", "surface");
+    }
+
+    &__slot {
+        display: flex;
+
+        .form-input {
+            flex-grow: 1;
+        }
+    }
+
+    // green checkbox icon for validated fields
+    &--validated {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        right: 1ch;
+        place-items: center;
+
+        width: 20px;
+        height: 20px;
+
+        transform: translateY(-50%);
+
+        background-color: map.get(c.$form, "input", "background-validated");
+        color: map.get(c.$form, "input", "surface-validated");
+        border-radius: 100dvw;
+    }
+
+    // loading spinner if a validation is in progress
+    &--validating {
+        position: absolute;
+        top: 9px;
+        right: 1ch;
+    }
+}

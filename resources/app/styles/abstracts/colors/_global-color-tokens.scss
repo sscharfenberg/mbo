@@ -48,10 +48,42 @@ $grey: (
 
 // action state colors ========================================================
 $state: (
-    "success": #15a20b,
-    "warning": #ffaa45,
-    "error": #c6170f,
-    "pending": #006dc9
+    "light": (
+        "success": (
+            "color": #0e7307,
+            "contrast": #fff
+        ),
+        "warning": (
+            "color": #cf8c34,
+            "contrast": #000
+        ),
+        "error": (
+            "color": #a6110a,
+            "contrast": #fff
+        ),
+        "pending": (
+            "color": #005dac,
+            "contrast": #fff
+        )
+    ),
+    "dark": (
+        "success": (
+            "color": #15a20b,
+            "contrast": #000
+        ),
+        "warning": (
+            "color": #ffaa45,
+            "contrast": #000
+        ),
+        "error": (
+            "color": #c6170f,
+            "contrast": #fff
+        ),
+        "pending": (
+            "color": #006dc9,
+            "contrast": #fff
+        )
+    )
 ) !default;
 
 // rainbow colors =============================================================

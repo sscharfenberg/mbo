@@ -1,24 +1,7 @@
-<script setup lang="ts">
-const props = defineProps({
-    size: {
-        type: Number,
-        default: 4
-    }
-});
-const pixelSize = `${props.size * 12}px`;
-</script>
-
-<template>
-    <span class="loading-spinner"></span>
-</template>
-
-<style scoped lang="scss">
 @use "sass:map";
 @use "Abstracts/colors" as c;
 
 .loading-spinner {
-    --pixel-size: v-bind(pixelSize);
-
     width: var(--pixel-size);
     height: var(--pixel-size);
     transform: rotateZ(45deg);
@@ -55,16 +38,11 @@ const pixelSize = `${props.size * 12}px`;
         animation-delay: 0.4s;
     }
 
-    &__outer {
-        display: flex;
-        position: relative;
-        align-items: center;
-        justify-content: center;
+    &.colored {
+        color: map.get(c.$form, "input", "validating");
     }
 }
-</style>
 
-<style lang="scss">
 @keyframes spin {
     0%,
     100% {
@@ -99,4 +77,3 @@ const pixelSize = `${props.size * 12}px`;
         box-shadow: 0.2em -0.2em 0 0 currentcolor;
     }
 }
-</style>

@@ -1,0 +1,45 @@
+@use "sass:map";
+@use "Abstracts/mixins" as m;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/colors" as c;
+
+.frosted-glass {
+    position: relative;
+
+    background-color: map.get(c.$glass, "background");
+    backdrop-filter: blur(12px);
+
+    @include m.mqset(
+        "padding",
+        map.get(s.$glass, "padding", "base"),
+        map.get(s.$glass, "padding", "portrait"),
+        map.get(s.$glass, "padding", "landscape"),
+        map.get(s.$glass, "padding", "desktop")
+    );
+    @include m.mqset(
+        "border-radius",
+        map.get(s.$glass, "radius", "base"),
+        map.get(s.$glass, "radius", "portrait"),
+        map.get(s.$glass, "radius", "landscape"),
+        map.get(s.$glass, "radius", "desktop")
+    );
+
+    &::before {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+
+        border: map.get(s.$glass, "border") solid transparent;
+
+        background: linear-gradient(to bottom right, map.get(c.$glass, "border-from"), map.get(c.$glass, "border-to"))
+            border-box;
+
+        border-radius: inherit;
+        mask:
+            linear-gradient(black, black) border-box,
+            linear-gradient(black, black) padding-box;
+        mask-composite: subtract;
+
+        content: "";
+    }
+}

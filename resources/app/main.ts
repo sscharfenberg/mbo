@@ -12,7 +12,7 @@ import {
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
 import { createI18n } from "vue-i18n";
-import AppLayout from "./components/Layout/AppLayout.vue";
+import FullLayout from "./components/Layout/FullLayout.vue";
 const progressBarSettings = { ariaLabel: "Ladefortschritt", parent: "#app" };
 let timeout: ReturnType<typeof setTimeout>;
 
@@ -32,7 +32,7 @@ createInertiaApp({
         }
 
         const page = await pageLoader();
-        page.default.layout = page.default.layout || AppLayout;
+        page.default.layout = page.default.layout || FullLayout;
         return page.default;
     },
     setup({ el, App, props, plugin }) {

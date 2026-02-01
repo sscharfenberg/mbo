@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import PopOver from "Components/Popover/PopOver.vue";
-import Icon from "Components/Visual/Icon/Icon.vue";
+import Icon from "Components/Visual/Icon.vue";
 import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
 </script>
 

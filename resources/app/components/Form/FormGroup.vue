@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import Icon from "Components/Visual/Icon/Icon.vue";
+import Icon from "Components/Visual/Icon.vue";
+import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 
 defineProps({
     forId: String,
@@ -14,8 +15,13 @@ defineProps({
     },
     validating: {
         type: Boolean,
-        default: true
-    }
+        default: false
+    },
+    validated: {
+        type: Boolean,
+        default: false
+    },
+    addonIcon: String
 });
 </script>
 
@@ -23,70 +29,19 @@ defineProps({
     <div class="form-group">
         <label v-if="label?.length" :for="forId">{{ label }}</label>
         <span v-else class="label" />
-        <div class="input-col">
-            <div class="input">
+        <div class="form-group__input">
+            <div class="form-group__slot">
+                <div v-if="addonIcon?.length" class="form-group__addon">
+                    <icon :name="addonIcon" />
+                </div>
                 <slot />
-                <div class="validating">Validating.</div>
+                <loading-spinner v-if="validating" class="form-group--validating colored" :size="1.5" />
+                <div v-if="!validating && validated" class="form-group--validated"><icon name="check" :size="1" /></div>
             </div>
-            <div v-if="invalid" class="error">
+            <div v-if="!validating && invalid && error.length" class="form-group__error">
                 <icon name="error" />
                 {{ error }}
             </div>
         </div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:map";
-@use "Abstracts/mixins" as m;
-@use "Abstracts/colors" as c;
-@use "Abstracts/sizes" as s;
-
-.form-group {
-    display: flex;
-    flex-flow: column wrap;
-
-    gap: 1ex;
-
-    @include m.mq("landscape") {
-        flex-flow: row wrap;
-
-        gap: 2ch;
-    }
-
-    label,
-    span.label {
-        flex-grow: 1;
-    }
-
-    .input-col {
-        flex: 0 0 100%;
-
-        @include m.mq("landscape") {
-            flex: 0 0 65%;
-            gap: 2ch;
-        }
-    }
-
-    .input {
-        display: flex;
-
-        > :not(.validating, .btn-primary) {
-            flex-grow: 1;
-        }
-    }
-
-    .error {
-        display: flex;
-        align-items: flex-start;
-
-        padding: 1ex 1.5ch;
-        border: 2px solid map.get(c.$form, "error-border");
-        margin-top: 1ex;
-        gap: 1ch;
-
-        background-color: map.get(c.$form, "error-background");
-        color: map.get(c.$form, "error-surface");
-    }
-}
-</style>

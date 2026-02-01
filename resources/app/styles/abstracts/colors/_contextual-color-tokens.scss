@@ -48,7 +48,10 @@ $app: (
 $header: () !default;
 
 // colors for main landmark
-$main: (
+$main: () !default;
+
+// frosted glass insert
+$glass: (
     "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "ebony")) h s l / 25%),
     "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
     "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
@@ -95,9 +98,46 @@ $button: (
 
 // colors for form inputs
 $form: (
-    "error-background": map.get(c.$state, "warning"),
-    "error-surface": map.get(c.$state, "error"),
-    "error-border": map.get(c.$state, "error")
+    "error": (
+        "background": light-dark(
+                map.get(c.$state, "light", "error", "color"),
+                map.get(c.$state, "dark", "error", "color")
+            ),
+        "surface": light-dark(
+                map.get(c.$state, "light", "error", "contrast"),
+                map.get(c.$state, "dark", "error", "contrast")
+            ),
+        "border": light-dark(
+                map.get(c.$state, "light", "warning", "color"),
+                map.get(c.$state, "dark", "warning", "color")
+            )
+    ),
+    "input": (
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            ),
+        "background": light-dark(
+                color.adjust(map.get(c.$grey, "white"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.25)
+            ),
+        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "border-focus": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+        "background-focus": light-dark(#fff, #000),
+        "surface-focus": light-dark(#000, #fff),
+        "background-validated": light-dark(
+                map.get(c.$state, "light", "success", "color"),
+                map.get(c.$state, "dark", "success", "color")
+            ),
+        "surface-validated": light-dark(
+                map.get(c.$state, "light", "success", "contrast"),
+                map.get(c.$state, "dark", "success", "contrast")
+            ),
+        "validating": light-dark(
+                map.get(c.$state, "light", "pending", "color"),
+                map.get(c.$state, "dark", "pending", "color")
+            )
+    )
 ) !default;
 
 // colors for search results
