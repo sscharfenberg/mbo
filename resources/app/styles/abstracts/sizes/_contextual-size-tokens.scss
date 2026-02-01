@@ -100,6 +100,12 @@ $form: (
     "error": (
         "radius": map.get(s.$radius, "featured"),
         "border": map.get(s.$border, "base")
+    ),
+    "icon": map.get(s.$icons, "medium"),
+    "legend": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5lh 1ex
     )
 ) !default;
 

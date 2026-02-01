@@ -1,0 +1,21 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+.form-legend {
+    padding: map.get(s.$form, "legend", "padding");
+    border: map.get(s.$form, "legend", "border") solid map.get(c.$form, "legend", "border");
+    margin: 0;
+
+    background-color: map.get(c.$form, "legend", "background");
+    color: map.get(c.$form, "legend", "surface");
+
+    list-style: none;
+    border-radius: map.get(s.$form, "legend", "radius");
+
+    > li {
+        display: flex;
+
+        gap: 1ch;
+    }
+}

@@ -1,0 +1,23 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/mixins" as m;
+@use "Abstracts/sizes" as s;
+
+.form-group {
+    &__icon {
+        justify-self: flex-start;
+
+        width: map.get(s.$form, "icon");
+        height: map.get(s.$form, "icon");
+
+        &--required {
+            background-color: map.get(c.$form, "required", "background");
+            color: map.get(c.$form, "required", "surface");
+            border-radius: 100vw;
+        }
+
+        @include m.mq("landscape") {
+            text-align: right;
+        }
+    }
+}

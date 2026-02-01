@@ -21,14 +21,23 @@ defineProps({
         type: Boolean,
         default: false
     },
-    addonIcon: String
+    addonIcon: String,
+    required: {
+        type: Boolean,
+        default: false
+    }
 });
 </script>
 
 <template>
     <div class="form-group">
-        <label v-if="label?.length" :for="forId">{{ label }}</label>
-        <span v-else class="label" />
+        <label v-if="label?.length" :for="forId">
+            <span>{{ label }}:</span>
+            <span v-if="required" class="form-group__icon form-group__icon--required"><icon name="required" /></span>
+        </label>
+        <span v-else class="label"
+            ><span v-if="required" class="form-group__icon"><icon name="required" /></span
+        ></span>
         <div class="form-group__input">
             <div class="form-group__slot">
                 <div v-if="addonIcon?.length" class="form-group__addon" aria-hidden="true">

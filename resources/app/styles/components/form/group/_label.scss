@@ -1,0 +1,27 @@
+@use "sass:map";
+@use "Abstracts/sizes" as s;
+@use "Abstracts/mixins" as m;
+
+.form-group {
+    > label,
+    > .label {
+        display: flex;
+        align-items: center;
+
+        flex-grow: 1;
+
+        gap: 1ch;
+
+        @include m.mq("landscape") {
+            > span:first-of-type {
+                flex-grow: 1;
+
+                padding: 0.75ex 0;
+                border: map.get(s.$form, "input", "border") solid transparent;
+
+                line-height: map.get(s.$form, "input", "line-height");
+                text-align: right;
+            }
+        }
+    }
+}

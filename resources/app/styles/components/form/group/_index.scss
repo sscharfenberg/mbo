@@ -4,7 +4,10 @@
 @use "Abstracts/sizes" as s;
 @forward "addon";
 @forward "error";
+@forward "icon";
 @forward "input";
+@forward "label";
+@forward "legend";
 @forward "valid";
 
 .form-group {
@@ -14,14 +17,9 @@
     gap: 1ex;
 
     @include m.mq("landscape") {
-        flex-flow: row wrap;
+        flex-flow: row nowrap;
 
         gap: 2ch;
-    }
-
-    > label,
-    > .label {
-        flex-grow: 1;
     }
 
     &__input {
