@@ -75,8 +75,7 @@ export default defineConfig({
                         name: "preset-default",
                         params: {
                             overrides: {
-                                cleanupNumericValues: false,
-                                removeViewBox: false // https://github.com/svg/svgo/issues/1128
+                                cleanupNumericValues: false
                             },
                             cleanupIDs: {
                                 minify: false,

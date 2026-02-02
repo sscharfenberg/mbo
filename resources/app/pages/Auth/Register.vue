@@ -6,7 +6,34 @@ import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import { debounce } from "lodash-es";
+import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
+const password = ref("");
+const onPasswordChange = debounce(
+    () => {
+        fetch("/api/auth/entropy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ p: password.value })
+        })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            })
+            .finally(() => {
+                console.log("entropy check finished.");
+            });
+    },
+    750,
+    { maxWait: 5000 }
+);
 </script>
 
 <template>
@@ -51,7 +78,15 @@ defineOptions({ layout: NarrowLayout });
             :validating="validating"
             :required="true"
         >
-            <input type="password" name="password" id="password" @change="validate('password')" class="form-input" />
+            <input
+                type="password"
+                name="password"
+                id="password"
+                @change="validate('password')"
+                @keyup="onPasswordChange"
+                class="form-input"
+                v-model="password"
+            />
         </form-group>
         <form-group
             for-id="password_confirmation"
