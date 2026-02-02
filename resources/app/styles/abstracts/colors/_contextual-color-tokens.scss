@@ -51,7 +51,9 @@ $app: (
 $header: () !default;
 
 // colors for main landmark
-$main: () !default;
+$main: (
+    "headline": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color"))
+) !default;
 
 // frosted glass insert
 $glass: (

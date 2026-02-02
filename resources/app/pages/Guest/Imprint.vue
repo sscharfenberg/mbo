@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
+import Headline from "Components/Visual/Headline.vue";
 </script>
 
 <template>
     <Head><title>Imprint</title></Head>
-    <h1>Imprint</h1>
+    <headline>Imprint</headline>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
         praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid

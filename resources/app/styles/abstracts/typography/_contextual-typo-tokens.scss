@@ -14,5 +14,9 @@ $app: (
     "button": map.get(t.$font, "headline")
 ) !default;
 $header: () !default;
-$main: () !default;
+
+// typo for <main> area
+$main: (
+    "headline": map.get(t.$font, "headline")
+) !default;
 $footer: () !default;

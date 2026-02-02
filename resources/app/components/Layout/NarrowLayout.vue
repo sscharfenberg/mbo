@@ -21,6 +21,6 @@ import AppMain from "Components/Landmarks/Main/AppMain.vue";
 main {
     width: 100%;
     max-width: map.get(s.$main, "max-narrow");
-    margin: 0 auto;
+    margin: 1lh auto;
 }
 </style>
