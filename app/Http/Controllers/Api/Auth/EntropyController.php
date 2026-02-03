@@ -15,8 +15,11 @@ class EntropyController extends Controller
      */
     public function calculate(Request $request): JsonResponse {
         $zxcvbn = new Zxcvbn();
-        $weak = $zxcvbn->passwordStrength($request->get('p'));
-        dd($weak);
-        return response()->json(['p' => $request->get('p')]);
+        $entropy = $zxcvbn->passwordStrength($request->get('p'));
+        return response()->json([
+            'guesses' => $entropy['guesses'],
+            'score' => $entropy['score'],
+            'time' => $entropy['crack_times_seconds']['offline_slow_hashing_1e4_per_second'],
+        ]);
     }
 }

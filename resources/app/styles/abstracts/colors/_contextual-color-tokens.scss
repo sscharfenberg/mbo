@@ -163,6 +163,37 @@ $form: (
                 color.adjust(map.get(c.$grey, "black"), $alpha: -0.25)
             ),
         "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog"))
+    ),
+    "password-strength": (
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            ),
+        "background": light-dark(
+                color.adjust(map.get(c.$grey, "infra"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.25)
+            ),
+        "meter-border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            ),
+        "meter-bar": linear-gradient(
+                to right,
+                light-dark(map.get(c.$state, "light", "error", "color"), map.get(c.$state, "dark", "error", "color")),
+                light-dark(
+                    map.get(c.$state, "light", "warning", "color"),
+                    map.get(c.$state, "dark", "warning", "color")
+                ),
+                light-dark(
+                    map.get(c.$state, "light", "pending", "color"),
+                    map.get(c.$state, "dark", "pending", "color")
+                ),
+                light-dark(
+                    map.get(c.$state, "light", "success", "color"),
+                    map.get(c.$state, "dark", "success", "color")
+                )
+            )
+            padding-box
     )
 ) !default;
 

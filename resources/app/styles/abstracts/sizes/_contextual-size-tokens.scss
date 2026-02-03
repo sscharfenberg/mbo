@@ -106,6 +106,13 @@ $form: (
         "border": map.get(s.$border, "base"),
         "radius": map.get(s.$radius, "featured"),
         "padding": 0.5lh 1ex
+    ),
+    "password-strength": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5lh 1ex,
+        "meter-border": map.get(s.$border, "base"),
+        "meter-radius": map.get(s.$radius, "featured")
     )
 ) !default;
 

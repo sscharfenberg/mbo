@@ -9,6 +9,7 @@
 
         width: map.get(s.$form, "icon");
         height: map.get(s.$form, "icon");
+        margin: map.get(s.$form, "input", "border") 0;
 
         &--required {
             background-color: map.get(c.$form, "required", "background");

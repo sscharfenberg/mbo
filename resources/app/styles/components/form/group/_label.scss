@@ -6,20 +6,20 @@
     > label,
     > .label {
         display: flex;
-        align-items: center;
 
         flex-grow: 1;
 
+        padding: 0.75ex 0;
         gap: 1ch;
 
-        @include m.mq("landscape") {
-            > span:first-of-type {
+        > span:first-of-type {
+            line-height: map.get(s.$form, "input", "line-height");
+
+            @include m.mq("landscape") {
                 flex-grow: 1;
 
-                padding: 0.75ex 0;
                 border: map.get(s.$form, "input", "border") solid transparent;
 
-                line-height: map.get(s.$form, "input", "line-height");
                 text-align: right;
             }
         }

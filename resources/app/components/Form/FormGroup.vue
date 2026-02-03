@@ -49,6 +49,9 @@ defineProps({
                     <icon name="check" :size="1" />
                 </div>
             </div>
+            <div v-if="$slots.text" class="form-group__text">
+                <slot name="text" />
+            </div>
             <div v-if="invalid && error.length" class="form-group__error">
                 <icon name="error" />
                 {{ error }}

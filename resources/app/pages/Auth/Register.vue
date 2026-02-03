@@ -6,10 +6,16 @@ import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import PasswordStrength from "Components/Visual/PasswordStrength.vue";
 import { debounce } from "lodash-es";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 defineOptions({ layout: NarrowLayout });
 const password = ref("");
+const entropy = reactive({
+    guesses: 17065,
+    score: 2,
+    time: 1.7065
+});
 const onPasswordChange = debounce(
     () => {
         fetch("/api/auth/entropy", {
@@ -22,7 +28,9 @@ const onPasswordChange = debounce(
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                entropy.guesses = data.guesses;
+                entropy.score = data.score;
+                entropy.time = data.time;
             })
             .catch(error => {
                 console.error(error);
@@ -45,6 +53,7 @@ const onPasswordChange = debounce(
         #default="{ errors, processing, validate, validating, invalid, valid }"
     >
         <form-legend :required="true" />
+        {{ entropy }}
         <form-group
             for-id="name"
             label="Benutzername"
@@ -87,6 +96,9 @@ const onPasswordChange = debounce(
                 class="form-input"
                 v-model="password"
             />
+            <template #text>
+                <PasswordStrength :time="entropy.time" :score="entropy.score" :guesses="entropy.guesses" />
+            </template>
         </form-group>
         <form-group
             for-id="password_confirmation"
