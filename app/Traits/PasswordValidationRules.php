@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Validation\Rules\Password;
+use App\Rules\PasswordEntropy;
 
 trait PasswordValidationRules
 {
@@ -13,6 +13,6 @@ trait PasswordValidationRules
      */
     protected function passwordRules(): array
     {
-        return ['required', 'string', Password::default()];
+        return ['required', 'string', 'min:8', new PasswordEntropy()];
     }
 }

@@ -6,14 +6,12 @@
     &--validated {
         display: flex;
         position: absolute;
-        top: 50%;
+        top: 10px; // TODO: remove magic number ...
         right: 1.5ch;
         place-items: center;
 
         width: 20px;
         height: 20px;
-
-        transform: translateY(-50%);
 
         background-color: map.get(c.$form, "input", "background-validated");
         color: map.get(c.$form, "input", "surface-validated");

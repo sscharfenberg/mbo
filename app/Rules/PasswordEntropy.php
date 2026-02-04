@@ -15,6 +15,10 @@ class PasswordEntropy implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $fail('Not enough entropy.');
+        $zxcvbn = new Zxcvbn();
+        $entropy = $zxcvbn->passwordStrength($value);
+        if ($entropy['score'] < 3) {
+            $fail('validation.custom.password.entropy')->translate();
+        }
     }
 }
