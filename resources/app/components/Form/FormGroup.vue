@@ -43,6 +43,9 @@ defineProps({
                 <div v-if="addonIcon?.length" class="form-group__addon" aria-hidden="true">
                     <icon :name="addonIcon" />
                 </div>
+                <div v-if="!addonIcon && $slots.addon">
+                    <slot name="addon" />
+                </div>
                 <slot />
                 <loading-spinner v-if="validating" class="form-group--validating colored" :size="1.5" />
                 <div v-if="!validating && validated" class="form-group--validated" aria-label="This field is valid.">

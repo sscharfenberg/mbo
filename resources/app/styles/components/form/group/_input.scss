@@ -27,9 +27,7 @@
         border-color: map.get(c.$form, "input", "border-focus");
     }
 
-    /* stylelint-disable selector-class-pattern */
     .form-group:has(.form-group__addon) & {
         padding-left: 1.5ch;
     }
-    /* stylelint-enable selector-class-pattern */
 }

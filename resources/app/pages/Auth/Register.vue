@@ -12,6 +12,7 @@ import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
 const password = ref("");
 const score = ref(null);
+const showPassword = ref(false);
 const onPasswordChange = debounce(
     () => {
         fetch("/api/auth/entropy", {
@@ -36,6 +37,10 @@ const onPasswordChange = debounce(
     750,
     { maxWait: 5000 }
 );
+const onToggle = () => {
+    console.log("toggling");
+    showPassword.value = !showPassword.value;
+};
 </script>
 
 <template>
@@ -80,8 +85,13 @@ const onPasswordChange = debounce(
             :validating="validating"
             :required="true"
         >
+            <template #addon>
+                <button class="form-group__addon" @click.prevent="onToggle">
+                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                </button>
+            </template>
             <input
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 name="password"
                 id="password"
                 @change="validate('password')"
@@ -98,6 +108,7 @@ const onPasswordChange = debounce(
             :invalid="invalid('password_confirmation')"
             :validated="valid('password_confirmation')"
             :validating="validating"
+            addon-icon="key"
             :required="true"
         >
             <input
@@ -117,3 +128,23 @@ const onPasswordChange = debounce(
         </form-group>
     </Form>
 </template>
+
+<style lang="scss" scoped>
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/timings" as ti;
+
+button.form-group__addon {
+    cursor: pointer;
+
+    transition:
+        background-color map.get(ti.$timings, "fast") linear,
+        color map.get(ti.$timings, "fast") linear;
+
+    &:hover,
+    &:active {
+        background-color: map.get(c.$form, "input", "background-focus");
+        color: map.get(c.$form, "input", "surface-focus");
+    }
+}
+</style>

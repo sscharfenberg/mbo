@@ -11,6 +11,7 @@ export default {
     plugins: ["stylelint-scss", "stylelint-order"],
     rules: {
         "declaration-empty-line-before": null,
+        "selector-class-pattern": "^[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?(--[a-z0-9]([-]?[a-z0-9]+)*)?$",
         "color-named": [
             "never",
             {

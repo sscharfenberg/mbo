@@ -15,7 +15,6 @@
         border-bottom-right-radius: 0;
     }
 
-    /* stylelint-disable selector-class-pattern */
     &:has(.form-group__addon) .form-input {
         border-left-width: 0;
 
@@ -28,5 +27,4 @@
         color: map.get(c.$form, "input", "surface-focus");
         border-color: map.get(c.$form, "input", "border-focus");
     }
-    /* stylelint-enable selector-class-pattern */
 }
