@@ -8,6 +8,7 @@
 
     background-color: map.get(c.$glass, "background");
     backdrop-filter: blur(12px);
+    color: map.get(c.$glass, "surface");
 
     @include m.mqset(
         "padding",

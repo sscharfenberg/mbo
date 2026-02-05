@@ -57,7 +57,8 @@ $main: (
 
 // frosted glass insert
 $glass: (
-    "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "ebony")) h s l / 25%),
+    "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "black")) h s l / 25%),
+    "surface": light-dark(#000, #fff),
     "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
     "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
 ) !default;
@@ -123,8 +124,8 @@ $form: (
                 color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
             ),
         "background": light-dark(
-                color.adjust(map.get(c.$grey, "white"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "black"), $alpha: -0.25)
+                color.adjust(map.get(c.$grey, "white"), $alpha: -0.5),
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.5)
             ),
         "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
         "border-focus": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),

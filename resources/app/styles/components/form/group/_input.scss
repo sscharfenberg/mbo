@@ -2,6 +2,7 @@
 @use "Abstracts/sizes" as s;
 @use "Abstracts/colors" as c;
 @use "Abstracts/shadows" as sh;
+@use "Abstracts/timings" as ti;
 
 .form-input {
     padding: 0.75ex 2ch;
@@ -12,6 +13,11 @@
     border-radius: map.get(s.$form, "input", "radius");
 
     line-height: map.get(s.$form, "input", "line-height");
+
+    transition:
+        background-color map.get(ti.$timings, "fast"),
+        color map.get(ti.$timings, "fast"),
+        border-color map.get(ti.$timings, "fast");
 
     &:focus,
     &:active {
