@@ -37,10 +37,6 @@ const onPasswordChange = debounce(
     750,
     { maxWait: 5000 }
 );
-const onToggle = () => {
-    console.log("toggling");
-    showPassword.value = !showPassword.value;
-};
 </script>
 
 <template>
@@ -86,7 +82,11 @@ const onToggle = () => {
             :required="true"
         >
             <template #addon>
-                <button class="form-group__addon" @click.prevent="onToggle">
+                <button
+                    class="form-group__addon"
+                    @click.prevent="showPassword = !showPassword"
+                    :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                >
                     <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
                 </button>
             </template>
