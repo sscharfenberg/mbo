@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, Head } from "@inertiajs/vue3";
+import { Form, Head, usePage } from "@inertiajs/vue3";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
@@ -10,6 +10,7 @@ import PasswordStrength from "Components/Visual/PasswordStrength.vue";
 import { debounce } from "lodash-es";
 import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
+const page = usePage();
 const password = ref("");
 const score = ref(null);
 const showPassword = ref(false);
@@ -120,6 +121,7 @@ const onPasswordChange = debounce(
                 class="form-input"
             />
         </form-group>
+        <input type="hidden" name="locale" :value="page.props.locale" />
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />

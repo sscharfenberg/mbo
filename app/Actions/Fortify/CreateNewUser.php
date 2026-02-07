@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Traits\PasswordValidationRules;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Validation\Rule;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -41,6 +42,7 @@ class CreateNewUser implements CreatesNewUsers
                 ],
                 'password' => $this->passwordRules(),
                 'password_confirmation' => ['same:password'],
+                'locale' => ['required', Rule::in(config('mbo.app.supportedLocales')) ],
             ]);
         });
 
@@ -48,6 +50,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'locale' => $input['locale'],
         ]);
     }
 }
