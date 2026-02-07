@@ -2,32 +2,14 @@
 import { Link } from "@inertiajs/vue3";
 import PopOver from "Components/Popover/PopOver.vue";
 import Icon from "Components/Visual/Icon.vue";
+import AppHeaderLanguageSwitch from "./LanguageSwitch/AppHeaderLanguageSwitch.vue";
 import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
 </script>
 
 <template>
+    Auth: {{ $page.props.auth }}
     <nav aria-label="User Navigation">
-        <pop-over
-            icon="language"
-            label="de"
-            aria-label="Switch language"
-            class-string="popover-button--rounded"
-            reference="languageMenu"
-            width="10ch"
-        >
-            <ul class="popover-list">
-                <li>
-                    <a class="popover-list-item" href="https://www.google.com"
-                        ><img class="flag" src="./de.svg" alt="Deutsche Sprache" /> DE</a
-                    >
-                </li>
-                <li>
-                    <a class="popover-list-item" href="https://www.google.com"
-                        ><img class="flag" src="./en.svg" alt="English Language" /> EN</a
-                    >
-                </li>
-            </ul>
-        </pop-over>
+        <app-header-language-switch />
         <pop-over
             icon="account"
             aria-label="Navigation related to your user account"
@@ -73,10 +55,5 @@ nav {
 
     margin-left: auto;
     gap: 1ch;
-}
-
-.flag {
-    width: 24px;
-    height: 14.4px;
 }
 </style>

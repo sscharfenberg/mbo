@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form } from "@inertiajs/vue3";
+import { Form, Head } from "@inertiajs/vue3";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
@@ -40,6 +40,7 @@ const onPasswordChange = debounce(
 </script>
 
 <template>
+    <Head><title>Registration</title></Head>
     <headline>Registration</headline>
     <Form
         action="/register"

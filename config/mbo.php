@@ -4,12 +4,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | app settings
+    |--------------------------------------------------------------------------
+    |
+    | basic settings for this app
+    |
+    */
+    'app' => [
+        'supportedLocales' => [
+            'de',
+            'en'
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | scryfall settings
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application, which will be used when the
-    | framework needs to place the application's name in a notification or
-    | other UI elements where an application name needs to be displayed.
+    | basic settings for scryfall imports.
     |
     */
     'scryfall' => [

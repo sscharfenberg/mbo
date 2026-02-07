@@ -37,7 +37,14 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            //
+            'name' => config('app.name'),
+            'auth' => [
+                'user' => fn () => $request->user()
+                    ? $request->user()->only('id', 'name', 'email')
+                    : null
+            ],
+            'locale' => app()->getLocale(),
+            'supportedLocales' => config('mbo.app.supportedLocales'),
         ];
     }
 }

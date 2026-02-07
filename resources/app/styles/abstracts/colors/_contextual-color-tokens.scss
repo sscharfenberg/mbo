@@ -74,6 +74,11 @@ $popover: (
             color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.5)
         ),
     "item-background-hover": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+    "item-background-selected": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "item-surfcace-selected": light-dark(
+            map.get(c.$brand, "light1", "contrast"),
+            map.get(c.$brand, "dark1", "contrast")
+        ),
     "item-surface": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
     "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
     "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))

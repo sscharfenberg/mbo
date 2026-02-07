@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\ConfigureLocale;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,7 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
         $middleware->web(append: [
-            HandleInertiaRequests::class, // 2. Append it here
+            ConfigureLocale::class, // determine the correct locale
+            HandleInertiaRequests::class, // handle inertia requests
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
