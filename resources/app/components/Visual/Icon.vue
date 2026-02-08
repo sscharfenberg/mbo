@@ -44,3 +44,10 @@ const cssClasses = computed(() => {
         <use :xlink:href="`#${name}`"></use>
     </svg>
 </template>
+
+<style lang="scss" scoped>
+/**
+ * styles are located in
+ * resources/app/styles/components/_icons.scss
+ */
+</style>

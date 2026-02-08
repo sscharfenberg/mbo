@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import AppHeaderThemeSwitchItem from "./AppHeaderThemeSwitchItem.vue";
+import ThemeSwitchItem from "./ThemeSwitchItem.vue";
 const colorScheme = document.querySelector("meta[name='color-scheme']");
 if (!colorScheme) {
     throw new Error("Meta tag with name='color-scheme' not found");
@@ -29,7 +29,7 @@ onMounted(() => {
 
 <template>
     <div class="theme-switch__list" :aria-label="$t('app.header.theme.label')">
-        <app-header-theme-switch-item
+        <theme-switch-item
             v-for="option in options"
             :key="option.value"
             :name="option.value"

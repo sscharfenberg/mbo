@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Icon from "Components/Visual/Icon.vue";
 import { ref } from "vue";
-
 const props = withDefaults(
     defineProps<{
         icon: string;
@@ -37,9 +36,11 @@ const reference = ref("--" + props.reference);
 </template>
 
 <style lang="scss" scoped>
-// styles are in @/styles/components/popover
-// we are duplicating v-binds here so there are no build errors due to
-// "unused" vars.
+/**
+ * styles are in @/styles/components/popover
+ * we are duplicating v-binds here so there are no build errors due to
+ * "unused" vars.
+ */
 .popover-button {
     anchor-name: v-bind(reference);
 }

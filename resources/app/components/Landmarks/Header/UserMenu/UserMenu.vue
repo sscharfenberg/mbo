@@ -2,13 +2,13 @@
 import { Link } from "@inertiajs/vue3";
 import PopOver from "Components/Popover/PopOver.vue";
 import Icon from "Components/Visual/Icon.vue";
-import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
+import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
 </script>
 
 <template>
     <pop-over
         icon="account"
-        :aria-label="t('header.user.label')"
+        :aria-label="$t('header.user.label')"
         class-string="popover-button--rounded"
         reference="userMenu"
     >
@@ -37,7 +37,7 @@ import AppHeaderThemeSwitch from "./ThemeSwitch/AppHeaderThemeSwitch.vue";
                     {{ $t("header.user.settings") }}
                 </a>
             </li>
-            <li><app-header-theme-switch /></li>
+            <li><theme-switch /></li>
         </ul>
     </pop-over>
 </template>
