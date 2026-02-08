@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import AppHeaderThemeSwitchItem from "Components/Landmarks/Header/ThemeSwitch/AppHeaderThemeSwitchItem.vue";
 import { computed, onMounted } from "vue";
+import { t } from "Composables/useTranslations";
+import AppHeaderThemeSwitchItem from "./AppHeaderThemeSwitchItem.vue";
 const colorScheme = document.querySelector("meta[name='color-scheme']");
 if (!colorScheme) {
     throw new Error("Meta tag with name='color-scheme' not found");
@@ -18,9 +19,9 @@ const theme = computed({
     }
 });
 const options = [
-    { value: "dark", label: "Dunkel", icon: "dark" },
-    { value: "light", label: "Hell", icon: "light" },
-    { value: "light dark", label: "System", icon: "system" }
+    { value: "dark", label: "app.header.theme.dark", icon: "dark" },
+    { value: "light", label: "app.header.theme.light", icon: "light" },
+    { value: "light dark", label: "app.header.theme.system", icon: "system" }
 ];
 onMounted(() => {
     if (colorScheme.getAttribute("content") !== theme.value) updateMeta(theme.value);
@@ -28,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="theme-switch__list">
+    <div class="theme-switch__list" :aria-label="t('app.header.theme.label')">
         <app-header-theme-switch-item
             v-for="option in options"
             :key="option.value"

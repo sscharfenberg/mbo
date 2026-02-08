@@ -125,6 +125,7 @@ export default defineConfig({
             "@": path.resolve(__dirname, "resources/app"),
             Assets: path.resolve(__dirname, "resources/app/assets"),
             Components: path.resolve(__dirname, "resources/app/components"),
+            Composables: path.resolve(__dirname, "resources/app/composables"),
             Abstracts: path.resolve(__dirname, "resources/app/styles/abstracts")
         }
     },

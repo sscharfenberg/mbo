@@ -30,9 +30,13 @@
         /* Modules */
         "module": "ESNext",
         "moduleResolution": "bundler",
-        // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
+        "baseUrl": ".",
         "paths": {
-            /* Specify a set of entries that re-map imports to additional lookup locations. */ "@/*": ["./resources/js/*"],
+            /* Specify a set of entries that re-map imports to additional lookup locations. */
+            "@/*": ["./resources/app/*"],
+            "Assets/*": ["./resources/app/assets/*"],
+            "Components/*": ["./resources/app/components/*"],
+            "Composables/*": ["./resources/app/composables/*"],
         },
         // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
         // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

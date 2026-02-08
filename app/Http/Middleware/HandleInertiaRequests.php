@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\TranslationService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,6 +36,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $t = new TranslationService();
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -45,6 +47,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'supportedLocales' => config('mbo.app.supportedLocales'),
+            'translations' => $t->getAppTranslations(app()->getLocale())
         ];
     }
 }

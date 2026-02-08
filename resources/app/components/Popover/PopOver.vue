@@ -1,23 +1,21 @@
 <script setup lang="ts">
 import Icon from "Components/Visual/Icon.vue";
 import { ref } from "vue";
-const props = defineProps({
-    icon: {
-        type: String,
-        required: true
-    },
-    label: String,
-    ariaLabel: String,
-    classString: String,
-    reference: {
-        type: String,
-        default: Math.random().toString(36).substring(2)
-    },
-    width: {
-        type: String,
-        default: "20ch"
+
+const props = withDefaults(
+    defineProps<{
+        icon: string;
+        label?: string;
+        ariaLabel?: string;
+        classString?: string;
+        reference?: string;
+        width?: string;
+    }>(),
+    {
+        reference: () => Math.random().toString(36).substring(2),
+        width: "20ch"
     }
-});
+);
 const reference = ref("--" + props.reference);
 </script>
 

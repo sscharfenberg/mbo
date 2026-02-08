@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Form, Head, usePage } from "@inertiajs/vue3";
+import { debounce } from "lodash-es";
+import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
@@ -7,8 +9,6 @@ import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import PasswordStrength from "Components/Visual/PasswordStrength.vue";
-import { debounce } from "lodash-es";
-import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
 const page = usePage();
 const password = ref("");

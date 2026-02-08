@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 import { Link } from "@inertiajs/vue3";
+const startYear = 2026;
+const currentYear = new Date().getFullYear();
+let copyrightDate = `${startYear}`;
+if (currentYear > startYear) {
+    copyrightDate += " - " + currentYear;
+}
 </script>
 
 <template>
     <footer>
-        &copy; Sven Scharfenberg 2025
+        &copy; Sven Scharfenberg {{ copyrightDate }}
         <nav aria-label="Footer Navigation">
-            <Link class="text-link" href="/privacy">Datenschutz</Link>
-            <Link class="text-link" href="/imprint">Impressum</Link>
+            <Link class="text-link" href="/privacy">{{ $t("app.footer.privacy") }}</Link>
+            <Link class="text-link" href="/imprint">{{ $t("app.footer.imprint") }}</Link>
             <a href="https://github.com/sscharfenberg/mbo"><img src="./github.svg" alt="Github Repository" /></a>
         </nav>
     </footer>

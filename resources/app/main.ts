@@ -11,14 +11,10 @@ import {
 } from "@sscharfenberg/progressbar/progressbar.js";
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
-import { createI18n } from "vue-i18n";
 import FullLayout from "./components/Layout/FullLayout.vue";
+import i18nPlugin from "./composables/useTranslations.ts";
 const progressBarSettings = { ariaLabel: "Ladefortschritt", parent: "#app" };
 let timeout: ReturnType<typeof setTimeout>;
-
-const i18n = createI18n({
-    legacy: false
-});
 
 /******************************************************************************
  * mount Inertia App
@@ -38,7 +34,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(i18n)
+            .use(i18nPlugin)
             .mount(el);
     },
     title: title => (title ? `MBO: ${title}` : `MBO`),

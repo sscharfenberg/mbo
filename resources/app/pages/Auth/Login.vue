@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
+import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
-import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
 defineProps<{
     status?: string;
