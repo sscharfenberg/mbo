@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Icon from "Components/Visual/Icon.vue";
-import { t } from "Composables/useTranslations";
 const props = defineProps({
     name: {
         type: String,
@@ -30,9 +29,9 @@ const emit = defineEmits(["radio"]);
         :value="name"
         @change="emit('radio', props.name)"
         :checked="selected"
-        :aria-label="t(label)"
+        :aria-label="$t(label)"
     />
-    <label :for="'theme' + name.replace(' ', '')" :aria-label="t(label)" class="theme-switch__item">
+    <label :for="'theme' + name.replace(' ', '')" :aria-label="$t(label)" class="theme-switch__item">
         <icon :name="icon" />
     </label>
 </template>

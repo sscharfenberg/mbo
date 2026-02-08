@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { t } from "Composables/useTranslations";
 import AppHeaderThemeSwitchItem from "./AppHeaderThemeSwitchItem.vue";
 const colorScheme = document.querySelector("meta[name='color-scheme']");
 if (!colorScheme) {
@@ -29,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="theme-switch__list" :aria-label="t('app.header.theme.label')">
+    <div class="theme-switch__list" :aria-label="$t('app.header.theme.label')">
         <app-header-theme-switch-item
             v-for="option in options"
             :key="option.value"
