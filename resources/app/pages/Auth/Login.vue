@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
-import { ref } from "vue";
+import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
 defineProps<{
     status?: string;
@@ -22,7 +23,14 @@ const showPassword = ref(false);
     canReset {{ canResetPassword }}<br />
     canregister {{ canRegister }}<br />
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
-        <form-group for-id="name" label="Benutzername" :error="errors.name" addon-icon="register" :required="true">
+        <form-group
+            for-id="name"
+            label="Benutzername"
+            :error="errors.name"
+            addon-icon="register"
+            :required="true"
+            :invalid="!!errors?.name"
+        >
             <input type="text" name="name" id="name" class="form-input" />
         </form-group>
         <form-group for-id="password" label="Passwort" :error="errors.password" :required="true">
@@ -36,6 +44,11 @@ const showPassword = ref(false);
                 </button>
             </template>
             <input :type="showPassword ? 'text' : 'password'" name="password" id="password" class="form-input" />
+        </form-group>
+        <form-group for-id="remember_password" label="Remember me">
+            <template #addon>
+                <checkbox :checked-initially="false" ref-id="remember" :value="true" />
+            </template>
         </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
