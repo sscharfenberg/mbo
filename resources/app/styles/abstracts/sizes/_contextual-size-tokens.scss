@@ -113,6 +113,10 @@ $form: (
         "padding": 0.5lh 1ex,
         "meter-border": map.get(s.$border, "base"),
         "meter-radius": map.get(s.$radius, "featured")
+    ),
+    "checkbox": (
+        "size": map.get(s.$icons, "medium"),
+        "border": map.get(s.$border, "base")
     )
 ) !default;
 

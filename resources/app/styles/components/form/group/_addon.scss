@@ -10,9 +10,18 @@
 
         background-color: map.get(c.$form, "input", "background");
         color: map.get(c.$form, "input", "surface");
+
+        outline: 0;
         border-radius: map.get(s.$form, "input", "radius");
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
+
+        &:focus,
+        &:focus-visible {
+            background-color: map.get(c.$form, "input", "background-focus");
+            color: map.get(c.$form, "input", "surface-focus");
+            border-color: map.get(c.$form, "input", "border-focus");
+        }
     }
 
     &:has(.form-group__addon) .form-input {

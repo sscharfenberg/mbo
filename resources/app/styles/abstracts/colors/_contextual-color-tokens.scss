@@ -200,6 +200,15 @@ $form: (
                 )
             )
             padding-box
+    ),
+    "checkbox": (
+        "background": light-dark(
+                color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
+                color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.25)
+            ),
+        "background-checked": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark2", "color")),
+        "surface": light-dark(map.get(c.$grey, "slate"), map.get(c.$grey, "slate")),
+        "surface-checked": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark2", "contrast"))
     )
 ) !default;
 

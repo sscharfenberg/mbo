@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
+import { ref } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
-import { ref } from "vue";
 defineOptions({ layout: NarrowLayout });
 defineProps<{
     status?: string;
@@ -47,7 +47,7 @@ const showPassword = ref(false);
         </form-group>
         <form-group for-id="remember_password" label="Remember me">
             <template #addon>
-                <checkbox :checked-initially="false" ref-id="remember" :value="true" />
+                <checkbox label="Remember me" ref-id="remember" :value="true" />
             </template>
         </form-group>
         <form-group>

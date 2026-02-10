@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Icon from "Components/Visual/Icon.vue";
 import { ref } from "vue";
+import Icon from "Components/Visual/Icon.vue";
 const props = withDefaults(
     defineProps<{
         icon: string;
