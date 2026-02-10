@@ -28,7 +28,6 @@ const checkboxStatus = ref(props.checkedInitially);
 @use "Abstracts/sizes" as s;
 @use "Abstracts/timings" as ti;
 
-// TODO: remove magic numbers, add real styling.
 input {
     visibility: hidden;
 
