@@ -19,6 +19,16 @@ Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint']
     ->name('imprint');
 
 /**
+ * Auth pages, not logged in
+ */
+// register
+Route::get('/register', [\App\Http\Controllers\User\AuthController::class, 'registerView'])
+    ->name('register');
+// login
+Route::get('/login', [\App\Http\Controllers\User\AuthController::class, 'loginView'])
+    ->name('login');
+
+/**
  * Authed pages
  */
 Route::middleware(['auth'])->group( function() {

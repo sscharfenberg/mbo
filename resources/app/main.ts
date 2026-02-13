@@ -11,8 +11,8 @@ import {
 } from "@sscharfenberg/progressbar/progressbar.js";
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
+import { setupI18n, loadLocaleMessages } from "@/i18n.ts";
 import FullLayout from "./components/Layout/FullLayout.vue";
-import i18nPlugin from "./composables/useTranslations.ts";
 const progressBarSettings = { ariaLabel: "Ladefortschritt", parent: "#app" };
 let timeout: ReturnType<typeof setTimeout>;
 
@@ -32,10 +32,26 @@ createInertiaApp({
         return page.default;
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(i18nPlugin)
-            .mount(el);
+        const initialLocale = (props.initialPage.props as { locale?: string }).locale || "de";
+        const availableLocales = (props.initialPage.props as { supportedLocales?: Array<string> }).supportedLocales || [
+            "en"
+        ];
+
+        const i18n = setupI18n({
+            legacy: false,
+            locale: initialLocale,
+            fallbackLocale: availableLocales.filter(locale => locale !== initialLocale)[0],
+            messages: {}
+        });
+
+        const app = createApp({ render: () => h(App, props) });
+
+        app.use(plugin);
+        app.use(i18n);
+
+        void loadLocaleMessages(i18n, initialLocale);
+
+        app.mount(el);
     },
     title: title => (title ? `MBO: ${title}` : `MBO`),
     progress: false // disable inertia NProgress implementation for more control

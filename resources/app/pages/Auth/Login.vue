@@ -22,6 +22,7 @@ const showPassword = ref(false);
     Status: {{ status }}<br />
     canReset {{ canResetPassword }}<br />
     canregister {{ canRegister }}<br />
+    {{ $page.props.translations }}
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
         <form-group
             for-id="name"
@@ -45,7 +46,7 @@ const showPassword = ref(false);
             </template>
             <input :type="showPassword ? 'text' : 'password'" name="password" id="password" class="form-input" />
         </form-group>
-        <form-group for-id="remember_password" label="Remember me">
+        <form-group for-id="remember" label="Remember me">
             <template #addon>
                 <checkbox label="Remember me" ref-id="remember" :value="true" />
             </template>

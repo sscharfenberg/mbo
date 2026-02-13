@@ -18,9 +18,9 @@ const theme = computed({
     }
 });
 const options = [
-    { value: "dark", label: "app.header.theme.dark", icon: "dark" },
-    { value: "light", label: "app.header.theme.light", icon: "light" },
-    { value: "light dark", label: "app.header.theme.system", icon: "system" }
+    { value: "dark", label: "header.theme.dark", icon: "dark" },
+    { value: "light", label: "header.theme.light", icon: "light" },
+    { value: "light dark", label: "header.theme.system", icon: "system" }
 ];
 onMounted(() => {
     if (colorScheme.getAttribute("content") !== theme.value) updateMeta(theme.value);
@@ -28,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="theme-switch__list" :aria-label="$t('app.header.theme.label')">
+    <div class="theme-switch__list" :aria-label="$t('header.theme.label')">
         <theme-switch-item
             v-for="option in options"
             :key="option.value"

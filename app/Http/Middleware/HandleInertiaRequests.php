@@ -47,7 +47,6 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'supportedLocales' => config('mbo.app.supportedLocales'),
-            'translations' => $t->getAppTranslations(app()->getLocale())
         ];
     }
 }

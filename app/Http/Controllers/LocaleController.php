@@ -3,29 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LocaleController extends Controller
 {
     /**
-     * @function change locale
-     *
-     * @param string $locale
-     * @return RedirectResponse
+     * Update the application locale.
      */
-    public function update(string $locale): RedirectResponse
+    public function update(string $locale): JsonResponse
     {
-        $userId = Auth::id();
-        if (in_array($locale, config('mbo.app.supportedLocales'))) {
-            if ($userId) {
-                $user = User::where('id', $userId)->first();
-                $user->locale = $locale;
-                $user->save();
-            }
-            session(['locale' => $locale]);
-            app()->setLocale($locale);
+        $availableLocales = config('mbo.app.supportedLocales');
+        if (!in_array($locale, $availableLocales)) {
+            return response()->json([], 422);
         }
-        return back();
+
+        // update authenticated user locale, if available
+        $userId = Auth::id();
+        if ($userId) {
+            $user = User::where('id', $userId)->first();
+            $user->locale = $locale;
+            $user->save();
+        }
+        else // set session locale
+        {
+            session(['locale' => $locale]);
+        }
+
+        app()->setLocale($locale);
+
+        return response()->json(['locale' => $locale]);
     }
 }

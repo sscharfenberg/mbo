@@ -1,0 +1,25 @@
+{
+    "header": {
+        "nav": "User and language navigation",
+        "lang": {
+            "label": "Switch Language"
+        },
+        "user": {
+            "label": "Navigation related to your user account",
+            "register": "Registration",
+            "login": "Login",
+            "logout": "Logout",
+            "settings": "Settings"
+        },
+        "theme": {
+            "label": "Change app theme",
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
+        }
+    },
+    "footer": {
+        "imprint": "Imprint",
+        "privacy": "Privacy"
+    }
+}
