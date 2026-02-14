@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import PopOver from "Components/Popover/PopOver.vue";
 import Icon from "Components/Visual/Icon.vue";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
+const handleLogout = () => {
+    router.flushAll();
+    const dialog = document.getElementById("userMenu");
+    if (dialog !== null) dialog.hidePopover();
+};
 </script>
 
 <template>
@@ -26,10 +31,10 @@ import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
                 </a>
             </li>
             <li>
-                <a class="popover-list-item" href="https://www.google.com">
+                <Link class="popover-list-item" href="/logout" method="post" @click="handleLogout">
                     <icon name="logout" :size="1" />
                     {{ $t("header.user.logout") }}
-                </a>
+                </Link>
             </li>
             <li>
                 <Link class="popover-list-item" href="/dashboard">
