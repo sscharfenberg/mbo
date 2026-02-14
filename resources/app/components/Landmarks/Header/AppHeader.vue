@@ -1,13 +1,18 @@
 <script setup lang="ts">
+import { usePage } from "@inertiajs/vue3";
+import { computed } from "vue";
 import AppHeaderLogo from "./AppHeaderLogo.vue";
 import AppHeaderMenu from "./AppHeaderMenu.vue";
 import AppHeaderTitle from "./AppHeaderTitle.vue";
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
     <header class="app-header">
         <app-header-logo />
         <app-header-title />
+        U: {{ user }}
         <app-header-menu />
     </header>
 </template>

@@ -3,9 +3,13 @@
 @use "Abstracts/sizes" as s;
 
 .form-legend {
+    display: flex;
+    flex-direction: column;
+
     padding: map.get(s.$form, "legend", "padding");
     border: map.get(s.$form, "legend", "border") solid map.get(c.$form, "legend", "border");
     margin: 0;
+    gap: 1ex;
 
     background-color: map.get(c.$form, "legend", "background");
     color: map.get(c.$form, "legend", "surface");
@@ -17,5 +21,13 @@
         display: flex;
 
         gap: 1ch;
+
+        > span {
+            flex-grow: 1;
+
+            .icon {
+                margin: 0 0.5ch;
+            }
+        }
     }
 }

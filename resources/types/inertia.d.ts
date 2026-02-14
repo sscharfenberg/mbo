@@ -1,19 +1,18 @@
 export {};
-declare global {
-    export namespace inertia {
-        export interface Props {
-            user: {
-                id: number;
-                name: string;
-                email: string;
-                created_at: Date;
-                updated_at: Date;
+
+declare module "@inertiajs/core" {
+    export interface InertiaConfig {
+        sharedPageProps: {
+            name: string;
+            auth: {
+                user: {
+                    id: number;
+                    name: string;
+                    email: string;
+                } | null;
             };
-            jetstream: {
-                [key: string]: boolean;
-            };
-            errorBags: unknown;
-            errors: unknown;
-        }
+            locale: string;
+            supportedLocales: string[];
+        };
     }
 }

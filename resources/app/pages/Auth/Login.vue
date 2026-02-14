@@ -24,7 +24,6 @@ const showPassword = ref(false);
     >
     <headline>{{ $t("pages.login.title") }}</headline>
     Status: {{ status }}<br />
-    canregister {{ canRegister }}<br />
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
         <form-legend :required="true" />
         <form-group
@@ -64,7 +63,7 @@ const showPassword = ref(false);
         <form-group>
             <link-group :label="$t('pages.login.nav-label')">
                 <Link v-if="canRegister" class="text-link" href="/register">{{ $t("pages.register.link") }}</Link>
-                <Link v-if="canResetPassword" class="text-link" href="/forgot-password">{{
+                <Link v-if="canResetPassword" class="text-link" href="/forgot">{{
                     $t("pages.forgot-access.link")
                 }}</Link>
             </link-group>

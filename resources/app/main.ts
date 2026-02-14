@@ -32,10 +32,12 @@ createInertiaApp({
         return page.default;
     },
     setup({ el, App, props, plugin }) {
-        const initialLocale = (props.initialPage.props as { locale?: string }).locale || "de";
-        const availableLocales = (props.initialPage.props as { supportedLocales?: Array<string> }).supportedLocales || [
-            "en"
-        ];
+        const { locale, supportedLocales } = props.initialPage.props as {
+            locale?: string;
+            supportedLocales?: string[];
+        };
+        const initialLocale = locale || "de";
+        const availableLocales = supportedLocales || ["en"];
 
         const i18n = setupI18n({
             legacy: false,
