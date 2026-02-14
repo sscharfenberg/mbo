@@ -49,9 +49,7 @@ createInertiaApp({
         app.use(plugin);
         app.use(i18n);
 
-        void loadLocaleMessages(i18n, initialLocale);
-
-        app.mount(el);
+        loadLocaleMessages(i18n, initialLocale).then(() => app.mount(el));
     },
     title: title => (title ? `MBO: ${title}` : `MBO`),
     progress: false // disable inertia NProgress implementation for more control
