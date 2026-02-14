@@ -15,23 +15,23 @@ return [
 
     'custom' => [
         'name' => [
-            'required' => 'Please enter the username.',
-            'unique' => 'The username has already been taken',
-            'max' => 'The username can not have more than :max characters.',
-            'min' => 'The username must have at least :min characters.'
+            'required' => 'Bitte geben Sie den Benutzernamen an.',
+            'unique' => 'Dieser Benutzername ist bereits vergeben.',
+            'max' => 'Der Benutzername darf nicht mehr als :max Zeichen enthalten.',
+            'min' => 'Der Benutzername muss mindestens :min Zeichen enthalten.'
         ],
         'email' => [
-            'required' => 'Please enter the email address.',
-            'email' => 'This does not seem to be a valid e-mail-address.',
-            'max' => 'The e-mail can not have more than :max characters.'
+            'required' => 'Bitte geben Sie die E-Mail-Adresse an.',
+            'email' => 'Dies scheint keine gültige E-Mail-Adresse zu sein.',
+            'max' => 'Die E-Mail-Adresse darf nicht mehr als :max Zeichen enthalten.'
         ],
         'password' => [
-            'required' => 'Please enter the password.',
-            'min' => 'The password can not be less than :min characters.',
-            'entropy' => 'The password is not secure enough.'
+            'required' => 'Bitte geben Sie das Passwort an.',
+            'min' => 'Das Passwort muss mindestens :min Zeichen enthalten.',
+            'entropy' => 'Das Passwort ist nicht sicher genug.'
         ],
         'password_confirmation' => [
-            'same' => 'The password confirmation does not match.',
+            'same' => 'Die Passwort Bestätigung entspricht nicht dem eigentlichen Passwort.',
         ]
     ],
 
