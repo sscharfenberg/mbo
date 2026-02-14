@@ -23,7 +23,7 @@ $app: (
     "progress-bar-padding": math.round(s.$base * 0.125),
     "progress-radius": map.get(s.$radius, "base"),
     "textlink-underline-thickness": #{map.get(s.$border, "base") * 1.5},
-    "textlink-underline-offset": #{map.get(s.$border, "base") * 2},
+    "textlink-underline-offset": #{map.get(s.$border, "base") * 2.5},
     "icon": s.$icons,
     "padding": (
         "base": map.get(s.$padding, "base"),

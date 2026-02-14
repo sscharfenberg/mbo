@@ -35,11 +35,9 @@ $app: (
             map.get(c.$state, "dark", "pending", "color")
         ),
     "textlink-surface": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
-    "textlink-surface-hover": light-dark(
-            color.adjust(map.get(c.$grey, "asher"), $lightness: -20%),
-            color.adjust(map.get(c.$grey, "fog"), $lightness: 20%)
-        ),
-    "textlink-decoration": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "textlink-surface-hover": light-dark(#000, #fff),
+    "textlink-decoration": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "infra")),
+    "textlink-decoration-hover": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "iron")),
     "usermenu-background": light-dark(
             color.adjust(map.get(c.$grey, "infra"), $alpha: -0.25),
             color.adjust(map.get(c.$grey, "asher"), $alpha: -0.25)

@@ -17,6 +17,7 @@
         }
     },
     "footer": {
+        "nav-label": "Links to legal information",
         "imprint": "Imprint",
         "privacy": "Privacy"
     },
@@ -29,7 +30,12 @@
         "login": {
             "title": "Login",
             "link": "Login",
+            "nav-label": "If you can't login, use these links.",
             "submit": "Login"
+        },
+        "forgot-access": {
+            "title": "Can't login?",
+            "link": "Can't login?"
         },
         "dashboard": {
             "title": "My Dashboard",

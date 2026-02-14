@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, Head } from "@inertiajs/vue3";
+import { Form, Head, Link } from "@inertiajs/vue3";
 import { ref } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
@@ -7,6 +7,7 @@ import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
+import LinkGroup from "Components/Visual/LinkGroup.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
 defineProps<{
@@ -22,6 +23,8 @@ const showPassword = ref(false);
         ><title>{{ $t("pages.login.title") }}</title></Head
     >
     <headline>{{ $t("pages.login.title") }}</headline>
+    Status: {{ status }}<br />
+    canregister {{ canRegister }}<br />
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
         <form-legend :required="true" />
         <form-group
@@ -57,6 +60,14 @@ const showPassword = ref(false);
                 {{ $t("pages.login.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
+        </form-group>
+        <form-group>
+            <link-group :label="$t('pages.login.nav-label')">
+                <Link v-if="canRegister" class="text-link" href="/register">{{ $t("pages.register.link") }}</Link>
+                <Link v-if="canResetPassword" class="text-link" href="/forgot-password">{{
+                    $t("pages.forgot-access.link")
+                }}</Link>
+            </link-group>
         </form-group>
     </Form>
 </template>

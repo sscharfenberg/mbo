@@ -23,6 +23,6 @@
     &:hover {
         color: map.get(c.$app, "textlink-surface-hover");
 
-        text-decoration-color: map.get(c.$app, "textlink-surface-hover");
+        text-decoration-color: map.get(c.$app, "textlink-decoration-hover");
     }
 }

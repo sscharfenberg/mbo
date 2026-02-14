@@ -17,6 +17,7 @@
         }
     },
     "footer": {
+        "nav-label": "Links zu rechtlichen Informationen",
         "imprint": "Impressum",
         "privacy": "Datenschutz"
     },
@@ -29,7 +30,12 @@
         "login": {
             "title": "Anmeldung",
             "link": "Anmeldung",
+            "nav-label": "Wenn Sie sich nicht anmelden können, verwenden Sie diese Links.",
             "submit": "Anmelden"
+        },
+        "forgot-access": {
+            "title": "Probleme beim Anmelden?",
+            "link": "Probleme beim Anmelden?"
         },
         "dashboard": {
             "title": "Meine Einstellungs-Übersicht",
