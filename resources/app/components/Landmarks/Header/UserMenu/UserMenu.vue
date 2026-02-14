@@ -34,7 +34,7 @@ import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
             <li>
                 <Link class="popover-list-item" href="/dashboard">
                     <icon name="user-settings" :size="1" />
-                    {{ $t("pages.settings.link") }}
+                    {{ $t("pages.dashboard.link") }}
                 </Link>
             </li>
             <li><theme-switch /></li>
