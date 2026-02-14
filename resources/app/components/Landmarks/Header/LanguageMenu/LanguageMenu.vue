@@ -8,7 +8,6 @@ const page = usePage();
 const { locale } = useI18n();
 const supportedLocales = computed(() => page.props.supportedLocales);
 const onClose = () => {
-    console.log("close");
     const dialog = document.getElementById("languageMenu");
     if (dialog !== null) dialog.hidePopover();
 };
@@ -18,7 +17,7 @@ const onClose = () => {
     <pop-over
         icon="language"
         :label="locale"
-        aria-label="Switch language"
+        :aria-label="$t('header.lang.label')"
         class-string="popover-button--rounded"
         reference="languageMenu"
         width="10ch"

@@ -41,8 +41,10 @@ const onPasswordChange = debounce(
 </script>
 
 <template>
-    <Head><title>Registration</title></Head>
-    <headline>Registration</headline>
+    <Head
+        ><title>{{ $t("pages.register.title") }}</title></Head
+    >
+    <headline>{{ $t("pages.register.title") }}</headline>
     <Form
         action="/register"
         method="post"
@@ -52,7 +54,7 @@ const onPasswordChange = debounce(
         <form-legend :required="true" />
         <form-group
             for-id="name"
-            label="Benutzername"
+            :label="$t('form.fields.username')"
             :error="errors.name"
             :invalid="invalid('name')"
             :validated="valid('name')"
@@ -64,7 +66,7 @@ const onPasswordChange = debounce(
         </form-group>
         <form-group
             for-id="email"
-            label="E-Mail-Adresse"
+            :label="$t('form.fields.email')"
             :error="errors.email"
             :invalid="invalid('email')"
             :validated="valid('email')"
@@ -76,7 +78,7 @@ const onPasswordChange = debounce(
         </form-group>
         <form-group
             for-id="password"
-            label="Passwort"
+            :label="$t('form.fields.password')"
             :error="errors.password"
             :invalid="invalid('password')"
             :validated="valid('password')"
@@ -105,7 +107,7 @@ const onPasswordChange = debounce(
         </form-group>
         <form-group
             for-id="password_confirmation"
-            label="Passwort bestätigen"
+            :label="$t('form.fields.password_confirmation')"
             :error="errors.password_confirmation"
             :invalid="invalid('password_confirmation')"
             :validated="valid('password_confirmation')"
@@ -125,7 +127,7 @@ const onPasswordChange = debounce(
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />
-                Register
+                {{ $t("pages.register.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
         </form-group>

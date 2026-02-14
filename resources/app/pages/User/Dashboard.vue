@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { Head } from "@inertiajs/vue3";
 import Headline from "Components/Visual/Headline.vue";
 </script>
 
 <template>
-    <headline>Dashboard</headline>
+    <Head
+        ><title>{{ $t("pages.dashboard.title") }}</title></Head
+    >
+    <headline>{{ $t("pages.dashboard.title") }}</headline>
     <div>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque dignissimos distinctio, dolores
         dolorum exercitationem ipsa ipsum laudantium libero molestiae necessitatibus, non odio omnis optio quas quod

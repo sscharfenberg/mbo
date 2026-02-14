@@ -6,8 +6,6 @@
         },
         "user": {
             "label": "Benutzer Navigation",
-            "register": "Registrierung",
-            "login": "Anmelden",
             "logout": "Abmelden",
             "settings": "Einstellungen"
         },
@@ -21,5 +19,33 @@
     "footer": {
         "imprint": "Impressum",
         "privacy": "Datenschutz"
+    },
+    "pages": {
+        "register": {
+            "title": "Registrierung",
+            "link": "Registrierung",
+            "submit": "Registrieren"
+        },
+        "login": {
+            "title": "Anmeldung",
+            "link": "Anmeldung",
+            "submit": "Anmelden"
+        },
+        "dashboard": {
+            "title": "Meine Einstellungs-Übersicht",
+            "link": "Einstellungen"
+        }
+    },
+    "form": {
+        "legend": {
+            "required": "Felder die mit einem {icon} gekennzeichnet sind, müssen ausgefüllt werden."
+        },
+        "fields": {
+            "username": "Benutzername",
+            "email": "E-Mail-Adresse",
+            "password": "Passwort",
+            "password_confirmation": "Passwort bestätigen",
+            "remember": "Login merken"
+        }
     }
 }

@@ -16,13 +16,13 @@ import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
             <li>
                 <Link class="popover-list-item" href="/register">
                     <icon name="register" :size="1" />
-                    {{ $t("header.user.register") }}
+                    {{ $t("pages.register.link") }}
                 </Link>
             </li>
             <li>
                 <a class="popover-list-item" href="/login">
                     <icon name="login" :size="1" />
-                    {{ $t("header.user.login") }}
+                    {{ $t("pages.login.link") }}
                 </a>
             </li>
             <li>
@@ -32,10 +32,10 @@ import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
                 </a>
             </li>
             <li>
-                <a class="popover-list-item" href="https://www.google.com">
+                <Link class="popover-list-item" href="/dashboard">
                     <icon name="user-settings" :size="1" />
-                    {{ $t("header.user.settings") }}
-                </a>
+                    {{ $t("pages.settings.link") }}
+                </Link>
             </li>
             <li><theme-switch /></li>
         </ul>

@@ -18,7 +18,7 @@ const checkboxStatus = ref(props.checkedInitially);
 <template>
     <div class="wrapper">
         <input :id="refId" type="checkbox" :name="refId" @change="$emit('change', checkboxStatus)" />
-        <label :for="refId"></label>
+        <label :for="refId">{{ label }}</label>
     </div>
 </template>
 

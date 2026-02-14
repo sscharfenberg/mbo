@@ -6,8 +6,6 @@
         },
         "user": {
             "label": "Navigation related to your user account",
-            "register": "Registration",
-            "login": "Login",
             "logout": "Logout",
             "settings": "Settings"
         },
@@ -21,5 +19,33 @@
     "footer": {
         "imprint": "Imprint",
         "privacy": "Privacy"
+    },
+    "pages": {
+        "register": {
+            "title": "Registration",
+            "link": "Registration",
+            "submit": "Register"
+        },
+        "login": {
+            "title": "Login",
+            "link": "Login",
+            "submit": "Login"
+        },
+        "dashboard": {
+            "title": "My Dashboard",
+            "link": "Dashboard"
+        }
+    },
+    "form": {
+        "legend": {
+            "required": "Fields marked with a {icon} are required."
+        },
+        "fields": {
+            "username": "Username",
+            "email": "E-Mail",
+            "password": "Password",
+            "password_confirmation": "Repeat Password",
+            "remember": "Remember me"
+        }
     }
 }
