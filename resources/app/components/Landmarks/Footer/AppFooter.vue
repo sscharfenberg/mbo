@@ -11,33 +11,48 @@ if (currentYear > startYear) {
 
 <template>
     <footer>
-        &copy; Sven Scharfenberg {{ copyrightDate }}
-        <link-group :label="$t('footer.nav-label')">
-            <Link class="text-link" href="/privacy">{{ $t("footer.privacy") }}</Link>
-            <Link class="text-link" href="/imprint">{{ $t("footer.imprint") }}</Link>
-            <a href="https://github.com/sscharfenberg/mbo"><img src="./github.svg" alt="Github Repository" /></a>
-        </link-group>
+        <section class="inner">
+            &copy; Sven Scharfenberg {{ copyrightDate }}
+            <link-group :label="$t('footer.nav-label')">
+                <Link class="text-link" href="/privacy">{{ $t("footer.privacy") }}</Link>
+                <Link class="text-link" href="/imprint">{{ $t("footer.imprint") }}</Link>
+                <a href="https://github.com/sscharfenberg/mbo"><img src="./github.svg" alt="Github Repository" /></a>
+            </link-group>
+        </section>
     </footer>
 </template>
 
 <style scoped lang="scss">
 @use "sass:map";
+@use "Abstracts/colors" as c;
 @use "Abstracts/mixins" as m;
 @use "Abstracts/sizes" as s;
 
 footer {
-    display: flex;
-    flex-direction: column;
+    position: relative;
 
-    gap: 2ch;
+    margin-top: auto;
 
-    @include m.mq("portrait") {
-        align-items: center;
-        flex-direction: row;
+    background-color: map.get(c.$footer, "background");
+    backdrop-filter: blur(12px);
+    color: map.get(c.$footer, "surface");
 
-        nav {
-            margin-left: auto;
-        }
+    &::before {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+
+        border-top: map.get(s.$footer, "border") solid transparent;
+
+        background: linear-gradient(to right, map.get(c.$footer, "border-from"), map.get(c.$footer, "border-to"))
+            border-box;
+
+        mask:
+            linear-gradient(black, black) border-box,
+            linear-gradient(black, black) padding-box;
+        mask-composite: subtract;
+
+        content: "";
     }
 
     @include m.mqset(
@@ -47,6 +62,24 @@ footer {
         map.get(s.$footer, "padding", "landscape"),
         map.get(s.$footer, "padding", "desktop")
     );
+
+    .inner {
+        display: flex;
+        flex-direction: column;
+
+        max-width: map.get(s.$app, "cage");
+        margin: 0 auto;
+        gap: 2ch;
+
+        @include m.mq("portrait") {
+            align-items: center;
+            flex-direction: row;
+
+            nav {
+                margin-left: auto;
+            }
+        }
+    }
 
     a {
         display: flex;

@@ -130,5 +130,6 @@ $footer: (
         "portrait": map.get(s.$padding, "portrait"),
         "landscape": map.get(s.$padding, "landscape"),
         "desktop": map.get(s.$padding, "desktop")
-    )
+    ),
+    "border": map.get(s.$border, "base")
 ) !default;

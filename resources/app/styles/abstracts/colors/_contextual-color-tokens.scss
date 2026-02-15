@@ -214,4 +214,9 @@ $form: (
 $search: () !default;
 
 // colors for footer landmark
-$footer: () !default;
+$footer: (
+    "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "bunker")) h s l / 25%),
+    "surface": light-dark(#000, #fff),
+    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
+    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker"))
+) !default;

@@ -1,5 +1,8 @@
+<script setup lang="ts"></script>
 <template>
-    <main><slot /></main>
+    <main>
+        <section class="inner"><slot /></section>
+    </main>
 </template>
 
 <style lang="scss" scoped>
@@ -15,5 +18,10 @@ main {
         #{0 map.get(s.$app, "padding", "landscape")},
         #{0 map.get(s.$app, "padding", "desktop")}
     );
+
+    .inner {
+        max-width: map.get(s.$app, "cage");
+        margin: 0 auto 2lh;
+    }
 }
 </style>

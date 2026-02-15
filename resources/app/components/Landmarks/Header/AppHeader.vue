@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import { usePage } from "@inertiajs/vue3";
-import { computed } from "vue";
 import AppHeaderLogo from "./AppHeaderLogo.vue";
 import AppHeaderMenu from "./AppHeaderMenu.vue";
 import AppHeaderTitle from "./AppHeaderTitle.vue";
-const page = usePage();
-const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
     <header class="app-header">
-        <app-header-logo />
-        <app-header-title />
-        U: {{ user }}
-        <app-header-menu />
+        <section class="inner">
+            <app-header-logo />
+            <app-header-title />
+            <app-header-menu />
+        </section>
     </header>
 </template>
 
@@ -23,20 +20,6 @@ const user = computed(() => page.props.auth.user);
 @use "Abstracts/sizes" as s;
 
 .app-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    gap: 1ch;
-
-    @include m.mq("portrait") {
-        gap: 1.5ch;
-    }
-
-    @include m.mq("landscape") {
-        gap: 2ch;
-    }
-
     @include m.mqset(
         "padding",
         map.get(s.$header, "padding", "base"),
@@ -51,5 +34,23 @@ const user = computed(() => page.props.auth.user);
         #{map.get(s.$header, "gap", "landscape")},
         #{map.get(s.$header, "gap", "desktop")}
     );
+
+    .inner {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        max-width: map.get(s.$app, "cage");
+        margin: 0 auto;
+        gap: 1ch;
+
+        @include m.mq("portrait") {
+            gap: 1.5ch;
+        }
+
+        @include m.mq("landscape") {
+            gap: 2ch;
+        }
+    }
 }
 </style>

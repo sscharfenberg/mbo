@@ -11,8 +11,5 @@
     display: flex;
     flex-direction: column;
 
-    max-width: map.get(s.$app, "cage");
-
     min-height: 100dvh;
-    margin: 0 auto;
 }

@@ -38,8 +38,8 @@
             "link": "Can't login?"
         },
         "dashboard": {
-            "title": "My Dashboard",
-            "link": "Dashboard"
+            "title": "My Useraccount",
+            "link": "Useraccount"
         }
     },
     "form": {
