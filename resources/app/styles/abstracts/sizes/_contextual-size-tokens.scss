@@ -30,6 +30,17 @@ $app: (
         "portrait": map.get(s.$padding, "portrait"),
         "landscape": map.get(s.$padding, "landscape"),
         "desktop": map.get(s.$padding, "desktop")
+    ),
+    "flash": (
+        "max": map.get(s.$max, "form"),
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": (
+            "base": map.get(s.$padding, "base"),
+            "portrait": map.get(s.$padding, "portrait"),
+            "landscape": map.get(s.$padding, "landscape"),
+            "desktop": map.get(s.$padding, "desktop")
+        )
     )
 ) !default;
 
@@ -74,7 +85,10 @@ $glass: (
 // .btn component
 $button: (
     "padding": 0.2lh 3ch,
-    "border": map.get(s.$border, "featured")
+    "border": map.get(s.$border, "featured"),
+    "close": (
+        "padding": 0.2lh 0.4ch
+    )
 ) !default;
 
 // popover component

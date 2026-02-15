@@ -16,6 +16,7 @@ const score = ref(null);
 const showPassword = ref(false);
 const onPasswordChange = debounce(
     () => {
+        if (!password.value.length) return;
         fetch("/api/auth/entropy", {
             method: "POST",
             headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -90,6 +91,7 @@ const onPasswordChange = debounce(
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
                     :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                    tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
                 </button>

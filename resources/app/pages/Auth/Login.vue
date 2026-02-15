@@ -42,6 +42,7 @@ const showPassword = ref(false);
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
                     :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                    tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
                 </button>

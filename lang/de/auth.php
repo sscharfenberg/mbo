@@ -16,5 +16,6 @@ return [
     'failed' => 'Diese Zugangsdaten entsprechen nicht unseren Aufzeichnungen.',
     'password' => 'Das angegebene Passwort ist falsch.',
     'throttle' => 'Zu viele Anmeldeversuche. Bitte probieren Sie es in :seconds Sekunden erneut.',
+    'registered' => 'Registrierung erfolgreich. Wir haben Ihnen eine E-Mail mit einem Link zur Bestätigung der E-Mail-Adresse geschickt.',
 
 ];

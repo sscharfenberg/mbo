@@ -83,7 +83,8 @@
 }
 
 // default button
-.btn-default {
+.btn-default,
+.btn-close {
     --button-fill-stop: 100%;
     --button-fill: #{map.get(c.$button, "background")};
 
@@ -92,4 +93,9 @@
         --button-fill-stop: 0%;
         --button-fill: transparent;
     }
+}
+
+// close button specials
+.btn-close {
+    padding: map.get(s.$button, "close", "padding");
 }

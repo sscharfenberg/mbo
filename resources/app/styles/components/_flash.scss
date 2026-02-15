@@ -1,0 +1,75 @@
+@use "sass:map";
+@use "Abstracts/mixins" as m;
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+@use "Abstracts/z-indexes" as z;
+
+.flash-message {
+    &__wrapper {
+        position: fixed;
+        top: 0;
+        z-index: map.get(z.$index, "modal");
+
+        max-width: map.get(s.$app, "flash", "max");
+        padding: 1lh 2ch;
+        border: 0;
+        margin: 0 auto;
+
+        background: transparent;
+    }
+
+    &__dialog {
+        display: flex;
+
+        position: relative;
+
+        border: map.get(s.$app, "flash", "border") solid transparent;
+        gap: 1ch;
+
+        background: map.get(c.$flash, "background", "info");
+        backdrop-filter: blur(12px);
+        color: map.get(c.$flash, "surface", "info");
+        border-radius: map.get(s.$app, "flash", "radius");
+
+        &--info {
+            background: map.get(c.$flash, "background", "info");
+            color: map.get(c.$flash, "surface", "info");
+            border-color: map.get(c.$flash, "border", "info");
+        }
+
+        &--success {
+            background: map.get(c.$flash, "background", "success");
+            color: map.get(c.$flash, "surface", "success");
+            border-color: map.get(c.$flash, "border", "success");
+        }
+
+        &--warning {
+            background: map.get(c.$flash, "background", "warning");
+            color: map.get(c.$flash, "surface", "warning");
+            border-color: map.get(c.$flash, "border", "warning");
+        }
+
+        &--error {
+            background: map.get(c.$flash, "background", "error");
+            color: map.get(c.$flash, "surface", "error");
+            border-color: map.get(c.$flash, "border", "error");
+        }
+
+        @include m.mqset(
+            "padding",
+            map.get(s.$app, "flash", "padding", "base"),
+            map.get(s.$app, "flash", "padding", "portrait"),
+            map.get(s.$app, "flash", "padding", "landscape"),
+            map.get(s.$app, "flash", "padding", "desktop")
+        );
+
+        .btn-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            transform: translate(50%, -50%);
+        }
+    }
+}

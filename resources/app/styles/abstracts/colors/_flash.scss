@@ -1,0 +1,60 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "global-color-tokens" as c;
+
+$flash: (
+    "background": (
+        "info": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "bunker")) h s l / 25%),
+        "success": hsl(
+                from
+                    light-dark(
+                        map.get(c.$state, "dark", "success", "color"),
+                        map.get(c.$state, "light", "success", "color")
+                    )
+                    h s l / 50%
+            ),
+        "warning": hsl(
+                from
+                    light-dark(
+                        map.get(c.$state, "dark", "warning", "color"),
+                        map.get(c.$state, "light", "warning", "color")
+                    )
+                    h s l / 50%
+            ),
+        "error": hsl(
+                from
+                    light-dark(
+                        map.get(c.$state, "dark", "error", "color"),
+                        map.get(c.$state, "light", "error", "color")
+                    )
+                    h s l / 50%
+            )
+    ),
+    "surface": (
+        "info": light-dark(#000, #fff),
+        "success": light-dark(
+                map.get(c.$state, "dark", "success", "contrast"),
+                map.get(c.$state, "light", "success", "contrast")
+            ),
+        "warning": light-dark(
+                map.get(c.$state, "dark", "warning", "contrast"),
+                map.get(c.$state, "light", "warning", "contrast")
+            ),
+        "error": light-dark(
+                map.get(c.$state, "dark", "error", "contrast"),
+                map.get(c.$state, "light", "error", "contrast")
+            )
+    ),
+    "border": (
+        "info": light-dark(#000, #fff),
+        "success": light-dark(
+                map.get(c.$state, "light", "success", "color"),
+                map.get(c.$state, "dark", "success", "color")
+            ),
+        "warning": light-dark(
+                map.get(c.$state, "light", "warning", "color"),
+                map.get(c.$state, "dark", "warning", "color")
+            ),
+        "error": light-dark(map.get(c.$state, "light", "error", "color"), map.get(c.$state, "dark", "error", "color"))
+    )
+);

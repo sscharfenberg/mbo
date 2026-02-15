@@ -21,6 +21,9 @@
         "imprint": "Imprint",
         "privacy": "Privacy"
     },
+    "flash": {
+        "close": "Close notification"
+    },
     "pages": {
         "register": {
             "title": "Registration",

@@ -21,6 +21,9 @@
         "imprint": "Impressum",
         "privacy": "Datenschutz"
     },
+    "flash": {
+        "close": "Hinweis schließen"
+    },
     "pages": {
         "register": {
             "title": "Registrierung",

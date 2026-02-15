@@ -1,3 +1,5 @@
+import type { Type as FlashType } from "Components/Visual/FlashMessage.vue";
+
 export {};
 
 declare module "@inertiajs/core" {
@@ -13,6 +15,10 @@ declare module "@inertiajs/core" {
             };
             locale: string;
             supportedLocales: string[];
+            flash: {
+                message: string;
+                type: FlashType;
+            };
         };
     }
 }

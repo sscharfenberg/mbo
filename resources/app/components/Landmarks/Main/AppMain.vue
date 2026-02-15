@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 <template>
     <main>
-        <section class="inner"><slot /></section>
+        <section class="frosted-glass inner"><slot /></section>
     </main>
 </template>
 
