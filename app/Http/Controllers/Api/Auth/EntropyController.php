@@ -15,7 +15,7 @@ class EntropyController extends Controller
      */
     public function calculate(Request $request): JsonResponse {
         $zxcvbn = new Zxcvbn();
-        $password = $request->input('password');
+        $password = $request->input('p');
         if (!is_null($password)) {
             $entropy = $zxcvbn->passwordStrength($request->get('p'));
             return response()->json([
