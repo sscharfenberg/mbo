@@ -17,9 +17,7 @@
         }
     },
     "footer": {
-        "nav-label": "Links zu rechtlichen Informationen",
-        "imprint": "Impressum",
-        "privacy": "Datenschutz"
+        "nav-label": "Links zu rechtlichen Informationen"
     },
     "flash": {
         "close": "Hinweis schließen"
@@ -43,6 +41,14 @@
         "dashboard": {
             "title": "Mein Benutzerkonto",
             "link": "Benutzerkonto"
+        },
+        "privacy": {
+            "title": "Datenschutzinformationen",
+            "link": "Datenschutz"
+        },
+        "imprint": {
+            "title": "Impressum",
+            "link": "Impressum"
         }
     },
     "form": {

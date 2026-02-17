@@ -17,5 +17,7 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'registered' => 'Registration successful. Please check your email for a verification link.',
+    'email_verified' => 'Your email address has been verified successfully.',
+    'email_not_verified' => 'Please verify your email address before logging in.',
 
 ];

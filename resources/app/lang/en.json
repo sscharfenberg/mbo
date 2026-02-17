@@ -17,9 +17,7 @@
         }
     },
     "footer": {
-        "nav-label": "Links to legal information",
-        "imprint": "Imprint",
-        "privacy": "Privacy"
+        "nav-label": "Links to legal information"
     },
     "flash": {
         "close": "Close notification"
@@ -43,6 +41,14 @@
         "dashboard": {
             "title": "My Useraccount",
             "link": "Useraccount"
+        },
+        "privacy": {
+            "title": "Privacy policies",
+            "link": "Privacy"
+        },
+        "imprint": {
+            "title": "Imprint",
+            "link": "Imprint"
         }
     },
     "form": {

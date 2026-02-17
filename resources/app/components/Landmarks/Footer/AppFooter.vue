@@ -14,8 +14,8 @@ if (currentYear > startYear) {
         <section class="inner">
             &copy; Sven Scharfenberg {{ copyrightDate }}
             <link-group :label="$t('footer.nav-label')">
-                <Link class="text-link" href="/privacy">{{ $t("footer.privacy") }}</Link>
-                <Link class="text-link" href="/imprint">{{ $t("footer.imprint") }}</Link>
+                <Link class="text-link" href="/privacy">{{ $t("pages.privacy.link") }}</Link>
+                <Link class="text-link" href="/imprint">{{ $t("pages.imprint.link") }}</Link>
                 <a href="https://github.com/sscharfenberg/mbo"><img src="./github.svg" alt="Github Repository" /></a>
             </link-group>
         </section>

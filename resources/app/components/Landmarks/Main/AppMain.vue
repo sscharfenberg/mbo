@@ -11,6 +11,8 @@
 @use "Abstracts/sizes" as s;
 
 main {
+    width: 100%;
+
     @include m.mqset(
         "padding",
         #{0 map.get(s.$app, "padding", "base")},

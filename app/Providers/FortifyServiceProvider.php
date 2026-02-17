@@ -3,13 +3,22 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\EnsureEmailIsVerified;
 use App\Actions\Fortify\ResetUserPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Contracts\RedirectsIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -25,6 +34,10 @@ class FortifyServiceProvider extends ServiceProvider
             \Laravel\Fortify\Contracts\RegisterResponse::class,
             \App\Http\Responses\RegisterResponse::class
         );
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\VerifyEmailResponse::class,
+            \App\Http\Responses\VerifyEmailResponse::class
+        );
     }
 
     /**
@@ -33,6 +46,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureActions();
+        $this->configureLoginPipeline();
         $this->configureViews();
         $this->configureRateLimiting();
     }
@@ -44,6 +58,30 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::createUsersUsing(CreateNewUser::class);
+
+        VerifyEmail::createUrlUsing(function ($notifiable) {
+            return URL::temporarySignedRoute(
+                'verify-email',
+                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+                ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->getEmailForVerification())]
+            );
+        });
+    }
+
+    /**
+     * Configure the login authentication pipeline.
+     */
+    private function configureLoginPipeline(): void
+    {
+        Fortify::authenticateThrough(function (Request $request) {
+            return array_filter([
+                config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+                EnsureEmailIsVerified::class,
+                Features::enabled(Features::twoFactorAuthentication()) ? RedirectsIfTwoFactorAuthenticatable::class : null,
+                AttemptToAuthenticate::class,
+                PrepareAuthenticatedSession::class,
+            ]);
+        });
     }
 
     /**
@@ -66,9 +104,9 @@ class FortifyServiceProvider extends ServiceProvider
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::verifyEmailView(fn (Request $request) => Inertia::render('auth/VerifyEmail', [
-            'status' => $request->session()->get('status'),
-        ]));
+//        Fortify::verifyEmailView(fn (Request $request) => Inertia::render('auth/VerifyEmail', [
+//            'status' => $request->session()->get('status'),
+//        ]));
 
 //        Fortify::registerView(fn () => Inertia::render('Auth/Register'));
 

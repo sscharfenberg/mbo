@@ -4,8 +4,10 @@ import Headline from "Components/Visual/Headline.vue";
 </script>
 
 <template>
-    <Head><title>Privacy</title></Head>
-    <headline>Privacy</headline>
+    <Head
+        ><title>{{ $t("pages.privacy.title") }}</title></Head
+    >
+    <headline>{{ $t("pages.privacy.title") }}</headline>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
         praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid

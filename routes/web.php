@@ -27,11 +27,15 @@ Route::get('/register', [\App\Http\Controllers\User\AuthController::class, 'regi
 // login
 Route::get('/login', [\App\Http\Controllers\User\AuthController::class, 'loginView'])
     ->name('login');
+// email verification (no auth required - uses signed URL)
+Route::get('/verify-email/{id}/{hash}', \App\Http\Controllers\User\VerifyEmailController::class)
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verify-email');
 
 /******************************************************************************
  * Authed pages
  *****************************************************************************/
-Route::middleware(['auth'])->group( function() {
+Route::middleware(['auth', 'verified'])->group( function() {
     // Dashboard
     Route::get('/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'show'])
         ->name('dashboard');
