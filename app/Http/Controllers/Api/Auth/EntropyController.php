@@ -17,7 +17,7 @@ class EntropyController extends Controller
         $zxcvbn = new Zxcvbn();
         $password = $request->input('p');
         if (!is_null($password)) {
-            $entropy = $zxcvbn->passwordStrength($request->get('p'));
+            $entropy = $zxcvbn->passwordStrength($password);
             return response()->json([
                 'guesses' => $entropy['guesses'],
                 'score' => $entropy['score'],

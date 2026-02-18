@@ -14,13 +14,12 @@
 
     line-height: map.get(s.$form, "input", "line-height");
 
-    transition:
-        background-color map.get(ti.$timings, "fast"),
-        color map.get(ti.$timings, "fast"),
-        border-color map.get(ti.$timings, "fast");
+    cursor: pointer;
 
     &__button {
+        display: flex;
         position: relative;
+        align-items: center;
 
         padding: 0.75ex 1ch 0.75ex 1.5ch;
         border-right: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
@@ -41,16 +40,24 @@
     }
 
     input[type="radio"] {
+        $inset: #{map.get(s.$form, "input", "border") * 2};
         visibility: hidden;
 
         width: 0;
         height: 0;
 
-        &:checked + .form-radio__button::after {
-            $inset: #{map.get(s.$form, "input", "border") * 2};
+        + .form-radio__button::after {
             display: block;
             position: absolute;
-            inset: calc(0.75ex + $inset) calc(1ch + $inset) calc(0.75ex + $inset) calc(1.5ch + $inset);
+
+            // top: calc(0.75ex + $inset);
+            // left: calc(1.5ch + $inset);
+            top: 50%;
+            left: calc(1.5ch + $inset);
+
+            width: 0;
+            height: 0;
+            transform: translate(0, -50%);
 
             background: radial-gradient(
                 circle at 6px 6px,
@@ -60,6 +67,15 @@
             border-radius: 100dvw;
 
             content: "";
+
+            transition:
+                width map.get(ti.$timings, "fast") ease,
+                height map.get(ti.$timings, "fast") ease;
+        }
+
+        &:checked + .form-radio__button::after {
+            width: calc(24px - $inset * 2);
+            height: calc(24px - $inset * 2);
         }
     }
 }

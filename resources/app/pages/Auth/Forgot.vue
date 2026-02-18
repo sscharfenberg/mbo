@@ -6,7 +6,7 @@ import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/Visual/Headline.vue";
 defineOptions({ layout: NarrowLayout });
 const types = [
-    { value: "password", label: "Passwort", checked: true },
+    { value: "password", label: "Passwort ganz besonders lang was passiert wenn es umbricht", checked: true },
     { value: "name", label: "Username", checked: false }
 ];
 </script>

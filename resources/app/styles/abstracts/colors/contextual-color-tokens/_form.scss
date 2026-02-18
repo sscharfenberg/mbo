@@ -105,7 +105,7 @@ $form: (
         "surface-checked": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark2", "contrast"))
     ),
     "radio": (
-        "inner": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
-        "outer": light-dark(map.get(c.$brand, "dark1", "contrast"), map.get(c.$brand, "light1", "contrast"))
+        "inner": map.get(c.$brand, "light1", "color"),
+        "outer": map.get(c.$brand, "light1", "contrast")
     )
 ) !default;
