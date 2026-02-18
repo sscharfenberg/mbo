@@ -34,7 +34,7 @@
             "nav-label": "Wenn Sie sich nicht anmelden können, verwenden Sie diese Links.",
             "submit": "Anmelden"
         },
-        "forgot-access": {
+        "forgot": {
             "title": "Probleme beim Anmelden?",
             "link": "Probleme beim Anmelden?"
         },

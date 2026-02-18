@@ -31,6 +31,9 @@ Route::get('/login', [\App\Http\Controllers\User\AuthController::class, 'loginVi
 Route::get('/verify-email/{id}/{hash}', \App\Http\Controllers\User\VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verify-email');
+// forget password or username
+Route::get('/forgot', [\App\Http\Controllers\User\ForgotController::class, 'show'])
+    ->name('forgot');
 
 /******************************************************************************
  * Authed pages

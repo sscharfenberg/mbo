@@ -1,0 +1,16 @@
+@use "sass:map";
+@use "Abstracts/sizes" as s;
+@use "Abstracts/colors" as c;
+@use "Abstracts/timings" as ti;
+
+.radio-group {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    padding: 0;
+    margin: 0;
+    gap: 0.5lh;
+
+    list-style-type: none;
+}

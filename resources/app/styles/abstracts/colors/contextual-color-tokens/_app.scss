@@ -1,6 +1,6 @@
 @use "sass:map"; // https://sass-lang.com/documentation/modules/map
 @use "sass:color"; // https://sass-lang.com/documentation/modules/color
-@use "global-color-tokens" as c;
+@use "../global-color-tokens" as c;
 
 // app base colors
 $app: (

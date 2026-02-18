@@ -1,0 +1,98 @@
+/******************************************************************************
+ * contextual color tokens
+ * @type {Sass}
+ * these variables are used in other scss files or vue components.
+ * this file gets @forwarded from ../_group.scss
+ * Usage
+ * @use "Abstracts/colors" as c;
+ *****************************************************************************/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../global-color-tokens" as c;
+@use "app" as a;
+@use "flash" as f;
+@use "form" as fo;
+
+// header colors
+$header: () !default;
+
+// colors for main landmark
+$main: (
+    "headline": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color"))
+) !default;
+
+// frosted glass insert
+$glass: (
+    "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "black")) h s l / 25%),
+    "surface": light-dark(#000, #fff),
+    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
+    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
+) !default;
+
+// popover component
+$popover: (
+    "background": light-dark(
+            color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
+            color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
+        ),
+    "item-background": light-dark(
+            color.adjust(map.get(c.$grey, "infra"), $alpha: -0.5),
+            color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.5)
+        ),
+    "item-background-hover": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+    "item-background-selected": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "item-surfcace-selected": light-dark(
+            map.get(c.$brand, "light1", "contrast"),
+            map.get(c.$brand, "dark1", "contrast")
+        ),
+    "item-surface": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
+    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
+    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
+) !default;
+
+// theme switch component
+$theme: (
+    "background": light-dark(map.get(c.$grey, "astral"), map.get(c.$grey, "ebony")),
+    "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+    "background-selected": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "surface-selected": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast"))
+) !default;
+
+// styles for app-button
+$button: (
+    "rainbow": (
+        "100": light-dark(map.get(c.$rainbow, "light", "100"), map.get(c.$rainbow, "dark", "100")),
+        "200": light-dark(map.get(c.$rainbow, "light", "200"), map.get(c.$rainbow, "dark", "200")),
+        "300": light-dark(map.get(c.$rainbow, "light", "300"), map.get(c.$rainbow, "dark", "300")),
+        "400": light-dark(map.get(c.$rainbow, "light", "400"), map.get(c.$rainbow, "dark", "400"))
+    ),
+    "background": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+    "surface": light-dark(#000, #fff),
+    "background-disabled": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "abbey")),
+    "surface-disabled": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "border-disabled": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "asher"))
+) !default;
+
+// colors for search results
+$search: () !default;
+
+// colors for footer landmark
+$footer: (
+    "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "bunker")) h s l / 25%),
+    "surface": light-dark(#000, #fff),
+    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
+    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker"))
+) !default;
+
+/******************************************************************************
+ * contextual color tokens in external files
+ *****************************************************************************/
+
+// app base colors
+$app: a.$app !default;
+
+// flash base colors
+$flash: f.$flash !default;
+
+// colors for form inputs
+$form: fo.$form !default;

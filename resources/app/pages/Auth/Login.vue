@@ -64,9 +64,7 @@ const showPassword = ref(false);
         <form-group>
             <link-group :label="$t('pages.login.nav-label')">
                 <Link v-if="canRegister" class="text-link" href="/register">{{ $t("pages.register.link") }}</Link>
-                <Link v-if="canResetPassword" class="text-link" href="/forgot">{{
-                    $t("pages.forgot-access.link")
-                }}</Link>
+                <Link v-if="canResetPassword" class="text-link" href="/forgot">{{ $t("pages.forgot.link") }}</Link>
             </link-group>
         </form-group>
     </Form>

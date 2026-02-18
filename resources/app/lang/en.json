@@ -34,7 +34,7 @@
             "nav-label": "If you can't login, use these links.",
             "submit": "Login"
         },
-        "forgot-access": {
+        "forgot": {
             "title": "Can't login?",
             "link": "Can't login?"
         },
