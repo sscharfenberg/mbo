@@ -19,6 +19,9 @@ const types = [
     >
     <headline>{{ $t("pages.forgot.title") }}</headline>
     <Form action="/login" method="post" class="form" #default="{ errors, valid, invalid, validating, validate }">
+        <form-group for-id="type_password">
+            <radio-button-group name="type" :radio-buttons="types" />
+        </form-group>
         <form-group
             for-id="email"
             :label="$t('form.fields.email')"
@@ -30,9 +33,6 @@ const types = [
             :required="true"
         >
             <input type="email" name="email" id="email" @change="validate('email')" class="form-input" />
-        </form-group>
-        <form-group for-id="type_password">
-            <radio-button-group name="type" :radio-buttons="types" />
         </form-group>
     </Form>
 </template>
