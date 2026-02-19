@@ -22,18 +22,21 @@ Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint']
  * Auth pages, not logged in
  *****************************************************************************/
 // register
-Route::get('/register', [\App\Http\Controllers\User\AuthController::class, 'registerView'])
+Route::get('/register', [\App\Http\Controllers\Auth\AuthController::class, 'registerView'])
     ->name('register');
 // login
-Route::get('/login', [\App\Http\Controllers\User\AuthController::class, 'loginView'])
+Route::get('/login', [\App\Http\Controllers\Auth\AuthController::class, 'loginView'])
     ->name('login');
 // email verification (no auth required - uses signed URL)
-Route::get('/verify-email/{id}/{hash}', \App\Http\Controllers\User\VerifyEmailController::class)
+Route::get('/verify-email/{id}/{hash}', \App\Http\Controllers\Auth\VerifyEmailController::class)
     ->middleware(['signed', 'throttle:6,1'])
     ->name('verify-email');
-// forget password or username
-Route::get('/forgot', [\App\Http\Controllers\User\ForgotController::class, 'show'])
+// forgot password or username
+Route::get('/forgot', [\App\Http\Controllers\Auth\ForgotController::class, 'show'])
     ->name('forgot');
+Route::post('/forgot', [\App\Http\Controllers\Auth\ForgotController::class, 'store'])
+    ->middleware(\App\Http\Middleware\HandleControllerPrecognitiveRequest::class)
+    ->name('forgot.store');
 
 /******************************************************************************
  * Authed pages

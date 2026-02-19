@@ -15,4 +15,19 @@ return [
         'line2' => 'Wenn Sie kein Benutzerkonto erstellt haben, ist keine weitere Aktion erforderlich.',
     ],
 
+    'reset' => [
+        'subject' => 'Passwort zurücksetzen',
+        'line1' => 'Sie erhalten diese E-Mail, weil wir eine Anfrage zum Zurücksetzen des Passwortes für Ihr Konto erhalten haben.',
+        'action' => 'Passwort zurücksetzen',
+        'line2' => 'Dieser Link zum Zurücksetzen des Passwortes läuft in :count Minuten ab.',
+        'line3' => 'Wenn Sie kein Zurücksetzen des Passwortes angefordert haben, ist keine weitere Aktion erforderlich.',
+    ],
+
+    'username' => [
+        'subject' => 'Ihr Benutzername',
+        'line1' => 'Sie erhalten diese E-Mail, weil wir eine Anfrage zur Erinnerung an Ihren Benutzernamen erhalten haben.',
+        'line2' => 'Ihr Benutzername lautet: :name',
+        'line3' => 'Wenn Sie diese Anfrage nicht gestellt haben, ist keine weitere Aktion erforderlich.',
+    ],
+
 ];

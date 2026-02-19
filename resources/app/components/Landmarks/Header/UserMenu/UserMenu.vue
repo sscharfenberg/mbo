@@ -25,27 +25,27 @@ const closePopover = () => {
     >
         <ul class="popover-list popover-list--short">
             <li v-if="!user">
-                <Link class="popover-list-item" href="/register" @click="closePopover">
-                    <icon name="register" :size="1" />
-                    {{ $t("pages.register.link") }}
-                </Link>
-            </li>
-            <li v-if="!user">
                 <Link class="popover-list-item" href="/login" @click="closePopover">
                     <icon name="login" :size="1" />
                     {{ $t("pages.login.link") }}
                 </Link>
             </li>
-            <li v-if="user">
-                <Link class="popover-list-item" href="/logout" method="post" @click="handleLogout">
-                    <icon name="logout" :size="1" />
-                    {{ $t("header.user.logout") }}
+            <li v-if="!user">
+                <Link class="popover-list-item" href="/register" @click="closePopover">
+                    <icon name="register" :size="1" />
+                    {{ $t("pages.register.link") }}
                 </Link>
             </li>
             <li v-if="user">
                 <Link class="popover-list-item" href="/dashboard" @click="closePopover">
                     <icon name="user-settings" :size="1" />
                     {{ $t("pages.dashboard.link") }}
+                </Link>
+            </li>
+            <li v-if="user">
+                <Link class="popover-list-item" href="/logout" method="post" @click="handleLogout">
+                    <icon name="logout" :size="1" />
+                    {{ $t("header.user.logout") }}
                 </Link>
             </li>
             <li><theme-switch /></li>

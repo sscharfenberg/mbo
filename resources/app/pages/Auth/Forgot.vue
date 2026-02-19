@@ -22,7 +22,7 @@ const types = [
     >
     <headline-2>{{ $t("pages.forgot.title") }}</headline-2>
     <Form
-        action="/login"
+        action="/forgot"
         method="post"
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"

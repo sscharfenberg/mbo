@@ -23,7 +23,8 @@ return [
         'email' => [
             'required' => 'Please enter the email address.',
             'email' => 'This does not seem to be a valid e-mail-address.',
-            'max' => 'The e-mail can not have more than :max characters.'
+            'max' => 'The e-mail can not have more than :max characters.',
+            'unique' => 'This e-mail has already been taken.'
         ],
         'password' => [
             'required' => 'Please enter the password.',

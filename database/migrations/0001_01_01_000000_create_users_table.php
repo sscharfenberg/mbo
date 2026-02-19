@@ -17,7 +17,7 @@ return new class extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
             $table->uuid('id')->primary();
             $table->string('name', config('mbo.db.user.name.max'))->unique();
-            $table->string('email');
+            $table->string('email')->unique();
             $table->enum('locale', config('mbo.app.supportedLocales'))->default(config('app.locale'));
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

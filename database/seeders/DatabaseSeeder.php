@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $start = hrtime(true);
+        $this->call([
+            UserSeeder::class
         ]);
+        $execution = hrtime(true) - $start;
+        echo("Database seeding took \033[92m".$execution/1e+9."\033[39m seconds.\n\n");
     }
 }

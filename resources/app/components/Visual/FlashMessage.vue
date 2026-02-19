@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onUnmounted, ref, watch } from "vue";
 import Icon from "Components/Visual/Icon.vue";
 export type Type = "info" | "warning" | "error" | "success";
 const classList = computed(() => {
@@ -10,20 +10,27 @@ const classList = computed(() => {
 });
 const page = usePage();
 const showFlash = ref(false);
+let dismissTimer: ReturnType<typeof setTimeout> | null = null;
 const onKeyPress = (ev: KeyboardEvent) => {
     if (ev.key === "Escape") showFlash.value = false;
 };
-onMounted(() => {
-    if (page.props.flash.message?.length) {
-        showFlash.value = true;
-        window.setTimeout(() => {
-            showFlash.value = false;
-            document.removeEventListener("keydown", onKeyPress);
-        }, 7000);
-        document.addEventListener("keydown", onKeyPress);
-    }
-});
+watch(
+    () => page.props.flash.message,
+    (message) => {
+        if (dismissTimer) clearTimeout(dismissTimer);
+        if (message?.length) {
+            showFlash.value = true;
+            document.addEventListener("keydown", onKeyPress);
+            dismissTimer = setTimeout(() => {
+                showFlash.value = false;
+                document.removeEventListener("keydown", onKeyPress);
+            }, 7000);
+        }
+    },
+    { immediate: true }
+);
 onUnmounted(() => {
+    if (dismissTimer) clearTimeout(dismissTimer);
     document.removeEventListener("keydown", onKeyPress);
 });
 const iconName = computed(() => {

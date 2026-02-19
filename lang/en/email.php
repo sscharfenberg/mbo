@@ -15,4 +15,19 @@ return [
         'line2' => 'If you did not create an account, no further action is required.',
     ],
 
+    'reset' => [
+        'subject' => 'Reset Password',
+        'line1' => 'You are receiving this email because we received a password reset request for your account.',
+        'action' => 'Reset Password',
+        'line2' => 'This password reset link will expire in :count minutes.',
+        'line3' => 'If you did not request a password reset, no further action is required.',
+    ],
+
+    'username' => [
+        'subject' => 'Your Username',
+        'line1' => 'You are receiving this email because we received a username reminder request for your account.',
+        'line2' => 'Your username is: :name',
+        'line3' => 'If you did not request this, no further action is required.',
+    ],
+
 ];

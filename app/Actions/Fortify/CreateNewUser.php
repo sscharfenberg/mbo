@@ -39,6 +39,7 @@ class CreateNewUser implements CreatesNewUsers
                     'string',
                     'email:rfc,dns',
                     'max:255',
+                    'unique:users'
                 ],
                 'password' => $this->passwordRules(),
                 'password_confirmation' => ['same:password'],
