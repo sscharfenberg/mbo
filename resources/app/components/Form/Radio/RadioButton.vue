@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Icon from "Components/Visual/Icon.vue";
-
 defineProps<{
     value: string;
     name: string;

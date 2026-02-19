@@ -5,7 +5,7 @@ import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline from "Components/Visual/Headline.vue";
+import Headline2 from "Components/Visual/Headline2.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import PasswordStrength from "Components/Visual/PasswordStrength.vue";
@@ -45,14 +45,14 @@ const onPasswordChange = debounce(
     <Head
         ><title>{{ $t("pages.register.title") }}</title></Head
     >
-    <headline>{{ $t("pages.register.title") }}</headline>
+    <headline-2>{{ $t("pages.register.title") }}</headline-2>
     <Form
         action="/register"
         method="post"
         class="form"
         #default="{ errors, processing, validate, validating, invalid, valid }"
     >
-        <form-legend :required="true" />
+        <form-legend :required="true" :password="true">{{ $t("pages.register.intro") }}</form-legend>
         <form-group
             for-id="name"
             :label="$t('form.fields.username')"

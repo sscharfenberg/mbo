@@ -26,6 +26,7 @@
         "register": {
             "title": "Registration",
             "link": "Registration",
+            "intro": "After registering, we will send you a link to verify your e-mail address. You can login after verifying your e-mail address.",
             "submit": "Register"
         },
         "login": {
@@ -37,10 +38,12 @@
         "forgot": {
             "title": "Can't login?",
             "link": "Can't login?",
+            "intro": "If you can't access your user account, we can send you either your user name or a link that resets your password. Simply select either password or user name, and provide your e-mail address.",
             "type": {
                 "password": "Forgot password",
                 "username": "Forgot username"
-            }
+            },
+            "submit": "Request"
         },
         "dashboard": {
             "title": "My Useraccount",
@@ -57,7 +60,8 @@
     },
     "form": {
         "legend": {
-            "required": "Fields marked with a {icon} are required."
+            "required": "Fields marked with a {icon} are required.",
+            "password": "When entering your password, we check if the password is secure enough. Insecure passwords are rejected."
         },
         "fields": {
             "username": "Username",

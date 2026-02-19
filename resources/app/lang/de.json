@@ -26,6 +26,7 @@
         "register": {
             "title": "Registrierung",
             "link": "Registrierung",
+            "intro": "Nach der Registrierung schicken wir Ihnen einen Link zur Bestätigung der E-Mail-Adresse. Sie können sich erst einloggen wenn die E-Mail-Adresse bestätigt wurde.",
             "submit": "Registrieren"
         },
         "login": {
@@ -37,10 +38,12 @@
         "forgot": {
             "title": "Probleme beim Anmelden?",
             "link": "Probleme beim Anmelden?",
+            "intro": "Wenn Sie sich nicht anmelden können, können wir Ihnen entweder Ihren Benutzername oder einen Link zum Zurücksetzen des Passworts schicken. Wählen Sie dafür das Passwort oder den Benutzernamen aus, und geben Sie die hinterlegte E-Mail-Adresse an.",
             "type": {
                 "password": "Passwort vergessen",
                 "username": "Benutzername vergessen"
-            }
+            },
+            "submit": "Anfordern"
         },
         "dashboard": {
             "title": "Mein Benutzerkonto",
@@ -57,7 +60,8 @@
     },
     "form": {
         "legend": {
-            "required": "Felder die mit einem {icon} gekennzeichnet sind, müssen ausgefüllt werden."
+            "required": "Felder die mit einem {icon} gekennzeichnet sind, müssen ausgefüllt werden.",
+            "password": "Während der Eingabe des Passwortes prüfen wir ob das Passwort sicher genug ist. Unsichere Passwörter werden abgewiesen."
         },
         "fields": {
             "username": "Benutzername",

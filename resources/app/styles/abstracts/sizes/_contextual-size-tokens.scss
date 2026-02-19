@@ -62,7 +62,11 @@ $header: (
 
 // size tokens for main landmark
 $main: (
-    "max-narrow": map.get(s.$breakpoints, "landscape")
+    "max-narrow": map.get(s.$breakpoints, "landscape"),
+    "headline2": (
+        "font": 2rem,
+        "border": map.get(s.$border, "base")
+    )
 ) !default;
 
 // size tokens for frosted glass

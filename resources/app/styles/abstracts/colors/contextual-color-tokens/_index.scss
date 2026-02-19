@@ -18,7 +18,13 @@ $header: () !default;
 
 // colors for main landmark
 $main: (
-    "headline": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color"))
+    "headline2": (
+        "surface": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color")),
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            )
+    )
 ) !default;
 
 // frosted glass insert

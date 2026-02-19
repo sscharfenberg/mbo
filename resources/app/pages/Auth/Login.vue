@@ -5,7 +5,7 @@ import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline from "Components/Visual/Headline.vue";
+import Headline2 from "Components/Visual/Headline2.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LinkGroup from "Components/Visual/LinkGroup.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
@@ -22,7 +22,7 @@ const showPassword = ref(false);
     <Head
         ><title>{{ $t("pages.login.title") }}</title></Head
     >
-    <headline>{{ $t("pages.login.title") }}</headline>
+    <headline-2>{{ $t("pages.login.title") }}</headline-2>
     Status: {{ status }}<br />
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
         <form-legend :required="true" />

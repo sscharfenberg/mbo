@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/entropy',
-    [\App\Http\Controllers\Api\Auth\EntropyController::class, 'calculate']
+    [\App\Http\Controllers\Auth\EntropyController::class, 'calculate']
 );
