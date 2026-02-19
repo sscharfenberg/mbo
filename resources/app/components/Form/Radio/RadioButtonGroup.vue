@@ -5,6 +5,7 @@ interface RadioButton {
     value: string;
     label: string;
     checked: boolean;
+    icon?: string;
 }
 defineProps<{
     name: string;
@@ -15,9 +16,15 @@ defineProps<{
 </script>
 
 <template>
-    <ul role="list" class="radio-group" aria-label="Verfügbare Optionen">
+    <ul role="list" class="radio-group" :aria-label="$t('form.elements.radio-group')">
         <li v-for="button in radioButtons" :key="button.value" class="radio-group__item">
-            <radio-button :value="button.value" :name="name" :label="button.label" :checked="button.checked" />
+            <radio-button
+                :value="button.value"
+                :name="name"
+                :label="button.label"
+                :checked="button.checked"
+                :icon="button.icon"
+            />
         </li>
     </ul>
 </template>

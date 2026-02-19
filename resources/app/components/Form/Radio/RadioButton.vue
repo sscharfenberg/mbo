@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import Icon from "Components/Visual/Icon.vue";
+
 defineProps<{
     value: string;
     name: string;
     label?: string;
     checked: boolean;
+    icon?: string;
 }>();
 const emit = defineEmits(["change"]);
 const onChange = (ev: Event) => emit("change", ev);
@@ -20,6 +23,9 @@ const onChange = (ev: Event) => emit("change", ev);
             @change="onChange"
         />
         <span class="form-radio__button" />
-        <span v-if="label?.length" class="form-radio__label">{{ label }}</span>
+        <span v-if="label?.length" class="form-radio__label">
+            <icon v-if="icon?.length" :name="icon" />
+            {{ label }}
+        </span>
     </label>
 </template>

@@ -16,6 +16,11 @@
 
     cursor: pointer;
 
+    transition:
+        background-color map.get(ti.$timings, "fast") linear,
+        color map.get(ti.$timings, "fast") linear,
+        border-color map.get(ti.$timings, "fast") linear;
+
     &__button {
         display: flex;
         position: relative;
@@ -39,6 +44,14 @@
         }
     }
 
+    &__label {
+        display: flex;
+        align-items: center;
+
+        padding: 0.75ex 1.5ch;
+        gap: 0.5ch;
+    }
+
     input[type="radio"] {
         $inset: #{map.get(s.$form, "input", "border") * 2};
         visibility: hidden;
@@ -50,8 +63,6 @@
             display: block;
             position: absolute;
 
-            // top: calc(0.75ex + $inset);
-            // left: calc(1.5ch + $inset);
             top: 50%;
             left: calc(1.5ch + $inset);
 
@@ -76,6 +87,23 @@
         &:checked + .form-radio__button::after {
             width: calc(24px - $inset * 2);
             height: calc(24px - $inset * 2);
+        }
+    }
+
+    &:hover {
+        background-color: map.get(c.$form, "input", "background-focus");
+        color: map.get(c.$form, "input", "surface-focus");
+    }
+
+    &:has(input[type="radio"]:checked) {
+        border-color: map.get(c.$form, "input", "border-focus");
+
+        .form-radio__button {
+            border-right-color: map.get(c.$form, "input", "border-focus");
+        }
+
+        .form-radio__label {
+            color: map.get(c.$form, "radio", "surface-checked");
         }
     }
 }

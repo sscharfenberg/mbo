@@ -36,7 +36,11 @@
         },
         "forgot": {
             "title": "Probleme beim Anmelden?",
-            "link": "Probleme beim Anmelden?"
+            "link": "Probleme beim Anmelden?",
+            "type": {
+                "password": "Passwort vergessen",
+                "username": "Benutzername vergessen"
+            }
         },
         "dashboard": {
             "title": "Mein Benutzerkonto",
@@ -61,6 +65,9 @@
             "password": "Passwort",
             "password_confirmation": "Passwort bestätigen",
             "remember": "Login merken"
+        },
+        "elements": {
+            "radio-group": "Verfügbare Optionen"
         }
     }
 }

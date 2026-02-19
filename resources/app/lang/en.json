@@ -36,7 +36,11 @@
         },
         "forgot": {
             "title": "Can't login?",
-            "link": "Can't login?"
+            "link": "Can't login?",
+            "type": {
+                "password": "Forgot password",
+                "username": "Forgot username"
+            }
         },
         "dashboard": {
             "title": "My Useraccount",
@@ -61,6 +65,9 @@
             "password": "Password",
             "password_confirmation": "Repeat Password",
             "remember": "Remember me"
+        },
+        "elements": {
+            "radio-group": "Available options"
         }
     }
 }
