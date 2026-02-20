@@ -37,6 +37,13 @@ Route::get('/forgot', [\App\Http\Controllers\Auth\ForgotController::class, 'show
 Route::post('/forgot', [\App\Http\Controllers\Auth\ForgotController::class, 'store'])
     ->middleware(\App\Http\Middleware\HandleControllerPrecognitiveRequest::class)
     ->name('forgot.store');
+// reset password
+Route::get('reset-password', [\App\Http\Controllers\Auth\NewPasswordController::class, 'show'])
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('password.reset');
+Route::post('reset-password', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+    ->middleware(['guest:'.config('fortify.guard'), \App\Http\Middleware\HandleControllerPrecognitiveRequest::class])
+    ->name('password.reset');
 
 /******************************************************************************
  * Authed pages

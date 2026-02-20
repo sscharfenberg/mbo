@@ -24,7 +24,8 @@ return [
             'required' => 'Bitte geben Sie die E-Mail-Adresse an.',
             'email' => 'Dies scheint keine gültige E-Mail-Adresse zu sein.',
             'max' => 'Die E-Mail-Adresse darf nicht mehr als :max Zeichen enthalten.',
-            'unique' => 'Diese E-Mail-Adresse wird bereits verwendet.'
+            'unique' => 'Diese E-Mail-Adresse wird bereits verwendet.',
+            'exists' => 'Diese E-Mail-Adresse existiert nicht.'
         ],
         'password' => [
             'required' => 'Bitte geben Sie das Passwort an.',

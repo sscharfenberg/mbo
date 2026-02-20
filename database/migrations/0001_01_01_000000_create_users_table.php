@@ -32,13 +32,8 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->uuid('id')->primary();
+            $table->string('email')->primary();
             $table->string('token');
-            $table->foreignUuid('user_id')
-                ->constrained()
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
             $table->timestamp('created_at')->nullable();
         });
 

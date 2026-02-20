@@ -45,6 +45,11 @@
             },
             "submit": "Anfordern"
         },
+        "reset-password": {
+            "title": "Passwort zurücksetzen",
+            "intro": "Geben Sie Ihr neues Passwort ein. Nach dem Speichern können Sie sich mit dem neuen Passwort anmelden.",
+            "submit": "Speichern"
+        },
         "dashboard": {
             "title": "Mein Benutzerkonto",
             "link": "Benutzerkonto"

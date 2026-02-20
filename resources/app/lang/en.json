@@ -45,6 +45,11 @@
             },
             "submit": "Request"
         },
+        "reset-password": {
+            "title": "Reset password",
+            "intro": "Enter your new password. After saving you can login using your new password.",
+            "submit": "Save"
+        },
         "dashboard": {
             "title": "My Useraccount",
             "link": "Useraccount"

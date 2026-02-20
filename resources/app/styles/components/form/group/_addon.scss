@@ -15,13 +15,14 @@
         border-radius: map.get(s.$form, "input", "radius");
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
+    }
 
-        &:focus,
-        &:focus-visible {
-            background-color: map.get(c.$form, "input", "background-focus");
-            color: map.get(c.$form, "input", "surface-focus");
-            border-color: map.get(c.$form, "input", "border-focus");
-        }
+    &:has(input:not([readonly])):focus .form-group__addon,
+    &:has(input:not([readonly])):focus-visible .form-group__addon,
+    &:has(input:not([readonly])):focus-within .form-group__addon {
+        background-color: map.get(c.$form, "input", "background-focus");
+        color: map.get(c.$form, "input", "surface-focus");
+        border-color: map.get(c.$form, "input", "border-focus");
     }
 
     &:has(.form-group__addon) .form-input {
@@ -29,11 +30,5 @@
 
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-    }
-
-    &:focus-within .form-group__addon {
-        background-color: map.get(c.$form, "input", "background-focus");
-        color: map.get(c.$form, "input", "surface-focus");
-        border-color: map.get(c.$form, "input", "border-focus");
     }
 }
