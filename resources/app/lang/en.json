@@ -59,13 +59,10 @@
         "dashboard": {
             "title": "My Useraccount",
             "link": "Useraccount",
-            "theme": {
-                "headline": "Change theme",
-                "intro": "You can change the theme of the site by either forcing dark of light mode, or using the (default) settings of your operating system."
-            },
             "password": {
                 "headline": "Change Password",
-                "intro": "You can change your password by entering the current password and the new password."
+                "intro": "You can change your password by entering the current password and the new password.",
+                "submit": "Change"
             },
             "profile": {
                 "headline": "Update Profile",
@@ -93,6 +90,8 @@
         "fields": {
             "username": "Username",
             "email": "E-Mail",
+            "current_password": "Current password",
+            "new_password": "New password",
             "password": "Password",
             "password_confirmation": "Repeat Password",
             "remember": "Remember me"

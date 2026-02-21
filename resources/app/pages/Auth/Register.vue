@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Form, Head, usePage } from "@inertiajs/vue3";
-import { debounce } from "lodash-es";
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
@@ -9,36 +8,11 @@ import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import PasswordStrength from "Components/Visual/PasswordStrength.vue";
+import { usePasswordEntropy } from "Composables/usePasswordEntropy";
 defineOptions({ layout: NarrowLayout });
 const page = usePage();
-const password = ref("");
-const score = ref(null);
+const { password, score, onPasswordChange } = usePasswordEntropy();
 const showPassword = ref(false);
-const onPasswordChange = debounce(
-    () => {
-        if (!password.value.length) return;
-        fetch("/api/auth/entropy", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify({ p: password.value })
-        })
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                score.value = data.score;
-            })
-            .catch(error => {
-                console.error(error);
-            })
-            .finally(() => {
-                console.log("entropy check finished.");
-            });
-    },
-    750,
-    { maxWait: 5000 }
-);
 </script>
 
 <template>

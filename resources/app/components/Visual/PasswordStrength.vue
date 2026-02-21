@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import Icon from "Components/Visual/Icon.vue";
 
 const props = defineProps({
     score: {
@@ -26,6 +27,8 @@ const barWidth = computed(() => {
         >
             <div class="password-strength__bar" />
         </div>
+        <icon v-if="score >= 3" name="check" />
+        <icon v-if="score < 3" name="warning" />
     </div>
 </template>
 
@@ -35,9 +38,13 @@ const barWidth = computed(() => {
 @use "Abstracts/sizes" as s;
 
 .password-strength {
+    display: flex;
+    align-items: center;
+
     padding: map.get(s.$form, "password-strength", "padding");
     border: map.get(s.$form, "password-strength", "border") solid map.get(c.$form, "password-strength", "border");
     margin-top: 1ex;
+    gap: 1ch;
 
     background-color: map.get(c.$form, "password-strength", "background");
     border-radius: map.get(s.$form, "password-strength", "radius");
@@ -46,6 +53,7 @@ const barWidth = computed(() => {
         --bar-width: v-bind(barWidth);
 
         position: relative;
+        flex-grow: 1;
 
         height: 2ex;
         border: map.get(s.$form, "password-strength", "meter-border") solid
@@ -67,6 +75,22 @@ const barWidth = computed(() => {
         border-bottom-right-radius: map.get(s.$form, "password-strength", "meter-radius");
 
         transition: width 500ms linear;
+    }
+
+    .icon {
+        padding: 0.2ex;
+
+        border-radius: 90dvh;
+
+        &.check {
+            background-color: map.get(c.$form, "password-strength", "pass", "background");
+            color: map.get(c.$form, "password-strength", "pass", "surface");
+        }
+
+        &.warning {
+            background-color: map.get(c.$form, "password-strength", "fail", "background");
+            color: map.get(c.$form, "password-strength", "fail", "surface");
+        }
     }
 }
 </style>

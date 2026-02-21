@@ -1,59 +1,55 @@
 <script setup lang="ts">
-import { Form, Head } from "@inertiajs/vue3";
+import { Form } from "@inertiajs/vue3";
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
-import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import PasswordStrength from "Components/Visual/PasswordStrength.vue";
 import { usePasswordEntropy } from "Composables/usePasswordEntropy";
-defineOptions({ layout: NarrowLayout });
-const props = defineProps<{
-    token: string;
-    email: string;
-}>();
-const inputEmail = ref(props.email);
 const { password, score, onPasswordChange } = usePasswordEntropy();
 const showPassword = ref(false);
 </script>
 
 <template>
-    <Head
-        ><title>{{ $t("pages.reset-password.title") }}</title></Head
-    >
-    <headline>{{ $t("pages.reset-password.title") }}</headline>
     <Form
-        action="/reset-password"
+        action="/dashboard/password"
         method="post"
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend>{{ $t("pages.reset-password.intro") }}</form-legend>
+        <form-legend :required="true">{{ $t("pages.dashboard.password.intro") }}</form-legend>
         <form-group
-            for-id="email"
-            :label="$t('form.fields.email')"
-            :error="errors.email"
-            :invalid="false"
-            :validated="true"
+            for-id="current_password"
+            :label="$t('form.fields.current_password')"
+            :error="errors.current_password"
+            :invalid="invalid('current_password')"
+            :validated="valid('current_password')"
             :validating="validating"
-            addon-icon="mail"
             :required="true"
         >
+            <template #addon>
+                <button
+                    class="form-group__addon"
+                    @click.prevent="showPassword = !showPassword"
+                    :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                    tabindex="-1"
+                >
+                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                </button>
+            </template>
             <input
-                type="email"
-                name="email"
-                id="email"
-                @change="validate('email')"
+                :type="showPassword ? 'text' : 'password'"
+                name="current_password"
+                id="current_password"
+                @change="validate('current_password')"
+                @keyup="onPasswordChange"
                 class="form-input"
-                v-model="inputEmail"
-                readonly
             />
         </form-group>
         <form-group
             for-id="password"
-            :label="$t('form.fields.password')"
+            :label="$t('form.fields.new_password')"
             :error="errors.password"
             :invalid="invalid('password')"
             :validated="valid('password')"
@@ -99,13 +95,18 @@ const showPassword = ref(false);
                 class="form-input"
             />
         </form-group>
-        <input type="hidden" name="token" :value="token" />
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />
-                {{ $t("pages.reset-password.submit") }}
+                {{ $t("pages.dashboard.password.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
         </form-group>
     </Form>
 </template>
+
+<style scoped lang="scss">
+.form {
+    margin: 1em 0;
+}
+</style>

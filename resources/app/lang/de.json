@@ -59,13 +59,10 @@
         "dashboard": {
             "title": "Mein Benutzerkonto",
             "link": "Benutzerkonto",
-            "theme": {
-                "headline": "Erscheinungsbild ändern",
-                "intro": "Sie können das Erscheinungsbild der Website verändern indem Sie den Dunklen oder den Hellen Modus verwenden, oder die Einstellung Ihres Betriebssystemes nutzen (Standardmäßig eingestellt)."
-            },
             "password": {
                 "headline": "Password ändern",
-                "intro": "Sie können Ihr Passwort ändern indem Sie Ihr aktuelles Passwort und das neue Passwort eingeben."
+                "intro": "Sie können Ihr Passwort ändern indem Sie Ihr aktuelles Passwort und das neue Passwort eingeben.",
+                "submit": "Ändern"
             },
             "profile": {
                 "headline": "Profil aktualisieren",
@@ -93,6 +90,8 @@
         "fields": {
             "username": "Benutzername",
             "email": "E-Mail-Adresse",
+            "current_password": "Aktuelles Passwort",
+            "new_password": "Neues Passwort",
             "password": "Passwort",
             "password_confirmation": "Passwort bestätigen",
             "remember": "Login merken"
