@@ -7,15 +7,17 @@ import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import PasswordStrength from "Components/Visual/PasswordStrength.vue";
 import { usePasswordEntropy } from "Composables/usePasswordEntropy";
-const { password, score, onPasswordChange } = usePasswordEntropy();
+const { password, score, onPasswordChange, reset } = usePasswordEntropy();
 const showPassword = ref(false);
 </script>
 
 <template>
     <Form
-        action="/dashboard/password"
+        action="/user/password"
         method="post"
         class="form"
+        resetOnSuccess
+        @success="reset"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
         <form-legend :required="true">{{ $t("pages.dashboard.password.intro") }}</form-legend>
@@ -30,6 +32,7 @@ const showPassword = ref(false);
         >
             <template #addon>
                 <button
+                    type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
                     :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
@@ -58,6 +61,7 @@ const showPassword = ref(false);
         >
             <template #addon>
                 <button
+                    type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
                     :aria-label="showPassword ? 'Hide Password' : 'Show Password'"

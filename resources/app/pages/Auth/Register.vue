@@ -62,6 +62,7 @@ const showPassword = ref(false);
         >
             <template #addon>
                 <button
+                    type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
                     :aria-label="showPassword ? 'Hide Password' : 'Show Password'"

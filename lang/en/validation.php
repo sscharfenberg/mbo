@@ -35,6 +35,9 @@ return [
         ],
         'password_confirmation' => [
             'same' => 'The password confirmation does not match.',
+        ],
+        'current_password' => [
+            'current_password' => 'This password does not match our records.'
         ]
     ],
 

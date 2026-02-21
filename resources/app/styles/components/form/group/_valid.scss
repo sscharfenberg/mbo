@@ -3,7 +3,8 @@
 
 .form-group {
     // green checkbox icon for validated fields
-    &--validated {
+    &--valid,
+    &--invalid {
         display: flex;
         position: absolute;
         top: 10px; // TODO: remove magic number ...
@@ -13,8 +14,8 @@
         width: 20px;
         height: 20px;
 
-        background-color: map.get(c.$form, "input", "background-validated");
-        color: map.get(c.$form, "input", "surface-validated");
+        background-color: map.get(c.$form, "input", "valid", "background");
+        color: map.get(c.$form, "input", "valid", "surface");
         border-radius: 100dvw;
     }
 
@@ -23,5 +24,10 @@
         position: absolute;
         top: 9px; // TODO: remove magic number ...
         right: 1.5ch;
+    }
+
+    &--invalid {
+        background-color: map.get(c.$form, "input", "invalid", "background");
+        color: map.get(c.$form, "input", "invalid", "surface");
     }
 }

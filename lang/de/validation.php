@@ -35,6 +35,9 @@ return [
         ],
         'password_confirmation' => [
             'same' => 'Die Passwort Bestätigung entspricht nicht dem eigentlichen Passwort.',
+        ],
+        'current_password' => [
+            'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.'
         ]
     ],
 

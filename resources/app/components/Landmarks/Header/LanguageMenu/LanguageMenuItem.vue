@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePage } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import { getI18n, loadLocaleMessages, setI18nLanguage } from "@/i18n.ts";
 
@@ -26,12 +27,11 @@ const onLocaleChange = async () => {
     setI18nLanguage(i18n, props.locale);
 
     // 3) persist on the backend via native fetch
-    const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? "";
     await fetch("/lang/" + props.locale, {
-        method: "GET",
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": csrfToken,
+            "X-CSRF-TOKEN": usePage().props.csrfToken as string,
             Accept: "application/json"
         }
     });

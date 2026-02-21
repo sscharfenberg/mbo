@@ -8,12 +8,13 @@ import { type Ref, ref } from "vue";
  * current value to the server-side zxcvbn endpoint, and a reactive score
  * ref (0-4) updated with each response.
  *
- * @returns {{ password: Ref<string>, score: Ref<number | null>, onPasswordChange: DebouncedFunc<() => void> }}
+ * @returns {{ password: Ref<string>, score: Ref<number | null>, onPasswordChange: DebouncedFunc<() => void>, reset: () => void }}
  */
 export function usePasswordEntropy(): {
     password: Ref<string>;
     score: Ref<number | null>;
     onPasswordChange: DebouncedFunc<() => void>;
+    reset: () => void;
 } {
     const password = ref("");
     const score = ref<number | null>(null);
@@ -41,5 +42,10 @@ export function usePasswordEntropy(): {
         { maxWait: 5000 }
     );
 
-    return { password, score, onPasswordChange };
+    const reset = () => {
+        password.value = "";
+        score.value = null;
+    };
+
+    return { password, score, onPasswordChange, reset };
 }

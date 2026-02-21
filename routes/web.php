@@ -6,20 +6,18 @@ use \App\Http\Middleware\HandleControllerPrecognitiveRequest;
 /******************************************************************************
  * Guest pages
  *****************************************************************************/
-Route::middleware(['guest:'.config('fortify.guard')])->group( function() {
-    // Start
-    Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'show'])
-        ->name('welcome');
-    // Language Switcher
-    Route::get('/lang/{locale}', [\App\Http\Controllers\LocaleController::class, 'update'])
-        ->name('locale');
-    // Privacy
-    Route::get('/privacy', [\App\Http\Controllers\GuestController::class, 'privacy'])
-        ->name('privacy');
-    // Imprint
-    Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint'])
-        ->name('imprint');
-});
+// Start
+Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'show'])
+    ->name('welcome');
+// Language Switcher (accessible to both guests and authenticated users)
+Route::post('/lang/{locale}', [\App\Http\Controllers\LocaleController::class, 'update'])
+    ->name('locale');
+// Privacy
+Route::get('/privacy', [\App\Http\Controllers\GuestController::class, 'privacy'])
+    ->name('privacy');
+// Imprint
+Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint'])
+    ->name('imprint');
 
 /******************************************************************************
  * Auth pages, not logged in
@@ -62,4 +60,9 @@ Route::middleware(['auth', 'verified'])->group( function() {
     // Dashboard
     Route::get('/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'show'])
         ->name('dashboard');
+    // Change Password
+    Route::post('/user/password', [\App\Http\Controllers\User\UpdatePasswordController::class, 'store'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('user-password.update');
 });
+

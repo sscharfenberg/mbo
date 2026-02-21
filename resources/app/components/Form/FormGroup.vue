@@ -48,7 +48,7 @@ defineProps({
                 </div>
                 <slot />
                 <loading-spinner v-if="validating" class="form-group--validating colored" :size="1.5" />
-                <div v-if="!validating && validated" class="form-group--validated" aria-label="This field is valid.">
+                <div v-if="!validating && validated" class="form-group--valid" aria-label="This field is valid.">
                     <icon name="check" :size="1" />
                 </div>
             </div>

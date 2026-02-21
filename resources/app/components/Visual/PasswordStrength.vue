@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import Icon from "Components/Visual/Icon.vue";
-
 const props = defineProps({
     score: {
         type: Number,
@@ -27,8 +26,8 @@ const barWidth = computed(() => {
         >
             <div class="password-strength__bar" />
         </div>
-        <icon v-if="score >= 3" name="check" />
-        <icon v-if="score < 3" name="warning" />
+        <div v-if="score >= 3" class="form-group--valid"><icon name="check" :size="1" /></div>
+        <div v-if="score < 3" class="form-group--invalid"><icon name="warning" :size="1" /></div>
     </div>
 </template>
 
@@ -91,6 +90,14 @@ const barWidth = computed(() => {
             background-color: map.get(c.$form, "password-strength", "fail", "background");
             color: map.get(c.$form, "password-strength", "fail", "surface");
         }
+    }
+
+    .form-group--valid,
+    .form-group--invalid {
+        position: relative;
+
+        top: unset;
+        right: unset;
     }
 }
 </style>

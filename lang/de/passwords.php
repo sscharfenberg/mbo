@@ -14,6 +14,7 @@ return [
     */
 
     'reset' => 'Ihr Passwort wurde zurückgesetzt.',
+    'updated' => 'Ihr Passwort wurde aktualisiert.',
     'sent' => 'Falls ein Konto mit dieser E-Mail-Adresse existiert, haben wir einen Link zum Zurücksetzen des Passwortes gesendet.',
     'throttled' => 'Bitte warten Sie bis Sie es erneut versuchen.',
     'token' => 'Diese Passwort-Rücksetzungs URL ist ungültig.',

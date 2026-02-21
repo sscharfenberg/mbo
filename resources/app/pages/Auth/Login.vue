@@ -39,6 +39,7 @@ const showPassword = ref(false);
         <form-group for-id="password" :label="$t('form.fields.password')" :error="errors.password" :required="true">
             <template #addon>
                 <button
+                    type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
                     :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
