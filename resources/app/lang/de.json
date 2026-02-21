@@ -58,7 +58,23 @@
         },
         "dashboard": {
             "title": "Mein Benutzerkonto",
-            "link": "Benutzerkonto"
+            "link": "Benutzerkonto",
+            "theme": {
+                "headline": "Erscheinungsbild ändern",
+                "intro": "Sie können das Erscheinungsbild der Website verändern indem Sie den Dunklen oder den Hellen Modus verwenden, oder die Einstellung Ihres Betriebssystemes nutzen (Standardmäßig eingestellt)."
+            },
+            "password": {
+                "headline": "Password ändern",
+                "intro": "Sie können Ihr Passwort ändern indem Sie Ihr aktuelles Passwort und das neue Passwort eingeben."
+            },
+            "profile": {
+                "headline": "Profil aktualisieren",
+                "intro": "Sie können Ihre E-Mail-Adresse und/oder Ihren Benutzernamen ändern. Wenn Sie eines von beiden ändern, werden Sie abgemeldet und müssen sich mit den neuen Daten neu anmelden. Wenn Sie die E-Mail-Adresse ändern, müssen die E-Mail-Adresse bestätigen, wir schicken Ihnen einen Link zu Bestätigung."
+            },
+            "two-factor": {
+                "headline": "Zwei-Faktor Authentifizierung",
+                "intro": "Sie können die Zwei-Faktor Authentifizierung nutzen um Ihr Benutzerkonto abzusichern."
+            }
         },
         "privacy": {
             "title": "Datenschutzinformationen",

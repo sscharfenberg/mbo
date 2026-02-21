@@ -18,8 +18,23 @@ $header: () !default;
 
 // colors for main landmark
 $main: (
-    "headline2": (
+    "h2": (
         "surface": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color")),
+        "border": light-dark(
+                color.adjust(map.get(c.$brand, "dark1", "color"), $alpha: -0.25),
+                color.adjust(map.get(c.$brand, "light1", "color"), $alpha: -0.25)
+            )
+    ),
+    "h3": (
+        "surface": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color")),
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            )
+    ),
+    "paragraph": (
+        "background": light-dark(color.adjust(#fff, $alpha: -0.25), color.adjust(#000, $alpha: -0.25)),
+        "surface": map.get(a.$app, "surface"),
         "border": light-dark(
                 color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
                 color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)

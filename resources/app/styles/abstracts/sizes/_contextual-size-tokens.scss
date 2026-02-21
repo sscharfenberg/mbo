@@ -63,9 +63,18 @@ $header: (
 // size tokens for main landmark
 $main: (
     "max-narrow": map.get(s.$breakpoints, "landscape"),
-    "headline2": (
+    "h2": (
         "font": 2rem,
         "border": map.get(s.$border, "base")
+    ),
+    "h3": (
+        "font": 1.6rem,
+        "border": map.get(s.$border, "base")
+    ),
+    "paragraph": (
+        "border": map.get(s.$border, "base"),
+        "padding": 0.5lh 1ch,
+        "radius": map.get(s.$radius, "base")
     )
 ) !default;
 

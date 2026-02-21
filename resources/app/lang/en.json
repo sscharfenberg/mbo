@@ -58,7 +58,23 @@
         },
         "dashboard": {
             "title": "My Useraccount",
-            "link": "Useraccount"
+            "link": "Useraccount",
+            "theme": {
+                "headline": "Change theme",
+                "intro": "You can change the theme of the site by either forcing dark of light mode, or using the (default) settings of your operating system."
+            },
+            "password": {
+                "headline": "Change Password",
+                "intro": "You can change your password by entering the current password and the new password."
+            },
+            "profile": {
+                "headline": "Update Profile",
+                "intro": "You can change your E-Mail address and/or your username. If you update either, you will be logged out and need to login with the new data. If you update the E-Mail address, you will need to verify it by clicking on the link."
+            },
+            "two-factor": {
+                "headline": "Two-Factor authentication",
+                "intro": "You can use a two-factor authentication to secure your user account."
+            }
         },
         "privacy": {
             "title": "Privacy policies",

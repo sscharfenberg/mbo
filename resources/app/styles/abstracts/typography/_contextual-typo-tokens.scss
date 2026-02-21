@@ -17,6 +17,7 @@ $header: () !default;
 
 // typo for <main> area
 $main: (
-    "headline2": map.get(t.$font, "headline")
+    "h2": map.get(t.$font, "headline"),
+    "h3": map.get(t.$font, "headline")
 ) !default;
 $footer: () !default;

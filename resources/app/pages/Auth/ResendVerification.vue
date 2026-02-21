@@ -3,7 +3,7 @@ import { Form, Head } from "@inertiajs/vue3";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline2 from "Components/Visual/Headline2.vue";
+import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
@@ -13,7 +13,7 @@ defineOptions({ layout: NarrowLayout });
     <Head
         ><title>{{ $t("pages.resend-verification.title") }}</title></Head
     >
-    <headline-2>{{ $t("pages.resend-verification.title") }}</headline-2>
+    <headline>{{ $t("pages.resend-verification.title") }}</headline>
     <Form
         action="/resend-verification"
         method="post"
