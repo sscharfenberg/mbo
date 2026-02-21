@@ -12,7 +12,7 @@ const props = withDefaults(
     }>(),
     {
         reference: () => Math.random().toString(36).substring(2),
-        width: "20ch"
+        width: "25ch"
     }
 );
 const reference = ref("--" + props.reference);
@@ -46,7 +46,7 @@ const reference = ref("--" + props.reference);
 }
 
 .popover-content {
-    min-width: v-bind(width);
+    width: v-bind(width);
 
     position-anchor: v-bind(reference);
 }

@@ -31,6 +31,12 @@ const closePopover = () => {
                 </Link>
             </li>
             <li v-if="!user">
+                <Link class="popover-list-item" href="/forgot" @click="closePopover">
+                    <icon name="key" :size="1" />
+                    {{ $t("pages.forgot.link") }}
+                </Link>
+            </li>
+            <li v-if="!user">
                 <Link class="popover-list-item" href="/register" @click="closePopover">
                     <icon name="register" :size="1" />
                     {{ $t("pages.register.link") }}

@@ -19,5 +19,6 @@ return [
     'registered' => 'Registrierung erfolgreich. Wir haben Ihnen eine E-Mail mit einem Link zur Bestätigung der E-Mail-Adresse geschickt.',
     'email_verified' => 'Ihre E-Mail-Adresse wurde erfolgreich bestätigt.',
     'email_not_verified' => 'Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden.',
+    'email_already_verified' => 'Diese E-Mail-Adresse wurde bereits bestätigt.',
 
 ];

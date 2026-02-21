@@ -50,6 +50,12 @@
             "intro": "Enter your new password. After saving you can login using your new password.",
             "submit": "Save"
         },
+        "resend-verification": {
+            "title": "Resend verification link",
+            "link": "Resend verification link",
+            "intro": "If your verification link has expired, you can request a new link to verify your e-mail-address. Please supply the e-mail address and the username.",
+            "submit": "Request"
+        },
         "dashboard": {
             "title": "My Useraccount",
             "link": "Useraccount"

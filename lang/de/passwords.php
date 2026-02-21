@@ -19,5 +19,6 @@ return [
     'token' => 'Diese Passwort-Rücksetzungs URL ist ungültig.',
     'user' => "Wir können keinen Benutzer mit dieser E-Mail-Adresse finden.",
     'username_sent' => 'Falls ein Konto mit dieser E-Mail-Adresse existiert, haben wir eine Benutzername-Erinnerung gesendet.',
+    'verification_sent' => 'Falls ein Konto mit dieser E-Mail-Adresse und diesem Benutzernamen existiert, haben wir eine Bestätigungs-E-Mail gesendet.',
 
 ];

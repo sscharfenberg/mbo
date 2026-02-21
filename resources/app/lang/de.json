@@ -50,6 +50,12 @@
             "intro": "Geben Sie Ihr neues Passwort ein. Nach dem Speichern können Sie sich mit dem neuen Passwort anmelden.",
             "submit": "Speichern"
         },
+        "resend-verification": {
+            "title": "Bestätigungs-Link erneut versenden",
+            "link": "Bestätigungs-Link erneut versenden",
+            "intro": "Wenn Ihr Bestätigungs-Link abgelaufen ist, können Sie hier einen neuen Link zur Bestätigung Ihrer E-Mail-Adresse anfordern. Bitte geben Sie dafür Ihren Benutzernamen und die E-Mail-Adresse an.",
+            "submit": "Anfordern"
+        },
         "dashboard": {
             "title": "Mein Benutzerkonto",
             "link": "Benutzerkonto"

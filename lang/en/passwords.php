@@ -19,5 +19,6 @@ return [
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that email address.",
     'username_sent' => 'If an account with that email exists, we have sent a username reminder.',
+    'verification_sent' => 'If an account with that email and username exists, we have sent a verification email.',
 
 ];
