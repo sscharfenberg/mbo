@@ -11,8 +11,11 @@ use Laravel\Fortify\Features;
 class AuthController extends Controller
 {
     /**
-     * @function show "Register" page
-     * @param Request $request
+     * Display the registration page.
+     *
+     * Renders the Inertia registration view where new users can create an account.
+     *
+     * @param  Request  $request
      * @return Response
      */
     public function registerView(Request $request): Response
@@ -21,8 +24,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @function show "Login" page
-     * @param Request $request
+     * Display the login page.
+     *
+     * Renders the Inertia login view, passing Fortify feature flags so the
+     * frontend can conditionally show registration and password-reset links.
+     *
+     * @param  Request  $request
      * @return Response
      */
     public function loginView(Request $request): Response

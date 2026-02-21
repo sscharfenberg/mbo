@@ -7,7 +7,10 @@ use App\Rules\PasswordEntropy;
 trait PasswordValidationRules
 {
     /**
-     * Get the validation rules used to validate passwords.
+     * Get the shared password validation rules.
+     *
+     * Centralises the password requirements (minimum length + entropy check)
+     * so they stay consistent across registration and password reset flows.
      *
      * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
      */

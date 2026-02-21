@@ -9,9 +9,16 @@ use ZxcvbnPhp\Zxcvbn;
 class PasswordEntropy implements ValidationRule
 {
     /**
-     * Run the validation rule.
+     * Validate that a password meets the minimum entropy threshold.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * Uses zxcvbn to estimate real-world password strength. Rejects
+     * passwords with a score below 3 (out of 0-4), which corresponds
+     * roughly to "safely unguessable" against offline attacks.
+     *
+     * @param  string   $attribute
+     * @param  mixed    $value
+     * @param  Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

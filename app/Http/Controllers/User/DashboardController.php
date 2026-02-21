@@ -10,8 +10,12 @@ use Inertia\Response;
 class DashboardController extends Controller
 {
     /**
-     * @function show "Dashboard" page
-     * @param Request $request
+     * Display the user dashboard.
+     *
+     * Entry point for authenticated users after login. Renders the main
+     * dashboard view with the current request context.
+     *
+     * @param  Request  $request
      * @return Response
      */
     public function show(Request $request): Response

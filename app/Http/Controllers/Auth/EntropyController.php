@@ -10,7 +10,13 @@ use ZxcvbnPhp\Zxcvbn;
 class EntropyController extends Controller
 {
     /**
-     * @param Request $request
+     * Calculate password entropy using zxcvbn.
+     *
+     * Provides a server-side strength estimate so the frontend can display
+     * real-time feedback during registration or password changes.
+     * Returns guess count, score (0-4), and estimated offline crack time.
+     *
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function calculate(Request $request): JsonResponse {

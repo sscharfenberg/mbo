@@ -9,8 +9,13 @@ use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 class RegisterResponse implements RegisterResponseContract
 {
     /**
-     * @function response for successful registration
-     * @param $request
+     * Create the response for a successful registration.
+     *
+     * Logs the user back out immediately after Fortify's auto-login,
+     * because the application requires email verification before allowing
+     * access. Flashes a success message and redirects to the welcome page.
+     *
+     * @param  mixed  $request
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function toResponse($request): JsonResponse|\Symfony\Component\HttpFoundation\Response

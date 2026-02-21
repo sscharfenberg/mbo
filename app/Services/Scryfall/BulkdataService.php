@@ -14,15 +14,23 @@ class BulkdataService
 {
 
     /**
-     * the image formats that should be used, from highest priority to lowest.
+     * Preferred image formats in descending priority order.
+     *
+     * The first matching format found on a card is used.
+     *
      * @var string[]
      */
     protected array $imageFormats = ["large", "normal", "small", "png"];
 
     /**
-     * @function download json file, and place it into "scryfall-bulk" disk
-     * @param string $type
-     * @return bool
+     * Download a Scryfall bulk-data JSON file to local storage.
+     *
+     * Skips the download if the file already exists on the "scryfall-bulk"
+     * disk. Verifies the downloaded file size against the expected size
+     * from the BulkData model to detect truncated downloads.
+     *
+     * @param  string  $type  The bulk-data type identifier (e.g. "oracle_cards").
+     * @return bool  True on success or if the file already exists, false on failure.
      */
     public function prepareJson(string $type): bool
     {
@@ -65,8 +73,12 @@ class BulkdataService
     }
 
     /**
-     * @function cleanup after processing.
-     * @param $fileName
+     * Remove the downloaded bulk JSON file after processing.
+     *
+     * Only deletes in production to keep local/dev files available
+     * for debugging.
+     *
+     * @param  string  $fileName  The filename on the "scryfall-bulk" disk.
      * @return void
      */
     public function postRunCleanup ($fileName): void
@@ -78,9 +90,14 @@ class BulkdataService
     }
 
     /**
-     * @function get image uri from arrays
-     * @param array $card
-     * @return array
+     * Extract image URIs from a Scryfall card object.
+     *
+     * Checks the card-level image_uris first, then falls back to
+     * per-face image_uris for multi-faced cards (e.g. transform, modal DFC).
+     * Returns the highest-priority format available per $imageFormats.
+     *
+     * @param  array  $card  A single card object from the Scryfall bulk JSON.
+     * @return array<string>  Zero or more image URIs.
      */
     public function getImageUris (array $card): array
     {
@@ -110,8 +127,12 @@ class BulkdataService
     }
 
     /**
-     * @function get the image uri for a card face
-     * @param array $face
+     * Resolve the best image URI for a single card face.
+     *
+     * Iterates through $imageFormats in priority order and returns
+     * the first match. Returns an empty string if none are available.
+     *
+     * @param  array  $face  A card_face object from the Scryfall bulk JSON.
      * @return string
      */
     private function getCardFaceImageUri (array $face): string
@@ -125,7 +146,10 @@ class BulkdataService
     }
 
     /**
-     * @function setup: prune db table
+     * Truncate the bulk_data table before a fresh import.
+     *
+     * Temporarily disables foreign key checks to allow truncation.
+     *
      * @return void
      */
     private function preRunCleanup(): void
@@ -137,8 +161,11 @@ class BulkdataService
     }
 
     /**
-     * @function
-     * @param array $bulk
+     * Persist a single bulk-data catalog entry to the database.
+     *
+     * Maps the Scryfall API response fields to the BulkData model.
+     *
+     * @param  array  $bulk  A single item from the Scryfall /bulk-data response.
      * @return void
      */
     private function insertBulkData(array $bulk): void
@@ -162,7 +189,11 @@ class BulkdataService
     }
 
     /**
-     * @function get bulk metadata from scryfall.
+     * Fetch and store the bulk-data catalog from the Scryfall API.
+     *
+     * Truncates existing entries and replaces them with the latest
+     * catalog so subsequent imports use up-to-date download URIs and sizes.
+     *
      * @return void
      */
     public function getBulkMetadata(): void

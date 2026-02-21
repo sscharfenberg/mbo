@@ -13,8 +13,12 @@ class SetsService
 {
 
     /**
-     * @function setup set updates: prune db table, clear storage of set icons
-     * @param bool $full
+     * Prepare the database and storage for a sets import.
+     *
+     * Always truncates the sets table. When running a full update,
+     * also purges all cached set icon SVGs so they are re-downloaded.
+     *
+     * @param  bool  $full  Whether to also clear the set-icon storage disk.
      * @return void
      */
     private function setup(bool $full): void
@@ -32,10 +36,15 @@ class SetsService
     }
 
     /**
-     * @function redownload the set icon if needed and place into storage
-     * @param string $uri
-     * @param string $code
-     * @return string
+     * Download a set icon SVG if it is not already cached locally.
+     *
+     * Returns the public path to the icon file on the "set-icon" disk,
+     * regardless of whether a fresh download was needed.
+     *
+     * @param  string  $uri   The Scryfall icon_svg_uri for the set.
+     * @param  string  $code  The set code, used as the local filename.
+     * @return string  The public-facing path to the stored SVG.
+     *
      * @throws ConnectionException
      */
     private function getSetIcon(string $uri, string $code): string
@@ -55,9 +64,15 @@ class SetsService
     }
 
     /**
-     * @function insert set into db with scryfall data
-     * @param array $set
+     * Persist a single set from the Scryfall API response to the database.
+     *
+     * Maps required fields directly and conditionally includes optional
+     * fields (block_code, released_at, etc.) only when present.
+     * Also downloads the set icon via getSetIcon().
+     *
+     * @param  array  $set  A single set object from the Scryfall /sets response.
      * @return void
+     *
      * @throws ConnectionException
      */
     private function insertSet(array $set): void
@@ -86,8 +101,12 @@ class SetsService
     }
 
     /**
-     * @function get sets from scryfall
-     * @param bool $full
+     * Fetch all sets from the Scryfall API and replace the local database.
+     *
+     * Filters out sets with zero cards. Runs setup() first to truncate
+     * existing data (and optionally clear cached icons on a full update).
+     *
+     * @param  bool  $full  Whether to also purge cached set icons before importing.
      * @return void
      */
     public function updateSets(bool $full): void

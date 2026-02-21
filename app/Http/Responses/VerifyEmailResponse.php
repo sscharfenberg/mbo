@@ -8,8 +8,13 @@ use Laravel\Fortify\Contracts\VerifyEmailResponse as VerifyEmailResponseContract
 class VerifyEmailResponse implements VerifyEmailResponseContract
 {
     /**
-     * @function response for successful email verification
-     * @param $request
+     * Create the response for a successful email verification.
+     *
+     * Flashes a success message and redirects to the login page so the
+     * user can sign in with their now-verified account. Returns a 204
+     * for JSON/API consumers.
+     *
+     * @param  mixed  $request
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function toResponse($request): JsonResponse|\Symfony\Component\HttpFoundation\Response

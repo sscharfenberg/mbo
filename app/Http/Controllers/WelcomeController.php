@@ -9,11 +9,14 @@ class WelcomeController extends Controller
 {
 
     /**
-     * @function show "Start" page
-     * @param \Illuminate\Http\Request $request
+     * Display the welcome / landing page.
+     *
+     * Public entry point of the application, shown to unauthenticated visitors.
+     *
+     * @param  Request  $request
      * @return \Inertia\Response
      */
-    public function show(\Illuminate\Http\Request $request): \Inertia\Response
+    public function show(Request $request): \Inertia\Response
     {
         return Inertia::render('Guest/Welcome', [
             'request' => $request,

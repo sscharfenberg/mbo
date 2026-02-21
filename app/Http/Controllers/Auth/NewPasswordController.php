@@ -21,7 +21,14 @@ class NewPasswordController extends Controller
     use PasswordValidationRules;
 
     /**
-     * @function show "reset password" page
+     * Display the password reset form.
+     *
+     * Validates the reset token via Fortify's password broker before rendering.
+     * Redirects back to the "forgot" page with an error flash if the token is
+     * invalid or expired, so the user isn't left on a dead-end form.
+     *
+     * @param  Request  $request
+     * @return Response|RedirectResponse
      */
     public function show(Request $request): Response|RedirectResponse
     {
@@ -41,7 +48,14 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * @function store new password
+     * Reset the user's password.
+     *
+     * Validates the token, email, and new password via precognitive validation,
+     * then delegates the reset to Fortify's password broker. On success the user
+     * is automatically logged in and redirected to the dashboard.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {

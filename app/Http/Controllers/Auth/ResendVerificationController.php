@@ -13,7 +13,13 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 class ResendVerificationController extends Controller
 {
     /**
-     * @function show "resend verification email" page
+     * Display the "resend verification email" page.
+     *
+     * Renders the Inertia view where users can request a new verification
+     * email by providing their username and email address.
+     *
+     * @param  Request  $request
+     * @return Response|RedirectResponse
      */
     public function show(Request $request): Response|RedirectResponse
     {
@@ -21,7 +27,15 @@ class ResendVerificationController extends Controller
     }
 
     /**
-     * @function handle "resend verification email" request
+     * Handle a "resend verification email" request.
+     *
+     * Requires both username and email to match the same user, making it
+     * harder to enumerate accounts. Only sends the verification email if
+     * the matched user has not yet verified. Always returns the same generic
+     * success flash regardless of outcome to prevent information leakage.
+     *
+     * @param  Request  $request
+     * @return SymfonyResponse
      */
     public function store(Request $request): SymfonyResponse
     {

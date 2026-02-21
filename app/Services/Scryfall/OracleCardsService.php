@@ -14,7 +14,10 @@ class OracleCardsService
 {
 
     /**
-     * @function truncate oracle_cards table
+     * Truncate the oracle_cards table before a fresh import.
+     *
+     * Temporarily disables foreign key checks to allow truncation.
+     *
      * @return void
      */
     private function preRunCleanup(): void
@@ -26,8 +29,13 @@ class OracleCardsService
     }
 
     /**
-     * @function insert single oracle card into database
-     * @param array $card
+     * Persist a single oracle card to the database.
+     *
+     * Maps required Scryfall fields and conditionally includes optional
+     * ones (mana_cost, layout, colors, color_identity). Image URIs are
+     * resolved via BulkdataService::getImageUris().
+     *
+     * @param  array  $card  A single card object from the oracle_cards bulk JSON.
      * @return void
      */
     private function insertCard (array $card): void
@@ -69,8 +77,12 @@ class OracleCardsService
     }
 
     /**
-     * @function loop all entries of the json file
-     * @param $fileName
+     * Stream-parse the bulk JSON file and insert each card.
+     *
+     * Uses JsonParser to avoid loading the entire file into memory,
+     * which is critical for the large Scryfall bulk exports.
+     *
+     * @param  string  $fileName  The filename on the "scryfall-bulk" disk.
      * @return void
      */
     private function traverseJson($fileName): void
@@ -89,7 +101,12 @@ class OracleCardsService
     }
 
     /**
-     * @function download and analyze bulk data from json and update database for "oracle_cards"
+     * Run a full oracle-cards import from Scryfall.
+     *
+     * Downloads the "oracle_cards" bulk JSON (if not already cached),
+     * truncates the existing data, streams through every card to insert
+     * it, and cleans up the downloaded file afterwards.
+     *
      * @return void
      */
     public function updateOracleCards(): void

@@ -12,7 +12,16 @@ class VerifyEmailController extends Controller
 {
     /**
      * Mark a user's email address as verified.
-     * Works without authentication by using the signed URL parameters.
+     *
+     * Handles the signed verification URL sent by email. Does not require
+     * authentication — the user is identified by the signed {id} and {hash}
+     * route parameters, allowing verification even if the user is not logged in.
+     * Dispatches the Verified event on first verification and redirects to login.
+     *
+     * @param  Request  $request
+     * @param  string   $id    The user's primary key from the signed URL.
+     * @param  string   $hash  SHA-1 hash of the user's email for integrity verification.
+     * @return Response
      */
     public function __invoke(Request $request, string $id, string $hash): Response
     {

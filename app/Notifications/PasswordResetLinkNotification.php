@@ -7,6 +7,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class PasswordResetLinkNotification extends ResetPassword
 {
+    /**
+     * Build the password reset mail message.
+     *
+     * Overrides the default Laravel reset notification to use the
+     * application's translated email strings and layout.
+     *
+     * @param  string  $url  The signed password reset URL.
+     * @return MailMessage
+     */
     protected function buildMailMessage($url): MailMessage
     {
         return (new MailMessage)

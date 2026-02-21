@@ -14,7 +14,13 @@ use Inertia\Response;
 class ForgotController extends Controller
 {
     /**
-     * @function show "Forgot" page
+     * Display the "Forgot password / username" page.
+     *
+     * Renders the Inertia view where users can request a password reset link
+     * or a username reminder by providing their email address.
+     *
+     * @param  Request  $request
+     * @return Response
      */
     public function show(Request $request): Response
     {
@@ -22,7 +28,14 @@ class ForgotController extends Controller
     }
 
     /**
-     * @function handle "Forgot password" or "Forgot username" submission
+     * Handle a "forgot password" or "forgot username" form submission.
+     *
+     * Validates the request and dispatches to the appropriate handler based
+     * on the selected type. Uses precognitive validation for real-time
+     * frontend feedback.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -44,6 +57,15 @@ class ForgotController extends Controller
         };
     }
 
+    /**
+     * Send a password reset link via Fortify's password broker.
+     *
+     * Always returns a success flash regardless of whether the email exists,
+     * preventing email enumeration.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
+     */
     private function sendPasswordResetLink(Request $request): RedirectResponse
     {
         Password::broker(config('fortify.passwords'))
@@ -56,6 +78,15 @@ class ForgotController extends Controller
         return back();
     }
 
+    /**
+     * Send a username reminder notification to the given email address.
+     *
+     * Only dispatches the notification if a matching user is found.
+     * Always returns a success flash regardless, preventing email enumeration.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
+     */
     private function sendUsernameReminder(Request $request): RedirectResponse
     {
         $user = User::where('email', $request->email)->first();

@@ -6,8 +6,12 @@ class FormatService
 {
 
     /**
-     * @function format duration from milliseconds to human readable string
-     * @param float $input
+     * Format a duration in milliseconds to a human-readable string.
+     *
+     * Breaks the value down into minutes, seconds, and milliseconds,
+     * omitting zero-valued segments for brevity (e.g. "2m 30s 150ms").
+     *
+     * @param  float  $input  Duration in milliseconds.
      * @return string
      */
     public function formatMs(float $input): string
@@ -28,9 +32,13 @@ class FormatService
     }
 
     /**
-     * @function bytes into human readable format
-     * @param $bytes
-     * @param int $precision
+     * Format a byte count to a human-readable size string.
+     *
+     * Automatically selects the most appropriate unit (B, KB, MB, GB, TB)
+     * based on magnitude and rounds to the given precision.
+     *
+     * @param  int|float  $bytes      The number of bytes.
+     * @param  int        $precision  Decimal places to round to.
      * @return string
      */
     public function formatBytes($bytes, int $precision = 2): string

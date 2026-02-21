@@ -14,7 +14,10 @@ class PrintedCardsService
 {
 
     /**
-     * @function truncate oracle_cards table
+     * Truncate the printed_cards table before a fresh import.
+     *
+     * Temporarily disables foreign key checks to allow truncation.
+     *
      * @return void
      */
     private function preRunCleanup(): void
@@ -26,8 +29,13 @@ class PrintedCardsService
     }
 
     /**
-     * @function insert single PrintedCard into database
-     * @param array $card
+     * Persist a single printed card to the database.
+     *
+     * Maps required Scryfall fields (prices, finishes, rarity, etc.) and
+     * conditionally includes optional ones (oracle_id, layout). Image URIs
+     * are resolved via BulkdataService::getImageUris().
+     *
+     * @param  array  $card  A single card object from the default_cards bulk JSON.
      * @return void
      */
     private function insertCard(array $card): void
@@ -60,8 +68,12 @@ class PrintedCardsService
     }
 
     /**
-     * @function loop all entries of the json file
-     * @param $fileName
+     * Stream-parse the bulk JSON file and insert each card.
+     *
+     * Uses JsonParser to avoid loading the entire file into memory,
+     * which is critical for the large Scryfall bulk exports.
+     *
+     * @param  string  $fileName  The filename on the "scryfall-bulk" disk.
      * @return void
      */
     private function traverseJson($fileName): void
@@ -80,7 +92,12 @@ class PrintedCardsService
     }
 
     /**
-     * @function download and analyze bulk data from json and update database for "oracle_cards"
+     * Run a full printed-cards import from Scryfall.
+     *
+     * Downloads the "default_cards" bulk JSON (if not already cached),
+     * truncates the existing data, streams through every card to insert
+     * it, and cleans up the downloaded file afterwards.
+     *
      * @return void
      */
     public function updateAllCards(): void

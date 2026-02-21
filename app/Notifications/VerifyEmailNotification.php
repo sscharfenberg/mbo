@@ -7,6 +7,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class VerifyEmailNotification extends VerifyEmail
 {
+    /**
+     * Build the email verification mail message.
+     *
+     * Overrides the default Laravel verification notification to use the
+     * application's translated email strings and layout.
+     *
+     * @param  string  $url  The signed email verification URL.
+     * @return MailMessage
+     */
     protected function buildMailMessage($url): MailMessage
     {
         return (new MailMessage)

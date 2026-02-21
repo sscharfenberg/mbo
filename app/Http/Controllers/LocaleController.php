@@ -10,7 +10,14 @@ use Illuminate\Support\Facades\Auth;
 class LocaleController extends Controller
 {
     /**
-     * Update the application locale.
+     * Switch the application locale.
+     *
+     * Validates the requested locale against the configured supported locales.
+     * For authenticated users the preference is persisted to the database;
+     * for guests it is stored in the session.
+     *
+     * @param  string  $locale  The locale code to switch to (e.g. "en", "de").
+     * @return JsonResponse
      */
     public function update(string $locale): JsonResponse
     {

@@ -10,8 +10,11 @@ class GuestController extends Controller
 {
 
     /**
-     * @function show "Imprint" page
-     * @param Request $request
+     * Display the imprint page.
+     *
+     * Renders the legally required imprint / Impressum for the site.
+     *
+     * @param  Request  $request
      * @return Response
      */
     public function imprint(Request $request): Response
@@ -22,8 +25,11 @@ class GuestController extends Controller
     }
 
     /**
-     * @function show "Privacy" page
-     * @param Request $request
+     * Display the privacy policy page.
+     *
+     * Renders the legally required privacy policy / Datenschutzerklärung.
+     *
+     * @param  Request  $request
      * @return Response
      */
     public function privacy(Request $request): Response
