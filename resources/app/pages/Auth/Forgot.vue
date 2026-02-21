@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Form, Head, Link } from "@inertiajs/vue3";
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
@@ -15,6 +16,10 @@ const types = [
     { value: "password", label: t("pages.forgot.type.password"), checked: true, icon: "key" },
     { value: "name", label: t("pages.forgot.type.username"), checked: false, icon: "account" }
 ];
+const type = ref(types.find(type => type.checked)?.value ?? "password");
+const onChange = (ev: { target: { value: string } }) => {
+    type.value = ev.target.value;
+};
 </script>
 
 <template>
@@ -28,9 +33,22 @@ const types = [
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend>{{ $t("pages.forgot.intro") }}</form-legend>
+        <form-legend :required="true">{{ $t("pages.forgot.intro") }}</form-legend>
         <form-group for-id="type_password">
-            <radio-button-group name="type" :radio-buttons="types" />
+            <radio-button-group name="type" :radio-buttons="types" @change="onChange" />
+        </form-group>
+        <form-group
+            v-if="type === 'password'"
+            for-id="name"
+            :label="$t('form.fields.username')"
+            :error="errors.name"
+            :invalid="invalid('name')"
+            :validated="valid('name')"
+            :validating="validating"
+            addon-icon="register"
+            :required="true"
+        >
+            <input type="text" name="name" id="name" @change="validate('name')" class="form-input" />
         </form-group>
         <form-group
             for-id="email"

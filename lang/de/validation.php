@@ -16,6 +16,7 @@ return [
     'custom' => [
         'name' => [
             'required' => 'Bitte geben Sie den Benutzernamen an.',
+            'required_if' => 'Bitte geben Sie den Benutzernamen an.',
             'unique' => 'Dieser Benutzername ist bereits vergeben.',
             'max' => 'Der Benutzername darf nicht mehr als :max Zeichen enthalten.',
             'min' => 'Der Benutzername muss mindestens :min Zeichen enthalten.'

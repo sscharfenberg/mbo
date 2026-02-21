@@ -38,7 +38,7 @@
         "forgot": {
             "title": "Can't login?",
             "link": "Can't login?",
-            "intro": "If you can't access your user account, we can send you either your user name or a link that resets your password. Simply select either password or user name, and provide your e-mail address.",
+            "intro": "If you can't access your user account, we can send you either your user name or a link that resets your password. Simply select either password or user name, and provide your e-mail address. If you have forgotten the password, you will also need to enter your username.",
             "type": {
                 "password": "Forgot password",
                 "username": "Forgot username"

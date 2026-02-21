@@ -48,6 +48,12 @@ class ForgotController extends Controller
                     'email:rfc,dns',
                     'max:255',
                 ],
+                'name' => [
+                    'required_if:type,password',
+                    'string',
+                    'max:'.config('mbo.db.user.name.max'),
+                    'min:'.config('mbo.db.user.name.min')
+                ]
             ]);
         });
 
@@ -68,14 +74,21 @@ class ForgotController extends Controller
      */
     private function sendPasswordResetLink(Request $request): RedirectResponse
     {
-        Password::broker(config('fortify.passwords'))
-            ->sendResetLink($request->only('email'));
+        $user = User::where('email', $request->get('email'))
+            ->where('name', $request->get('name'))
+            ->first();
+
+        // only send password reset link if a user with that name and email exists.
+        if ($user) {
+            Password::broker(config('fortify.passwords'))
+                ->sendResetLink($request->only('email'));
+        }
 
         // Always return success to prevent email enumeration
         $request->session()->flash('message', __('passwords.sent'));
         $request->session()->flash('type', 'success');
 
-        return back();
+        return redirect('/');
     }
 
     /**
@@ -91,6 +104,7 @@ class ForgotController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
+        // only send username reminder if a user with that email exists.
         if ($user) {
             $user->notify(new ForgotUsernameNotification());
         }
@@ -98,6 +112,6 @@ class ForgotController extends Controller
         $request->session()->flash('message', __('passwords.username_sent'));
         $request->session()->flash('type', 'success');
 
-        return back();
+        return redirect('/');
     }
 }

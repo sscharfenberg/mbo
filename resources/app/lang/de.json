@@ -38,7 +38,7 @@
         "forgot": {
             "title": "Probleme beim Anmelden?",
             "link": "Probleme beim Anmelden?",
-            "intro": "Wenn Sie sich nicht anmelden können, können wir Ihnen entweder Ihren Benutzernamen oder einen Link zum Zurücksetzen des Passworts schicken. Wählen Sie dafür das Passwort oder den Benutzernamen aus, und geben Sie die hinterlegte E-Mail-Adresse an.",
+            "intro": "Wenn Sie sich nicht anmelden können, können wir Ihnen entweder Ihren Benutzernamen oder einen Link zum Zurücksetzen des Passworts schicken. Wählen Sie dafür das Passwort oder den Benutzernamen aus, und geben Sie die hinterlegte E-Mail-Adresse an. Wenn Sie das Passwort vergessen haben müssen Sie auch den Benutzernamen angeben.",
             "type": {
                 "password": "Passwort vergessen",
                 "username": "Benutzername vergessen"

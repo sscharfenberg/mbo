@@ -39,7 +39,7 @@ Route::middleware(['guest:'.config('fortify.guard')])->group( function() {
     Route::get('/forgot', [\App\Http\Controllers\Auth\ForgotController::class, 'show'])
         ->name('forgot');
     Route::post('/forgot', [\App\Http\Controllers\Auth\ForgotController::class, 'store'])
-        ->middleware(HandleControllerPrecognitiveRequest::class)
+        ->middleware(['throttle:6,1', HandleControllerPrecognitiveRequest::class])
         ->name('forgot.store');
     // reset password
     Route::get('reset-password', [\App\Http\Controllers\Auth\NewPasswordController::class, 'show'])

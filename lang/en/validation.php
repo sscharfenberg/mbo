@@ -16,6 +16,7 @@ return [
     'custom' => [
         'name' => [
             'required' => 'Please enter the username.',
+            'required_if' => 'Please enter the username.',
             'unique' => 'The username has already been taken',
             'max' => 'The username can not have more than :max characters.',
             'min' => 'The username must have at least :min characters.'
