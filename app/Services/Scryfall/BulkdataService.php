@@ -83,7 +83,7 @@ class BulkdataService
      */
     public function postRunCleanup ($fileName): void
     {
-        if (env('APP_ENV') == 'production') {
+        if (app()->environment('production')) {
             Storage::disk('scryfall-bulk')->delete($fileName);
             Log::channel('scryfall')->notice("deleted '$fileName' from disk 'scryfall-bulk'.");
         }
