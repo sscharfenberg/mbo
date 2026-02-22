@@ -75,7 +75,8 @@
             },
             "two-factor": {
                 "headline": "Two-Factor authentication",
-                "intro": "You can use a two-factor authentication to secure your user account."
+                "intro": "Two-factor authentication uses a 'time-based one-time password (TOTP)'. You will need an appropriate app, like Google/Microsoft Authenticator or Bitwarden.",
+                "enable": "Enable Two-Factor Authentification"
             }
         },
         "privacy": {
@@ -102,7 +103,13 @@
             "remember": "Remember me"
         },
         "elements": {
+            "password_show": "Show password",
+            "password_hide": "Hide password",
             "radio-group": "Available options"
         }
+    },
+    "state": {
+        "disabled": "Disabled",
+        "enabled": "Enabled"
     }
 }

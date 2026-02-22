@@ -27,33 +27,31 @@
         border: map.get(s.$app, "flash", "border") solid transparent;
         gap: 1ch;
 
-        background: map.get(c.$flash, "background", "info");
         backdrop-filter: blur(12px);
-        color: map.get(c.$flash, "surface", "info");
         border-radius: map.get(s.$app, "flash", "radius");
 
-        &--info {
-            background: map.get(c.$flash, "background", "info");
-            color: map.get(c.$flash, "surface", "info");
-            border-color: map.get(c.$flash, "border", "info");
-        }
-
         &--success {
-            background: map.get(c.$flash, "background", "success");
-            color: map.get(c.$flash, "surface", "success");
-            border-color: map.get(c.$flash, "border", "success");
+            background: map.get(c.$state, "success", "background");
+            color: map.get(c.$state, "success", "surface");
+            border-color: map.get(c.$state, "success", "border");
         }
 
         &--warning {
-            background: map.get(c.$flash, "background", "warning");
-            color: map.get(c.$flash, "surface", "warning");
-            border-color: map.get(c.$flash, "border", "warning");
+            background-color: map.get(c.$state, "warning", "background");
+            color: map.get(c.$state, "warning", "surface");
+            border-color: map.get(c.$state, "warning", "border");
         }
 
         &--error {
-            background: map.get(c.$flash, "background", "error");
-            color: map.get(c.$flash, "surface", "error");
-            border-color: map.get(c.$flash, "border", "error");
+            background-color: map.get(c.$state, "error", "background");
+            color: map.get(c.$state, "error", "surface");
+            border-color: map.get(c.$state, "error", "border");
+        }
+
+        &--info {
+            background-color: map.get(c.$state, "info", "background");
+            color: map.get(c.$state, "info", "surface");
+            border-color: map.get(c.$state, "info", "border");
         }
 
         @include m.mqset(

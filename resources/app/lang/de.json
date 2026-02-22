@@ -75,7 +75,8 @@
             },
             "two-factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
-                "intro": "Sie können die Zwei-Faktor Authentifizierung nutzen um Ihr Benutzerkonto abzusichern."
+                "intro": "Zwei-Faktor Authentifizierung benutzt 'zeitlich limitierte Einmalpasswörter (TOTP)'. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder Bitwarden.",
+                "enable": "Zwei-Faktor Authentifizierung aktivieren"
             }
         },
         "privacy": {
@@ -102,7 +103,13 @@
             "remember": "Login merken"
         },
         "elements": {
+            "password_show": "Passwort zeigen",
+            "password_hide": "Passwort verstecken",
             "radio-group": "Verfügbare Optionen"
         }
+    },
+    "state": {
+        "disabled": "Deaktiviert",
+        "enabled": "Aktiviert"
     }
 }

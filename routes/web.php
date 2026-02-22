@@ -64,5 +64,10 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     // Dashboard
     Route::get('/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'show'])
         ->name('dashboard');
+
+    // Password Confirmation (sets session for Fortify's password.confirm middleware)
+    Route::post('/confirm-password', [\App\Http\Controllers\User\ConfirmPasswordController::class, 'store'])
+        ->middleware(['throttle:6,1'])
+        ->name('password.confirm');
 });
 

@@ -10,7 +10,7 @@
 @use "sass:color"; // https://sass-lang.com/documentation/modules/color
 @use "../global-color-tokens" as c;
 @use "app" as a;
-@use "flash" as f;
+@use "state" as s;
 @use "form" as fo;
 
 // header colors
@@ -112,8 +112,8 @@ $footer: (
 // app base colors
 $app: a.$app !default;
 
-// flash base colors
-$flash: f.$flash !default;
-
 // colors for form inputs
 $form: fo.$form !default;
+
+// colors for badge
+$state: s.$state !default;

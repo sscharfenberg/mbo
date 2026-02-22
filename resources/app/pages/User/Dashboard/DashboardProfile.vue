@@ -3,6 +3,7 @@ import { Form, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
+import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 const user = usePage().props.auth.user;
@@ -11,6 +12,7 @@ const email = ref(user?.email ?? "");
 </script>
 
 <template>
+    <headline :size="3">{{ $t("pages.dashboard.profile.headline") }}</headline>
     <Form
         action="/user/profile-information"
         method="put"

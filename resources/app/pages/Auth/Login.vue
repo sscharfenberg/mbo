@@ -41,7 +41,7 @@ const showPassword = ref(false);
                     type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
@@ -51,7 +51,12 @@ const showPassword = ref(false);
         </form-group>
         <form-group for-id="remember" :label="$t('form.fields.remember')">
             <template #addon>
-                <checkbox :label="$t('form.fields.remember')" ref-id="remember" :value="true" />
+                <checkbox
+                    :label="$t('form.fields.remember')"
+                    ref-id="remember"
+                    value="true"
+                    :checked-initially="true"
+                />
             </template>
         </form-group>
         <form-group>

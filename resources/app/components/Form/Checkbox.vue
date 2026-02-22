@@ -6,18 +6,36 @@ const props = withDefaults(
         checkedInitially?: boolean;
         disabled?: boolean;
         label?: string;
+        value?: string;
     }>(),
     {
         refId: () => Math.random().toString(36).substring(2),
-        checkedInitially: false
+        checkedInitially: false,
+        value: "true"
     }
 );
 const checkboxStatus = ref(props.checkedInitially);
+
+const emit = defineEmits<{
+    change: [checked: boolean];
+}>();
+
+const onCheckboxChange = (event: Event) => {
+    checkboxStatus.value = (event.target as HTMLInputElement).checked;
+    emit("change", checkboxStatus.value);
+};
 </script>
 
 <template>
     <div class="wrapper">
-        <input :id="refId" type="checkbox" :name="refId" @change="$emit('change', checkboxStatus)" />
+        <input
+            :id="refId"
+            type="checkbox"
+            :name="refId"
+            @change="onCheckboxChange"
+            :value="value"
+            :checked="checkboxStatus"
+        />
         <label :for="refId">{{ label }}</label>
     </div>
 </template>

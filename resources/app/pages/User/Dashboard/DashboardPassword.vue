@@ -3,6 +3,7 @@ import { Form } from "@inertiajs/vue3";
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
+import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import PasswordStrength from "Components/Visual/PasswordStrength.vue";
@@ -12,6 +13,7 @@ const showPassword = ref(false);
 </script>
 
 <template>
+    <headline :size="3">{{ $t("pages.dashboard.password.headline") }}</headline>
     <Form
         action="/user/password"
         method="put"
@@ -35,7 +37,7 @@ const showPassword = ref(false);
                     type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
@@ -64,7 +66,7 @@ const showPassword = ref(false);
                     type="button"
                     class="form-group__addon"
                     @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? 'Hide Password' : 'Show Password'"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
@@ -88,11 +90,21 @@ const showPassword = ref(false);
             :invalid="invalid('password_confirmation')"
             :validated="valid('password_confirmation')"
             :validating="validating"
-            addon-icon="key"
             :required="true"
         >
+            <template #addon>
+                <button
+                    type="button"
+                    class="form-group__addon"
+                    @click.prevent="showPassword = !showPassword"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    tabindex="-1"
+                >
+                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                </button>
+            </template>
             <input
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 name="password_confirmation"
                 id="password_confirmation"
                 @change="validate('password_confirmation')"

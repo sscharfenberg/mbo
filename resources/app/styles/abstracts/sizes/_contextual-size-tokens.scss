@@ -75,6 +75,11 @@ $main: (
         "border": map.get(s.$border, "base"),
         "padding": 0.5lh 1ch,
         "radius": map.get(s.$radius, "base")
+    ),
+    "badge": (
+        "padding": 0.25lh 1.5ch,
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured")
     )
 ) !default;
 

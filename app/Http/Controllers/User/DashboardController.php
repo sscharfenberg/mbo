@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Fortify\Features;
 
 class DashboardController extends Controller
 {
@@ -22,6 +23,8 @@ class DashboardController extends Controller
     {
         return Inertia::render('User/Dashboard/Dashboard', [
             'request' => $request,
+            'twoFactorEnabled' => $request->user()->hasEnabledTwoFactorAuthentication(),
+            'requiresConfirmation' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),
         ]);
     }
 }

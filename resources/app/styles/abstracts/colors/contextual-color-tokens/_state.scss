@@ -1,0 +1,65 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../global-color-tokens" as c;
+
+$state: (
+    "success": (
+        "background": hsl(
+                from
+                    light-dark(
+                        map.get(c.$state, "dark", "success", "color"),
+                        map.get(c.$state, "light", "success", "color")
+                    )
+                    h s l / 50%
+            ),
+        "surface": light-dark(
+                map.get(c.$state, "dark", "success", "contrast"),
+                map.get(c.$state, "light", "success", "contrast")
+            ),
+        "border": light-dark(
+                color.adjust(map.get(c.$state, "light", "success", "color"), $lightness: -10%),
+                color.adjust(map.get(c.$state, "dark", "success", "color"), $lightness: 10%)
+            )
+    ),
+    "warning": (
+        "background": hsl(
+                from
+                    light-dark(
+                        map.get(c.$state, "dark", "warning", "color"),
+                        map.get(c.$state, "light", "warning", "color")
+                    )
+                    h s l / 70%
+            ),
+        "surface": light-dark(
+                map.get(c.$state, "dark", "warning", "contrast"),
+                map.get(c.$state, "light", "warning", "contrast")
+            ),
+        "border": light-dark(
+                color.adjust(map.get(c.$state, "light", "warning", "color"), $lightness: -10%),
+                color.adjust(map.get(c.$state, "dark", "warning", "color"), $lightness: 10%)
+            )
+    ),
+    "error": (
+        "background": hsl(
+                from
+                    light-dark(
+                        map.get(c.$state, "dark", "error", "color"),
+                        map.get(c.$state, "light", "error", "color")
+                    )
+                    h s l / 65%
+            ),
+        "surface": light-dark(
+                map.get(c.$state, "dark", "error", "contrast"),
+                map.get(c.$state, "light", "error", "contrast")
+            ),
+        "border": light-dark(
+                color.adjust(map.get(c.$state, "light", "error", "color"), $lightness: 30%),
+                color.adjust(map.get(c.$state, "dark", "error", "color"), $lightness: 20%)
+            )
+    ),
+    "info": (
+        "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "bunker")) h s l / 25%),
+        "surface": light-dark(#000, #fff),
+        "border": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "charcoal"))
+    )
+);
