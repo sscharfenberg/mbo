@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Form, Head, Link } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { Form, Head, Link, usePage } from "@inertiajs/vue3";
+import { computed, ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
@@ -10,6 +10,8 @@ import Icon from "Components/Visual/Icon.vue";
 import LinkGroup from "Components/Visual/LinkGroup.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
+const page = usePage();
+const features = computed(() => page.props.features);
 const types = [
     { value: "password", label: "pages.forgot.type.password", checked: true, icon: "key" },
     { value: "name", label: "pages.forgot.type.username", checked: false, icon: "account" }
@@ -68,7 +70,7 @@ const onChange = (ev: { target: { value: string } }) => {
             </button>
         </form-group>
         <form-group>
-            <link-group :label="$t('pages.login.nav-label')">
+            <link-group v-if="features.emailVerification" :label="$t('pages.login.nav-label')">
                 <Link class="text-link" href="/resend-verification">{{ $t("pages.resend-verification.link") }}</Link>
             </link-group>
         </form-group>

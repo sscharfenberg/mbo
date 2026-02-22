@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Laravel\Fortify\Features;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -46,6 +47,11 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'supportedLocales' => config('mbo.app.supportedLocales'),
+            'features' => [
+                'registration' => Features::enabled(Features::registration()),
+                'resetPasswords' => Features::enabled(Features::resetPasswords()),
+                'emailVerification' => Features::enabled(Features::emailVerification()),
+            ],
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'type' => fn () => $request->session()->get('type'),

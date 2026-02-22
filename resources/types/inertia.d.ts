@@ -15,6 +15,11 @@ declare module "@inertiajs/core" {
             };
             locale: string;
             supportedLocales: string[];
+            features: {
+                registration: boolean;
+                resetPasswords: boolean;
+                emailVerification: boolean;
+            };
             flash: {
                 message: string;
                 type: FlashType;

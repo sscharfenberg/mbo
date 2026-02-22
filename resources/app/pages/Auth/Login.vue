@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Form, Head, Link } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { Form, Head, Link, usePage } from "@inertiajs/vue3";
+import { computed, ref } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
@@ -12,9 +12,9 @@ import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
 defineProps<{
     status?: string;
-    canResetPassword: boolean;
-    canRegister: boolean;
 }>();
+const page = usePage();
+const features = computed(() => page.props.features);
 const showPassword = ref(false);
 </script>
 
@@ -23,7 +23,6 @@ const showPassword = ref(false);
         ><title>{{ $t("pages.login.title") }}</title></Head
     >
     <headline>{{ $t("pages.login.title") }}</headline>
-    Status: {{ status }}<br />
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
         <form-legend :required="true" />
         <form-group
@@ -64,9 +63,15 @@ const showPassword = ref(false);
         </form-group>
         <form-group>
             <link-group :label="$t('pages.login.nav-label')">
-                <Link v-if="canRegister" class="text-link" href="/register">{{ $t("pages.register.link") }}</Link>
-                <Link v-if="canResetPassword" class="text-link" href="/forgot">{{ $t("pages.forgot.link") }}</Link>
-                <Link class="text-link" href="/resend-verification">{{ $t("pages.resend-verification.link") }}</Link>
+                <Link v-if="features.registration" class="text-link" href="/register">{{
+                    $t("pages.register.link")
+                }}</Link>
+                <Link v-if="features.resetPasswords" class="text-link" href="/forgot">{{
+                    $t("pages.forgot.link")
+                }}</Link>
+                <Link v-if="features.emailVerification" class="text-link" href="/resend-verification">{{
+                    $t("pages.resend-verification.link")
+                }}</Link>
             </link-group>
         </form-group>
     </Form>

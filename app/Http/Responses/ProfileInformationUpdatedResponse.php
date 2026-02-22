@@ -5,15 +5,16 @@ namespace App\Http\Responses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\ProfileInformationUpdatedResponse as ProfileInformationUpdatedResponseContract;
+use Laravel\Fortify\Features;
 
 class ProfileInformationUpdatedResponse implements ProfileInformationUpdatedResponseContract
 {
     /**
      * Create the response for a successful profile information update.
      *
-     * When the email changed the user's verification is cleared, so we
-     * log them out and redirect to the login page. Otherwise we simply
-     * redirect back with a success flash.
+     * When email verification is enabled and the email changed (verification
+     * cleared), logs the user out and redirects to login. Otherwise redirects
+     * back with a success flash.
      *
      * @param  mixed  $request
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
@@ -24,9 +25,8 @@ class ProfileInformationUpdatedResponse implements ProfileInformationUpdatedResp
             return new JsonResponse('', 200);
         }
 
-        $emailChanged = is_null($request->user()->email_verified_at);
-
-        if ($emailChanged) {
+        if (Features::enabled(Features::emailVerification()) &&
+            is_null($request->user()->email_verified_at)) {
             Auth::logout();
 
             $request->session()->flash('message', __('auth.profile_updated_email'));

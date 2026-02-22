@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Laravel\Fortify\Features;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
@@ -62,6 +63,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function sendEmailVerificationNotification(): void
     {
+        if (!Features::enabled(Features::emailVerification())) {
+            return;
+        }
+
         $this->notify(new VerifyEmailNotification);
     }
 

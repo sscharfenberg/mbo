@@ -5,28 +5,30 @@ namespace App\Http\Responses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use Laravel\Fortify\Features;
 
 class RegisterResponse implements RegisterResponseContract
 {
     /**
      * Create the response for a successful registration.
      *
-     * Logs the user back out immediately after Fortify's auto-login,
-     * because the application requires email verification before allowing
-     * access. Flashes a success message and redirects to the welcome page.
+     * When email verification is enabled, logs the user back out
+     * (undoing Fortify's auto-login) and redirects to the welcome page.
+     * When disabled, keeps the session and redirects to the dashboard.
      *
      * @param  mixed  $request
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function toResponse($request): JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
-        // Fortify auto-logs in after registration; undo this since we
-        // require email verification before allowing login.
-        Auth::logout();
-
         $request->session()->flash('message', __('auth.registered'));
         $request->session()->flash('type', 'success');
 
-        return redirect()->route('welcome');
+        if (Features::enabled(Features::emailVerification())) {
+            Auth::logout();
+            return redirect()->route('welcome');
+        }
+
+        return redirect(config('fortify.home'));
     }
 }

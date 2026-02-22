@@ -71,13 +71,15 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
 
-        VerifyEmail::createUrlUsing(function ($notifiable) {
-            return URL::temporarySignedRoute(
-                'verify-email',
-                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-                ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->getEmailForVerification())]
-            );
-        });
+        if (Features::enabled(Features::emailVerification())) {
+            VerifyEmail::createUrlUsing(function ($notifiable) {
+                return URL::temporarySignedRoute(
+                    'verify-email',
+                    Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+                    ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->getEmailForVerification())]
+                );
+            });
+        }
     }
 
     /**
@@ -88,7 +90,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::authenticateThrough(function (Request $request) {
             return array_filter([
                 config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
-                EnsureEmailIsVerified::class,
+                Features::enabled(Features::emailVerification()) ? EnsureEmailIsVerified::class : null,
                 Features::enabled(Features::twoFactorAuthentication()) ? RedirectsIfTwoFactorAuthenticatable::class : null,
                 AttemptToAuthenticate::class,
                 PrepareAuthenticatedSession::class,

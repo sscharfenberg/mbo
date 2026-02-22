@@ -6,6 +6,7 @@ import Icon from "Components/Visual/Icon.vue";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
 const page = usePage();
 const user = computed(() => page.props.auth.user);
+const features = computed(() => page.props.features);
 const handleLogout = () => {
     router.flushAll();
     closePopover();
@@ -30,13 +31,13 @@ const closePopover = () => {
                     {{ $t("pages.login.link") }}
                 </Link>
             </li>
-            <li v-if="!user">
+            <li v-if="!user && features.resetPasswords">
                 <Link class="popover-list-item" href="/forgot" @click="closePopover">
                     <icon name="key" :size="1" />
                     {{ $t("pages.forgot.link") }}
                 </Link>
             </li>
-            <li v-if="!user">
+            <li v-if="!user && features.registration">
                 <Link class="popover-list-item" href="/register" @click="closePopover">
                     <icon name="register" :size="1" />
                     {{ $t("pages.register.link") }}
