@@ -20,5 +20,7 @@ return [
     'email_verified' => 'Your email address has been verified successfully.',
     'email_not_verified' => 'Please verify your email address before logging in.',
     'email_already_verified' => 'This email address has already been verified.',
+    'profile_updated' => 'Profile updated successfully.',
+    'profile_updated_email' => 'Profile updated successfully. Please check your email for a verification link.'
 
 ];

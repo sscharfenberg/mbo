@@ -30,7 +30,7 @@ const classList = computed(() => {
             <radio-button
                 :value="button.value"
                 :name="name"
-                :label="button.label"
+                :label="$t(button.label)"
                 :checked="button.checked"
                 :icon="button.icon"
                 @change="onChange"

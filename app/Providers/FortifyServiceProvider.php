@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\EnsureEmailIsVerified;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Actions\Fortify\UpdateUserPassword;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -38,6 +40,14 @@ class FortifyServiceProvider extends ServiceProvider
             \Laravel\Fortify\Contracts\VerifyEmailResponse::class,
             \App\Http\Responses\VerifyEmailResponse::class
         );
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\ProfileInformationUpdatedResponse::class,
+            \App\Http\Responses\ProfileInformationUpdatedResponse::class
+        );
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\PasswordUpdateResponse::class,
+            \App\Http\Responses\PasswordUpdateResponse::class
+        );
     }
 
     /**
@@ -58,6 +68,8 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::createUsersUsing(CreateNewUser::class);
+        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
 
         VerifyEmail::createUrlUsing(function ($notifiable) {
             return URL::temporarySignedRoute(

@@ -66,7 +66,12 @@
             },
             "profile": {
                 "headline": "Profil aktualisieren",
-                "intro": "Sie können Ihre E-Mail-Adresse und/oder Ihren Benutzernamen ändern. Wenn Sie eines von beiden ändern, werden Sie abgemeldet und müssen sich mit den neuen Daten neu anmelden. Wenn Sie die E-Mail-Adresse ändern, müssen die E-Mail-Adresse bestätigen, wir schicken Ihnen einen Link zu Bestätigung."
+                "intro": "Sie können Ihre E-Mail-Adresse und/oder Ihren Benutzernamen ändern. Wenn Sie eines von beiden ändern, werden Sie abgemeldet und müssen sich mit den neuen Daten neu anmelden. Wenn Sie die E-Mail-Adresse ändern, müssen die E-Mail-Adresse bestätigen, wir schicken Ihnen einen Link zu Bestätigung.",
+                "type": {
+                    "email": "E-Mail-Adresse ändern",
+                    "name": "Benutzername ändern"
+                },
+                "submit": "Ändern"
             },
             "two-factor": {
                 "headline": "Zwei-Faktor Authentifizierung",

@@ -60,9 +60,5 @@ Route::middleware(['auth', 'verified'])->group( function() {
     // Dashboard
     Route::get('/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'show'])
         ->name('dashboard');
-    // Change Password
-    Route::post('/user/password', [\App\Http\Controllers\User\UpdatePasswordController::class, 'store'])
-        ->middleware([HandleControllerPrecognitiveRequest::class])
-        ->name('user-password.update');
 });
 

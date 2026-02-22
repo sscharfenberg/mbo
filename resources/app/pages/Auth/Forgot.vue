@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Form, Head, Link } from "@inertiajs/vue3";
 import { ref } from "vue";
-import { useI18n } from "vue-i18n";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
@@ -10,11 +9,10 @@ import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LinkGroup from "Components/Visual/LinkGroup.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
-const { t } = useI18n();
 defineOptions({ layout: NarrowLayout });
 const types = [
-    { value: "password", label: t("pages.forgot.type.password"), checked: true, icon: "key" },
-    { value: "name", label: t("pages.forgot.type.username"), checked: false, icon: "account" }
+    { value: "password", label: "pages.forgot.type.password", checked: true, icon: "key" },
+    { value: "name", label: "pages.forgot.type.username", checked: false, icon: "account" }
 ];
 const type = ref(types.find(type => type.checked)?.value ?? "password");
 const onChange = (ev: { target: { value: string } }) => {

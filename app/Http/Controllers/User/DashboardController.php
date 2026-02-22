@@ -20,7 +20,7 @@ class DashboardController extends Controller
      */
     public function show(Request $request): Response
     {
-        return Inertia::render('User/Dashboard', [
+        return Inertia::render('User/Dashboard/Dashboard', [
             'request' => $request,
         ]);
     }

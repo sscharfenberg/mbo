@@ -14,7 +14,7 @@ const showPassword = ref(false);
 <template>
     <Form
         action="/user/password"
-        method="post"
+        method="put"
         class="form"
         resetOnSuccess
         @success="reset"

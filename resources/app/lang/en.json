@@ -66,7 +66,12 @@
             },
             "profile": {
                 "headline": "Update Profile",
-                "intro": "You can change your E-Mail address and/or your username. If you update either, you will be logged out and need to login with the new data. If you update the E-Mail address, you will need to verify it by clicking on the link."
+                "intro": "You can change your E-Mail address and/or your username. If you update either, you will be logged out and need to login with the new data. If you update the E-Mail address, you will need to verify it by clicking on the link.",
+                "type": {
+                    "email": "Change E-Mail address",
+                    "name": "Change username"
+                },
+                "submit": "Change"
             },
             "two-factor": {
                 "headline": "Two-Factor authentication",
