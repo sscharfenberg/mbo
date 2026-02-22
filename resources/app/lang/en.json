@@ -75,9 +75,11 @@
             },
             "two-factor": {
                 "headline": "Two-Factor authentication",
-                "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or Bitwarden.",
+                "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or {tool1}/{tool2}. To activate, you need to provide your password.",
                 "totp": "time-based one-time password (TOTP)",
-                "enable": "Enable Two-Factor Authentification"
+                "tool1": "Bitwarden",
+                "tool2": "Enpass",
+                "enable": "Enable 2FA"
             }
         },
         "privacy": {

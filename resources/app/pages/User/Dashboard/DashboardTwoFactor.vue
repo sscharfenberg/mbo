@@ -21,8 +21,16 @@ const showPassword = ref(false);
         </template>
     </headline>
     <Paragraph>
-        <i18n-t keypath="pages.dashboard.two-factor.intro">
-            <template #totp><cite>{{ $t("pages.dashboard.two-factor.totp") }}</cite></template>
+        <i18n-t keypath="pages.dashboard.two-factor.intro" scope="global">
+            <template #totp
+                ><strong>{{ $t("pages.dashboard.two-factor.totp") }}</strong></template
+            >
+            <template #tool1
+                ><cite>{{ $t("pages.dashboard.two-factor.tool1") }}</cite></template
+            >
+            <template #tool2
+                ><cite>{{ $t("pages.dashboard.two-factor.tool2") }}</cite></template
+            >
         </i18n-t>
     </Paragraph>
     <section v-if="!twoFactorEnabled">
