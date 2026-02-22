@@ -1,3 +1,4 @@
+import { router, usePage } from "@inertiajs/vue3";
 import type { ComputedRef, Ref } from "vue";
 import { computed, ref } from "vue";
 
@@ -7,10 +8,18 @@ export type UseTwoFactorAuthReturn = {
     manualSetupKey: Ref<string | null>;
     recoveryCodesList: Ref<string[]>;
     errors: Ref<string[]>;
+    validationErrors: Ref<Record<string, string>>;
+    password: Ref<string>;
+    processing: Ref<boolean>;
+    showSetupModal: Ref<boolean>;
+    requiresConfirmation: ComputedRef<boolean>;
+    twoFactorEnabled: ComputedRef<boolean>;
     hasSetupData: ComputedRef<boolean>;
     clearSetupData: () => void;
     clearErrors: () => void;
     clearTwoFactorAuthData: () => void;
+    confirmPassword: () => Promise<boolean>;
+    enableTwoFactor: () => Promise<void>;
     fetchQrCode: () => Promise<void>;
     fetchSetupKey: () => Promise<void>;
     fetchSetupData: () => Promise<void>;
@@ -43,9 +52,13 @@ const fetchJson = async <T>(url: string): Promise<T> => {
 // Shared reactive state — declared outside the composable so that every
 // component calling `useTwoFactorAuth()` operates on the same data.
 const errors = ref<string[]>([]);
+const validationErrors = ref<Record<string, string>>({});
 const manualSetupKey = ref<string | null>(null);
+const password = ref("");
+const processing = ref(false);
 const qrCodeSvg = ref<string | null>(null);
 const recoveryCodesList = ref<string[]>([]);
+const showSetupModal = ref(false);
 
 /** Whether both the QR code and manual setup key have been loaded. */
 const hasSetupData = computed<boolean>(() => qrCodeSvg.value !== null && manualSetupKey.value !== null);
@@ -160,15 +173,97 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         }
     };
 
+    const page = usePage();
+    const requiresConfirmation = computed(() => page.props.requiresConfirmation as boolean);
+    const twoFactorEnabled = computed(() => page.props.twoFactorEnabled as boolean);
+
+    /**
+     * Validate the user's password against the backend and mark it as confirmed
+     * in the session. Uses a plain `fetch` (not Inertia) because this is a
+     * side-effect-only API call — we need to set `auth.password_confirmed_at`
+     * in the session so that Fortify's `password.confirm` middleware passes on
+     * the subsequent 2FA enable request, without triggering an Inertia page visit.
+     *
+     * @returns `true` when the password was accepted, `false` on validation failure.
+     */
+    const confirmPassword = async (): Promise<boolean> => {
+        const response = await fetch("/confirm-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRF-TOKEN": page.props.csrfToken as string
+            },
+            body: JSON.stringify({ password: password.value })
+        });
+        if (!response.ok) {
+            const data = await response.json();
+            validationErrors.value = Object.fromEntries(
+                Object.entries(data.errors ?? {}).map(([key, msgs]) => [
+                    key,
+                    Array.isArray(msgs) ? msgs[0] : msgs
+                ])
+            );
+            return false;
+        }
+        return true;
+    };
+
+    /**
+     * Orchestrates the two-factor authentication enable flow.
+     *
+     * When `confirmPassword` is enabled in the Fortify config, the user's
+     * password is validated first via {@link confirmPassword} to satisfy
+     * Fortify's `password.confirm` middleware. Once confirmed (or skipped
+     * when not required), an Inertia POST to Fortify's 2FA endpoint enables
+     * TOTP for the authenticated user and opens the setup modal on success.
+     */
+    const enableTwoFactor = async (): Promise<void> => {
+        processing.value = true;
+        validationErrors.value = {};
+
+        if (requiresConfirmation.value) {
+            const confirmed = await confirmPassword();
+            if (!confirmed) {
+                processing.value = false;
+                return;
+            }
+        }
+
+        router.post(
+            "/user/two-factor-authentication",
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    showSetupModal.value = true;
+                    password.value = "";
+                },
+                onFinish: () => {
+                    processing.value = false;
+                }
+            }
+        );
+    };
+
     return {
         qrCodeSvg,
         manualSetupKey,
         recoveryCodesList,
         errors,
+        validationErrors,
+        password,
+        processing,
+        showSetupModal,
+        requiresConfirmation,
+        twoFactorEnabled,
         hasSetupData,
         clearSetupData,
         clearErrors,
         clearTwoFactorAuthData,
+        confirmPassword,
+        enableTwoFactor,
         fetchQrCode,
         fetchSetupKey,
         fetchSetupData,

@@ -30,6 +30,7 @@ withDefaults(
     border-radius: map.get(s.$main, "badge", "radius");
 
     font-size: 1rem;
+    font-weight: 700;
 
     &.success {
         background: map.get(c.$state, "success", "background");

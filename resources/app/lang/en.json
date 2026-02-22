@@ -75,7 +75,8 @@
             },
             "two-factor": {
                 "headline": "Two-Factor authentication",
-                "intro": "Two-factor authentication uses a 'time-based one-time password (TOTP)'. You will need an appropriate app, like Google/Microsoft Authenticator or Bitwarden.",
+                "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or Bitwarden.",
+                "totp": "time-based one-time password (TOTP)",
                 "enable": "Enable Two-Factor Authentification"
             }
         },

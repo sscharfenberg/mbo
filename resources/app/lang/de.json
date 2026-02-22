@@ -75,7 +75,8 @@
             },
             "two-factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
-                "intro": "Zwei-Faktor Authentifizierung benutzt 'zeitlich limitierte Einmalpasswörter (TOTP)'. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder Bitwarden.",
+                "intro": "Zwei-Faktor Authentifizierung benutzt {totp}. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder Bitwarden.",
+                "totp": "zeitlich limitierte Einmalpasswörter (TOTP)",
                 "enable": "Zwei-Faktor Authentifizierung aktivieren"
             }
         },
