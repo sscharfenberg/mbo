@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
 import Headline from "Components/Visual/Headline.vue";
+import Icon from "Components/Visual/Icon.vue";
 </script>
 
 <template>
     <Head><title>Start</title></Head>
-    <headline>Welcome</headline>
+    <headline>
+        <icon name="home" :size="3" />
+        Welcome
+    </headline>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
         praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid

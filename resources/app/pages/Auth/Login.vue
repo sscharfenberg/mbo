@@ -22,7 +22,10 @@ const showPassword = ref(false);
     <Head
         ><title>{{ $t("pages.login.title") }}</title></Head
     >
-    <headline>{{ $t("pages.login.title") }}</headline>
+    <headline>
+        <icon name="key" :size="3" />
+        {{ $t("pages.login.title") }}
+    </headline>
     <Form action="/login" method="post" class="form" #default="{ errors, processing }">
         <form-legend :required="true" />
         <form-group

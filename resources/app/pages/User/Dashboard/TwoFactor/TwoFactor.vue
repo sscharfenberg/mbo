@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useTwoFactorAuth } from "@/composables/useTwoFactorAuth";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Badge from "Components/Visual/Badge.vue";
 import Headline from "Components/Visual/Headline.vue";
 import Icon from "Components/Visual/Icon.vue";
 import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
 import Paragraph from "Components/Visual/Paragraph.vue";
-const { password, processing, validationErrors, requiresConfirmation, twoFactorEnabled, enableTwoFactor } =
-    useTwoFactorAuth();
+import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
+import TwoFactorModal from "./TwoFactorModal.vue";
+const {
+    password,
+    processing,
+    validationErrors,
+    requiresConfirmation,
+    twoFactorEnabled,
+    enableTwoFactor,
+    showSetupModal
+} = useTwoFactorAuth();
 const showPassword = ref(false);
 </script>
 
@@ -73,4 +81,6 @@ const showPassword = ref(false);
         </form>
     </section>
     <section v-else>enabled</section>
+    <!--    <two-factor-modal :show="showSetupModal" />-->
+    <two-factor-modal />
 </template>

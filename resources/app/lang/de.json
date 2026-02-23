@@ -75,7 +75,7 @@
             },
             "two-factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
-                "intro": "Zwei-Faktor Authentifizierung benutzt {totp}. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder {tool1}/{tool2}. Zum aktivieren muss das Passwort angegeben werden.",
+                "intro": "Die Zwei-Faktor Authentifizierung verwendet {totp}. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder {tool1}/{tool2}. Zum aktivieren muss das Passwort angegeben werden.",
                 "totp": "zeitlich limitierte Einmalpasswörter (TOTP)",
                 "tool1": "Bitwarden",
                 "tool2": "Enpass",

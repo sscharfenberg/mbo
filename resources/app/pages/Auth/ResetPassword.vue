@@ -23,7 +23,10 @@ const showPassword = ref(false);
     <Head
         ><title>{{ $t("pages.reset-password.title") }}</title></Head
     >
-    <headline>{{ $t("pages.reset-password.title") }}</headline>
+    <headline>
+        <icon name="keyboard" :size="3" />
+        {{ $t("pages.reset-password.title") }}
+    </headline>
     <Form
         action="/reset-password"
         method="post"
@@ -89,11 +92,21 @@ const showPassword = ref(false);
             :invalid="invalid('password_confirmation')"
             :validated="valid('password_confirmation')"
             :validating="validating"
-            addon-icon="key"
             :required="true"
         >
+            <template #addon>
+                <button
+                    type="button"
+                    class="form-group__addon"
+                    @click.prevent="showPassword = !showPassword"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    tabindex="-1"
+                >
+                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                </button>
+            </template>
             <input
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 name="password_confirmation"
                 id="password_confirmation"
                 @change="validate('password_confirmation')"

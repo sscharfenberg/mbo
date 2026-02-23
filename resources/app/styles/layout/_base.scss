@@ -16,6 +16,12 @@
 }
 
 html {
+    scrollbar-gutter: stable;
+
+    &:has(dialog[open]) {
+        overflow: hidden;
+    }
+
     @include m.mqset(
         "font-size",
         #{map.get(s.$app, "font", "base")},

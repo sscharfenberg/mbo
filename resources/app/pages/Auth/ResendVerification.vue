@@ -13,7 +13,10 @@ defineOptions({ layout: NarrowLayout });
     <Head
         ><title>{{ $t("pages.resend-verification.title") }}</title></Head
     >
-    <headline>{{ $t("pages.resend-verification.title") }}</headline>
+    <headline>
+        <icon name="mail" :size="3" />
+        {{ $t("pages.resend-verification.title") }}
+    </headline>
     <Form
         action="/resend-verification"
         method="post"

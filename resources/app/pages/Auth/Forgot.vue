@@ -26,7 +26,10 @@ const onChange = (ev: { target: { value: string } }) => {
     <Head
         ><title>{{ $t("pages.forgot.title") }}</title></Head
     >
-    <headline>{{ $t("pages.forgot.title") }}</headline>
+    <headline>
+        <icon name="security" :size="3" />
+        {{ $t("pages.forgot.title") }}
+    </headline>
     <Form
         action="/forgot"
         method="post"
