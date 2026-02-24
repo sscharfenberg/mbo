@@ -21,7 +21,7 @@ withDefaults(
     <Link v-if="!external" class="text-link" :href="href" :method="method" :data="data">
         <slot />
     </Link>
-    <a v-else :href="href" target="_blank">
+    <a v-else :href="href" target="_blank" class="text-link">
         <icon v-if="icon?.length" :name="icon" :size="1" />
         <slot />
     </a>

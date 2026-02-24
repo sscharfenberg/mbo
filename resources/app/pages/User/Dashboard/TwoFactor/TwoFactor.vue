@@ -53,6 +53,7 @@ const showPassword = ref(false);
                 for-id="password"
                 :label="$t('form.fields.password')"
                 :error="validationErrors.password"
+                :invalid="!!validationErrors.password"
                 :required="true"
             >
                 <template #addon>
@@ -86,6 +87,5 @@ const showPassword = ref(false);
         </form>
     </section>
     <section v-else>enabled</section>
-    <!--    <two-factor-modal :show="showSetupModal" />-->
-    <two-factor-modal />
+    <two-factor-modal v-if="showSetupModal" />
 </template>
