@@ -1,18 +1,93 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import ModalBody from "./ModalBody.vue";
 import ModalFooter from "./ModalFooter.vue";
 import ModalHeader from "./ModalHeader.vue";
-const openModal = () => document.getElementById("modal")?.showModal();
-const closeModal = () => document.getElementById("modal")?.close();
+
+const modalRef = ref<HTMLDialogElement | null>(null);
+const contentRef = ref<HTMLDivElement | null>(null);
+const isClosing = ref(false);
+
+/**
+ * Open the native dialog via `showModal()`.
+ *
+ * Resets the local closing flag first so that any previous close animation
+ * state does not leak into the next open cycle.
+ */
+const openModal = () => {
+    const modal = modalRef.value;
+    if (!modal) return;
+    isClosing.value = false;
+    modal.showModal();
+};
+
+/**
+ * Close the dialog with an optional exit animation.
+ *
+ * If reduced motion is enabled (or the content node is unavailable), the
+ * dialog closes immediately. Otherwise, it applies the `is-closing` state
+ * and waits for the content animation to finish before calling `close()`.
+ */
+const closeModal = () => {
+    const modal = modalRef.value;
+    const content = contentRef.value;
+    if (!modal?.open || isClosing.value) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !content) {
+        modal.close();
+        return;
+    }
+    isClosing.value = true;
+    const handleAnimationEnd = (event: AnimationEvent) => {
+        if (event.target !== content) return;
+        isClosing.value = false;
+        modal.close();
+    };
+    content.addEventListener("animationend", handleAnimationEnd, { once: true });
+};
+
+/**
+ * Intercept native cancel requests (for example Escape key presses) so the
+ * modal can run its exit animation before the dialog is actually closed.
+ *
+ * @param event - Native dialog cancel event.
+ */
+const onDialogCancel = (event: Event) => {
+    event.preventDefault();
+    closeModal();
+};
+
+/**
+ * Close the modal when users click outside the content area on the dialog
+ * backdrop itself.
+ *
+ * @param event - Mouse click event emitted by the dialog element.
+ */
+const onDialogClick = (event: MouseEvent) => {
+    if (event.target === event.currentTarget) {
+        closeModal();
+    }
+};
+
+/**
+ * Open the dialog immediately after mount so rendering this component
+ * behaves like "show this modal now" for consumers.
+ */
 onMounted(() => {
     openModal();
 });
 </script>
 
 <template>
-    <dialog id="modal" class="modal-dialog" closedby="closerequest">
-        <div class="modal-dialog__content">
+    <dialog
+        id="modal"
+        ref="modalRef"
+        class="modal-dialog"
+        :class="{ 'is-closing': isClosing }"
+        closedby="closerequest"
+        @cancel="onDialogCancel"
+        @click="onDialogClick"
+    >
+        <div ref="contentRef" class="modal-dialog__content">
             <modal-header @close="closeModal"><slot name="header" /></modal-header>
             <modal-body><slot /></modal-body>
             <modal-footer v-if="$slots.footer"><slot name="footer" /></modal-footer>
@@ -24,6 +99,7 @@ onMounted(() => {
 @use "sass:map";
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
+@forward "modal-animations";
 
 .modal-dialog {
     position: fixed;
@@ -39,6 +115,8 @@ onMounted(() => {
     outline: 0;
 
     &::backdrop {
+        opacity: 0;
+
         background: map.get(c.$main, "modal", "backdrop");
         backdrop-filter: blur(10px);
     }

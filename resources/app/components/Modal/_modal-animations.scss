@@ -1,0 +1,75 @@
+@use "sass:map";
+@use "Abstracts/timings" as ti;
+
+.modal-dialog[open]::backdrop {
+    animation: modal-backdrop-in map.get(ti.$timings, "fast") ease-out forwards;
+}
+
+.modal-dialog[open] .modal-dialog__content {
+    animation: modal-content-in map.get(ti.$timings, "fast") ease-out forwards;
+}
+
+.modal-dialog.is-closing::backdrop {
+    animation: modal-backdrop-out map.get(ti.$timings, "fast") ease-in forwards;
+}
+
+.modal-dialog.is-closing .modal-dialog__content {
+    animation: modal-content-out map.get(ti.$timings, "fast") ease-in forwards;
+}
+
+@keyframes modal-content-in {
+    from {
+        opacity: 0;
+
+        transform: translateY(-10rem);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+@keyframes modal-content-out {
+    from {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+
+        transform: translateY(-10rem);
+    }
+}
+
+@keyframes modal-backdrop-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modal-backdrop-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-dialog[open]::backdrop,
+    .modal-dialog[open] .modal-dialog__content,
+    .modal-dialog.is-closing::backdrop,
+    .modal-dialog.is-closing .modal-dialog__content {
+        animation: none;
+    }
+}
