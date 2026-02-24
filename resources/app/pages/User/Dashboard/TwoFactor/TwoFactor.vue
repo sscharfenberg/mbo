@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
-import Badge from "Components/Visual/Badge.vue";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
-import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
-import Paragraph from "Components/Visual/Paragraph.vue";
+import Badge from "Components/UI/Badge.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
+import LabelledLink from "Components/UI/LabelledLink.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorModal from "./TwoFactorModal.vue";
 const {
@@ -34,10 +35,14 @@ const showPassword = ref(false);
                 ><strong>{{ $t("pages.dashboard.two-factor.totp") }}</strong></template
             >
             <template #tool1
-                ><cite>{{ $t("pages.dashboard.two-factor.tool1") }}</cite></template
+                ><labelled-link href="https://bitwarden.com/" :external="true">{{
+                    $t("pages.dashboard.two-factor.tool1")
+                }}</labelled-link></template
             >
             <template #tool2
-                ><cite>{{ $t("pages.dashboard.two-factor.tool2") }}</cite></template
+                ><labelled-link href="https://www.enpass.io/" :external="true">{{
+                    $t("pages.dashboard.two-factor.tool2")
+                }}</labelled-link></template
             >
         </i18n-t>
     </Paragraph>
@@ -60,7 +65,7 @@ const showPassword = ref(false);
                         "
                         tabindex="-1"
                     >
-                        <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                        <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
                     </button>
                 </template>
                 <input

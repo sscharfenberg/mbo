@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
 import { computed, onUnmounted, ref, watch } from "vue";
-import Icon from "Components/Visual/Icon.vue";
+import Icon from "Components/UI/Icon.vue";
 export type Type = "info" | "warning" | "error" | "success";
 const classList = computed(() => {
     const list = ["flash-message__dialog"];
@@ -16,7 +16,7 @@ const onKeyPress = (ev: KeyboardEvent) => {
 };
 watch(
     () => page.props.flash.message,
-    (message) => {
+    message => {
         if (dismissTimer) clearTimeout(dismissTimer);
         if (message?.length) {
             showFlash.value = true;

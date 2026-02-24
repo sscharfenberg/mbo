@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Icon from "Components/Visual/Icon.vue";
+import Icon from "Components/UI/Icon.vue";
 withDefaults(
     defineProps<{
         required?: boolean;

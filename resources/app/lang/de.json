@@ -114,5 +114,8 @@
     "state": {
         "disabled": "Deaktiviert",
         "enabled": "Aktiviert"
+    },
+    "modal": {
+        "close": "Schließen"
     }
 }

@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { Form, Head, Link, usePage } from "@inertiajs/vue3";
+import { Form, Head, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
-import LinkGroup from "Components/Visual/LinkGroup.vue";
-import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
+import LabelledLink from "Components/UI/LabelledLink.vue";
+import LinkGroup from "Components/UI/LinkGroup.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
 const page = usePage();
 const features = computed(() => page.props.features);
@@ -74,7 +75,7 @@ const onChange = (ev: { target: { value: string } }) => {
         </form-group>
         <form-group>
             <link-group v-if="features.emailVerification" :label="$t('pages.login.nav-label')">
-                <Link class="text-link" href="/resend-verification">{{ $t("pages.resend-verification.link") }}</Link>
+                <labelled-link href="/resend-verification">{{ $t("pages.resend-verification.link") }}</labelled-link>
             </link-group>
         </form-group>
     </Form>

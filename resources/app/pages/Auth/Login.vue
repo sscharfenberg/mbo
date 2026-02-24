@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { Form, Head, Link, usePage } from "@inertiajs/vue3";
+import { Form, Head, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
-import LinkGroup from "Components/Visual/LinkGroup.vue";
-import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
+import LabelledLink from "Components/UI/LabelledLink.vue";
+import LinkGroup from "Components/UI/LinkGroup.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
 defineProps<{
     status?: string;
@@ -47,7 +48,7 @@ const showPassword = ref(false);
                     :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
-                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
                 </button>
             </template>
             <input :type="showPassword ? 'text' : 'password'" name="password" id="password" class="form-input" />
@@ -71,15 +72,15 @@ const showPassword = ref(false);
         </form-group>
         <form-group>
             <link-group :label="$t('pages.login.nav-label')">
-                <Link v-if="features.registration" class="text-link" href="/register">{{
+                <labelled-link v-if="features.registration" href="/register">{{
                     $t("pages.register.link")
-                }}</Link>
-                <Link v-if="features.resetPasswords" class="text-link" href="/forgot">{{
+                }}</labelled-link>
+                <labelled-link v-if="features.resetPasswords" href="/forgot">{{
                     $t("pages.forgot.link")
-                }}</Link>
-                <Link v-if="features.emailVerification" class="text-link" href="/resend-verification">{{
+                }}</labelled-link>
+                <labelled-link v-if="features.emailVerification" href="/resend-verification">{{
                     $t("pages.resend-verification.link")
-                }}</Link>
+                }}</labelled-link>
             </link-group>
         </form-group>
     </Form>

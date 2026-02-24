@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Link } from "@inertiajs/vue3";
-import LinkGroup from "Components/Visual/LinkGroup.vue";
+import LabelledLink from "Components/UI/LabelledLink.vue";
+import LinkGroup from "Components/UI/LinkGroup.vue";
 const startYear = 2026;
 const currentYear = new Date().getFullYear();
 let copyrightDate = `${startYear}`;
@@ -14,9 +14,11 @@ if (currentYear > startYear) {
         <section class="inner">
             &copy; Sven Scharfenberg {{ copyrightDate }}
             <link-group :label="$t('footer.nav-label')">
-                <Link class="text-link" href="/privacy">{{ $t("pages.privacy.link") }}</Link>
-                <Link class="text-link" href="/imprint">{{ $t("pages.imprint.link") }}</Link>
-                <a href="https://github.com/sscharfenberg/mbo"><img src="./github.svg" alt="Github Repository" /></a>
+                <labelled-link href="/privacy">{{ $t("pages.privacy.link") }}</labelled-link>
+                <labelled-link href="/imprint">{{ $t("pages.imprint.link") }}</labelled-link>
+                <labelled-link href="https://github.com/sscharfenberg/mbo"
+                    ><img src="./github.svg" alt="Github Repository"
+                /></labelled-link>
             </link-group>
         </section>
     </footer>

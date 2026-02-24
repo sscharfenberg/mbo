@@ -4,6 +4,7 @@ import Modal from "Components/Modal/Modal.vue";
 
 <template>
     <modal>
+        <template #header>Two Factor Setup</template>
         <div>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, neque, porro. Dolores nesciunt, sunt? Aperiam
             autem debitis dicta dignissimos, doloribus earum eum fuga id neque officia quas rerum ut voluptas?
@@ -52,5 +53,6 @@ import Modal from "Components/Modal/Modal.vue";
             A atque deleniti dignissimos distinctio dolorem eius eligendi est et eveniet illo magnam minima nam nemo,
             neque quisquam quod ratione rem reprehenderit rerum, saepe sapiente sint, sit veniam vero voluptates.
         </div>
+        <template #footer>footer footer footer footer footer</template>
     </modal>
 </template>

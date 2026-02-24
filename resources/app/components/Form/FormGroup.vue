@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Icon from "Components/Visual/Icon.vue";
-import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import Icon from "Components/UI/Icon.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 
 defineProps({
     forId: String,

@@ -3,10 +3,10 @@ import { Form } from "@inertiajs/vue3";
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
-import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
-import PasswordStrength from "Components/Visual/PasswordStrength.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+import PasswordStrength from "Components/UI/PasswordStrength.vue";
 import { usePasswordEntropy } from "Composables/usePasswordEntropy";
 const { password, score, onPasswordChange, reset } = usePasswordEntropy();
 const showPassword = ref(false);
@@ -40,7 +40,7 @@ const showPassword = ref(false);
                     :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
-                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
                 </button>
             </template>
             <input
@@ -69,7 +69,7 @@ const showPassword = ref(false);
                     :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
-                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
                 </button>
             </template>
             <input
@@ -100,7 +100,7 @@ const showPassword = ref(false);
                     :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
                     tabindex="-1"
                 >
-                    <icon :name="showPassword ? 'visibility_off' : 'visibility_on'" />
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
                 </button>
             </template>
             <input

@@ -3,9 +3,9 @@ import { Form, Head } from "@inertiajs/vue3";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
-import LoadingSpinner from "Components/Visual/LoadingSpinner.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 defineOptions({ layout: NarrowLayout });
 </script>
 

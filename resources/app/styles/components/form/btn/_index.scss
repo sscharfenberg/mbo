@@ -40,6 +40,7 @@
         top right,
         bottom left;
     color: map.get(c.$button, "surface");
+    outline: 0;
     border-radius: 100vw;
 
     font-family: map.get(t.$app, "button");

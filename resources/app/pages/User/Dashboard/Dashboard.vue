@@ -3,8 +3,8 @@ import { Head } from "@inertiajs/vue3";
 import DashboardPassword from "@/pages/User/Dashboard/DashboardPassword.vue";
 import DashboardProfile from "@/pages/User/Dashboard/DashboardProfile.vue";
 import TwoFactor from "@/pages/User/Dashboard/TwoFactor/TwoFactor.vue";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
 </script>
 
 <template>

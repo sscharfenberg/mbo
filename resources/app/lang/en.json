@@ -114,5 +114,8 @@
     "state": {
         "disabled": "Disabled",
         "enabled": "Enabled"
+    },
+    "modal": {
+        "close": "Close"
     }
 }

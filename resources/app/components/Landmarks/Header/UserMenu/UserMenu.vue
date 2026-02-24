@@ -2,7 +2,7 @@
 import { Link, router, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import PopOver from "Components/Popover/PopOver.vue";
-import Icon from "Components/Visual/Icon.vue";
+import Icon from "Components/UI/Icon.vue";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
 const page = usePage();
 const user = computed(() => page.props.auth.user);

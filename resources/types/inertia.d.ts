@@ -1,4 +1,4 @@
-import type { Type as FlashType } from "Components/Visual/FlashMessage.vue";
+import type { Type as FlashType } from "Components/UI/FlashMessage.vue";
 
 export {};
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import Icon from "Components/Visual/Icon.vue";
+import Icon from "Components/UI/Icon.vue";
 const props = defineProps({
     score: {
         type: Number,

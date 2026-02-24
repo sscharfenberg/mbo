@@ -43,11 +43,16 @@ $main: (
     "modal": (
         "backdrop": light-dark(
                 color.adjust(map.get(c.$grey, "white"), $alpha: -0.75),
-                color.adjust(map.get(c.$grey, "black"), $alpha: -0.85)
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.55)
             ),
         "background": hsl(from light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "black")) h s l / 25%),
         "surface": light-dark(#000, #fff),
-        "border": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "charcoal"))
+        "border": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "charcoal")),
+        "title-background": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+        "title-surface": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast")),
+        "footer-background": transparent,
+        "footer-surface": canvasText,
+        "footer-border": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "charcoal"))
     )
 ) !default;
 

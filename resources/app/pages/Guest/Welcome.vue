@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
-import Headline from "Components/Visual/Headline.vue";
-import Icon from "Components/Visual/Icon.vue";
+import Headline from "Components/UI/Headline.vue";
+import Icon from "Components/UI/Icon.vue";
 </script>
 
 <template>
