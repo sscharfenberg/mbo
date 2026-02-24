@@ -8,6 +8,7 @@ withDefaults(
         method?: "get" | "post" | "put" | "patch" | "delete";
         data?: RequestPayload;
         external?: boolean;
+        icon?: string;
     }>(),
     {
         method: "get",
@@ -20,8 +21,8 @@ withDefaults(
     <Link v-if="!external" class="text-link" :href="href" :method="method" :data="data">
         <slot />
     </Link>
-    <a v-else :href="href">
-        <icon name="external-link" v-if="external" :size="1" />
+    <a v-else :href="href" target="_blank">
+        <icon v-if="icon?.length" :name="icon" :size="1" />
         <slot />
     </a>
 </template>

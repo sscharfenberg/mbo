@@ -35,12 +35,12 @@ const showPassword = ref(false);
                 ><strong>{{ $t("pages.dashboard.two-factor.totp") }}</strong></template
             >
             <template #tool1
-                ><labelled-link href="https://bitwarden.com/" :external="true">{{
+                ><labelled-link href="https://bitwarden.com/" :external="true" icon="external-link">{{
                     $t("pages.dashboard.two-factor.tool1")
                 }}</labelled-link></template
             >
             <template #tool2
-                ><labelled-link href="https://www.enpass.io/" :external="true">{{
+                ><labelled-link href="https://www.enpass.io/" :external="true" icon="external-link">{{
                     $t("pages.dashboard.two-factor.tool2")
                 }}</labelled-link></template
             >

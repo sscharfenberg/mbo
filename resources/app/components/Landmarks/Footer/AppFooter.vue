@@ -16,7 +16,7 @@ if (currentYear > startYear) {
             <link-group :label="$t('footer.nav-label')">
                 <labelled-link href="/privacy">{{ $t("pages.privacy.link") }}</labelled-link>
                 <labelled-link href="/imprint">{{ $t("pages.imprint.link") }}</labelled-link>
-                <labelled-link href="https://github.com/sscharfenberg/mbo"
+                <labelled-link href="https://github.com/sscharfenberg/mbo" :external="true"
                     ><img src="./github.svg" alt="Github Repository"
                 /></labelled-link>
             </link-group>
