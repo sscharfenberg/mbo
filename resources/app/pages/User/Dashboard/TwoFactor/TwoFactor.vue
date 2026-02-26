@@ -87,5 +87,9 @@ const showPassword = ref(false);
         </form>
     </section>
     <section v-else>enabled</section>
-    <two-factor-modal v-if="showSetupModal" />
+    <two-factor-modal
+        v-if="showSetupModal"
+        :requiresConfirmation="requiresConfirmation"
+        :twoFactorEnabled="twoFactorEnabled"
+    />
 </template>

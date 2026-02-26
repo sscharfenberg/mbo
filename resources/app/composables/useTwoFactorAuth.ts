@@ -102,7 +102,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
      */
     const fetchSetupKey = async (): Promise<void> => {
         try {
-            const { secretKey: key } = await fetchJson<{ secretKey: string }>("/user/two-factor-recovery-codes");
+            const { secretKey: key } = await fetchJson<{ secretKey: string }>("/user/two-factor-secret-key");
 
             manualSetupKey.value = key;
         } catch {
