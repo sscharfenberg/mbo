@@ -113,6 +113,7 @@ const { errors, name, password, remember, requiresTwoFactor, recoveryCode, showR
                 :disabled="processing"
                 @click="showRecoveryCode = !showRecoveryCode"
             >
+                <icon name="security" />
                 {{ showRecoveryCode ? $t("pages.login.2fa.toggle.2fa") : $t("pages.login.2fa.toggle.recovery") }}
             </button>
         </form-group>

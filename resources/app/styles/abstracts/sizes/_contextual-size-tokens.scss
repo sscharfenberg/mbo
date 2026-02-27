@@ -110,6 +110,7 @@ $glass: (
 $button: (
     "padding": 0.2lh 3ch,
     "border": map.get(s.$border, "featured"),
+    "min-height": map.get(s.$icons, "medium"),
     "close": (
         "padding": 0.2lh 0.4ch
     )

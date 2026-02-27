@@ -45,7 +45,8 @@
 
     font-family: map.get(t.$app, "button");
     font-size: 1rem;
-    line-height: 1rem;
+
+    line-height: map.get(s.$button, "min-height");
     text-transform: uppercase;
     letter-spacing: 0.1ch;
 
