@@ -4,8 +4,9 @@ withDefaults(
     defineProps<{
         required?: boolean;
         password?: boolean;
+        twoFactor?: boolean;
     }>(),
-    { required: false, password: false }
+    { required: false, password: false, twoFactor: false }
 );
 </script>
 
@@ -28,6 +29,10 @@ withDefaults(
         <li v-if="password">
             <icon name="key" />
             <span>{{ $t("form.legend.password") }} </span>
+        </li>
+        <li v-if="twoFactor">
+            <icon name="security" />
+            <span>{{ $t("form.legend.2fa") }} </span>
         </li>
     </ul>
 </template>

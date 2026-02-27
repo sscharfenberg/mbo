@@ -34,9 +34,11 @@ return [
             'entropy' => 'The password is not secure enough.'
         ],
         'password_confirmation' => [
+            'required' => 'Please confirm the password.',
             'same' => 'The password confirmation does not match.',
         ],
         'current_password' => [
+            'required' => 'Please enter your current password.',
             'current_password' => 'This password does not match our records.'
         ]
     ],

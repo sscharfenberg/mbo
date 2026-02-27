@@ -33,7 +33,16 @@
             "title": "Anmeldung",
             "link": "Anmeldung",
             "nav-label": "Wenn Sie sich nicht anmelden können, verwenden Sie diese Links.",
-            "submit": "Anmelden"
+            "submit": "Anmelden",
+            "2fa": {
+                "recovery_code": "Wiederherstellungscode",
+                "2fa_code": "Einmalkennwort",
+                "verify": "Überprüfen",
+                "toggle": {
+                    "2fa": "Einmalkennwort verwenden",
+                    "recovery": "Wiederherstellungscode verwenden"
+                }
+            }
         },
         "forgot": {
             "title": "Probleme beim Anmelden?",
@@ -94,7 +103,8 @@
     "form": {
         "legend": {
             "required": "Felder die mit einem {icon} gekennzeichnet sind, müssen ausgefüllt werden.",
-            "password": "Während der Eingabe des Passwortes prüfen wir ob das Passwort sicher genug ist. Unsichere Passwörter werden abgewiesen."
+            "password": "Während der Eingabe des Passwortes prüfen wir ob das Passwort sicher genug ist. Unsichere Passwörter werden abgewiesen.",
+            "2fa": "Für Ihr Benutzerkonto ist die Zwei-Faktor Authentifizierung aktiviert. Bitte prüfen Sie Ihre App und geben Sie das Einmalkennwort ein das angezeigt wird."
         },
         "fields": {
             "username": "Benutzername",

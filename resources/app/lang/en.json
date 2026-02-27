@@ -33,7 +33,16 @@
             "title": "Login",
             "link": "Login",
             "nav-label": "If you can't login, use these links.",
-            "submit": "Login"
+            "submit": "Login",
+            "2fa": {
+                "recovery_code": "Recovery Code",
+                "2fa_code": "Authentication Code",
+                "verify": "Verify",
+                "toggle": {
+                    "2fa": "Use Authentication Code",
+                    "recovery": "Use Recovery Code"
+                }
+            }
         },
         "forgot": {
             "title": "Can't login?",
@@ -94,7 +103,8 @@
     "form": {
         "legend": {
             "required": "Fields marked with a {icon} are required.",
-            "password": "When entering your password, we check if the password is secure enough. Insecure passwords are rejected."
+            "password": "When entering your password, we check if the password is secure enough. Insecure passwords are rejected.",
+            "2fa": "Your account has enabled two-factor authentication. Please check your app for a one-time password, or use a recovery code to login."
         },
         "fields": {
             "username": "Username",
