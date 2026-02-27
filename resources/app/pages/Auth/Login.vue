@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
+import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
@@ -20,6 +21,14 @@ const features = computed(() => page.props.features);
 const showPassword = ref(false);
 const { errors, name, password, remember, requiresTwoFactor, recoveryCode, showRecoveryCode, processing, submit } =
     useLogin();
+const codeTypes = [
+    { value: "2fa", label: "pages.login.2fa.toggle.2fa", checked: !showRecoveryCode.value },
+    { value: "recovery", label: "pages.login.2fa.toggle.recovery", checked: showRecoveryCode.value }
+];
+const onCodeTypeChange = (event: Event) => {
+    const value = (event.target as HTMLInputElement | null)?.value;
+    showRecoveryCode.value = value === "recovery";
+};
 </script>
 
 <template>
@@ -99,22 +108,14 @@ const { errors, name, password, remember, requiresTwoFactor, recoveryCode, showR
                 autofocus
             />
         </form-group>
+        <form-group v-if="requiresTwoFactor">
+            <radio-button-group name="type" :radio-buttons="codeTypes" @change="onCodeTypeChange" />
+        </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="key" />
                 {{ requiresTwoFactor ? $t("pages.login.2fa.verify") : $t("pages.login.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
-            </button>
-        </form-group>
-        <form-group v-if="requiresTwoFactor">
-            <button
-                type="button"
-                class="btn-default"
-                :disabled="processing"
-                @click="showRecoveryCode = !showRecoveryCode"
-            >
-                <icon name="security" />
-                {{ showRecoveryCode ? $t("pages.login.2fa.toggle.2fa") : $t("pages.login.2fa.toggle.recovery") }}
             </button>
         </form-group>
         <form-group>

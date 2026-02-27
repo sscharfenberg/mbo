@@ -48,6 +48,10 @@ class FortifyServiceProvider extends ServiceProvider
             \Laravel\Fortify\Contracts\PasswordUpdateResponse::class,
             \App\Http\Responses\PasswordUpdateResponse::class
         );
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\FailedTwoFactorLoginResponse::class,
+            \App\Http\Responses\FailedTwoFactorLoginResponse::class
+        );
     }
 
     /**
