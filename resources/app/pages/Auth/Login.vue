@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
+import OTPInput from "Components/Form/OTPInput/OTPInput.vue";
 import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -98,7 +99,19 @@ const onCodeTypeChange = (event: Event) => {
             :invalid="showRecoveryCode ? !!errors.recovery_code : !!errors.code"
             :required="true"
         >
+            <OTPInput
+                v-if="!showRecoveryCode"
+                id="code"
+                v-model="recoveryCode"
+                name="code"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                :maxlength="6"
+                autofocus
+                @complete="submit"
+            />
             <input
+                v-else
                 id="code"
                 v-model="recoveryCode"
                 type="text"

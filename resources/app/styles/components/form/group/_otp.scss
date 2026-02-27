@@ -1,0 +1,45 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+
+.otp {
+    display: flex;
+
+    padding: 0.5ex 4ch 0.5ex 2ch;
+    gap: 0.5ch;
+
+    transition:
+        background-color map.get(ti.$timings, "fast"),
+        color map.get(ti.$timings, "fast"),
+        border-color map.get(ti.$timings, "fast");
+
+    &:focus-within {
+        background-color: map.get(c.$form, "input", "background-focus");
+        color: map.get(c.$form, "input", "surface-focus");
+        border-color: map.get(c.$form, "input", "border-focus");
+    }
+
+    &__char {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 4ch;
+        min-height: calc(map.get(s.$form, "otp", "line-height") + 2 * map.get(s.$form, "otp", "border"));
+        padding: map.get(s.$form, "otp", "padding");
+        border: map.get(s.$form, "otp", "border") solid map.get(c.$form, "otp", "border");
+
+        background-color: map.get(c.$form, "otp", "background");
+        color: map.get(c.$form, "otp", "surface");
+        border-radius: map.get(s.$form, "otp", "radius");
+
+        line-height: map.get(s.$form, "otp", "line-height");
+
+        &--active {
+            background-color: map.get(c.$form, "otp", "background-active");
+            color: map.get(c.$form, "otp", "surface-active");
+            border-color: map.get(c.$form, "otp", "border-active");
+        }
+    }
+}

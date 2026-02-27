@@ -156,6 +156,12 @@ $form: (
     "checkbox": (
         "size": map.get(s.$icons, "medium"),
         "border": map.get(s.$border, "base")
+    ),
+    "otp": (
+        "padding": 0,
+        "radius": map.get(s.$radius, "base"),
+        "border": map.get(s.$border, "base"),
+        "line-height": map.get(s.$icons, "medium")
     )
 ) !default;
 
