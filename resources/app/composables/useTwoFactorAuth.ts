@@ -9,7 +9,6 @@ export type UseTwoFactorAuthReturn = {
     recoveryCodesList: Ref<string[]>;
     errors: Ref<string[]>;
     validationErrors: Ref<Record<string, string>>;
-    password: Ref<string>;
     processing: Ref<boolean>;
     isRecoveryCodesVisible: Ref<boolean>;
     showSetupModal: Ref<boolean>;
@@ -19,10 +18,11 @@ export type UseTwoFactorAuthReturn = {
     clearSetupData: () => void;
     clearErrors: () => void;
     clearTwoFactorAuthData: () => void;
-    confirmPassword: () => Promise<boolean>;
-    enableTwoFactor: () => Promise<void>;
-    handleShowRecoveryCodes: () => Promise<void>;
-    handleRegenerateRecoveryCodes: () => Promise<void>;
+    confirmPassword: (pw: string) => Promise<boolean>;
+    enableTwoFactor: (pw: string) => Promise<void>;
+    disableTwoFactor: (pw: string) => Promise<void>;
+    handleShowRecoveryCodes: (pw: string) => Promise<void>;
+    handleRegenerateRecoveryCodes: (pw: string) => Promise<void>;
     fetchQrCode: () => Promise<void>;
     fetchSetupKey: () => Promise<void>;
     fetchSetupData: () => Promise<void>;
@@ -57,8 +57,6 @@ const fetchJson = async <T>(url: string): Promise<T> => {
 const errors = ref<string[]>([]);
 const validationErrors = ref<Record<string, string>>({});
 const manualSetupKey = ref<string | null>(null);
-const password = ref("");
-const processing = ref(false);
 const qrCodeSvg = ref<string | null>(null);
 const recoveryCodesList = ref<string[]>([]);
 const isRecoveryCodesVisible = ref(false);
@@ -80,6 +78,10 @@ const hasSetupData = computed<boolean>(() => qrCodeSvg.value !== null && manualS
  * - `GET /user/two-factor-recovery-codes` — one-time-use backup codes.
  */
 export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
+    // Per-component — each consumer gets its own processing state so that
+    // submitting one form does not disable buttons in sibling forms.
+    const processing = ref(false);
+
     /**
      * Fetch the TOTP QR code SVG from Fortify.
      *
@@ -192,7 +194,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
      *
      * @returns `true` when the password was accepted, `false` on validation failure.
      */
-    const confirmPassword = async (): Promise<boolean> => {
+    const confirmPassword = async (pw: string): Promise<boolean> => {
         const response = await fetch("/confirm-password", {
             method: "POST",
             headers: {
@@ -200,7 +202,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
                 Accept: "application/json",
                 "X-CSRF-TOKEN": page.props.csrfToken as string
             },
-            body: JSON.stringify({ password: password.value })
+            body: JSON.stringify({ password: pw })
         });
         if (!response.ok) {
             const data = await response.json();
@@ -224,12 +226,12 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
      * when not required), an Inertia POST to Fortify's 2FA endpoint enables
      * TOTP for the authenticated user and opens the setup modal on success.
      */
-    const enableTwoFactor = async (): Promise<void> => {
+    const enableTwoFactor = async (pw: string): Promise<void> => {
         processing.value = true;
         validationErrors.value = {};
 
         if (requiresConfirmation.value) {
-            const confirmed = await confirmPassword();
+            const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
                 return;
@@ -244,13 +246,45 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
                 preserveScroll: true,
                 onSuccess: () => {
                     showSetupModal.value = true;
-                    password.value = "";
                 },
                 onFinish: () => {
                     processing.value = false;
                 }
             }
         );
+    };
+
+    /**
+     * Orchestrates the two-factor authentication disable flow.
+     *
+     * Mirrors {@link enableTwoFactor}: when `confirmPassword` is active in the
+     * Fortify config, the user's password is validated first via
+     * {@link confirmPassword} so Fortify's `password.confirm` middleware passes
+     * on the subsequent DELETE request. Using `router.delete` (not Inertia's
+     * `<Form>`) avoids the 405 that occurs when Fortify's middleware tries to
+     * redirect to the GET `password.confirm` route before the session is set.
+     */
+    const disableTwoFactor = async (pw: string): Promise<void> => {
+        processing.value = true;
+        validationErrors.value = {};
+
+        if (requiresConfirmation.value) {
+            const confirmed = await confirmPassword(pw);
+            if (!confirmed) {
+                processing.value = false;
+                return;
+            }
+        }
+
+        router.delete("/user/two-factor-authentication", {
+            preserveScroll: true,
+            onSuccess: () => {
+                clearTwoFactorAuthData();
+            },
+            onFinish: () => {
+                processing.value = false;
+            }
+        });
     };
 
     /**
@@ -261,12 +295,12 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
      * Fortify's `password.confirm` middleware, then requests recovery codes.
      * On success, recovery codes are marked as visible in the UI.
      */
-    const handleShowRecoveryCodes = async (): Promise<void> => {
+    const handleShowRecoveryCodes = async (pw: string): Promise<void> => {
         processing.value = true;
         validationErrors.value = {};
 
         if (requiresConfirmation.value) {
-            const confirmed = await confirmPassword();
+            const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
                 return;
@@ -275,7 +309,6 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
 
         await fetchRecoveryCodes();
         isRecoveryCodesVisible.value = recoveryCodesList.value.length > 0;
-        password.value = "";
         processing.value = false;
     };
 
@@ -286,7 +319,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
      * The regenerate endpoint is called as JSON to avoid Fortify's default
      * redirect response, then recovery codes are fetched again for display.
      */
-    const handleRegenerateRecoveryCodes = async (): Promise<void> => {
+    const handleRegenerateRecoveryCodes = async (pw: string): Promise<void> => {
         processing.value = true;
         validationErrors.value = {};
         const postRegenerate = async (): Promise<Response> =>
@@ -304,7 +337,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
 
         // Only ask for password again when the session confirmation has expired.
         if (response.status === 423 && requiresConfirmation.value) {
-            const confirmed = await confirmPassword();
+            const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
                 return;
@@ -320,7 +353,6 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
 
         await fetchRecoveryCodes();
         isRecoveryCodesVisible.value = recoveryCodesList.value.length > 0;
-        password.value = "";
         processing.value = false;
     };
 
@@ -330,7 +362,6 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         recoveryCodesList,
         errors,
         validationErrors,
-        password,
         processing,
         isRecoveryCodesVisible,
         showSetupModal,
@@ -342,6 +373,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         clearTwoFactorAuthData,
         confirmPassword,
         enableTwoFactor,
+        disableTwoFactor,
         handleShowRecoveryCodes,
         handleRegenerateRecoveryCodes,
         fetchQrCode,

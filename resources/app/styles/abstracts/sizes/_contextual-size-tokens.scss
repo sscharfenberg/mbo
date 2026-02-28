@@ -71,6 +71,10 @@ $main: (
         "font": 1.6rem,
         "border": map.get(s.$border, "base")
     ),
+    "h4": (
+        "font": 1.3rem,
+        "border": map.get(s.$border, "base")
+    ),
     "paragraph": (
         "border": map.get(s.$border, "base"),
         "padding": 0.5lh 1ch,

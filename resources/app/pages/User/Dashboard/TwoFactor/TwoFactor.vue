@@ -1,25 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import FormGroup from "Components/Form/FormGroup.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
-import LabelledLink from "Components/UI/LabelledLink.vue";
-import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
-import TwoFactorModal from "./TwoFactorModal.vue";
-import TwoFactorRecoveryCodes from "./TwoFactorRecoveryCodes.vue";
-const {
-    password,
-    processing,
-    validationErrors,
-    requiresConfirmation,
-    twoFactorEnabled,
-    enableTwoFactor,
-    showSetupModal
-} = useTwoFactorAuth();
-const showPassword = ref(false);
+import TwoFactorDisabled from "./TwoFactorDisabled.vue";
+import TwoFactorEnabled from "./TwoFactorEnabled.vue";
+const { twoFactorEnabled } = useTwoFactorAuth();
 </script>
 
 <template>
@@ -30,79 +16,6 @@ const showPassword = ref(false);
             <badge v-else type="success"><icon name="security" />{{ $t("state.enabled") }}</badge>
         </template>
     </headline>
-    <div v-if="!twoFactorEnabled">
-        <form class="form" @submit.prevent="enableTwoFactor">
-            <Paragraph>
-                <i18n-t keypath="pages.dashboard.two_factor.intro" scope="global">
-                    <template #totp
-                        ><strong>{{ $t("pages.dashboard.two_factor.totp") }}</strong></template
-                    >
-                    <template #tool1
-                        ><labelled-link href="https://bitwarden.com/" :external="true" icon="external-link">{{
-                            $t("pages.dashboard.two_factor.tool1")
-                        }}</labelled-link></template
-                    >
-                    <template #tool2
-                        ><labelled-link href="https://www.enpass.io/" :external="true" icon="external-link">{{
-                            $t("pages.dashboard.two_factor.tool2")
-                        }}</labelled-link></template
-                    >
-                </i18n-t>
-            </Paragraph>
-            <form-group
-                v-if="requiresConfirmation"
-                for-id="password"
-                :label="$t('form.fields.password')"
-                :error="validationErrors.password"
-                :invalid="!!validationErrors.password"
-                :required="true"
-            >
-                <template #addon>
-                    <button
-                        type="button"
-                        class="form-group__addon"
-                        @click.prevent="showPassword = !showPassword"
-                        :aria-label="
-                            showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')
-                        "
-                        tabindex="-1"
-                    >
-                        <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                    </button>
-                </template>
-                <input
-                    v-model="password"
-                    :type="showPassword ? 'text' : 'password'"
-                    name="password"
-                    id="password"
-                    class="form-input"
-                />
-            </form-group>
-            <form-group>
-                <button type="submit" class="btn-primary" :disabled="processing">
-                    <icon name="security" />
-                    {{ $t("pages.dashboard.two_factor.enable") }}
-                    <loading-spinner v-if="processing" :size="2" />
-                </button>
-            </form-group>
-        </form>
-    </div>
-    <div v-else>
-        <two-factor-recovery-codes />
-        <!--        <Form method="DELETE" action="/user/two-factor-authentication" #default="{ processing }">-->
-        <!--            <form-group>-->
-        <!--                <button type="submit" class="btn-primary" :disabled="processing">-->
-        <!--                    <icon name="security" />-->
-        <!--                    {{ $t("pages.dashboard.two-factor.disable") }}-->
-        <!--                    <loading-spinner v-if="processing" :size="2" />-->
-        <!--                </button>-->
-        <!--            </form-group>-->
-        <!--        </Form>-->
-    </div>
-    <two-factor-modal
-        v-if="showSetupModal && !twoFactorEnabled"
-        :requiresConfirmation="requiresConfirmation"
-        :twoFactorEnabled="twoFactorEnabled"
-        @close="showSetupModal = false"
-    />
+    <TwoFactorDisabled v-if="!twoFactorEnabled" />
+    <TwoFactorEnabled v-else />
 </template>

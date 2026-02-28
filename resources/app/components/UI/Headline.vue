@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
     defineProps<{
-        size?: 2 | 3;
+        size?: 2 | 3 | 4;
     }>(),
     {
         size: 2
@@ -18,6 +18,10 @@ withDefaults(
         <slot />
         <span v-if="$slots.right" class="right"><slot name="right" /></span>
     </h3>
+    <h4 v-if="size === 4">
+        <slot />
+        <span v-if="$slots.right" class="right"><slot name="right" /></span>
+    </h4>
 </template>
 
 <style scoped lang="scss">
@@ -27,7 +31,8 @@ withDefaults(
 @use "Abstracts/colors" as c;
 
 h2,
-h3 {
+h3,
+h4 {
     display: flex;
     align-items: center;
 
@@ -52,6 +57,16 @@ h3 {
 
     font-family: map.get(t.$main, "h3");
     font-size: map.get(s.$main, "h3", "font");
+    font-weight: 200;
+}
+
+h4 {
+    border-bottom: map.get(s.$main, "h4", "border") solid map.get(c.$main, "h4", "border");
+
+    color: map.get(c.$main, "h4", "surface");
+
+    font-family: map.get(t.$main, "h4");
+    font-size: map.get(s.$main, "h4", "font");
     font-weight: 200;
 }
 

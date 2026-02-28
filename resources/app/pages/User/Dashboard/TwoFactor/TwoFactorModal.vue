@@ -8,12 +8,10 @@ import Modal from "Components/Modal/Modal.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 type Props = {
     requiresConfirmation?: boolean;
-    twoFactorEnabled?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    requiresConfirmation: false,
-    twoFactorEnabled: false
+    requiresConfirmation: false
 });
 
 const { qrCodeSvg, manualSetupKey, clearSetupData, fetchSetupData, errors } = useTwoFactorAuth();
@@ -42,10 +40,6 @@ const handleModalNextStep = () => {
     emit("close");
 };
 const resetModalState = () => {
-    if (props.twoFactorEnabled) {
-        clearSetupData();
-    }
-
     showVerificationStep.value = false;
     code.value = "";
 };

@@ -84,7 +84,8 @@
             },
             "two_factor": {
                 "headline": "Two-Factor authentication",
-                "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or {tool1} / {tool2}. To activate, you need to provide your password.",
+                "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or {tool1} / {tool2}.",
+                "requires_confirmation": "To activate, you need to provide your password.",
                 "totp": "time-based one-time password (TOTP)",
                 "tool1": "Bitwarden",
                 "tool2": "Enpass",
@@ -100,6 +101,7 @@
                     "next": "Next step"
                 },
                 "recovery_codes": {
+                    "headline": "Recovery Codes",
                     "explanation": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
                     "show": "Show Recovery codes",
                     "hide": "Hide Recovery codes",
@@ -108,6 +110,10 @@
                 "regenerate_codes": {
                     "explanation": "Each recovery code can be used once to access your account and will be removed after use. If you need more, use the button 'Regenerate Codes'",
                     "submit": "Regenerate codes"
+                },
+                "disable_section": {
+                    "headline": "Disable Two-Factor Authentication",
+                    "explanation": "Enter your password to disable two-factor authentication."
                 }
             }
         },
