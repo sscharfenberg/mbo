@@ -42,4 +42,8 @@
             border-color: map.get(c.$form, "otp", "border-active");
         }
     }
+
+    [data-input-otp] {
+        width: 100% !important;
+    }
 }

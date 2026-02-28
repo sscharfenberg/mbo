@@ -30,7 +30,9 @@ const onSubmit = (e: SubmitEvent) => {
 <template>
     <headline :size="4">{{ $t("pages.dashboard.two_factor.recovery_codes.headline") }}</headline>
     <form class="form" @submit.prevent="onSubmit">
-        <form-legend>{{ $t("pages.dashboard.two_factor.recovery_codes.explanation") }}</form-legend>
+        <form-legend :required="requiresConfirmation">{{
+            $t("pages.dashboard.two_factor.recovery_codes.explanation")
+        }}</form-legend>
         <form-group
             v-if="requiresConfirmation && !isRecoveryCodesVisible"
             for-id="recovery-codes-password"

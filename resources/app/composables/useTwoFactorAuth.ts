@@ -267,6 +267,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
     const disableTwoFactor = async (pw: string): Promise<void> => {
         processing.value = true;
         validationErrors.value = {};
+        showSetupModal.value = false;
 
         if (requiresConfirmation.value) {
             const confirmed = await confirmPassword(pw);

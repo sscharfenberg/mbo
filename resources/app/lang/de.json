@@ -100,6 +100,12 @@
                     "copied": "Kopiert",
                     "next": "Nächster Schritt"
                 },
+                "verification": {
+                    "title": "2FA Bestätigen",
+                    "explanation": "Geben Sie das Einmalkennwort aus Ihrer App ein und klicken Sie auf 'Bestätigen'",
+                    "submit": "Bestätigen",
+                    "back": "Zurück"
+                },
                 "recovery_codes": {
                     "headline": "Wiederherstellungscodes",
                     "explanation": "Wiederherstellungscodes erlauben es Ihnen sich anzumelden wenn Sie keinen Zugriff mehr auf Ihr 2FA Gerät haben. Speichern Sie die Wiederherstellungscodes in einem sicheren Passwortmanager.",

@@ -7,7 +7,6 @@ import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorRecoveryCodes from "./TwoFactorRecoveryCodes.vue";
-
 const { processing, validationErrors, requiresConfirmation, disableTwoFactor } = useTwoFactorAuth();
 const password = ref("");
 const showPassword = ref(false);
@@ -17,7 +16,9 @@ const showPassword = ref(false);
     <TwoFactorRecoveryCodes />
     <headline :size="4">{{ $t("pages.dashboard.two_factor.disable_section.headline") }}</headline>
     <form class="form" @submit.prevent="disableTwoFactor(password)">
-        <form-legend>{{ $t("pages.dashboard.two_factor.disable_section.explanation") }}</form-legend>
+        <form-legend :required="requiresConfirmation">{{
+            $t("pages.dashboard.two_factor.disable_section.explanation")
+        }}</form-legend>
         <form-group
             v-if="requiresConfirmation"
             for-id="disable-password"

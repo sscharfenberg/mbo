@@ -8,14 +8,21 @@ import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorModal from "./TwoFactorModal.vue";
 
-const { processing, validationErrors, requiresConfirmation, showSetupModal, enableTwoFactor } = useTwoFactorAuth();
+const { processing, validationErrors, requiresConfirmation, showSetupModal, enableTwoFactor, clearSetupData } = useTwoFactorAuth();
 const password = ref("");
 const showPassword = ref(false);
+
+const handleModalClose = () => {
+    showSetupModal.value = false;
+    password.value = "";
+    showPassword.value = false;
+    clearSetupData();
+};
 </script>
 
 <template>
     <form class="form" @submit.prevent="enableTwoFactor(password)">
-        <Paragraph>
+        <Paragraph style="margin: 0">
             <i18n-t keypath="pages.dashboard.two_factor.intro" scope="global">
                 <template #totp
                     ><strong>{{ $t("pages.dashboard.two_factor.totp") }}</strong></template
@@ -71,6 +78,6 @@ const showPassword = ref(false);
     <two-factor-modal
         v-if="showSetupModal"
         :requiresConfirmation="requiresConfirmation"
-        @close="showSetupModal = false"
+        @close="handleModalClose"
     />
 </template>

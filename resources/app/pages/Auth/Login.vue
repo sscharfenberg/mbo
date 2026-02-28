@@ -108,7 +108,7 @@ const onCodeTypeChange = (event: Event) => {
                 autocomplete="one-time-code"
                 :maxlength="6"
                 autofocus
-                @complete="submit"
+                @complete="() => submit()"
             />
             <input
                 v-else

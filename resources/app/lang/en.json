@@ -100,6 +100,12 @@
                     "copied": "Copied",
                     "next": "Next step"
                 },
+                "verification": {
+                    "title": "Confirm 2FA",
+                    "explanation": "Enter the one-time password from your app and click on 'Confirm'.",
+                    "submit": "Confirm",
+                    "back": "Back"
+                },
                 "recovery_codes": {
                     "headline": "Recovery Codes",
                     "explanation": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
