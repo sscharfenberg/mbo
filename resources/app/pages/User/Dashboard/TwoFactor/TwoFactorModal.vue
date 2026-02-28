@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Form } from "@inertiajs/vue3";
-import { useClipboard } from "@vueuse/core";
 import { onMounted, ref, nextTick, useTemplateRef } from "vue";
 import { useTwoFactorAuth } from "@/composables/useTwoFactorAuth";
+import FormGroup from "Components/Form/FormGroup.vue";
+import FormLegend from "Components/Form/FormLegend.vue";
 import Modal from "Components/Modal/Modal.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-import Paragraph from "Components/UI/Paragraph.vue";
 type Props = {
     requiresConfirmation?: boolean;
     twoFactorEnabled?: boolean;
@@ -49,39 +49,38 @@ const resetModalState = () => {
     showVerificationStep.value = false;
     code.value = "";
 };
-const { copy, copied } = useClipboard();
 </script>
 
 <template>
     <modal>
-        <template #header>Enable Two-Factor Authentication</template>
+        <template #header>{{ $t("pages.dashboard.two_factor.setup.title") }}</template>
         <div v-if="!showVerificationStep">
             <div v-if="errors?.length">ERRORS {{ errors }}</div>
-            <div v-else>
+            <form v-else class="form">
+                <form-legend>{{ $t("pages.dashboard.two_factor.setup.explanation") }}</form-legend>
                 <loading-spinner v-if="!qrCodeSvg" :size="2" />
-                <div v-else>
-                    <paragraph>
-                        finish enabling two-factor authentication, scan the QR code or enter the setup key in your
-                        authenticator app</paragraph
-                    >
+                <form-group v-else :label="$t('pages.dashboard.two_factor.setup.qrcode_label')">
                     <div v-html="qrCodeSvg" />
-                    <button class="w-full" @click="handleModalNextStep">Next step</button>
-                </div>
-                or, enter the code manually
+                </form-group>
                 <loading-spinner v-if="!manualSetupKey" :size="2" />
-                <div v-else>
-                    <input type="text" readonly :value="manualSetupKey" />
-                    <button @click="copy(manualSetupKey || '')">
-                        <span v-if="copied" class="w-4 text-green-500">Copied</span>
-                        <span v-else>Copy</span>
+                <form-group
+                    v-else
+                    for-id="manualSetupKey"
+                    :label="$t('pages.dashboard.two_factor.setup.setupkey_label')"
+                >
+                    <input id="manualSetupKey" class="form-input" type="text" readonly :value="manualSetupKey" />
+                </form-group>
+                <form-group>
+                    <button class="btn-primary" @click="handleModalNextStep">
+                        {{ $t("pages.dashboard.two_factor.setup.next") }}
                     </button>
-                </div>
-                <button class="btn-primary" @click="handleModalNextStep">Next Step</button>
-            </div>
+                </form-group>
+            </form>
         </div>
         <div v-else>
             <Form
                 action="/user/confirmed-two-factor-authentication"
+                error-bag="confirmTwoFactorAuthentication"
                 reset-on-error
                 @success="
                     clearSetupData();

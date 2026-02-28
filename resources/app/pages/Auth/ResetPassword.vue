@@ -21,11 +21,11 @@ const showPassword = ref(false);
 
 <template>
     <Head
-        ><title>{{ $t("pages.reset-password.title") }}</title></Head
+        ><title>{{ $t("pages.reset_password.title") }}</title></Head
     >
     <headline>
         <icon name="keyboard" :size="3" />
-        {{ $t("pages.reset-password.title") }}
+        {{ $t("pages.reset_password.title") }}
     </headline>
     <Form
         action="/reset-password"
@@ -33,7 +33,7 @@ const showPassword = ref(false);
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend>{{ $t("pages.reset-password.intro") }}</form-legend>
+        <form-legend>{{ $t("pages.reset_password.intro") }}</form-legend>
         <form-group
             for-id="email"
             :label="$t('form.fields.email')"
@@ -117,7 +117,7 @@ const showPassword = ref(false);
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />
-                {{ $t("pages.reset-password.submit") }}
+                {{ $t("pages.reset_password.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
         </form-group>

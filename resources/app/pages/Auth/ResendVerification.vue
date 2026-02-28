@@ -11,11 +11,11 @@ defineOptions({ layout: NarrowLayout });
 
 <template>
     <Head
-        ><title>{{ $t("pages.resend-verification.title") }}</title></Head
+        ><title>{{ $t("pages.resend_verification.title") }}</title></Head
     >
     <headline>
         <icon name="mail" :size="3" />
-        {{ $t("pages.resend-verification.title") }}
+        {{ $t("pages.resend_verification.title") }}
     </headline>
     <Form
         action="/resend-verification"
@@ -23,7 +23,7 @@ defineOptions({ layout: NarrowLayout });
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend>{{ $t("pages.resend-verification.intro") }}</form-legend>
+        <form-legend>{{ $t("pages.resend_verification.intro") }}</form-legend>
         <form-group
             for-id="name"
             :label="$t('form.fields.username')"

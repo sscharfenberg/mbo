@@ -132,7 +132,7 @@ const onCodeTypeChange = (event: Event) => {
             </button>
         </form-group>
         <form-group>
-            <link-group :label="$t('pages.login.nav-label')">
+            <link-group :label="$t('pages.login.nav_label')">
                 <labelled-link v-if="features.registration" href="/register">{{
                     $t("pages.register.link")
                 }}</labelled-link>
@@ -140,7 +140,7 @@ const onCodeTypeChange = (event: Event) => {
                     $t("pages.forgot.link")
                 }}</labelled-link>
                 <labelled-link v-if="features.emailVerification" href="/resend-verification">{{
-                    $t("pages.resend-verification.link")
+                    $t("pages.resend_verification.link")
                 }}</labelled-link>
             </link-group>
         </form-group>

@@ -24,7 +24,7 @@ const showPassword = ref(false);
 
 <template>
     <headline :size="3">
-        {{ $t("pages.dashboard.two-factor.headline") }}
+        {{ $t("pages.dashboard.two_factor.headline") }}
         <template #right>
             <badge v-if="!twoFactorEnabled" type="warning"><icon name="key" />{{ $t("state.disabled") }}</badge>
             <badge v-else type="success"><icon name="security" />{{ $t("state.enabled") }}</badge>
@@ -33,18 +33,18 @@ const showPassword = ref(false);
     <div v-if="!twoFactorEnabled">
         <form class="form" @submit.prevent="enableTwoFactor">
             <Paragraph>
-                <i18n-t keypath="pages.dashboard.two-factor.intro" scope="global">
+                <i18n-t keypath="pages.dashboard.two_factor.intro" scope="global">
                     <template #totp
-                        ><strong>{{ $t("pages.dashboard.two-factor.totp") }}</strong></template
+                        ><strong>{{ $t("pages.dashboard.two_factor.totp") }}</strong></template
                     >
                     <template #tool1
                         ><labelled-link href="https://bitwarden.com/" :external="true" icon="external-link">{{
-                            $t("pages.dashboard.two-factor.tool1")
+                            $t("pages.dashboard.two_factor.tool1")
                         }}</labelled-link></template
                     >
                     <template #tool2
                         ><labelled-link href="https://www.enpass.io/" :external="true" icon="external-link">{{
-                            $t("pages.dashboard.two-factor.tool2")
+                            $t("pages.dashboard.two_factor.tool2")
                         }}</labelled-link></template
                     >
                 </i18n-t>
@@ -81,7 +81,7 @@ const showPassword = ref(false);
             <form-group>
                 <button type="submit" class="btn-primary" :disabled="processing">
                     <icon name="security" />
-                    {{ $t("pages.dashboard.two-factor.enable") }}
+                    {{ $t("pages.dashboard.two_factor.enable") }}
                     <loading-spinner v-if="processing" :size="2" />
                 </button>
             </form-group>
@@ -100,8 +100,9 @@ const showPassword = ref(false);
         <!--        </Form>-->
     </div>
     <two-factor-modal
-        v-if="showSetupModal"
+        v-if="showSetupModal && !twoFactorEnabled"
         :requiresConfirmation="requiresConfirmation"
         :twoFactorEnabled="twoFactorEnabled"
+        @close="showSetupModal = false"
     />
 </template>

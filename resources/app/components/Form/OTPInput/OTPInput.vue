@@ -34,7 +34,11 @@ onMounted(async () => {
     if (!props.autofocus) return;
 
     await nextTick();
-    const input = otpInputRef.value?.$el?.querySelector<HTMLInputElement>("[data-input-otp]");
+    const input =
+        (props.id ? document.getElementById(props.id) : null)?.closest("input") ||
+        document.querySelector<HTMLInputElement>(`input#${props.id ?? ""}`) ||
+        otpInputRef.value?.$el?.querySelector<HTMLInputElement>("[data-input-otp]") ||
+        document.querySelector<HTMLInputElement>("[data-input-otp]");
     input?.focus();
 });
 </script>

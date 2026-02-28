@@ -17,7 +17,7 @@
         }
     },
     "footer": {
-        "nav-label": "Links zu rechtlichen Informationen"
+        "nav_label": "Links zu rechtlichen Informationen"
     },
     "flash": {
         "close": "Hinweis schließen"
@@ -32,7 +32,7 @@
         "login": {
             "title": "Anmeldung",
             "link": "Anmeldung",
-            "nav-label": "Wenn Sie sich nicht anmelden können, verwenden Sie diese Links.",
+            "nav_label": "Wenn Sie sich nicht anmelden können, verwenden Sie diese Links.",
             "submit": "Anmelden",
             "2fa": {
                 "recovery_code": "Wiederherstellungscode",
@@ -54,12 +54,12 @@
             },
             "submit": "Anfordern"
         },
-        "reset-password": {
+        "reset_password": {
             "title": "Passwort zurücksetzen",
             "intro": "Geben Sie Ihr neues Passwort ein. Nach dem Speichern können Sie sich mit dem neuen Passwort anmelden.",
             "submit": "Speichern"
         },
-        "resend-verification": {
+        "resend_verification": {
             "title": "Bestätigungs-Link erneut versenden",
             "link": "Bestätigungs-Link erneut versenden",
             "intro": "Wenn Ihr Bestätigungs-Link abgelaufen ist, können Sie hier einen neuen Link zur Bestätigung Ihrer E-Mail-Adresse anfordern. Bitte geben Sie dafür Ihren Benutzernamen und die E-Mail-Adresse an.",
@@ -82,7 +82,7 @@
                 },
                 "submit": "Ändern"
             },
-            "two-factor": {
+            "two_factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
                 "intro": "Die Zwei-Faktor Authentifizierung verwendet {totp}. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder {tool1} / {tool2}. Zum aktivieren muss das Passwort angegeben werden.",
                 "totp": "zeitlich limitierte Einmalpasswörter (TOTP)",
@@ -90,6 +90,15 @@
                 "tool2": "Enpass",
                 "enable": "2FA aktivieren",
                 "disable": "2FA Deaktivieren",
+                "setup": {
+                    "title": "Zwei-Faktor Authentifizierung Einrichten",
+                    "explanation": "Um die Einrichtung der 2FA abzuschließen, scannen Sie den QR Code in Ihrer Authentifizierungs-App, oder geben Sie den Setup Code manuell ein.",
+                    "qrcode_label": "QR Code",
+                    "setupkey_label": "Manueller Setup Code",
+                    "copy": "Kopieren",
+                    "copied": "Kopiert",
+                    "next": "Nächster Schritt"
+                },
                 "recovery_codes": {
                     "explanation": "Wiederherstellungscodes erlauben es Ihnen sich anzumelden wenn Sie keinen Zugriff mehr auf Ihr 2FA Gerät haben. Speichern Sie die Wiederherstellungscodes in einem sicheren Passwortmanager.",
                     "show": "Zeige Wiederherstellungscodes",

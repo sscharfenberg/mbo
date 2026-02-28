@@ -142,6 +142,8 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         clearSetupData();
         clearErrors();
         recoveryCodesList.value = [];
+        isRecoveryCodesVisible.value = false;
+        showSetupModal.value = false;
     };
 
     /**

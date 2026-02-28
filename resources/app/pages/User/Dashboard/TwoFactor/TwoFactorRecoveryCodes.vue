@@ -22,7 +22,7 @@ const recoveryCodesString = computed(() => recoveryCodesList.value.join("\n"));
 <template>
     <div>
         <form class="form" @submit.prevent="handleShowRecoveryCodes" v-if="!isRecoveryCodesVisible">
-            <form-legend>{{ $t("pages.dashboard.two-factor.recovery_codes.explanation") }}</form-legend>
+            <form-legend>{{ $t("pages.dashboard.two_factor.recovery_codes.explanation") }}</form-legend>
             <form-group
                 v-if="requiresConfirmation && !isRecoveryCodesVisible"
                 for-id="password"
@@ -55,7 +55,7 @@ const recoveryCodesString = computed(() => recoveryCodesList.value.join("\n"));
             <form-group v-if="!isRecoveryCodesVisible">
                 <button type="submit" class="btn-default" :disabled="processing">
                     <icon name="visibility-on" />
-                    {{ $t("pages.dashboard.two-factor.recovery_codes.show") }}
+                    {{ $t("pages.dashboard.two_factor.recovery_codes.show") }}
                     <loading-spinner v-if="processing" :size="2" />
                 </button>
             </form-group>
@@ -65,15 +65,15 @@ const recoveryCodesString = computed(() => recoveryCodesList.value.join("\n"));
             class="form"
             @submit.prevent="handleRegenerateRecoveryCodes"
         >
-            <form-legend>{{ $t("pages.dashboard.two-factor.regenerate_codes.explanation") }}</form-legend>
-            <form-group :label="$t('pages.dashboard.two-factor.recovery_codes.label')">
+            <form-legend>{{ $t("pages.dashboard.two_factor.regenerate_codes.explanation") }}</form-legend>
+            <form-group :label="$t('pages.dashboard.two_factor.recovery_codes.label')">
                 <div class="form-input form-input__textarea">
                     <textarea :value="recoveryCodesString" readonly />
                 </div>
             </form-group>
             <form-group>
                 <button class="btn-default" type="submit" :disabled="processing">
-                    {{ $t("pages.dashboard.two-factor.regenerate_codes.submit") }}
+                    {{ $t("pages.dashboard.two_factor.regenerate_codes.submit") }}
                 </button>
             </form-group>
         </form>

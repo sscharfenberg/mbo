@@ -17,7 +17,7 @@
         }
     },
     "footer": {
-        "nav-label": "Links to legal information"
+        "nav_label": "Links to legal information"
     },
     "flash": {
         "close": "Close notification"
@@ -32,7 +32,7 @@
         "login": {
             "title": "Login",
             "link": "Login",
-            "nav-label": "If you can't login, use these links.",
+            "nav_label": "If you can't login, use these links.",
             "submit": "Login",
             "2fa": {
                 "recovery_code": "Recovery Code",
@@ -54,12 +54,12 @@
             },
             "submit": "Request"
         },
-        "reset-password": {
+        "reset_password": {
             "title": "Reset password",
             "intro": "Enter your new password. After saving you can login using your new password.",
             "submit": "Save"
         },
-        "resend-verification": {
+        "resend_verification": {
             "title": "Resend verification link",
             "link": "Resend verification link",
             "intro": "If your verification link has expired, you can request a new link to verify your e-mail-address. Please supply the e-mail address and the username.",
@@ -82,7 +82,7 @@
                 },
                 "submit": "Change"
             },
-            "two-factor": {
+            "two_factor": {
                 "headline": "Two-Factor authentication",
                 "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or {tool1} / {tool2}. To activate, you need to provide your password.",
                 "totp": "time-based one-time password (TOTP)",
@@ -90,6 +90,15 @@
                 "tool2": "Enpass",
                 "enable": "Enable 2FA",
                 "disable": "Disable 2FA",
+                "setup": {
+                    "title": "Setup Two-Factor Authentication",
+                    "explanation": "finish enabling two-factor authentication, scan the QR code in your authenticator app, or enter the code manually.",
+                    "qrcode_label": "QR Code",
+                    "setupkey_label": "Manual setup key",
+                    "copy": "Copy",
+                    "copied": "Copied",
+                    "next": "Next step"
+                },
                 "recovery_codes": {
                     "explanation": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
                     "show": "Show Recovery codes",

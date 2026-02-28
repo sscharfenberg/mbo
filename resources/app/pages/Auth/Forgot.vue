@@ -74,8 +74,8 @@ const onChange = (ev: { target: { value: string } }) => {
             </button>
         </form-group>
         <form-group>
-            <link-group v-if="features.emailVerification" :label="$t('pages.login.nav-label')">
-                <labelled-link href="/resend-verification">{{ $t("pages.resend-verification.link") }}</labelled-link>
+            <link-group v-if="features.emailVerification" :label="$t('pages.login.nav_label')">
+                <labelled-link href="/resend-verification">{{ $t("pages.resend_verification.link") }}</labelled-link>
             </link-group>
         </form-group>
     </Form>
