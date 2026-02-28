@@ -1,0 +1,23 @@
+@use "sass:map";
+@use "Abstracts/typography" as t;
+
+.form-input__textarea {
+    width: 100%;
+    padding-right: 1.5ch;
+
+    border-radius: 20px;
+
+    textarea {
+        overflow-y: auto;
+        width: 100%;
+        height: calc(8.25lh);
+        border: 0;
+
+        background: transparent;
+        outline: 0;
+
+        font-family: map.get(t.$form, "textarea");
+
+        resize: none;
+    }
+}

@@ -88,7 +88,18 @@
                 "totp": "zeitlich limitierte Einmalpasswörter (TOTP)",
                 "tool1": "Bitwarden",
                 "tool2": "Enpass",
-                "enable": "2FA aktivieren"
+                "enable": "2FA aktivieren",
+                "disable": "2FA Deaktivieren",
+                "recovery_codes": {
+                    "explanation": "Wiederherstellungscodes erlauben es Ihnen sich anzumelden wenn Sie keinen Zugriff mehr auf Ihr 2FA Gerät haben. Speichern Sie die Wiederherstellungscodes in einem sicheren Passwortmanager.",
+                    "show": "Zeige Wiederherstellungscodes",
+                    "hide": "Wiederherstellungscode ausblenden",
+                    "label": "Wiederherstellungscodes"
+                },
+                "regenerate_codes": {
+                    "explanation": "Jeder Wiederherstellungscode kann nur einmal benutzt werden um sich in Ihrem Benutzerkonto anzumelden und wird nach dem Benutzen entfernt. Wenn Sie mehr Wiederherstellungscodes benötigen, benutzen Sie den Button 'Wiederherstellungscodes erzeugen'.",
+                    "submit": "Neu erzeugen"
+                }
             }
         },
         "privacy": {

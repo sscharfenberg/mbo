@@ -9,6 +9,7 @@ import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorModal from "./TwoFactorModal.vue";
+import TwoFactorRecoveryCodes from "./TwoFactorRecoveryCodes.vue";
 const {
     password,
     processing,
@@ -25,29 +26,29 @@ const showPassword = ref(false);
     <headline :size="3">
         {{ $t("pages.dashboard.two-factor.headline") }}
         <template #right>
-            <badge v-if="!twoFactorEnabled" type="warning"><icon name="security" />{{ $t("state.disabled") }}</badge>
-            <badge v-else type="success"><icon name="key" />{{ $t("state.enabled") }}</badge>
+            <badge v-if="!twoFactorEnabled" type="warning"><icon name="key" />{{ $t("state.disabled") }}</badge>
+            <badge v-else type="success"><icon name="security" />{{ $t("state.enabled") }}</badge>
         </template>
     </headline>
-    <Paragraph>
-        <i18n-t keypath="pages.dashboard.two-factor.intro" scope="global">
-            <template #totp
-                ><strong>{{ $t("pages.dashboard.two-factor.totp") }}</strong></template
-            >
-            <template #tool1
-                ><labelled-link href="https://bitwarden.com/" :external="true" icon="external-link">{{
-                    $t("pages.dashboard.two-factor.tool1")
-                }}</labelled-link></template
-            >
-            <template #tool2
-                ><labelled-link href="https://www.enpass.io/" :external="true" icon="external-link">{{
-                    $t("pages.dashboard.two-factor.tool2")
-                }}</labelled-link></template
-            >
-        </i18n-t>
-    </Paragraph>
-    <section v-if="!twoFactorEnabled">
+    <div v-if="!twoFactorEnabled">
         <form class="form" @submit.prevent="enableTwoFactor">
+            <Paragraph>
+                <i18n-t keypath="pages.dashboard.two-factor.intro" scope="global">
+                    <template #totp
+                        ><strong>{{ $t("pages.dashboard.two-factor.totp") }}</strong></template
+                    >
+                    <template #tool1
+                        ><labelled-link href="https://bitwarden.com/" :external="true" icon="external-link">{{
+                            $t("pages.dashboard.two-factor.tool1")
+                        }}</labelled-link></template
+                    >
+                    <template #tool2
+                        ><labelled-link href="https://www.enpass.io/" :external="true" icon="external-link">{{
+                            $t("pages.dashboard.two-factor.tool2")
+                        }}</labelled-link></template
+                    >
+                </i18n-t>
+            </Paragraph>
             <form-group
                 v-if="requiresConfirmation"
                 for-id="password"
@@ -85,8 +86,19 @@ const showPassword = ref(false);
                 </button>
             </form-group>
         </form>
-    </section>
-    <section v-else>enabled</section>
+    </div>
+    <div v-else>
+        <two-factor-recovery-codes />
+        <!--        <Form method="DELETE" action="/user/two-factor-authentication" #default="{ processing }">-->
+        <!--            <form-group>-->
+        <!--                <button type="submit" class="btn-primary" :disabled="processing">-->
+        <!--                    <icon name="security" />-->
+        <!--                    {{ $t("pages.dashboard.two-factor.disable") }}-->
+        <!--                    <loading-spinner v-if="processing" :size="2" />-->
+        <!--                </button>-->
+        <!--            </form-group>-->
+        <!--        </Form>-->
+    </div>
     <two-factor-modal
         v-if="showSetupModal"
         :requiresConfirmation="requiresConfirmation"

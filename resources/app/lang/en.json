@@ -88,7 +88,18 @@
                 "totp": "time-based one-time password (TOTP)",
                 "tool1": "Bitwarden",
                 "tool2": "Enpass",
-                "enable": "Enable 2FA"
+                "enable": "Enable 2FA",
+                "disable": "Disable 2FA",
+                "recovery_codes": {
+                    "explanation": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
+                    "show": "Show Recovery codes",
+                    "hide": "Hide Recovery codes",
+                    "label": "Recovery codes"
+                },
+                "regenerate_codes": {
+                    "explanation": "Each recovery code can be used once to access your account and will be removed after use. If you need more, use the button 'Regenerate Codes'",
+                    "submit": "Regenerate codes"
+                }
             }
         },
         "privacy": {

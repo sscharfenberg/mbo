@@ -11,6 +11,7 @@ export type UseTwoFactorAuthReturn = {
     validationErrors: Ref<Record<string, string>>;
     password: Ref<string>;
     processing: Ref<boolean>;
+    isRecoveryCodesVisible: Ref<boolean>;
     showSetupModal: Ref<boolean>;
     requiresConfirmation: ComputedRef<boolean>;
     twoFactorEnabled: ComputedRef<boolean>;
@@ -20,6 +21,8 @@ export type UseTwoFactorAuthReturn = {
     clearTwoFactorAuthData: () => void;
     confirmPassword: () => Promise<boolean>;
     enableTwoFactor: () => Promise<void>;
+    handleShowRecoveryCodes: () => Promise<void>;
+    handleRegenerateRecoveryCodes: () => Promise<void>;
     fetchQrCode: () => Promise<void>;
     fetchSetupKey: () => Promise<void>;
     fetchSetupData: () => Promise<void>;
@@ -58,6 +61,7 @@ const password = ref("");
 const processing = ref(false);
 const qrCodeSvg = ref<string | null>(null);
 const recoveryCodesList = ref<string[]>([]);
+const isRecoveryCodesVisible = ref(false);
 const showSetupModal = ref(false);
 
 /** Whether both the QR code and manual setup key have been loaded. */
@@ -247,6 +251,77 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         );
     };
 
+    /**
+     * Fetch and reveal the current recovery codes for the authenticated user.
+     *
+     * Mirrors the same password-confirmation flow used by enabling 2FA: when
+     * `confirmPassword` is active, this first confirms the password to satisfy
+     * Fortify's `password.confirm` middleware, then requests recovery codes.
+     * On success, recovery codes are marked as visible in the UI.
+     */
+    const handleShowRecoveryCodes = async (): Promise<void> => {
+        processing.value = true;
+        validationErrors.value = {};
+
+        if (requiresConfirmation.value) {
+            const confirmed = await confirmPassword();
+            if (!confirmed) {
+                processing.value = false;
+                return;
+            }
+        }
+
+        await fetchRecoveryCodes();
+        isRecoveryCodesVisible.value = recoveryCodesList.value.length > 0;
+        password.value = "";
+        processing.value = false;
+    };
+
+    /**
+     * Generate a fresh set of recovery codes and refresh the displayed list.
+     *
+     * Uses the same password-confirmation guard as other 2FA-sensitive actions.
+     * The regenerate endpoint is called as JSON to avoid Fortify's default
+     * redirect response, then recovery codes are fetched again for display.
+     */
+    const handleRegenerateRecoveryCodes = async (): Promise<void> => {
+        processing.value = true;
+        validationErrors.value = {};
+        const postRegenerate = async (): Promise<Response> =>
+            fetch("/user/two-factor-recovery-codes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    "X-CSRF-TOKEN": page.props.csrfToken as string
+                },
+                body: JSON.stringify({})
+            });
+
+        let response = await postRegenerate();
+
+        // Only ask for password again when the session confirmation has expired.
+        if (response.status === 423 && requiresConfirmation.value) {
+            const confirmed = await confirmPassword();
+            if (!confirmed) {
+                processing.value = false;
+                return;
+            }
+            response = await postRegenerate();
+        }
+
+        if (!response.ok) {
+            errors.value.push("Failed to regenerate recovery codes");
+            processing.value = false;
+            return;
+        }
+
+        await fetchRecoveryCodes();
+        isRecoveryCodesVisible.value = recoveryCodesList.value.length > 0;
+        password.value = "";
+        processing.value = false;
+    };
+
     return {
         qrCodeSvg,
         manualSetupKey,
@@ -255,6 +330,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         validationErrors,
         password,
         processing,
+        isRecoveryCodesVisible,
         showSetupModal,
         requiresConfirmation,
         twoFactorEnabled,
@@ -264,6 +340,8 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         clearTwoFactorAuthData,
         confirmPassword,
         enableTwoFactor,
+        handleShowRecoveryCodes,
+        handleRegenerateRecoveryCodes,
         fetchQrCode,
         fetchSetupKey,
         fetchSetupData,

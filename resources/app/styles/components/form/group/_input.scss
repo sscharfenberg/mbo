@@ -20,7 +20,8 @@
         border-color map.get(ti.$timings, "fast");
 
     &:not([readonly]):focus,
-    &:not([readonly]):active {
+    &:not([readonly]):active,
+    &:not([readonly]):focus-within {
         background-color: map.get(c.$form, "input", "background-focus");
         color: map.get(c.$form, "input", "surface-focus");
         border-color: map.get(c.$form, "input", "border-focus");
