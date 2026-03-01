@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use \App\Http\Middleware\HandleControllerPrecognitiveRequest;
 
@@ -71,3 +72,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('password.confirm');
 });
 
+/******************************************************************************
+ * Dev pages (no auth, not linked from anywhere)
+ *****************************************************************************/
+Route::get('/icons', fn() => Inertia::render('Dev/Icons'))
+    ->name('dev.icons');
