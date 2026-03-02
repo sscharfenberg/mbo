@@ -1,0 +1,10 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../global-color-tokens" as c;
+
+$rainbow: (
+    "100": light-dark(map.get(c.$rainbow, "light", "100"), map.get(c.$rainbow, "dark", "100")),
+    "200": light-dark(map.get(c.$rainbow, "light", "200"), map.get(c.$rainbow, "dark", "200")),
+    "300": light-dark(map.get(c.$rainbow, "light", "300"), map.get(c.$rainbow, "dark", "300")),
+    "400": light-dark(map.get(c.$rainbow, "light", "400"), map.get(c.$rainbow, "dark", "400"))
+) !default;

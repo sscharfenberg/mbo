@@ -2,7 +2,7 @@
 
 namespace App\Services\Scryfall;
 
-use App\Models\PrintedCard;
+use App\Models\DefaultCard;
 use App\Services\FormatService;
 use App\Services\Scryfall\BulkdataService;
 use Cerbero\JsonParser\JsonParser;
@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class PrintedCardsService
+class DefaultCardsService
 {
 
     /**
-     * Truncate the printed_cards table before a fresh import.
+     * Truncate the default_cards table before a fresh import.
      *
      * Temporarily disables foreign key checks to allow truncation.
      *
@@ -23,9 +23,9 @@ class PrintedCardsService
     private function preRunCleanup(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        PrintedCard::truncate();
+        DefaultCard::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        Log::channel('scryfall')->notice("truncated printed_cards table.");
+        Log::channel('scryfall')->notice("truncated default_cards table.");
     }
 
     /**
@@ -60,9 +60,9 @@ class PrintedCardsService
         if (array_key_exists('layout', $card)) { $arr['layout'] = $card['layout']; }
         // insert into db
         try {
-            PrintedCard::create($arr);
+            DefaultCard::create($arr);
         } catch (\Exception $e) {
-            Log::channel('scryfall')->error("error inserting PrintedCard [".strtoupper($card['set'])."] ".$card['name'].": ".$e->getMessage());
+            Log::channel('scryfall')->error("error inserting DefaultCard [".strtoupper($card['set'])."] ".$card['name'].": ".$e->getMessage());
             Log::channel('scryfall')->error($e->getTraceAsString());
         }
     }

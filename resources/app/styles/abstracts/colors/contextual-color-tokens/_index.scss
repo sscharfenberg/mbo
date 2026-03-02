@@ -9,59 +9,14 @@
 @use "sass:map"; // https://sass-lang.com/documentation/modules/map
 @use "sass:color"; // https://sass-lang.com/documentation/modules/color
 @use "../global-color-tokens" as c;
-@use "app" as a;
-@use "state" as s;
-@use "form" as fo;
+@forward "app";
+@forward "form";
+@forward "main";
+@forward "rainbow";
+@forward "state";
 
 // header colors
 $header: () !default;
-
-// colors for main landmark
-$main: (
-    "h2": (
-        "surface": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color")),
-        "border": light-dark(
-                color.adjust(map.get(c.$brand, "dark1", "color"), $alpha: -0.25),
-                color.adjust(map.get(c.$brand, "light1", "color"), $alpha: -0.25)
-            )
-    ),
-    "h3": (
-        "surface": light-dark(map.get(c.$brand, "dark2", "color"), map.get(c.$brand, "light2", "color")),
-        "border": light-dark(
-                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-            )
-    ),
-    "h4": (
-        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
-        "border": light-dark(
-                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-            )
-    ),
-    "paragraph": (
-        "background": light-dark(color.adjust(#fff, $alpha: -0.25), color.adjust(#000, $alpha: -0.25)),
-        "surface": map.get(a.$app, "surface"),
-        "border": light-dark(
-                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-            )
-    ),
-    "modal": (
-        "backdrop": light-dark(
-                color.adjust(map.get(c.$grey, "white"), $alpha: -0.75),
-                color.adjust(map.get(c.$grey, "black"), $alpha: -0.55)
-            ),
-        "background": hsl(from light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")) h s l / 50%),
-        "surface": light-dark(#000, #fff),
-        "border": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "charcoal")),
-        "title-background": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
-        "title-surface": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast")),
-        "footer-background": transparent,
-        "footer-surface": canvasText,
-        "footer-border": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "charcoal"))
-    )
-) !default;
 
 // frosted glass insert
 $glass: (
@@ -102,12 +57,6 @@ $theme: (
 
 // styles for app-button
 $button: (
-    "rainbow": (
-        "100": light-dark(map.get(c.$rainbow, "light", "100"), map.get(c.$rainbow, "dark", "100")),
-        "200": light-dark(map.get(c.$rainbow, "light", "200"), map.get(c.$rainbow, "dark", "200")),
-        "300": light-dark(map.get(c.$rainbow, "light", "300"), map.get(c.$rainbow, "dark", "300")),
-        "400": light-dark(map.get(c.$rainbow, "light", "400"), map.get(c.$rainbow, "dark", "400"))
-    ),
     "background": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
     "surface": light-dark(#000, #fff),
     "background-disabled": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "abbey")),
@@ -125,16 +74,3 @@ $footer: (
     "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
     "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker"))
 ) !default;
-
-/******************************************************************************
- * contextual color tokens in external files
- *****************************************************************************/
-
-// app base colors
-$app: a.$app !default;
-
-// colors for form inputs
-$form: fo.$form !default;
-
-// colors for badge
-$state: s.$state !default;

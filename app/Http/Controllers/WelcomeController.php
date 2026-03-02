@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BulkData;
+use App\Models\DefaultCard;
+use App\Models\OracleCard;
+use App\Models\Set;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,8 +22,16 @@ class WelcomeController extends Controller
      */
     public function show(Request $request): \Inertia\Response
     {
-        return Inertia::render('Guest/Welcome', [
-            'request' => $request,
+        return Inertia::render('Guest/Welcome/Welcome', [
+            'oracleCards' => [
+                'num' => OracleCard::count(),
+                'size' => BulkData::where('type', 'oracle_cards')->first()->size,
+            ],
+            'defaultCards' => [
+                'num' => DefaultCard::count(),
+                'size' => BulkData::where('type', 'default_cards')->first()->size,
+            ],
+            'sets' => Set::count(),
         ]);
     }
 

@@ -23,6 +23,24 @@
         "close": "Hinweis schließen"
     },
     "pages": {
+        "welcome": {
+            "title": "Willkommen",
+            "stats": {
+                "title": "Globale Statistiken",
+                "oracle": {
+                    "title": "Oracle Karten",
+                    "explanation": "Ein Karten Objekt für jede Oracle ID auf Scryfall. Die gewählten Sets für die Karten sind ein Versuch die aktuellsten Versionen der Karten auszugeben."
+                },
+                "default": {
+                    "title": "Standard Karten",
+                    "explanation": "Jedes Karten Objekt auf Scryfall in Englisch oder der gedruckten Sprache, wenn die Karte nur in einer Sprache verfügbar ist."
+                },
+                "sets": {
+                    "title": "Sets",
+                    "explanation": "Jedes Set Objekt auf Scryfall, inklusive viele inoffizielle Sets um Promo oder Ausreißer Karten zu gruppieren."
+                }
+            }
+        },
         "register": {
             "title": "Registrierung",
             "link": "Registrierung",
@@ -75,7 +93,7 @@
             },
             "profile": {
                 "headline": "Profil aktualisieren",
-                "intro": "Sie können Ihre E-Mail-Adresse und/oder Ihren Benutzernamen ändern. Wenn Sie eines von beiden ändern, werden Sie abgemeldet und müssen sich mit den neuen Daten neu anmelden. Wenn Sie die E-Mail-Adresse ändern, müssen die E-Mail-Adresse bestätigen, wir schicken Ihnen einen Link zu Bestätigung.",
+                "intro": "Sie können Ihre E-Mail-Adresse und/oder Ihren Benutzernamen ändern. Wenn Sie eines von beiden ändern, werden Sie abgemeldet und müssen sich mit den neuen Daten neu anmelden. Wenn Sie die E-Mail-Adresse ändern, müssen Sie die neue E-Mail-Adresse bestätigen - wir schicken Ihnen einen Link zu Bestätigung.",
                 "type": {
                     "email": "E-Mail-Adresse ändern",
                     "name": "Benutzername ändern"

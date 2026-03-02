@@ -1,0 +1,39 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../global-size-tokens" as s;
+
+// size tokens for .form-input
+$form: (
+    "input": (
+        "radius": 100vw,
+        "border": map.get(s.$border, "base"),
+        "line-height": map.get(s.$icons, "medium")
+    ),
+    "error": (
+        "radius": map.get(s.$radius, "featured"),
+        "border": map.get(s.$border, "base")
+    ),
+    "icon": map.get(s.$icons, "medium"),
+    "legend": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5lh 1ex
+    ),
+    "password-strength": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5lh 1ex,
+        "meter-border": map.get(s.$border, "base"),
+        "meter-radius": map.get(s.$radius, "featured")
+    ),
+    "checkbox": (
+        "size": map.get(s.$icons, "medium"),
+        "border": map.get(s.$border, "base")
+    ),
+    "otp": (
+        "padding": 0,
+        "radius": map.get(s.$radius, "base"),
+        "border": map.get(s.$border, "base"),
+        "line-height": map.get(s.$icons, "medium")
+    )
+) !default;

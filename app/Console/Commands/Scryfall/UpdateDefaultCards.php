@@ -4,11 +4,11 @@ namespace App\Console\Commands\Scryfall;
 
 use App\Services\FormatService;
 
-use App\Services\Scryfall\PrintedCardsService;
+use App\Services\Scryfall\DefaultCardsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class UpdatePrintedCards extends Command
+class UpdateDefaultCards extends Command
 {
     /**
      * The name and signature of the console command.
@@ -30,7 +30,7 @@ class UpdatePrintedCards extends Command
     public function handle(): void
     {
         $fd = new FormatService();
-        $ac = new PrintedCardsService();
+        $ac = new DefaultCardsService();
         $start = now();
         $this->info("artisan command 'scryfall:default_cards' started.");
         Log::channel('scryfall')->info("=======================================================");

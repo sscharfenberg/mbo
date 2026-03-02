@@ -23,6 +23,24 @@
         "close": "Close notification"
     },
     "pages": {
+        "welcome": {
+            "title": "Welcome",
+            "stats": {
+                "title": "Global data stats",
+                "oracle": {
+                    "title": "Oracle Cards",
+                    "explanation": "On card object for each Oracle ID on Scryfall. The chosen sets for the cards are an attempt to return the most up-to-date recognizable version of the card."
+                },
+                "default": {
+                    "title": "Default Cards",
+                    "explanation": "Every card object on Scryfall in English or the printed language if the card is only available in one language."
+                },
+                "sets": {
+                    "title": "Sets",
+                    "explanation": "Every set object on Scryfall, including many un-official sets as a way to group promotional or outlier cards together."
+                }
+            }
+        },
         "register": {
             "title": "Registration",
             "link": "Registration",
@@ -75,7 +93,7 @@
             },
             "profile": {
                 "headline": "Update Profile",
-                "intro": "You can change your E-Mail address and/or your username. If you update either, you will be logged out and need to login with the new data. If you update the E-Mail address, you will need to verify it by clicking on the link.",
+                "intro": "You can change your E-Mail address and/or your username. If you update either, you will be logged out and need to login with the new data. If you update the E-Mail address, you will need to verify it by clicking on the link that we send you.",
                 "type": {
                     "email": "Change E-Mail address",
                     "name": "Change username"

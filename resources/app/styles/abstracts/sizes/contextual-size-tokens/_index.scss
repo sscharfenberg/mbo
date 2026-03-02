@@ -1,0 +1,84 @@
+/******************************************************************************
+ * contextual size tokens
+ * @type {Sass}
+ * these variables are used in other scss files or vue components.
+ * this file gets @forwarded from _group.scss
+ * use
+ * @use "Abstracts/sizes" as s;
+ *****************************************************************************/
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../global-size-tokens" as s;
+@forward "app";
+@forward "form";
+@forward "main";
+
+// size tokens for header landmark
+$header: (
+    "font": (
+        "base": #{map.get(s.$font, "base") * 1.5},
+        "portrait": #{map.get(s.$font, "portrait") * 2},
+        "landscape": #{map.get(s.$font, "landscape") * 2.2},
+        "desktop": #{map.get(s.$font, "desktop") * 2.5}
+    ),
+    "padding": (
+        "base": map.get(s.$padding, "base"),
+        "portrait": map.get(s.$padding, "portrait"),
+        "landscape": map.get(s.$padding, "landscape"),
+        "desktop": map.get(s.$padding, "desktop")
+    )
+) !default;
+
+// size tokens for frosted glass
+$glass: (
+    "radius": (
+        "base": map.get(s.$radius, "featured"),
+        "portrait": map.get(s.$radius, "featured") * 1.5,
+        "landscape": map.get(s.$radius, "featured") * 2,
+        "desktop": map.get(s.$radius, "featured") * 4
+    ),
+    "padding": (
+        "base": map.get(s.$padding, "base"),
+        "portrait": map.get(s.$padding, "portrait"),
+        "landscape": map.get(s.$padding, "landscape"),
+        "desktop": map.get(s.$padding, "desktop")
+    ),
+    "border": map.get(s.$border, "base")
+) !default;
+
+// .btn component
+$button: (
+    "padding": 0.2lh 3ch,
+    "border": map.get(s.$border, "featured"),
+    "min-height": map.get(s.$icons, "medium"),
+    "close": (
+        "padding": 0.2lh 0.4ch
+    )
+) !default;
+
+// popover component
+$popover: (
+    "radius": map.get(s.$radius, "base"),
+    "padding": math.round(s.$base * 0.5),
+    "border": map.get(s.$border, "base")
+) !default;
+
+// theme switch component
+$theme: (
+    "radius": map.get(s.$radius, "featured"),
+    "padding": math.round(s.$base * 0.2) math.round(s.$base * 0.5)
+) !default;
+
+// size tokens for search results
+$search: () !default;
+
+// size tokens for footer landmark
+$footer: (
+    "padding": (
+        "base": map.get(s.$padding, "base"),
+        "portrait": map.get(s.$padding, "portrait"),
+        "landscape": map.get(s.$padding, "landscape"),
+        "desktop": map.get(s.$padding, "desktop")
+    ),
+    "border": map.get(s.$border, "base")
+) !default;

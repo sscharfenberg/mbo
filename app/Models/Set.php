@@ -81,7 +81,7 @@ class Set extends Model
      */
     public function printedCards(): HasMany
     {
-        return $this->hasMany(PrintedCard::class, 'set_id', 'id');
+        return $this->hasMany(DefaultCard::class, 'set_id', 'id');
     }
 
 }

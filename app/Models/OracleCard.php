@@ -83,11 +83,11 @@ class OracleCard extends Model
     ];
 
     /**
-     * Get the songs for the artist.
+     * Get the printings of an OracleCard
      */
     public function printings(): HasMany
     {
-        return $this->hasMany(PrintedCard::class, 'oracle_id', 'oracle_id');
+        return $this->hasMany(DefaultCard::class, 'oracle_id', 'oracle_id');
     }
 
 }

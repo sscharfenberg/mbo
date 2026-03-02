@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PrintedCard extends Model
+class DefaultCard extends Model
 {
 
     use HasUuids;
@@ -31,7 +31,7 @@ class PrintedCard extends Model
      *
      * @var string
      */
-    protected $table = 'printed_cards';
+    protected $table = 'default_cards';
 
     /**
      * The primary key associated with the table.

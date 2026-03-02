@@ -8,7 +8,8 @@ import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorModal from "./TwoFactorModal.vue";
 
-const { processing, validationErrors, requiresConfirmation, showSetupModal, enableTwoFactor, clearSetupData } = useTwoFactorAuth();
+const { processing, validationErrors, requiresConfirmation, showSetupModal, enableTwoFactor, clearSetupData } =
+    useTwoFactorAuth();
 const password = ref("");
 const showPassword = ref(false);
 
@@ -42,7 +43,7 @@ const handleModalClose = () => {
         </Paragraph>
         <form-group
             v-if="requiresConfirmation"
-            for-id="password"
+            for-id="password_enable_2fa"
             :label="$t('form.fields.password')"
             :error="validationErrors.password"
             :invalid="!!validationErrors.password"
@@ -63,7 +64,7 @@ const handleModalClose = () => {
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
                 name="password"
-                id="password"
+                id="password_enable_2fa"
                 class="form-input"
             />
         </form-group>
@@ -75,9 +76,5 @@ const handleModalClose = () => {
             </button>
         </form-group>
     </form>
-    <two-factor-modal
-        v-if="showSetupModal"
-        :requiresConfirmation="requiresConfirmation"
-        @close="handleModalClose"
-    />
+    <two-factor-modal v-if="showSetupModal" :requiresConfirmation="requiresConfirmation" @close="handleModalClose" />
 </template>

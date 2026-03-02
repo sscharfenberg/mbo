@@ -23,14 +23,10 @@
 
     background:
         radial-gradient(circle, var(--button-fill) var(--button-fill-stop), transparent) padding-box,
-        radial-gradient(circle 120px at var(--rg-1-x) var(--rg-1-y), map.get(c.$button, "rainbow", "100"), transparent)
-            border-box,
-        radial-gradient(circle 150px at var(--rg-2-x) var(--rg-2-y), map.get(c.$button, "rainbow", "200"), transparent)
-            border-box,
-        radial-gradient(circle 200px at var(--rg-4-x) var(--rg-4-y), map.get(c.$button, "rainbow", "400"), transparent)
-            border-box,
-        radial-gradient(circle 160px at var(--rg-3-x) var(--rg-3-y), map.get(c.$button, "rainbow", "300"), transparent)
-            border-box;
+        radial-gradient(circle 120px at var(--rg-1-x) var(--rg-1-y), map.get(c.$rainbow, "100"), transparent) border-box,
+        radial-gradient(circle 150px at var(--rg-2-x) var(--rg-2-y), map.get(c.$rainbow, "200"), transparent) border-box,
+        radial-gradient(circle 200px at var(--rg-4-x) var(--rg-4-y), map.get(c.$rainbow, "400"), transparent) border-box,
+        radial-gradient(circle 160px at var(--rg-3-x) var(--rg-3-y), map.get(c.$rainbow, "300"), transparent) border-box;
     background-repeat: no-repeat;
     background-position:
         center,
