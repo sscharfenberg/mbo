@@ -53,10 +53,14 @@ defineProps<{
         font-weight: 900;
 
         text-shadow:
-            -1px -1px $outline,
-            1px -1px $outline,
-            -1px 1px $outline,
-            1px 1px $outline;
+            -2px -2px $outline,
+            2px -2px $outline,
+            -2px 2px $outline,
+            2px 2px $outline,
+            0 -2px $outline,
+            0 2px $outline,
+            -2px 0 $outline,
+            2px 0 $outline;
     }
 
     &__size {
