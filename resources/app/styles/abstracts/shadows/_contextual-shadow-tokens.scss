@@ -14,7 +14,9 @@ $app: (
     "progress-bar": map.get(shg.$box, "0dp")
 ) !default;
 $header: () !default;
-$main: () !default;
+$main: (
+    "stats_num": map.get(shg.$text, "0dp")
+) !default;
 $footer: () !default;
 
 // form shadows.

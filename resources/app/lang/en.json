@@ -29,15 +29,15 @@
                 "title": "Global data stats",
                 "oracle": {
                     "title": "Oracle Cards",
-                    "explanation": "On card object for each Oracle ID on Scryfall. The chosen sets for the cards are an attempt to return the most up-to-date recognizable version of the card."
+                    "explanation": "One card for each Oracle ID. The chosen sets for the cards are an attempt to return the most up-to-date recognizable version of the card."
                 },
                 "default": {
                     "title": "Default Cards",
-                    "explanation": "Every card object on Scryfall in English or the printed language if the card is only available in one language."
+                    "explanation": "Every card in English or the printed language if the card is only available in one language."
                 },
                 "sets": {
                     "title": "Sets",
-                    "explanation": "Every set object on Scryfall, including many un-official sets as a way to group promotional or outlier cards together."
+                    "explanation": "Every set, including many un-official sets as a way to group promotional or outlier cards together."
                 }
             }
         },
