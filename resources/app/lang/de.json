@@ -17,14 +17,18 @@
         }
     },
     "footer": {
-        "nav_label": "Links zu rechtlichen Informationen"
+        "nav_label": "Links zu rechtlichen Informationen",
+        "disclaimer": "MBO ist inoffizieller Fan-Content, der gemäß der {fcp} gestattet ist. Nicht von Wizards genehmigt oder unterstützt. Teile der verwendeten Materialien sind Eigentum von Wizards of the Coast. © Wizards of the Coast LLC.",
+        "fcp": "Fan Content Policy"
     },
     "flash": {
         "close": "Hinweis schließen"
     },
     "pages": {
         "welcome": {
-            "title": "Willkommen",
+            "title": "Welcome",
+            "claim": "Organisiere deine Magic Sammlung.",
+            "intro": "Du baust ein neues Deck und willst eine bestimmte Karte hinzufügen. Du weißt, das du die Karte besitzt - irgendwo in deinen 10+ Ordnern / Kartons o.ä.. Nachdem du eine halbe Stunde suchst, gibst du auf und kaufst eine neue Kopie der Karte. Klingt bekannt? MBO ist für dich.",
             "stats": {
                 "title": "Globale Statistiken",
                 "oracle": {

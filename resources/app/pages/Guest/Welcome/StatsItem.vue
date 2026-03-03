@@ -29,7 +29,6 @@ defineProps<{
 @use "sass:map";
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
-@use "Abstracts/shadows" as sh;
 
 .stats-item {
     display: flex;
@@ -43,9 +42,10 @@ defineProps<{
     border-radius: map.get(s.$main, "stats", "radius");
 
     &__num {
-        $outline: map.get(c.$main, "stats", "num", "outline");
+        $os: map.get(s.$main, "stats", "num", "outline");
+        $oc: map.get(c.$main, "stats", "num", "outline");
 
-        margin-bottom: 0.5rem;
+        margin-bottom: map.get(s.$main, "stats", "num", "gap");
 
         color: map.get(c.$main, "stats", "num", "surface");
 
@@ -53,21 +53,21 @@ defineProps<{
         font-weight: 900;
 
         text-shadow:
-            -2px -2px $outline,
-            2px -2px $outline,
-            -2px 2px $outline,
-            2px 2px $outline,
-            0 -2px $outline,
-            0 2px $outline,
-            -2px 0 $outline,
-            2px 0 $outline;
+            -#{$os} -#{$os} $oc,
+            #{$os} -#{$os} $oc,
+            -#{$os} #{$os} $oc,
+            #{$os} #{$os} $oc,
+            0 -#{$os} $oc,
+            0 #{$os} $oc,
+            -#{$os} 0 $oc,
+            #{$os} 0 $oc;
     }
 
     &__size {
         display: flex;
         align-items: center;
 
-        margin-bottom: 0.5rem;
+        margin-bottom: map.get(s.$main, "stats", "num", "gap");
         gap: 0.5ch;
     }
 

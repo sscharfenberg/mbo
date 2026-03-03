@@ -17,7 +17,9 @@
         }
     },
     "footer": {
-        "nav_label": "Links to legal information"
+        "nav_label": "Links to legal information",
+        "disclaimer": "MBO is unofficial Fan Content permitted under the {fcp}. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. © Wizards of the Coast LLC.",
+        "fcp": "Fan Content Policy"
     },
     "flash": {
         "close": "Close notification"
@@ -25,6 +27,8 @@
     "pages": {
         "welcome": {
             "title": "Welcome",
+            "claim": "Keep your collection of magic cards organized.",
+            "intro": "While building a new deck, you want to add a specific card. You know that you own the card - somewhere in your 10+ binders/boxes/whatever. After searching for half an hour, you give up and buy a new copy. Sounds familiar? MBO is for you.",
             "stats": {
                 "title": "Global data stats",
                 "oracle": {

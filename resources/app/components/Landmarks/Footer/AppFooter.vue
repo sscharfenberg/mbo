@@ -21,6 +21,18 @@ if (currentYear > startYear) {
                 /></labelled-link>
             </link-group>
         </section>
+        <section class="inner gap">
+            <i18n-t keypath="footer.disclaimer" scope="global">
+                <template #fcp
+                    ><labelled-link
+                        href="https://company.wizards.com/en/legal/fancontentpolicy"
+                        :external="true"
+                        icon="external-link"
+                        >{{ $t("footer.fcp") }}</labelled-link
+                    ></template
+                >
+            </i18n-t>
+        </section>
     </footer>
 </template>
 
@@ -81,10 +93,22 @@ footer {
                 margin-left: auto;
             }
         }
+
+        &.gap {
+            display: block;
+
+            margin-top: 1lh;
+
+            font-size: 0.9rem;
+
+            a {
+                display: inline-block;
+            }
+        }
     }
 
     a {
-        display: flex;
+        display: inline-flex;
         align-items: center;
 
         img {

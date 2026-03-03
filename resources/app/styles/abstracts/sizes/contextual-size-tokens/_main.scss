@@ -35,6 +35,10 @@ $main: (
     ),
     "stats": (
         "border": map.get(s.$border, "base"),
+        "num": (
+            "outline": map.get(s.$border, "base"),
+            "gap": math.round(s.$base * 0.5)
+        ),
         "padding": 0.5lh 1ch,
         "radius": map.get(s.$radius, "featured"),
         "explanation-padding": 0.5ex 0.5ch

@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/vue3";
 import Stats from "@/pages/Guest/Welcome/Stats.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import Paragraph from "Components/UI/Paragraph.vue";
 
 defineProps<{
     oracleCards: { num: number; size: number };
@@ -17,8 +18,9 @@ defineProps<{
     >
     <headline>
         <icon name="home" :size="3" />
-        {{ $t("pages.welcome.title") }}
+        {{ $t("pages.welcome.claim") }}
     </headline>
+    <paragraph>{{ $t("pages.welcome.intro") }}</paragraph>
     <stats :oracle-cards="oracleCards" :default-cards="defaultCards" :sets="sets" />
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
