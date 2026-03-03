@@ -15,17 +15,19 @@
 
 // size tokens for header landmark
 $header: (
-    "font": (
-        "base": #{map.get(s.$font, "base") * 1.5},
-        "portrait": #{map.get(s.$font, "portrait") * 2},
-        "landscape": #{map.get(s.$font, "landscape") * 2.2},
-        "desktop": #{map.get(s.$font, "desktop") * 2.5}
-    ),
     "padding": (
-        "base": map.get(s.$padding, "base"),
-        "portrait": map.get(s.$padding, "portrait"),
-        "landscape": map.get(s.$padding, "landscape"),
-        "desktop": map.get(s.$padding, "desktop")
+        "base": 0 map.get(s.$padding, "base") map.get(s.$padding, "base"),
+        "portrait": 0 map.get(s.$padding, "portrait") map.get(s.$padding, "portrait"),
+        "landscape": 0 map.get(s.$padding, "landscape") map.get(s.$padding, "landscape"),
+        "desktop": 0 map.get(s.$padding, "desktop") map.get(s.$padding, "desktop")
+    ),
+    "step-margin": map.get(s.$border, "base") * 4,
+    "border": map.get(s.$border, "base"),
+    "radius": (
+        "base": map.get(s.$radius, "featured"),
+        "portrait": map.get(s.$radius, "featured") * 1.5,
+        "landscape": map.get(s.$radius, "featured") * 2,
+        "desktop": map.get(s.$radius, "featured") * 4
     )
 ) !default;
 
@@ -69,8 +71,13 @@ $theme: (
     "padding": math.round(s.$base * 0.2) math.round(s.$base * 0.5)
 ) !default;
 
-// size tokens for search results
-$search: () !default;
+// size tokens for shadows
+$shadows: (
+    "outline": (
+        "1dp": math.round(map.get(s.$border, "base") * 0.5),
+        "2dp": math.round(map.get(s.$border, "base") * 1)
+    )
+) !default;
 
 // size tokens for footer landmark
 $footer: (

@@ -13,7 +13,9 @@ $app: (
     "progress": map.get(shg.$box, "1dp"),
     "progress-bar": map.get(shg.$box, "0dp")
 ) !default;
-$header: () !default;
+$header: (
+    "title-first-letter": map.get(shg.$outline, "2dp")
+) !default;
 $main: (
     "stats_num": map.get(shg.$text, "0dp")
 ) !default;

@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'reset' => 'Ihr Passwort wurde zurückgesetzt.',
-    'updated' => 'Ihr Passwort wurde aktualisiert.',
+    'reset' => 'Dein Passwort wurde zurückgesetzt.',
+    'updated' => 'Dein Passwort wurde aktualisiert.',
     'sent' => 'Falls ein Konto mit dieser E-Mail-Adresse existiert, haben wir einen Link zum Zurücksetzen des Passwortes gesendet.',
-    'throttled' => 'Bitte warten Sie bis Sie es erneut versuchen.',
+    'throttled' => 'Bitte warte, bis du es erneut versuchen kannst.',
     'token' => 'Diese Passwort-Rücksetzungs URL ist ungültig.',
     'user' => "Wir können keinen Benutzer mit dieser E-Mail-Adresse finden.",
     'username_sent' => 'Falls ein Konto mit dieser E-Mail-Adresse existiert, haben wir eine Benutzername-Erinnerung gesendet.',

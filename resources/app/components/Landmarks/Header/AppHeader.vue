@@ -17,6 +17,7 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 <style scoped lang="scss">
 @use "sass:map";
 @use "Abstracts/mixins" as m;
+@use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
 
 .app-header {
@@ -37,12 +38,17 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 
     .inner {
         display: flex;
+        position: relative;
         align-items: center;
         justify-content: flex-start;
 
         max-width: map.get(s.$app, "cage");
+        padding: 1ex 2ch;
         margin: 0 auto;
         gap: 1ch;
+
+        background-color: map.get(c.$header, "background");
+        backdrop-filter: blur(12px);
 
         @include m.mq("portrait") {
             gap: 1.5ch;
@@ -50,6 +56,38 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 
         @include m.mq("landscape") {
             gap: 2ch;
+        }
+
+        @include m.mqset(
+            "border-radius",
+            #{0 0 map.get(s.$header, "radius", "base") map.get(s.$header, "radius", "base")},
+            #{0 0 map.get(s.$header, "radius", "portrait") map.get(s.$header, "radius", "portrait")},
+            #{0 0 map.get(s.$header, "radius", "landscape") map.get(s.$header, "radius", "landscape")},
+            #{0 0 map.get(s.$header, "radius", "desktop") map.get(s.$header, "radius", "desktop")}
+        );
+
+        &::before {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+
+            border: map.get(s.$header, "border") solid transparent;
+            border-top-width: 0;
+
+            background: linear-gradient(
+                    to bottom right,
+                    map.get(c.$header, "border-from"),
+                    map.get(c.$header, "border-to")
+                )
+                border-box;
+
+            border-radius: inherit;
+            mask:
+                linear-gradient(black, black) border-box,
+                linear-gradient(black, black) padding-box;
+            mask-composite: subtract;
+
+            content: "";
         }
     }
 }

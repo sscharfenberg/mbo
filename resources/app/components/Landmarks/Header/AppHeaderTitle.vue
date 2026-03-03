@@ -1,5 +1,9 @@
 <template>
-    <h1>MBO</h1>
+    <h1>
+        <span class="line">MtG</span>
+        <span class="line">Binder</span>
+        <span class="line">Organizer</span>
+    </h1>
 </template>
 
 <style scoped lang="scss">
@@ -10,23 +14,36 @@
 @use "Abstracts/shadows" as sh;
 
 h1 {
+    display: flex;
     position: relative;
+    flex-direction: column;
 
     padding: 0;
     margin: 0;
 
-    transform: skew(-15deg);
-
-    font-weight: 900;
+    font-weight: normal;
     line-height: 1;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.1em;
 
-    @include m.mqset(
-        "font-size",
-        #{map.get(s.$header, "font", "base")},
-        #{map.get(s.$header, "font", "portrait")},
-        #{map.get(s.$header, "font", "landscape")},
-        #{map.get(s.$header, "font", "desktop")}
-    );
+    @include m.mqset("font-size", 1rem, 1.3rem, 1.6rem, 1.8rem);
+
+    .line {
+        margin-left: calc((sibling-count() - sibling-index()) * map.get(s.$header, "step-margin"));
+        transform: skew(-15deg);
+
+        text-transform: capitalize;
+
+        &::first-letter {
+            margin-right: 0.15ch;
+
+            color: map.get(c.$header, "title-first-letter");
+
+            font-weight: 900;
+            text-shadow: map.get(sh.$header, "title-first-letter");
+            text-transform: uppercase;
+
+            @include m.mqset("font-size", 1.5rem, 2rem, 2.2rem, 2.5rem);
+        }
+    }
 }
 </style>

@@ -28,7 +28,7 @@
         "welcome": {
             "title": "Welcome",
             "claim": "Organisiere deine Magic Sammlung.",
-            "intro": "Du baust ein neues Deck und willst eine bestimmte Karte hinzufügen. Du weißt, das du die Karte besitzt - irgendwo in deinen 10+ Ordnern / Kartons o.ä.. Nachdem du eine halbe Stunde suchst, gibst du auf und kaufst eine neue Kopie der Karte. Klingt bekannt? MBO ist für dich.",
+            "intro": "Du baust ein neues Deck und willst eine bestimmte Karte hinzufügen. Du weißt, das du die Karte besitzt - irgendwo in deinen 10+ Ordnern / Kartons / Displays o.ä.. Nachdem du eine halbe Stunde suchst, gibst du auf und kaufst eine neue Kopie der Karte. Klingt bekannt? MBO ist für dich.",
             "stats": {
                 "title": "Globale Statistiken",
                 "oracle": {
@@ -48,13 +48,13 @@
         "register": {
             "title": "Registrierung",
             "link": "Registrierung",
-            "intro": "Nach der Registrierung schicken wir Ihnen einen Link zur Bestätigung der E-Mail-Adresse. Sie können sich erst einloggen wenn die E-Mail-Adresse bestätigt wurde.",
+            "intro": "Nach der Registrierung schicken wir dir einen Link zur Bestätigung der E-Mail-Adresse. Du kannst dich erst einloggen, wenn die E-Mail-Adresse bestätigt wurde.",
             "submit": "Registrieren"
         },
         "login": {
             "title": "Anmeldung",
             "link": "Anmeldung",
-            "nav_label": "Wenn Sie sich nicht anmelden können, verwenden Sie diese Links.",
+            "nav_label": "Wenn du dich nicht anmelden kannst, verwende diese Links.",
             "submit": "Anmelden",
             "2fa": {
                 "recovery_code": "Wiederherstellungscode",
@@ -69,7 +69,7 @@
         "forgot": {
             "title": "Probleme beim Anmelden?",
             "link": "Probleme beim Anmelden?",
-            "intro": "Wenn Sie sich nicht anmelden können, können wir Ihnen entweder Ihren Benutzernamen oder einen Link zum Zurücksetzen des Passworts schicken. Wählen Sie dafür das Passwort oder den Benutzernamen aus, und geben Sie die hinterlegte E-Mail-Adresse an. Wenn Sie das Passwort vergessen haben müssen Sie auch den Benutzernamen angeben.",
+            "intro": "Wenn du dich nicht anmelden kannst, können wir dir entweder deinen Benutzernamen oder einen Link zum Zurücksetzen des Passworts schicken. Wähle dafür das Passwort oder den Benutzernamen aus, und gib die hinterlegte E-Mail-Adresse an. Wenn du das Passwort vergessen hast, musst du auch den Benutzernamen angeben.",
             "type": {
                 "password": "Passwort vergessen",
                 "username": "Benutzername vergessen"
@@ -78,13 +78,13 @@
         },
         "reset_password": {
             "title": "Passwort zurücksetzen",
-            "intro": "Geben Sie Ihr neues Passwort ein. Nach dem Speichern können Sie sich mit dem neuen Passwort anmelden.",
+            "intro": "Gib dein neues Passwort ein. Nach dem Speichern kannst du dich mit dem neuen Passwort anmelden.",
             "submit": "Speichern"
         },
         "resend_verification": {
             "title": "Bestätigungs-Link erneut versenden",
             "link": "Bestätigungs-Link erneut versenden",
-            "intro": "Wenn Ihr Bestätigungs-Link abgelaufen ist, können Sie hier einen neuen Link zur Bestätigung Ihrer E-Mail-Adresse anfordern. Bitte geben Sie dafür Ihren Benutzernamen und die E-Mail-Adresse an.",
+            "intro": "Wenn dein Bestätigungs-Link abgelaufen ist, kannst du hier einen neuen Link zur Bestätigung deiner E-Mail-Adresse anfordern. Bitte gib dafür deinen Benutzernamen und die E-Mail-Adresse an.",
             "submit": "Anfordern"
         },
         "dashboard": {
@@ -92,12 +92,12 @@
             "link": "Benutzerkonto",
             "password": {
                 "headline": "Password ändern",
-                "intro": "Sie können Ihr Passwort ändern indem Sie Ihr aktuelles Passwort und das neue Passwort eingeben.",
+                "intro": "Du kannst dein Passwort ändern, indem du dein aktuelles Passwort und das neue Passwort eingibst.",
                 "submit": "Ändern"
             },
             "profile": {
                 "headline": "Profil aktualisieren",
-                "intro": "Sie können Ihre E-Mail-Adresse und/oder Ihren Benutzernamen ändern. Wenn Sie eines von beiden ändern, werden Sie abgemeldet und müssen sich mit den neuen Daten neu anmelden. Wenn Sie die E-Mail-Adresse ändern, müssen Sie die neue E-Mail-Adresse bestätigen - wir schicken Ihnen einen Link zu Bestätigung.",
+                "intro": "Du kannst deine E-Mail-Adresse und/oder deinen Benutzernamen ändern. Wenn du eines von beiden änderst, wirst du abgemeldet und musst dich mit den neuen Daten neu anmelden. Wenn du die E-Mail-Adresse änderst, musst du die neue E-Mail-Adresse bestätigen - wir schicken dir einen Link zur Bestätigung.",
                 "type": {
                     "email": "E-Mail-Adresse ändern",
                     "name": "Benutzername ändern"
@@ -106,7 +106,7 @@
             },
             "two_factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
-                "intro": "Die Zwei-Faktor Authentifizierung verwendet {totp}. Sie benötigen eine entsprechende App, z.b. Google/Microsoft Authenticator oder {tool1} / {tool2}.",
+                "intro": "Die Zwei-Faktor Authentifizierung verwendet {totp}. Du benötigst eine entsprechende App, z.b. Google/Microsoft Authenticator oder {tool1} / {tool2}.",
                 "requires_confirmation": "Zum aktivieren muss das Passwort angegeben werden.",
                 "totp": "zeitlich limitierte Einmalpasswörter (TOTP)",
                 "tool1": "Bitwarden",
@@ -130,18 +130,18 @@
                 },
                 "recovery_codes": {
                     "headline": "Wiederherstellungscodes",
-                    "explanation": "Wiederherstellungscodes erlauben es Ihnen sich anzumelden wenn Sie keinen Zugriff mehr auf Ihr 2FA Gerät haben. Speichern Sie die Wiederherstellungscodes in einem sicheren Passwortmanager.",
+                    "explanation": "Wiederherstellungscodes erlauben es dir, dich anzumelden, wenn du keinen Zugriff mehr auf dein 2FA Gerät hast. Speichere die Wiederherstellungscodes in einem sicheren Passwortmanager.",
                     "show": "Zeige Wiederherstellungscodes",
                     "hide": "Wiederherstellungscode ausblenden",
                     "label": "Wiederherstellungscodes"
                 },
                 "regenerate_codes": {
-                    "explanation": "Jeder Wiederherstellungscode kann nur einmal benutzt werden um sich in Ihrem Benutzerkonto anzumelden und wird nach dem Benutzen entfernt. Wenn Sie mehr Wiederherstellungscodes benötigen, benutzen Sie den Button 'Neu erzeugen'.",
+                    "explanation": "Jeder Wiederherstellungscode kann nur einmal benutzt werden, um sich in deinem Benutzerkonto anzumelden, und wird nach dem Benutzen entfernt. Wenn du mehr Wiederherstellungscodes benötigst, benutze den Button 'Neu erzeugen'.",
                     "submit": "Neu erzeugen"
                 },
                 "disable_section": {
                     "headline": "Zwei-Faktor Authentifizierung Deaktivieren",
-                    "explanation": "Geben Sie Ihr Passwort ein um die Zwei-Faktor Authentifizierung zu deaktivieren."
+                    "explanation": "Gib dein Passwort ein, um die Zwei-Faktor Authentifizierung zu deaktivieren."
                 }
             }
         },
@@ -158,7 +158,7 @@
         "legend": {
             "required": "Felder die mit einem {icon} gekennzeichnet sind, müssen ausgefüllt werden.",
             "password": "Während der Eingabe des Passwortes prüfen wir ob das Passwort sicher genug ist. Unsichere Passwörter werden abgewiesen.",
-            "2fa": "Für Ihr Benutzerkonto ist die Zwei-Faktor Authentifizierung aktiviert. Bitte prüfen Sie Ihre App und geben Sie das Einmalkennwort ein das angezeigt wird."
+            "2fa": "Für dein Benutzerkonto ist die Zwei-Faktor Authentifizierung aktiviert. Bitte prüfe deine App und gib das Einmalkennwort ein, das angezeigt wird."
         },
         "fields": {
             "username": "Benutzername",
