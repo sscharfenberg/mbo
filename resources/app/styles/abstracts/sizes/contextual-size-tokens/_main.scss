@@ -42,5 +42,10 @@ $main: (
         "padding": 0.5lh 1ch,
         "radius": map.get(s.$radius, "featured"),
         "explanation-padding": 0.5ex 0.5ch
+    ),
+    "dashboard-nav": (
+        "border": map.get(s.$border, "base"),
+        "padding": 0.5lh 1ch,
+        "radius": map.get(s.$radius, "featured")
     )
 ) !default;
