@@ -21,7 +21,8 @@
 
     &:not([readonly]):focus,
     &:not([readonly]):active,
-    &:not([readonly]):focus-within {
+    &:not([readonly]):focus-within,
+    &:has(button:not([disabled]):focus) .form-input {
         background-color: map.get(c.$form, "input", "background-focus");
         color: map.get(c.$form, "input", "surface-focus");
         border-color: map.get(c.$form, "input", "border-focus");
@@ -32,7 +33,15 @@
         cursor: not-allowed;
     }
 
+    // if the form group has an addon, reduce padding on form-input a bit
     .form-group:has(.form-group__addon) & {
         padding-left: 1.5ch;
     }
+}
+
+// if a button in the form group is focussed, show form-input focus styles as well.
+.form-group:has(button:not([disabled]):focus) .form-input {
+    background-color: map.get(c.$form, "input", "background-focus");
+    color: map.get(c.$form, "input", "surface-focus");
+    border-color: map.get(c.$form, "input", "border-focus");
 }

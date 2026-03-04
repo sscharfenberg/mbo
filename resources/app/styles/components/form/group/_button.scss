@@ -28,7 +28,9 @@
             background-color map.get(ti.$timings, "fast") linear,
             color map.get(ti.$timings, "fast") linear;
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             background-color: map.get(c.$form, "input", "button", "background-hover");
             color: map.get(c.$form, "input", "button", "surface-hover");
         }

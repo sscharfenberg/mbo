@@ -170,8 +170,8 @@
             "remember": "Login merken"
         },
         "elements": {
-            "password_show": "Passwort zeigen",
-            "password_hide": "Passwort verstecken",
+            "password_show": "Zeigen",
+            "password_hide": "Verbergen",
             "radio-group": "Verfügbare Optionen"
         }
     },

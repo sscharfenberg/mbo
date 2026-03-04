@@ -60,18 +60,8 @@ const onCodeTypeChange = (event: Event) => {
             :error="errors.password ?? ''"
             :invalid="!!errors?.password"
             :required="true"
+            addon-icon="key"
         >
-            <template #addon>
-                <button
-                    type="button"
-                    class="form-group__addon"
-                    @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
-                    tabindex="-1"
-                >
-                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                </button>
-            </template>
             <input
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
@@ -79,6 +69,18 @@ const onCodeTypeChange = (event: Event) => {
                 id="password"
                 class="form-input"
             />
+            <template #button>
+                <button
+                    type="button"
+                    @mousedown.prevent
+                    @click="showPassword = !showPassword"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    tabindex="-1"
+                >
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
+                    {{ showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                </button>
+            </template>
         </form-group>
         <form-group v-if="!requiresTwoFactor" for-id="remember" :label="$t('form.fields.remember')">
             <template #addon>

@@ -170,8 +170,8 @@
             "remember": "Remember me"
         },
         "elements": {
-            "password_show": "Show password",
-            "password_hide": "Hide password",
+            "password_show": "Show",
+            "password_hide": "Hide",
             "radio-group": "Available options"
         }
     },

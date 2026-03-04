@@ -17,6 +17,7 @@ const props = defineProps<{
 const inputEmail = ref(props.email);
 const { password, score, onPasswordChange } = usePasswordEntropy();
 const showPassword = ref(false);
+const showPasswordConfirmation = ref(false);
 </script>
 
 <template>
@@ -62,18 +63,8 @@ const showPassword = ref(false);
             :validated="valid('password')"
             :validating="validating"
             :required="true"
+            addon-icon="key"
         >
-            <template #addon>
-                <button
-                    type="button"
-                    class="form-group__addon"
-                    @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
-                    tabindex="-1"
-                >
-                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                </button>
-            </template>
             <input
                 :type="showPassword ? 'text' : 'password'"
                 name="password"
@@ -83,6 +74,18 @@ const showPassword = ref(false);
                 class="form-input"
                 v-model="password"
             />
+            <template #button>
+                <button
+                    type="button"
+                    @mousedown.prevent
+                    @click="showPassword = !showPassword"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    tabindex="-1"
+                >
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
+                    {{ showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                </button>
+            </template>
             <template #text><PasswordStrength v-if="score !== null" :score="score" /></template>
         </form-group>
         <form-group
@@ -93,25 +96,27 @@ const showPassword = ref(false);
             :validated="valid('password_confirmation')"
             :validating="validating"
             :required="true"
+            addon-icon="key"
         >
-            <template #addon>
-                <button
-                    type="button"
-                    class="form-group__addon"
-                    @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
-                    tabindex="-1"
-                >
-                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                </button>
-            </template>
             <input
-                :type="showPassword ? 'text' : 'password'"
+                :type="showPasswordConfirmation ? 'text' : 'password'"
                 name="password_confirmation"
                 id="password_confirmation"
                 @change="validate('password_confirmation')"
                 class="form-input"
             />
+            <template #button>
+                <button
+                    type="button"
+                    @mousedown.prevent
+                    @click="showPasswordConfirmation = !showPasswordConfirmation"
+                    :aria-label="showPasswordConfirmation ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    tabindex="-1"
+                >
+                    <icon :name="showPasswordConfirmation ? 'visibility-off' : 'visibility-on'" />
+                    {{ showPasswordConfirmation ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                </button>
+            </template>
         </form-group>
         <input type="hidden" name="token" :value="token" />
         <form-group>

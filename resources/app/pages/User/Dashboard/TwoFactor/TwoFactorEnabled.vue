@@ -26,18 +26,8 @@ const showPassword = ref(false);
             :error="validationErrors.password"
             :invalid="!!validationErrors.password"
             :required="true"
+            addon-icon="key"
         >
-            <template #addon>
-                <button
-                    type="button"
-                    class="form-group__addon"
-                    @click.prevent="showPassword = !showPassword"
-                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
-                    tabindex="-1"
-                >
-                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                </button>
-            </template>
             <input
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
@@ -45,6 +35,18 @@ const showPassword = ref(false);
                 id="disable-password"
                 class="form-input"
             />
+            <template #button>
+                <button
+                    type="button"
+                    @mousedown.prevent
+                    @click="showPassword = !showPassword"
+                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    tabindex="-1"
+                >
+                    <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
+                    {{ showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                </button>
+            </template>
         </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
