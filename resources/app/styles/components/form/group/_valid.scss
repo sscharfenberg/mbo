@@ -2,13 +2,17 @@
 @use "Abstracts/colors" as c;
 
 .form-group {
-    // green checkbox icon for validated fields
+    // green checkbox icon for validated fields; anchor-positioned to the right
+    // edge of the input, centered vertically — set via position-anchor inline
+    // style in FormGroup.vue so each instance targets its own input anchor.
     &--valid,
     &--invalid {
         display: flex;
         position: absolute;
-        top: 10px; // TODO: remove magic number ...
-        right: 1.5ch;
+
+        // Align with the anchor's right edge (1.5ch inside) and vertical center.
+        top: anchor(center);
+        right: calc(anchor(right) + 1.5ch);
         place-items: center;
 
         width: 20px;
@@ -17,12 +21,13 @@
         background-color: map.get(c.$form, "input", "valid", "background");
         color: map.get(c.$form, "input", "valid", "surface");
         border-radius: 100dvw;
+        translate: 0 -50%;
     }
 
     // loading spinner if a validation is in progress
     &--validating {
         position: absolute;
-        top: 9px; // TODO: remove magic number ...
+        top: 9px;
         right: 1.5ch;
     }
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useId } from "vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 
@@ -27,6 +28,11 @@ defineProps({
         default: false
     }
 });
+
+// Unique CSS anchor name for this instance so each form-group's valid
+// indicator is anchored to its own input, not to a sibling's.
+// useId() may contain colons (SSR mode), so strip non-CSS-ident characters.
+const anchorName = `--fgf-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
 </script>
 
 <template>
@@ -46,12 +52,21 @@ defineProps({
                 <div v-if="!addonIcon && $slots.addon">
                     <slot name="addon" />
                 </div>
-                <slot />
+                <!-- Wrapper that acts as the CSS anchor target for the valid indicator.
+                     Each instance gets a unique anchor-name via useId(). -->
+                <div class="form-group__field" :style="`anchor-name: ${anchorName}`">
+                    <slot />
+                </div>
                 <loading-spinner v-if="validating" class="form-group--validating colored" :size="1.5" />
                 <div v-if="$slots.button" class="form-group__button">
                     <slot name="button" />
                 </div>
-                <div v-if="!validating && validated" class="form-group--valid" aria-label="This field is valid.">
+                <div
+                    v-if="!validating && validated"
+                    class="form-group--valid"
+                    :style="`position-anchor: ${anchorName}`"
+                    aria-label="This field is valid."
+                >
                     <icon name="check" :size="1" />
                 </div>
             </div>

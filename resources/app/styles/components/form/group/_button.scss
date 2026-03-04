@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "Abstracts/colors" as c;
+@use "Abstracts/mixins" as m;
 @use "Abstracts/sizes" as s;
 @use "Abstracts/shadows" as sh;
 @use "Abstracts/timings" as ti;
@@ -34,6 +35,14 @@
             background-color: map.get(c.$form, "input", "button", "background-hover");
             color: map.get(c.$form, "input", "button", "surface-hover");
         }
+
+        > span {
+            display: none;
+
+            @include m.mq("portrait") {
+                display: block;
+            }
+        }
     }
 
     // if the form group has a button, change the right side of the input.
@@ -48,6 +57,15 @@
     &:has(input:not([readonly])):focus .form-group__button button,
     &:has(input:not([readonly])):focus-visible .form-group__button button,
     &:has(input:not([readonly])):focus-within .form-group__button button {
+        background-color: map.get(c.$form, "input", "background-focus");
+        color: map.get(c.$form, "input", "surface-focus");
         border-color: map.get(c.$form, "input", "border-focus");
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: map.get(c.$form, "input", "button", "background-hover");
+            color: map.get(c.$form, "input", "button", "surface-hover");
+        }
     }
 }

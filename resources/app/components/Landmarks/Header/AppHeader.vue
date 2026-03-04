@@ -43,7 +43,7 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
         justify-content: flex-start;
 
         max-width: map.get(s.$app, "cage");
-        padding: 1ex 2ch;
+        padding: 0.5ex 2ch;
         margin: 0 auto;
         gap: 1ch;
 

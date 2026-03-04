@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, useId } from "vue";
 import Icon from "Components/UI/Icon.vue";
 const props = defineProps({
     score: {
@@ -12,12 +12,17 @@ const barWidth = computed(() => {
     if (props.score === 4) pct = 0;
     return `${pct}%`;
 });
+
+// Unique CSS anchor name so the valid/invalid indicator anchors to this
+// component's meter, not to any sibling's input anchor.
+const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
 </script>
 
 <template>
     <div class="password-strength">
         <div
             class="password-strength__meter"
+            :style="`anchor-name: ${anchorName}`"
             role="meter"
             aria-valuemin="0"
             aria-valuemax="4"
@@ -26,8 +31,12 @@ const barWidth = computed(() => {
         >
             <div class="password-strength__bar" />
         </div>
-        <div v-if="score >= 3" class="form-group--valid"><icon name="check" :size="1" /></div>
-        <div v-if="score < 3" class="form-group--invalid"><icon name="warning" :size="1" /></div>
+        <div v-if="score >= 3" class="form-group--valid" :style="`position-anchor: ${anchorName}`">
+            <icon name="check" :size="1" />
+        </div>
+        <div v-if="score < 3" class="form-group--invalid" :style="`position-anchor: ${anchorName}`">
+            <icon name="warning" :size="1" />
+        </div>
     </div>
 </template>
 
@@ -38,9 +47,13 @@ const barWidth = computed(() => {
 
 .password-strength {
     display: flex;
+    position: relative;
     align-items: center;
 
+    // Right padding reserves space for the valid/invalid icon (always shown).
+    // The icon is 20px wide; 1ch gap between meter and icon.
     padding: map.get(s.$form, "password-strength", "padding");
+    padding-right: calc(20px + 1.5ch);
     border: map.get(s.$form, "password-strength", "border") solid map.get(c.$form, "password-strength", "border");
     margin-top: 1ex;
     gap: 1ch;
@@ -76,6 +89,14 @@ const barWidth = computed(() => {
         transition: width 500ms linear;
     }
 
+    // Override the global right-overlap positioning: place the icon to the
+    // right of the meter (in the reserved padding area) instead of inside it.
+    .form-group--valid,
+    .form-group--invalid {
+        right: unset;
+        left: calc(anchor(right) + 0.5ch);
+    }
+
     .icon {
         padding: 0.2ex;
 
@@ -90,14 +111,6 @@ const barWidth = computed(() => {
             background-color: map.get(c.$form, "password-strength", "fail", "background");
             color: map.get(c.$form, "password-strength", "fail", "surface");
         }
-    }
-
-    .form-group--valid,
-    .form-group--invalid {
-        position: relative;
-
-        top: unset;
-        right: unset;
     }
 }
 </style>

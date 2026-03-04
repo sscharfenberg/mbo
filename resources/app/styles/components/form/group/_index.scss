@@ -34,6 +34,13 @@
 
     &__slot {
         display: flex;
+    }
+
+    // Wrapper around the default slot content; serves as the CSS anchor target
+    // for the valid indicator. Grows to fill the slot like the input used to.
+    &__field {
+        display: flex;
+        flex-grow: 1;
 
         .form-input {
             flex-grow: 1;

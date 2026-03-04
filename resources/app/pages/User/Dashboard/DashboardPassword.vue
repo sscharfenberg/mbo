@@ -48,11 +48,15 @@ const showPasswordConfirmation = ref(false);
                     type="button"
                     @mousedown.prevent
                     @click="showCurrentPassword = !showCurrentPassword"
-                    :aria-label="showCurrentPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    :aria-label="
+                        showCurrentPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')
+                    "
                     tabindex="-1"
                 >
                     <icon :name="showCurrentPassword ? 'visibility-off' : 'visibility-on'" />
-                    {{ showCurrentPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                    <span>{{
+                        showCurrentPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show")
+                    }}</span>
                 </button>
             </template>
         </form-group>
@@ -84,7 +88,9 @@ const showPasswordConfirmation = ref(false);
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                    {{ showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                    <span>{{
+                        showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show")
+                    }}</span>
                 </button>
             </template>
             <template #text><PasswordStrength v-if="score !== null" :score="score" /></template>
@@ -111,11 +117,15 @@ const showPasswordConfirmation = ref(false);
                     type="button"
                     @mousedown.prevent
                     @click="showPasswordConfirmation = !showPasswordConfirmation"
-                    :aria-label="showPasswordConfirmation ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    :aria-label="
+                        showPasswordConfirmation ? $t('form.elements.password_hide') : $t('form.elements.password_show')
+                    "
                     tabindex="-1"
                 >
                     <icon :name="showPasswordConfirmation ? 'visibility-off' : 'visibility-on'" />
-                    {{ showPasswordConfirmation ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                    <span>{{
+                        showPasswordConfirmation ? $t("form.elements.password_hide") : $t("form.elements.password_show")
+                    }}</span>
                 </button>
             </template>
         </form-group>

@@ -27,6 +27,12 @@ h1 {
 
     @include m.mqset("font-size", 1rem, 1.3rem, 1.6rem, 1.8rem);
 
+    @include m.mq("landscape") {
+        flex-direction: row;
+
+        gap: 0.5ch;
+    }
+
     .line {
         margin-left: calc((sibling-count() - sibling-index()) * map.get(s.$header, "step-margin"));
         transform: skew(-15deg);
@@ -42,7 +48,7 @@ h1 {
             text-shadow: map.get(sh.$header, "title-first-letter");
             text-transform: uppercase;
 
-            @include m.mqset("font-size", 1.5rem, 2rem, 2.2rem, 2.5rem);
+            @include m.mqset("font-size", 1.2rem, 1.6rem, 2.1rem, 2.5rem);
         }
     }
 }

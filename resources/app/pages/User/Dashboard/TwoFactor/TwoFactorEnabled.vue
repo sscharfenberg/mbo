@@ -44,7 +44,9 @@ const showPassword = ref(false);
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                    {{ showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show") }}
+                    <span>{{
+                        showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show")
+                    }}</span>
                 </button>
             </template>
         </form-group>
