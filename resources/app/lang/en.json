@@ -1,6 +1,7 @@
 {
     "header": {
-        "nav": "User and language navigation",
+        "user_nav": "User and language navigation",
+        "site_nav": "Site navigation",
         "lang": {
             "label": "Switch Language"
         },
@@ -152,6 +153,14 @@
         "imprint": {
             "title": "Imprint",
             "link": "Imprint"
+        },
+        "collection": {
+            "title": "Your Collection",
+            "link": "Collection"
+        },
+        "decks": {
+            "title": "Your Decks",
+            "link": "Decks"
         }
     },
     "form": {

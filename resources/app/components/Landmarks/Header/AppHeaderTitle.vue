@@ -27,7 +27,7 @@ h1 {
 
     @include m.mqset("font-size", 1rem, 1.3rem, 1.6rem, 1.8rem);
 
-    @include m.mq("landscape") {
+    @include m.mq("desktop") {
         flex-direction: row;
 
         gap: 0.5ch;

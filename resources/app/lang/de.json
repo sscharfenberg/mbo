@@ -1,6 +1,7 @@
 {
     "header": {
-        "nav": "Benutzer- und Sprach-Navigation",
+        "user_nav": "Benutzer- und Sprach-Navigation",
+        "site_nav": "Site navigation",
         "lang": {
             "label": "Sprache ändern"
         },
@@ -152,6 +153,14 @@
         "imprint": {
             "title": "Impressum",
             "link": "Impressum"
+        },
+        "collection": {
+            "title": "Deine Sammlung",
+            "link": "Sammlung"
+        },
+        "decks": {
+            "title": "Deine Decks",
+            "link": "Decks"
         }
     },
     "form": {

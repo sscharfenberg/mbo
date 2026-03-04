@@ -28,13 +28,6 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
         map.get(s.$header, "padding", "landscape"),
         map.get(s.$header, "padding", "desktop")
     );
-    @include m.mqset(
-        "gap",
-        #{map.get(s.$header, "gap", "base")},
-        #{map.get(s.$header, "gap", "portrait")},
-        #{map.get(s.$header, "gap", "landscape")},
-        #{map.get(s.$header, "gap", "desktop")}
-    );
 
     .inner {
         display: flex;

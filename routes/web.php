@@ -70,6 +70,14 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::post('/confirm-password', [\App\Http\Controllers\User\ConfirmPasswordController::class, 'store'])
         ->middleware(['throttle:6,1'])
         ->name('password.confirm');
+
+    // Collection
+    Route::get('/collection', [\App\Http\Controllers\Mbo\CollectionController::class, 'show'])
+        ->name('collection');
+
+    // Decks
+    Route::get('/decks', [\App\Http\Controllers\Mbo\DecksController::class, 'show'])
+        ->name('decks');
 });
 
 /******************************************************************************

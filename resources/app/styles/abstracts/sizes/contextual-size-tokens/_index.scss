@@ -28,7 +28,9 @@ $header: (
         "portrait": map.get(s.$radius, "featured") * 1.5,
         "landscape": map.get(s.$radius, "featured") * 2,
         "desktop": map.get(s.$radius, "featured") * 4
-    )
+    ),
+    "sitelink-divider": math.round(map.get(s.$border, "base") * 1.5),
+    "sitelink-divider-radius": math.round(map.get(s.$radius, "base") * 0.5)
 ) !default;
 
 // size tokens for frosted glass
