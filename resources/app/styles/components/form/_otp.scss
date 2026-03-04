@@ -44,6 +44,6 @@
     }
 
     [data-input-otp] {
-        width: 100% !important;
+        width: 100% !important; // we need to overwrite the style prop of the element. no other way but to use !important.
     }
 }

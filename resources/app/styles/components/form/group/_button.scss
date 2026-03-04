@@ -1,0 +1,51 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/shadows" as sh;
+@use "Abstracts/timings" as ti;
+
+.form-group {
+    &__button button {
+        display: flex;
+        align-items: center;
+
+        padding: 0.75ex 1.5ch 0.75ex 1ch;
+        border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
+        gap: 1ch;
+
+        background-color: map.get(c.$form, "input", "background");
+        color: map.get(c.$form, "input", "surface");
+        outline: 0;
+        border-radius: map.get(s.$form, "input", "radius");
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+
+        line-height: map.get(s.$form, "input", "line-height");
+
+        cursor: pointer;
+
+        transition:
+            background-color map.get(ti.$timings, "fast") linear,
+            color map.get(ti.$timings, "fast") linear;
+
+        &:hover {
+            background-color: map.get(c.$form, "input", "button", "background-hover");
+            color: map.get(c.$form, "input", "button", "surface-hover");
+        }
+    }
+
+    // if the form group has a button, change the right side of the input.
+    &:has(.form-group__button) .form-input {
+        border-right-width: 0;
+
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    // if the input is focussed, continue the border color.
+    &:has(input:not([readonly])):focus .form-group__button button,
+    &:has(input:not([readonly])):focus-visible .form-group__button button,
+    &:has(input:not([readonly])):focus-within .form-group__button button {
+        border-color: map.get(c.$form, "input", "border-focus");
+    }
+}

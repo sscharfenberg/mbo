@@ -3,12 +3,10 @@
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
 @forward "addon";
+@forward "button";
 @forward "error";
 @forward "icon";
-@forward "input";
 @forward "label";
-@forward "otp";
-@forward "textarea";
 @forward "valid";
 
 .form-group {

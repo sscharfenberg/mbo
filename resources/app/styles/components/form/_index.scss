@@ -1,5 +1,21 @@
+@use "sass:map";
+@use "Abstracts/mixins" as m;
+@use "Abstracts/sizes" as s;
 @forward "btn";
-@forward "form-element";
 @forward "group";
+@forward "input";
 @forward "legend";
+@forward "otp";
 @forward "radio";
+@forward "textarea";
+
+.form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1ex;
+
+    @include m.mq("landscape") {
+        gap: 2ex;
+    }
+}

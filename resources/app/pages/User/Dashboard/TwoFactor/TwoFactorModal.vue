@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Form } from "@inertiajs/vue3";
 import { nextTick, onMounted, ref } from "vue";
+import { useClipboard } from "@/composables/useClipboard";
 import { useTwoFactorAuth } from "@/composables/useTwoFactorAuth";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const { qrCodeSvg, manualSetupKey, fetchSetupData } = useTwoFactorAuth();
+const { copy, copied } = useClipboard();
 const showVerificationStep = ref(false);
 const code = ref<string>("");
 
@@ -51,8 +53,19 @@ const handleModalNextStep = async () => {
                 <div v-html="qrCodeSvg" />
             </form-group>
             <loading-spinner v-if="!manualSetupKey" :size="2" />
-            <form-group v-else for-id="manualSetupKey" :label="$t('pages.dashboard.two_factor.setup.setupkey_label')">
+            <form-group
+                v-else
+                for-id="manualSetupKey"
+                :label="$t('pages.dashboard.two_factor.setup.setupkey_label')"
+                addon-icon="key"
+            >
                 <input id="manualSetupKey" class="form-input" type="text" readonly :value="manualSetupKey" />
+                <template #button>
+                    <button type="button" @click="copy(manualSetupKey ?? '')">
+                        <icon :name="copied ? 'check' : 'copy'" />
+                        {{ copied ? $t("pages.dashboard.two_factor.setup.copied") : $t("pages.dashboard.two_factor.setup.copy") }}
+                    </button>
+                </template>
             </form-group>
             <form-group>
                 <button class="btn-primary" @click="handleModalNextStep">

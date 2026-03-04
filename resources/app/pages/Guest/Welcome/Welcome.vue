@@ -23,48 +23,33 @@ defineProps<{
     <paragraph>{{ $t("pages.welcome.intro") }}</paragraph>
     <stats :oracle-cards="oracleCards" :default-cards="defaultCards" :sets="sets" />
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum
+        eveniet nihil quibusdam saepe ut voluptates? Alias ipsam ipsum numquam sit unde. Alias dolore esse molestiae
+        nobis nostrum quidem quis, repudiandae vero voluptates? Accusantium aliquid asperiores, aut delectus ducimus
+        earum hic ipsam molestiae obcaecati rerum sequi tempora voluptas voluptates? A accusamus aut consequatur
+        doloremque eius eligendi, esse impedit ipsam labore laudantium molestias neque quod sed sequi similique suscipit
+        vel velit veniam veritatis voluptas voluptatem voluptates voluptatum. Asperiores ducimus ea earum exercitationem
+        itaque nam quam soluta vel. Aspernatur esse facilis impedit magnam mollitia nesciunt, possimus repellat
+        voluptate?
     </p>
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum
+        eveniet nihil quibusdam saepe ut voluptates? Alias ipsam ipsum numquam sit unde. Alias dolore esse molestiae
+        nobis nostrum quidem quis, repudiandae vero voluptates? Accusantium aliquid asperiores, aut delectus ducimus
+        earum hic ipsam molestiae obcaecati rerum sequi tempora voluptas voluptates? A accusamus aut consequatur
+        doloremque eius eligendi, esse impedit ipsam labore laudantium molestias neque quod sed sequi similique suscipit
+        vel velit veniam veritatis voluptas voluptatem voluptates voluptatum. Asperiores ducimus ea earum exercitationem
+        itaque nam quam soluta vel. Aspernatur esse facilis impedit magnam mollitia nesciunt, possimus repellat
+        voluptate?
     </p>
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum
+        eveniet nihil quibusdam saepe ut voluptates? Alias ipsam ipsum numquam sit unde. Alias dolore esse molestiae
+        nobis nostrum quidem quis, repudiandae vero voluptates? Accusantium aliquid asperiores, aut delectus ducimus
+        earum hic ipsam molestiae obcaecati rerum sequi tempora voluptas voluptates? A accusamus aut consequatur
+        doloremque eius eligendi, esse impedit ipsam labore laudantium molestias neque quod sed sequi similique suscipit
+        vel velit veniam veritatis voluptas voluptatem voluptates voluptatum. Asperiores ducimus ea earum exercitationem
+        itaque nam quam soluta vel. Aspernatur esse facilis impedit magnam mollitia nesciunt, possimus repellat
+        voluptate?
     </p>
 </template>

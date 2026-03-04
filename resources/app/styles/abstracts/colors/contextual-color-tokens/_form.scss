@@ -53,6 +53,10 @@ $form: (
                     map.get(c.$state, "light", "error", "contrast"),
                     map.get(c.$state, "dark", "error", "contrast")
                 )
+        ),
+        "button": (
+            "background-hover": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark2", "color")),
+            "surface-hover": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark2", "contrast"))
         )
     ),
     "required": (
