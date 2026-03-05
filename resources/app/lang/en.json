@@ -93,11 +93,13 @@
             "link": "Useraccount",
             "password": {
                 "headline": "Change Password",
+                "link": "Password",
                 "intro": "You can change your password by entering the current password and the new password.",
                 "submit": "Change"
             },
             "profile": {
                 "headline": "Update Profile",
+                "link": "Profile",
                 "intro": "You can change your E-Mail address and/or your username. If you update either, you will be logged out and need to login with the new data. If you update the E-Mail address, you will need to verify it by clicking on the link that we send you.",
                 "type": {
                     "email": "Change E-Mail address",
@@ -107,6 +109,7 @@
             },
             "two_factor": {
                 "headline": "Two-Factor authentication",
+                "link": "Two-Factor",
                 "intro": "Two-factor authentication uses a {totp}. You will need an appropriate app, like Google/Microsoft Authenticator or {tool1} / {tool2}.",
                 "requires_confirmation": "To activate, you need to provide your password.",
                 "totp": "time-based one-time password (TOTP)",

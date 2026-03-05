@@ -60,7 +60,7 @@ $main: (
         ),
         "explanation-background": light-dark(color.adjust(#000, $alpha: -0.95), color.adjust(#fff, $alpha: -0.95))
     ),
-    "dashboard-nav": (
+    "sticky-nav": (
         "background": hsl(from light-dark(map.get(c.$grey, "astral"), map.get(c.$grey, "ebony")) h s l / 25%),
         "surface": light-dark(#000, #fff),
         "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
@@ -69,6 +69,15 @@ $main: (
         "border-sticky": light-dark(
                 color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
                 color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-            )
+            ),
+        "link-background": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "bunker")),
+        "link-surface": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
+        "link-background-hover": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "abbey")),
+        "link-surface-hover": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
+        "link-background-active": light-dark(
+                map.get(c.$brand, "light2", "color"),
+                map.get(c.$brand, "dark1", "contrast")
+            ),
+        "link-surface-active": light-dark(map.get(c.$brand, "light2", "contrast"), map.get(c.$brand, "dark1", "color"))
     )
 ) !default;

@@ -15,7 +15,7 @@ const showPasswordConfirmation = ref(false);
 </script>
 
 <template>
-    <headline :size="3">{{ $t("pages.dashboard.password.headline") }}</headline>
+    <headline :size="3" anchor-id="passwordSection">{{ $t("pages.dashboard.password.headline") }}</headline>
     <Form
         action="/user/password"
         method="put"

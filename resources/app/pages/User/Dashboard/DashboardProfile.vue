@@ -12,7 +12,7 @@ const email = ref(user?.email ?? "");
 </script>
 
 <template>
-    <headline :size="3">{{ $t("pages.dashboard.profile.headline") }}</headline>
+    <headline :size="3" anchor-id="profileSection">{{ $t("pages.dashboard.profile.headline") }}</headline>
     <Form
         action="/user/profile-information"
         method="put"

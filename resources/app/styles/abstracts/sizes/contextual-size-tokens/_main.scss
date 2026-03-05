@@ -43,9 +43,11 @@ $main: (
         "radius": map.get(s.$radius, "featured"),
         "explanation-padding": 0.5ex 0.5ch
     ),
-    "dashboard-nav": (
+    "sticky-nav": (
         "border": map.get(s.$border, "base"),
         "padding": 0.5lh 1ch,
-        "radius": map.get(s.$radius, "featured")
+        "radius": map.get(s.$radius, "featured"),
+        "link-padding": 0.5ex 1ch,
+        "link-radius": map.get(s.$radius, "base")
     )
 ) !default;

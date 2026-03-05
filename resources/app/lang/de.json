@@ -92,12 +92,14 @@
             "title": "Mein Benutzerkonto",
             "link": "Benutzerkonto",
             "password": {
-                "headline": "Password ändern",
+                "headline": "Passwort ändern",
+                "link": "Passwort",
                 "intro": "Du kannst dein Passwort ändern, indem du dein aktuelles Passwort und das neue Passwort eingibst.",
                 "submit": "Ändern"
             },
             "profile": {
                 "headline": "Profil aktualisieren",
+                "link": "Profil",
                 "intro": "Du kannst deine E-Mail-Adresse und/oder deinen Benutzernamen ändern. Wenn du eines von beiden änderst, wirst du abgemeldet und musst dich mit den neuen Daten neu anmelden. Wenn du die E-Mail-Adresse änderst, musst du die neue E-Mail-Adresse bestätigen - wir schicken dir einen Link zur Bestätigung.",
                 "type": {
                     "email": "E-Mail-Adresse ändern",
@@ -107,6 +109,7 @@
             },
             "two_factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
+                "link": "Zwei-Faktor",
                 "intro": "Die Zwei-Faktor Authentifizierung verwendet {totp}. Du benötigst eine entsprechende App, z.b. Google/Microsoft Authenticator oder {tool1} / {tool2}.",
                 "requires_confirmation": "Zum aktivieren muss das Passwort angegeben werden.",
                 "totp": "zeitlich limitierte Einmalpasswörter (TOTP)",

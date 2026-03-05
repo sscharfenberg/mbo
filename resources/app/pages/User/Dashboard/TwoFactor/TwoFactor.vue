@@ -9,7 +9,7 @@ const { twoFactorEnabled } = useTwoFactorAuth();
 </script>
 
 <template>
-    <headline :size="3">
+    <headline :size="3" anchor-id="2faSection">
         {{ $t("pages.dashboard.two_factor.headline") }}
         <template #right>
             <badge v-if="!twoFactorEnabled" type="warning"><icon name="key" />{{ $t("state.disabled") }}</badge>

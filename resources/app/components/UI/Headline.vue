@@ -2,6 +2,7 @@
 withDefaults(
     defineProps<{
         size?: 2 | 3 | 4;
+        anchorId?: string;
     }>(),
     {
         size: 2
@@ -10,15 +11,15 @@ withDefaults(
 </script>
 
 <template>
-    <h2 v-if="size === 2">
+    <h2 v-if="size === 2" :id="anchorId">
         <slot />
         <span v-if="$slots.right" class="right"><slot name="right" /></span>
     </h2>
-    <h3 v-if="size === 3">
+    <h3 v-if="size === 3" :id="anchorId">
         <slot />
         <span v-if="$slots.right" class="right"><slot name="right" /></span>
     </h3>
-    <h4 v-if="size === 4">
+    <h4 v-if="size === 4" :id="anchorId">
         <slot />
         <span v-if="$slots.right" class="right"><slot name="right" /></span>
     </h4>
