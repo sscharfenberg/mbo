@@ -34,6 +34,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Prevent Fortify from auto-registering its default route set. Routes
+        // are defined manually in web.php so unused endpoints are not exposed.
+        Fortify::ignoreRoutes();
+
         $responseBindings = [
             Contracts\RegisterResponse::class                  => Responses\RegisterResponse::class,
             Contracts\VerifyEmailResponse::class               => Responses\VerifyEmailResponse::class,
