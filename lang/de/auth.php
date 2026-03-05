@@ -24,5 +24,9 @@ return [
     'profile_updated_email' => 'Profil erfolgreich aktualisiert. Wir haben dir eine E-Mail mit einem Link zur Bestätigung der E-Mail-Adresse geschickt.',
     'two_factor_code_invalid' => 'Der angegebene Zwei-Faktor-Authentifizierungscode ist ungültig.',
     'two_factor_recovery_code_invalid' => 'Der angegebene Zwei-Faktor-Wiederherstellungscode ist ungültig.',
+    'logged_in' => 'Du hast dich erfolgreich angemeldet.',
+    'logged_out' => 'Du hast dich abgemeldet.',
+    'two_factor_activated' => 'Die Zwei-Faktor-Authentifizierung wurde aktiviert.',
+    'two_factor_deactivated' => 'Die Zwei-Faktor-Authentifizierung wurde deaktiviert.',
 
 ];
