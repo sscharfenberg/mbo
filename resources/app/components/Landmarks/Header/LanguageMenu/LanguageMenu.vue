@@ -2,7 +2,7 @@
 import { usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import PopOver from "Components/Popover/PopOver.vue";
+import PopOver from "Components/UI/PopOver.vue";
 import LanguageMenuItem from "./LanguageMenuItem.vue";
 const page = usePage();
 const { locale } = useI18n();

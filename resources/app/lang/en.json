@@ -22,9 +22,6 @@
         "disclaimer": "MBO is unofficial Fan Content permitted under the {fcp}. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. © Wizards of the Coast LLC.",
         "fcp": "Fan Content Policy"
     },
-    "flash": {
-        "close": "Close notification"
-    },
     "toast": {
         "close": "Close notification",
         "region": "Notifications"

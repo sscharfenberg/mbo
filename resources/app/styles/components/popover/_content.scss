@@ -7,25 +7,6 @@
 @use "Abstracts/sizes" as s;
 @use "Abstracts/timings" as ti;
 
-.popover-button {
-    display: inline-flex;
-    align-items: center;
-
-    padding: 0.5ch;
-    border: 0;
-    gap: 0.5ch;
-
-    background-color: map.get(c.$app, "usermenu-background");
-    color: map.get(c.$app, "usermenu-surface");
-
-    cursor: pointer;
-    anchor-name: v-bind(reference);
-
-    &--rounded {
-        border-radius: 100vw;
-    }
-}
-
 .popover-content {
     position: absolute;
 
@@ -45,8 +26,42 @@
     position-anchor: v-bind(reference);
     position-try-fallbacks: --bottom;
 
+    @media (prefers-reduced-motion: no-preference) {
+        opacity: 0;
+
+        transform: perspective(600px) rotateY(90deg);
+
+        /**
+         * When a popover opens, the browser promotes it into the top layer — a special rendering layer
+         * that sits above everything else (including z-index). When it closes, the browser wants to
+         * immediately remove it from the top layer, which would cut off the exit animation before it
+         * plays.
+         * By adding overlay to the transition with allow-discrete, we tell the browser: keep this
+         * element in the top layer for the full duration of the transition before removing it. Without
+         * it, the exit flip animation would be clipped or invisible because the element gets yanked out
+         * of the top layer the moment the popover closes.
+         */
+        transition:
+            transform map.get(ti.$timings, "fast") ease-out,
+            opacity map.get(ti.$timings, "fast") ease-out,
+            display map.get(ti.$timings, "fast") allow-discrete,
+            overlay map.get(ti.$timings, "fast") allow-discrete;
+    }
+
     &:popover-open {
         display: flex;
+
+        @media (prefers-reduced-motion: no-preference) {
+            opacity: 1;
+
+            transform: perspective(600px) rotateY(0deg);
+
+            @starting-style {
+                opacity: 0;
+
+                transform: perspective(600px) rotateY(90deg);
+            }
+        }
     }
 
     &::before {

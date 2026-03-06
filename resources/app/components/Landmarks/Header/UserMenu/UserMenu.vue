@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Link, router, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
-import PopOver from "Components/Popover/PopOver.vue";
 import Icon from "Components/UI/Icon.vue";
+import PopOver from "Components/UI/PopOver.vue";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -15,15 +15,17 @@ const closePopover = () => {
     const dialog = document.getElementById("userMenu");
     if (dialog !== null) dialog.hidePopover();
 };
+const buttonClassList = computed(() => {
+    const classes = ["popover-button--rounded"];
+    if (user.value) {
+        classes.push("popover-button--active");
+    }
+    return classes.join(" ");
+});
 </script>
 
 <template>
-    <pop-over
-        icon="account"
-        :aria-label="$t('header.user.label')"
-        class-string="popover-button--rounded"
-        reference="userMenu"
-    >
+    <pop-over icon="account" :aria-label="$t('header.user.label')" :class-string="buttonClassList" reference="userMenu">
         <ul class="popover-list popover-list--short">
             <li v-if="!user">
                 <Link class="popover-list-item" href="/login" @click="closePopover">

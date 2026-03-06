@@ -56,6 +56,10 @@
         --button-fill map.get(ti.$timings, "slow"),
         --button-fill-stop map.get(ti.$timings, "medium");
 
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
+
     &:hover,
     &:focus-visible {
         --button-fill-stop: 100%;

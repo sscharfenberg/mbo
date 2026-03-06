@@ -1,0 +1,32 @@
+/******************************************************************************
+ * popover button
+ * @type {Sass}
+ *****************************************************************************/
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+
+.popover-button {
+    display: inline-flex;
+    align-items: center;
+
+    padding: map.get(s.$app, "popover-font-size");
+    border: 0;
+    gap: 0.5ch;
+
+    background-color: map.get(c.$app, "popover-btn", "background");
+    color: map.get(c.$app, "popover-btn", "surface");
+
+    cursor: pointer;
+    anchor-name: v-bind(reference);
+
+    &--rounded {
+        border-radius: 100vw;
+    }
+
+    &--active {
+        background-color: map.get(c.$app, "popover-btn", "background-active");
+        color: map.get(c.$app, "popover-btn", "surface-active");
+    }
+}

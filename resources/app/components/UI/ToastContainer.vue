@@ -66,6 +66,8 @@ function iconName(type: ToastType): string {
 </template>
 
 <style lang="scss" scoped>
-// styles for this component are located in
-// @/styles/components/_toast.scss
+/**
+ * styles for this component are located in
+ * @/styles/components/_toast.scss
+ */
 </style>
