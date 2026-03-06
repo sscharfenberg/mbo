@@ -28,5 +28,6 @@ return [
     'logged_out' => 'Du hast dich abgemeldet.',
     'two_factor_activated' => 'Die Zwei-Faktor-Authentifizierung wurde aktiviert.',
     'two_factor_deactivated' => 'Die Zwei-Faktor-Authentifizierung wurde deaktiviert.',
+    'account_deleted' => 'Dein Benutzerkonto wurde gelöscht - du bist jederzeit willkommen zurückzukehren.',
 
 ];

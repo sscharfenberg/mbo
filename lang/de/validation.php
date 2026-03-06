@@ -31,7 +31,8 @@ return [
         'password' => [
             'required' => 'Bitte gib das Passwort an.',
             'min' => 'Das Passwort muss mindestens :min Zeichen enthalten.',
-            'entropy' => 'Das Passwort ist nicht sicher genug.'
+            'entropy' => 'Das Passwort ist nicht sicher genug.',
+            'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.'
         ],
         'password_confirmation' => [
             'required' => 'Bitte bestätige das Passwort.',

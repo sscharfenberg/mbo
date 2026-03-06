@@ -2,19 +2,21 @@
 import { Head } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import DashboardPassword from "@/pages/User/Dashboard/DashboardPassword.vue";
-import DashboardProfile from "@/pages/User/Dashboard/DashboardProfile.vue";
-import TwoFactor from "@/pages/User/Dashboard/TwoFactor/TwoFactor.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import StickyNav from "Components/UI/StickyNav.vue";
+import DashboardPassword from "./DashboardPassword.vue";
+import DashboardProfile from "./DashboardProfile.vue";
+import DeleteAccount from "./Delete/DeleteAccount.vue";
+import TwoFactor from "./TwoFactor/TwoFactor.vue";
 
 const { t } = useI18n();
 
 const navItems = computed(() => [
     { id: "passwordSection", label: t("pages.dashboard.password.link") },
     { id: "profileSection", label: t("pages.dashboard.profile.link") },
-    { id: "2faSection", label: t("pages.dashboard.two_factor.link") }
+    { id: "2faSection", label: t("pages.dashboard.two_factor.link") },
+    { id: "deleteSection", label: t("pages.dashboard.deletion.link") }
 ]);
 </script>
 
@@ -30,4 +32,5 @@ const navItems = computed(() => [
     <dashboard-password />
     <dashboard-profile />
     <two-factor />
+    <delete-account />
 </template>

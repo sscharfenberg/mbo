@@ -28,5 +28,6 @@ return [
     'logged_out' => 'You have logged out.',
     'two_factor_activated' => 'Two-factor authentication has been activated.',
     'two_factor_deactivated' => 'Two-factor authentication has been deactivated.',
+    'account_deleted' => 'Your account has been deleted - you\'re welcome back any time.',
 
 ];

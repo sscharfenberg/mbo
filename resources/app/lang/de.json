@@ -147,6 +147,21 @@
                     "headline": "Zwei-Faktor Authentifizierung Deaktivieren",
                     "explanation": "Gib dein Passwort ein, um die Zwei-Faktor Authentifizierung zu deaktivieren."
                 }
+            },
+            "deletion": {
+                "title": "Benutzerkonto löschen",
+                "link": "Benutzerkonto löschen",
+                "explanation": "Wen nötig kannst du hier dein Benutzerkonto löschen. {caution} - diese Aktion löscht alles was zu dem Benutzerkonto gehört, inklusive deiner Sammlung und allen Decks.",
+                "caution": "Achtung",
+                "no_soft_deletes": "Wir verwenden kein {soft_deletes}, das Benutzerkonto wird permanent gelöscht.",
+                "soft_deletes": "markiert als gelöscht",
+                "reversed": "Diese Aktion kann nicht rückgängig gemacht werden, wir können gelöschte Benutzerkonten nicht wiederherstellen.",
+                "submit": "Benutzerkonto löschen",
+                "modal": {
+                    "title": "Bestätige die Löschung",
+                    "explanation": "Bist du sicher das du dein Benutzerkonto permanent löschen willst?",
+                    "submit": "Löschen"
+                }
             }
         },
         "privacy": {

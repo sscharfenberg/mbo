@@ -147,6 +147,21 @@
                     "headline": "Disable Two-Factor Authentication",
                     "explanation": "Enter your password to disable two-factor authentication."
                 }
+            },
+            "deletion": {
+                "title": "Delete user account",
+                "link": "Delete account",
+                "explanation": "If needed, you can delete your user account. {caution} - this action deletes everything associated with your user account, including your collection and decks.",
+                "caution": "Caution",
+                "no_soft_deletes": "We do not use {soft_deletes}, the account is deleted forever.",
+                "soft_deletes": "soft deletes",
+                "reversed": "This action can not be reversed, we can't restore a deleted user account.",
+                "submit": "Delete user account",
+                "modal": {
+                    "title": "Confirm deletion",
+                    "explanation": "Are you sure you want to delete your user account permanently?",
+                    "submit": "Delete"
+                }
             }
         },
         "privacy": {

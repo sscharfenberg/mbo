@@ -41,7 +41,7 @@ const handleModalNextStep = async () => {
 </script>
 
 <template>
-    <modal>
+    <modal @close="emit('close')">
         <template #header>
             <span v-if="!showVerificationStep">{{ $t("pages.dashboard.two_factor.setup.title") }}</span>
             <span v-else>{{ $t("pages.dashboard.two_factor.verification.title") }}</span>

@@ -4,6 +4,8 @@ import ModalBody from "./ModalBody.vue";
 import ModalFooter from "./ModalFooter.vue";
 import ModalHeader from "./ModalHeader.vue";
 
+const emit = defineEmits<{ close: [] }>();
+
 const modalRef = ref<HTMLDialogElement | null>(null);
 const contentRef = ref<HTMLDivElement | null>(null);
 const isClosing = ref(false);
@@ -34,6 +36,7 @@ const closeModal = () => {
     if (!modal?.open || isClosing.value) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !content) {
         modal.close();
+        emit("close");
         return;
     }
     isClosing.value = true;
@@ -41,6 +44,7 @@ const closeModal = () => {
         if (event.target !== content) return;
         isClosing.value = false;
         modal.close();
+        emit("close");
     };
     content.addEventListener("animationend", handleAnimationEnd, { once: true });
 };

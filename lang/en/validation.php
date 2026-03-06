@@ -31,7 +31,8 @@ return [
         'password' => [
             'required' => 'Please enter the password.',
             'min' => 'The password can not be less than :min characters.',
-            'entropy' => 'The password is not secure enough.'
+            'entropy' => 'The password is not secure enough.',
+            'current_password' => 'This password does not match our records.'
         ],
         'password_confirmation' => [
             'required' => 'Please confirm the password.',

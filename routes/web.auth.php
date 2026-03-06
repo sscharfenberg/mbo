@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\ResendVerificationController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\User\ConfirmPasswordController;
+use App\Http\Controllers\User\DeleteAccountController;
 use App\Http\Middleware\HandleControllerPrecognitiveRequest;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -65,6 +66,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/confirm-password', [ConfirmPasswordController::class, 'store'])
         ->middleware(['throttle:6,1'])
         ->name('password.confirm');
+
+    // Account deletion
+    Route::delete('/user/delete', [DeleteAccountController::class, 'destroy'])
+        ->middleware(['throttle:6,1'])
+        ->name('user.delete');
 });
 
 /******************************************************************************
