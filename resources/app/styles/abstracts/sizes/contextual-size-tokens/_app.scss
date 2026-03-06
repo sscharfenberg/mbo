@@ -23,15 +23,11 @@ $app: (
         "landscape": map.get(s.$padding, "landscape"),
         "desktop": map.get(s.$padding, "desktop")
     ),
-    "flash": (
-        "max": map.get(s.$max, "form"),
+    "toast": (
+        "max": map.get(s.$max, "toast"),
         "border": map.get(s.$border, "base"),
         "radius": map.get(s.$radius, "featured"),
-        "padding": (
-            "base": map.get(s.$padding, "base"),
-            "portrait": map.get(s.$padding, "portrait"),
-            "landscape": map.get(s.$padding, "landscape"),
-            "desktop": map.get(s.$padding, "desktop")
-        )
+        "padding": 0.5lh 2ch 0.5lh 1ch,
+        "progress": math.round(map.get(s.$border, "base") * 1.5)
     )
 ) !default;

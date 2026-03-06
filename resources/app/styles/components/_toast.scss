@@ -1,0 +1,123 @@
+@use "sass:map";
+@use "Abstracts/mixins" as m;
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/z-indexes" as z;
+@use "Abstracts/timings" as ti;
+
+.toast-container {
+    display: flex;
+    position: fixed;
+    top: 1lh;
+    right: 2ch;
+    z-index: map.get(z.$index, "modal");
+    flex-direction: column;
+
+    width: min(map.get(s.$app, "toast", "max"), calc(100vw - 4ch));
+    gap: 1lh;
+
+    pointer-events: none;
+
+    &__item {
+        display: flex;
+
+        position: relative;
+        align-items: center;
+
+        padding: map.get(s.$app, "toast", "padding");
+        border: map.get(s.$app, "toast", "border") solid transparent;
+        gap: 1ch;
+
+        backdrop-filter: blur(12px);
+        border-radius: map.get(s.$app, "toast", "radius");
+
+        pointer-events: all;
+
+        &--success {
+            background: map.get(c.$state, "success", "background");
+            color: map.get(c.$state, "success", "surface");
+            border-color: map.get(c.$state, "success", "border");
+        }
+
+        &--warning {
+            background-color: map.get(c.$state, "warning", "background");
+            color: map.get(c.$state, "warning", "surface");
+            border-color: map.get(c.$state, "warning", "border");
+        }
+
+        &--error {
+            background-color: map.get(c.$state, "error", "background");
+            color: map.get(c.$state, "error", "surface");
+            border-color: map.get(c.$state, "error", "border");
+        }
+
+        &--info {
+            background-color: map.get(c.$state, "info", "background");
+            color: map.get(c.$state, "info", "surface");
+            border-color: map.get(c.$state, "info", "border");
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            transform: translate(50%, -50%);
+        }
+    }
+
+    &__progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        opacity: 0.35;
+
+        width: 100%;
+        height: map.get(s.$app, "toast", "progress");
+        transform-origin: left center;
+
+        background: currentcolor;
+        border-bottom-right-radius: map.get(s.$app, "toast", "radius");
+        border-bottom-left-radius: map.get(s.$app, "toast", "radius");
+
+        animation: toast-progress var(--toast-duration) linear forwards;
+    }
+}
+
+/******************************************************************************
+ * Vue animation classes / keyframes for toasts
+ *****************************************************************************/
+
+.toast-enter-from,
+.toast-leave-to {
+    opacity: 0;
+
+    transform: translateX(calc(100% + 2rem));
+}
+
+.toast-enter-active,
+.toast-leave-active {
+    transition:
+        opacity map.get(ti.$timings, "quick") ease,
+        transform map.get(ti.$timings, "quick") ease;
+}
+
+.toast-enter-to {
+    opacity: 1;
+
+    transform: translateX(0);
+}
+
+.toast-move {
+    transition: transform map.get(ti.$timings, "quick") ease;
+}
+
+@keyframes toast-progress {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}

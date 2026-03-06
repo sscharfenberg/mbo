@@ -25,6 +25,10 @@
     "flash": {
         "close": "Hinweis schließen"
     },
+    "toast": {
+        "close": "Hinweis schließen",
+        "region": "Benachrichtigungen"
+    },
     "pages": {
         "welcome": {
             "title": "Welcome",

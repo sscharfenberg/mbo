@@ -9,9 +9,7 @@ import DashboardPassword from "./DashboardPassword.vue";
 import DashboardProfile from "./DashboardProfile.vue";
 import DeleteAccount from "./Delete/DeleteAccount.vue";
 import TwoFactor from "./TwoFactor/TwoFactor.vue";
-
 const { t } = useI18n();
-
 const navItems = computed(() => [
     { id: "passwordSection", label: t("pages.dashboard.password.link") },
     { id: "profileSection", label: t("pages.dashboard.profile.link") },

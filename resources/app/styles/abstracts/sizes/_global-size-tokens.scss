@@ -24,7 +24,8 @@ $breakpoints: (
 // max container width ========================================================
 $max: (
     "cage": math.round($base * 90),
-    "form": math.round($base * 48)
+    "form": math.round($base * 48),
+    "toast": math.round($base * 24)
 ) !default;
 
 // border =====================================================================
