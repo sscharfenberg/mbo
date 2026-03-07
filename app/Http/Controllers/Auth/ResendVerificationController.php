@@ -44,8 +44,8 @@ class ResendVerificationController extends Controller
                 'name' => [
                     'required',
                     'string',
-                    'max:'.config('mbo.db.user.name.max'),
-                    'min:'.config('mbo.db.user.name.min'),
+                    'max:'.User::NAME_MAX,
+                    'min:'.User::NAME_MIN,
                 ],
                 'email' => [
                     'required',

@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Binder extends Model
+class Container extends Model
 {
     use HasUuids;
+
+    const NAME_MAX        = 128;
+    const DESCRIPTION_MAX = 255;
+    const CUSTOM_TYPE_MAX = 64;
 
     /**
      * The data type of the primary key ID.
@@ -30,7 +34,7 @@ class Binder extends Model
      *
      * @var string
      */
-    protected $table = 'binders';
+    protected $table = 'containers';
 
     /**
      * The primary key associated with the table.
@@ -69,9 +73,9 @@ class Binder extends Model
     ];
 
     /**
-     * Get the user that owns this binder.
+     * Get the user that owns this container.
      *
-     * @return BelongsTo<User, Binder>
+     * @return BelongsTo<User, Container>
      */
     public function user(): BelongsTo
     {

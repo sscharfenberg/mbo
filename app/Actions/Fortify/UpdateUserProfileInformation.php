@@ -29,8 +29,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'name' => [
                 'required',
                 'string',
-                'min:'.config('mbo.db.user.name.min'),
-                'max:'.config('mbo.db.user.name.max'),
+                'min:'.User::NAME_MIN,
+                'max:'.User::NAME_MAX,
                 Rule::unique('users')->ignore($user->id),
             ],
             'email' => [

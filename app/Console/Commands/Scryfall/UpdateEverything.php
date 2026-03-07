@@ -42,7 +42,7 @@ class UpdateEverything extends Command
         $start = now();
         $fd = new FormatService();
         $waitTime = 0;
-        $this->call('down'); // 503 http requests
+        if (app()->isProduction()) $this->call('down'); // 503 http requests
         try {
             $this->info("artisan command 'scryfall:update' started.");
             Log::channel('scryfall')->info("=======================================================");
@@ -64,7 +64,7 @@ class UpdateEverything extends Command
             Log::channel('scryfall')->info("=======================================================");
             $this->info("artisan command 'scryfall:update' finished in ".$fd->formatMs($ms).", including $waitTime seconds idle time.");
         } finally {
-            $this->call('up'); // make sure the site goes back up.
+            if (app()->isProduction()) $this->call('up'); // make sure the site goes back up.
         }
     }
 }

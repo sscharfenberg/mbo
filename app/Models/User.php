@@ -17,6 +17,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
+    const NAME_MIN = 8;
+    const NAME_MAX = 80;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasUuids, TwoFactorAuthenticatable;
 
@@ -91,12 +93,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     }
 
     /**
-     * Get the binders belonging to this user.
+     * Get the containers belonging to this user.
      *
-     * @return HasMany<Binder>
+     * @return HasMany<Container>
      */
-    public function binders(): HasMany
+    public function containers(): HasMany
     {
-        return $this->hasMany(Binder::class);
+        return $this->hasMany(Container::class);
     }
 }

@@ -51,8 +51,8 @@ class ForgotController extends Controller
                 'name' => [
                     'required_if:type,password',
                     'string',
-                    'max:'.config('mbo.db.user.name.max'),
-                    'min:'.config('mbo.db.user.name.min')
+                    'max:'.User::NAME_MAX,
+                    'min:'.User::NAME_MIN
                 ]
             ]);
         });

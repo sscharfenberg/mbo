@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->uuid('id')->primary();
-            $table->string('name', config('mbo.db.user.name.max'))->unique();
+            $table->string('name', User::NAME_MAX)->unique();
             $table->string('email')->unique();
             $table->string('locale', 8)->default(config('app.locale'));
             $table->timestamp('email_verified_at')->nullable();
