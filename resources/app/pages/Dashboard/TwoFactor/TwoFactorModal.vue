@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Form } from "@inertiajs/vue3";
 import { nextTick, onMounted, ref } from "vue";
-import { useClipboard } from "@/composables/useClipboard";
-import { useTwoFactorAuth } from "@/composables/useTwoFactorAuth";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import OTPInput from "Components/Form/OTPInput/OTPInput.vue";
 import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+import { useClipboard } from "Composables/useClipboard.ts";
+import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 type Props = {
     requiresConfirmation?: boolean;
 };
@@ -63,7 +63,11 @@ const handleModalNextStep = async () => {
                 <template #button>
                     <button type="button" @click="copy(manualSetupKey ?? '')">
                         <icon :name="copied ? 'check' : 'copy'" />
-                        {{ copied ? $t("pages.dashboard.two_factor.setup.copied") : $t("pages.dashboard.two_factor.setup.copy") }}
+                        {{
+                            copied
+                                ? $t("pages.dashboard.two_factor.setup.copied")
+                                : $t("pages.dashboard.two_factor.setup.copy")
+                        }}
                     </button>
                 </template>
             </form-group>

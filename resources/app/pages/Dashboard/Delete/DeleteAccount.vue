@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import DeleteModal from "@/pages/User/Dashboard/Delete/DeleteModal.vue";
+import DeleteModal from "@/pages/Dashboard/Delete/DeleteModal.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";

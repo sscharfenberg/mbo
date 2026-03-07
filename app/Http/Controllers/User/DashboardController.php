@@ -21,7 +21,7 @@ class DashboardController extends Controller
      */
     public function show(Request $request): Response
     {
-        return Inertia::render('User/Dashboard/Dashboard', [
+        return Inertia::render('Dashboard/Dashboard', [
             'request' => $request,
             'twoFactorEnabled' => $request->user()->hasEnabledTwoFactorAuthentication(),
             'requiresConfirmation' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),

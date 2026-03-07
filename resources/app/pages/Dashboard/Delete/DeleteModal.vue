@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { useDeleteAccount } from "@/composables/useDeleteAccount";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+import { useDeleteAccount } from "Composables/useDeleteAccount.ts";
 
 const emit = defineEmits<{ close: [] }>();
 

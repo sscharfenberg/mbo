@@ -7,7 +7,7 @@ import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import PasswordStrength from "Components/UI/PasswordStrength.vue";
-import { usePasswordEntropy } from "Composables/usePasswordEntropy";
+import { usePasswordEntropy } from "Composables/usePasswordEntropy.ts";
 const { password, score, onPasswordChange, reset } = usePasswordEntropy();
 const showCurrentPassword = ref(false);
 const showPassword = ref(false);
