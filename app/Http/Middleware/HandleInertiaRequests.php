@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Locale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Laravel\Fortify\Features;
@@ -46,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                     : null
             ],
             'locale' => app()->getLocale(),
-            'supportedLocales' => config('mbo.app.supportedLocales'),
+            'supportedLocales' => array_column(Locale::cases(), 'value'),
             'features' => [
                 'registration' => Features::enabled(Features::registration()),
                 'resetPasswords' => Features::enabled(Features::resetPasswords()),

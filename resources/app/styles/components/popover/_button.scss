@@ -25,6 +25,11 @@
         border-radius: 100vw;
     }
 
+    &:hover {
+        background-color: map.get(c.$app, "popover-btn", "background-hover");
+        color: map.get(c.$app, "popover-btn", "surface-hover");
+    }
+
     &--active {
         background-color: map.get(c.$app, "popover-btn", "background-active");
         color: map.get(c.$app, "popover-btn", "surface-active");

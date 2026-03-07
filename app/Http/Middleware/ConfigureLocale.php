@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Locale;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -33,7 +34,7 @@ class ConfigureLocale
             return $locale['factor'];
         });
         $browserLocale = $locales->first()['locale'];
-        if (in_array($browserLocale, config('mbo.app.supportedLocales'))) {
+        if (Locale::tryFrom($browserLocale) !== null) {
             return $browserLocale;
         } else {
             return config('app.locale');
@@ -52,7 +53,7 @@ class ConfigureLocale
         $sessionLocale = session('locale');
         $browserLocale = $this->parseHttpLocale($request);
         if ($user) { // use locale from database
-            app()->setLocale($user->locale);
+            app()->setLocale($user->locale->value);
         } elseif ($sessionLocale) { // use session locale
             app()->setLocale($sessionLocale);
         } else { // use browser locale

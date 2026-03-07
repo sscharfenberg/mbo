@@ -25,11 +25,11 @@ class WelcomeController extends Controller
         return Inertia::render('Guest/Welcome/Welcome', [
             'oracleCards' => [
                 'num' => OracleCard::count(),
-                'size' => BulkData::where('type', 'oracle_cards')->first()->size,
+                'size' => BulkData::where('type', 'oracle_cards')->first()?->size,
             ],
             'defaultCards' => [
                 'num' => DefaultCard::count(),
-                'size' => BulkData::where('type', 'default_cards')->first()->size,
+                'size' => BulkData::where('type', 'default_cards')->first()?->size,
             ],
             'sets' => Set::count(),
         ]);

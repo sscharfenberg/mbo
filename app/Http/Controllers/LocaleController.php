@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Locale;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,8 +22,7 @@ class LocaleController extends Controller
      */
     public function update(string $locale): JsonResponse
     {
-        $availableLocales = config('mbo.app.supportedLocales');
-        if (!in_array($locale, $availableLocales)) {
+        if (Locale::tryFrom($locale) === null) {
             return response()->json([], 422);
         }
 

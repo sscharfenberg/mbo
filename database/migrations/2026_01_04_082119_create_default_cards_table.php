@@ -18,25 +18,21 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name', 155);
             $table->string('collector_number', 10);
-            $table->enum('layout', config('mbo.scryfall.card_layout'));
-            $table->enum('lang', config('mbo.scryfall.lang'));
+            $table->string('layout', 32);
+            $table->string('lang', 8);
             $table->json('image_uris')->nullable();
             $table->json('finishes');
             $table->json('games');
             $table->json('prices');
             $table->boolean('digital')->default(false);
-            $table->enum('rarity', config('mbo.scryfall.rarity'));
+            $table->string('rarity', 16);
             $table->foreignUuid('set_id')
                 ->constrained()
-                ->references('id')
-                ->on('sets')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
             $table->foreignUuid('oracle_id')
                 ->nullable()
-                ->constrained()
-                ->references('id')
-                ->on('oracle_cards')
-                ->onDelete('cascade');
+                ->constrained('oracle_cards')
+                ->cascadeOnDelete();
         });
     }
 

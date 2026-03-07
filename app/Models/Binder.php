@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-use App\Enums\Scryfall\ScryfallCardLayout;
-use App\Enums\Scryfall\ScryfallLang;
-use Illuminate\Database\Eloquent\Casts\AsCollection;
+use App\Enums\BinderType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OracleCard extends Model
+class Binder extends Model
 {
-
     use HasUuids;
 
     /**
@@ -33,7 +30,7 @@ class OracleCard extends Model
      *
      * @var string
      */
-    protected $table = 'oracle_cards';
+    protected $table = 'binders';
 
     /**
      * The primary key associated with the table.
@@ -47,7 +44,7 @@ class OracleCard extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -56,20 +53,10 @@ class OracleCard extends Model
      */
     protected $fillable = [
         'id',
+        'user_id',
         'name',
-        'collector_number',
-        'layout',
-        'type_line',
-        'lang',
-        'cmc',
-        'mana_cost',
-        'color_identity',
-        'colors',
-        'legalities',
-        'image_uris',
-        'reserved',
-        'game_changer',
-        'scryfall_uri'
+        'type',
+        'custom_type',
     ];
 
     /**
@@ -78,22 +65,16 @@ class OracleCard extends Model
      * @var array
      */
     protected $casts = [
-        'reserved'     => 'boolean',
-        'game_changer' => 'boolean',
-        'layout'       => ScryfallCardLayout::class,
-        'lang'         => ScryfallLang::class,
-        'legalities'   => AsCollection::class,
-        'image_uris'   => AsCollection::class,
+        'type' => BinderType::class,
     ];
 
     /**
-     * Get all printed versions of this oracle card.
+     * Get the user that owns this binder.
      *
-     * @return HasMany<DefaultCard>
+     * @return BelongsTo<User, Binder>
      */
-    public function printings(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(DefaultCard::class, 'oracle_id', 'oracle_id');
+        return $this->belongsTo(User::class);
     }
-
 }

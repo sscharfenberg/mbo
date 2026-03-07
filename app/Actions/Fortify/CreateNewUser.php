@@ -2,12 +2,13 @@
 
 namespace App\Actions\Fortify;
 
+use App\Enums\Locale;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
 use App\Traits\PasswordValidationRules;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -43,7 +44,7 @@ class CreateNewUser implements CreatesNewUsers
                 ],
                 'password' => $this->passwordRules(),
                 'password_confirmation' => ['same:password'],
-                'locale' => ['required', Rule::in(config('mbo.app.supportedLocales')) ],
+                'locale' => ['required', Rule::enum(Locale::class)],
             ]);
         });
 

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name', 155);
             $table->string('collector_number', 10);
-            $table->enum('layout', config('mbo.scryfall.card_layout'));
+            $table->string('layout', 32);
             $table->string('type_line', 128);
-            $table->enum('lang', config('mbo.scryfall.lang'));
+            $table->string('lang', 8);
             $table->float('cmc');
             $table->string('mana_cost', 64)->nullable();
             $table->string('color_identity', 6)->nullable();

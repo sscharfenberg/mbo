@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Scryfall\ScryfallSetType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -72,12 +73,15 @@ class Set extends Model
      * @var array
      */
     protected $casts = [
-        'digital' => 'boolean',
-        'released_at' => 'date'
+        'digital'  => 'boolean',
+        'released_at' => 'date',
+        'set_type' => ScryfallSetType::class,
     ];
 
     /**
-     * Get the printed cards for the set.
+     * Get the printed cards belonging to this set.
+     *
+     * @return HasMany<DefaultCard>
      */
     public function printedCards(): HasMany
     {

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\Scryfall\ScryfallCardLayout;
+use App\Enums\Scryfall\ScryfallLang;
+use App\Enums\Scryfall\ScryfallRarity;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -74,27 +77,32 @@ class DefaultCard extends Model
      * @var array
      */
     protected $casts = [
+        'layout'     => ScryfallCardLayout::class,
+        'lang'       => ScryfallLang::class,
+        'rarity'     => ScryfallRarity::class,
         'image_uris' => AsCollection::class,
-        'finishes' => AsCollection::class,
-        'games' => AsCollection::class,
-        'prices' => AsCollection::class,
-        'digital' => 'boolean'
+        'finishes'   => AsCollection::class,
+        'games'      => AsCollection::class,
+        'prices'     => AsCollection::class,
+        'digital'    => 'boolean',
     ];
 
     /**
      * Get the oracle card associated with this printed card.
-     * @return belongsTo
+     *
+     * @return BelongsTo<OracleCard, DefaultCard>
      */
-    public function oracle(): belongsTo
+    public function oracle(): BelongsTo
     {
         return $this->belongsTo(OracleCard::class, 'oracle_id', 'oracle_id');
     }
 
     /**
-     * Get the artist associated with the song.
-     * @return belongsTo
+     * Get the set this printed card belongs to.
+     *
+     * @return BelongsTo<Set, DefaultCard>
      */
-    public function set(): belongsTo
+    public function set(): BelongsTo
     {
         return $this->belongsTo(Set::class, 'set_id', 'id');
     }

@@ -31,7 +31,7 @@ class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
         // defaults to browser/session. Re-set it from the user's stored preference
         // now that $request->user() is available.
         if ($user = $request->user()) {
-            app()->setLocale($user->locale);
+            app()->setLocale($user->locale->value);
         }
 
         $request->session()->flash('message', __('auth.logged_in'));

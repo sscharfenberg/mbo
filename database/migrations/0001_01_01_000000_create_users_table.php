@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name', config('mbo.db.user.name.max'))->unique();
             $table->string('email')->unique();
-            $table->enum('locale', config('mbo.app.supportedLocales'))->default(config('app.locale'));
+            $table->string('locale', 8)->default(config('app.locale'));
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('two_factor_secret')->nullable();
