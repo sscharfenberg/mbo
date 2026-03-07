@@ -4,7 +4,6 @@ namespace App\Services\Scryfall;
 
 use App\Models\OracleCard;
 use App\Services\FormatService;
-use App\Services\Scryfall\BulkdataService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Cerbero\JsonParser\JsonParser;
@@ -40,7 +39,7 @@ class OracleCardsService
      */
     private function insertCard (array $card): void
     {
-        $bds = new BulkdataService();
+        $sis = new ScryfallImageService();
         // non nullable values
         $arr = [
             'id' => $card['oracle_id'],
@@ -50,7 +49,7 @@ class OracleCardsService
             'lang' => $card['lang'],
             'cmc' => $card['cmc'],
             'legalities' => $card['legalities'],
-            'image_uris' => $bds->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
+            'image_uris' => $sis->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
             'reserved' => $card['reserved'],
             'game_changer' => $card['game_changer'],
             'scryfall_uri' => $card['scryfall_uri'],

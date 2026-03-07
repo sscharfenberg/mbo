@@ -79,11 +79,11 @@ class Set extends Model
     ];
 
     /**
-     * Get the printed cards belonging to this set.
+     * Get the default cards belonging to this set.
      *
      * @return HasMany<DefaultCard>
      */
-    public function printedCards(): HasMany
+    public function defaultCards(): HasMany
     {
         return $this->hasMany(DefaultCard::class, 'set_id', 'id');
     }

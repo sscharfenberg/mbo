@@ -29,7 +29,7 @@ class DefaultCardsService
     }
 
     /**
-     * Persist a single printed card to the database.
+     * Persist a single default card to the database.
      *
      * Maps required Scryfall fields (prices, finishes, rarity, etc.) and
      * conditionally includes optional ones (oracle_id, layout). Image URIs
@@ -40,14 +40,15 @@ class DefaultCardsService
      */
     private function insertCard(array $card): void
     {
-        $bds = new BulkdataService();
+        $sis = new ScryfallImageService();
         // non nullable values
         $arr = [
             'id' => $card['id'],
             'name' => $card['name'],
             'collector_number' => $card['collector_number'],
             'lang' => $card['lang'],
-            'image_uris' => $bds->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
+            'image_uris' => $sis->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
+            'art_crops' => $sis->getArtCrops($card),
             'finishes' => $card['finishes'],
             'games' => $card['games'],
             'prices' => $card['prices'],
@@ -92,7 +93,7 @@ class DefaultCardsService
     }
 
     /**
-     * Run a full printed-cards import from Scryfall.
+     * Run a full default-cards import from Scryfall.
      *
      * Downloads the "default_cards" bulk JSON (if not already cached),
      * truncates the existing data, streams through every card to insert

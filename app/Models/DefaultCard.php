@@ -62,6 +62,7 @@ class DefaultCard extends Model
         'layout',
         'lang',
         'image_uris',
+        'art_crops',
         'finishes',
         'games',
         'prices',
@@ -81,6 +82,7 @@ class DefaultCard extends Model
         'lang'       => ScryfallLang::class,
         'rarity'     => ScryfallRarity::class,
         'image_uris' => AsCollection::class,
+        'art_crops'  => AsCollection::class,
         'finishes'   => AsCollection::class,
         'games'      => AsCollection::class,
         'prices'     => AsCollection::class,
@@ -88,7 +90,7 @@ class DefaultCard extends Model
     ];
 
     /**
-     * Get the oracle card associated with this printed card.
+     * Get the oracle card associated with this default card.
      *
      * @return BelongsTo<OracleCard, DefaultCard>
      */
@@ -98,7 +100,7 @@ class DefaultCard extends Model
     }
 
     /**
-     * Get the set this printed card belongs to.
+     * Get the set this default card belongs to.
      *
      * @return BelongsTo<Set, DefaultCard>
      */

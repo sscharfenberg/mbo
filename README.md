@@ -97,5 +97,14 @@ APP_URL=http://[yourhostname].noip.com
 
 Run Eslint and Stylelint separately.
 
+## Makefile shortcuts
+
+### `make logs-staging`
+
+Downloads all log files from the staging server into the local `storage/logs/` directory.
+
+Uses the `mbo` SSH alias (configured in `~/.ssh/config`). Since `storage/logs/` is excluded from
+PhpStorm's deployment sync, this is the quickest way to pull logs locally for inspection.
+
 ## License
 `MBO` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

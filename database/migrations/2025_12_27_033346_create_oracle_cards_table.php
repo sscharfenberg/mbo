@@ -16,9 +16,9 @@ return new class extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->uuid('id')->primary();
-            $table->string('name', 155);
+            $table->string('name', 160);
             $table->string('collector_number', 10);
-            $table->string('layout', 32);
+            $table->string('layout', 48);
             $table->string('type_line', 128);
             $table->string('lang', 8);
             $table->float('cmc');

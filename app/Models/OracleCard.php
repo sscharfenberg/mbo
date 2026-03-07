@@ -87,11 +87,11 @@ class OracleCard extends Model
     ];
 
     /**
-     * Get all printed versions of this oracle card.
+     * Get all default versions of this oracle card.
      *
      * @return HasMany<DefaultCard>
      */
-    public function printings(): HasMany
+    public function defaults(): HasMany
     {
         return $this->hasMany(DefaultCard::class, 'oracle_id', 'oracle_id');
     }

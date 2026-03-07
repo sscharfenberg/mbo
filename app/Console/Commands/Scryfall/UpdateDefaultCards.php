@@ -22,7 +22,7 @@ class UpdateDefaultCards extends Command
      *
      * @var string
      */
-    protected $description = 'Update database with the printed "default" cards from scryfall.';
+    protected $description = 'Update database with the "default" cards from scryfall.';
 
     /**
      * Execute the console command.

@@ -14,15 +14,6 @@ class BulkdataService
 {
 
     /**
-     * Preferred image formats in descending priority order.
-     *
-     * The first matching format found on a card is used.
-     *
-     * @var string[]
-     */
-    protected array $imageFormats = ["large", "normal", "small", "png"];
-
-    /**
      * Download a Scryfall bulk-data JSON file to local storage.
      *
      * Skips the download if the file already exists on the "scryfall-bulk"
@@ -87,62 +78,6 @@ class BulkdataService
             Storage::disk('scryfall-bulk')->delete($fileName);
             Log::channel('scryfall')->notice("deleted '$fileName' from disk 'scryfall-bulk'.");
         }
-    }
-
-    /**
-     * Extract image URIs from a Scryfall card object.
-     *
-     * Checks the card-level image_uris first, then falls back to
-     * per-face image_uris for multi-faced cards (e.g. transform, modal DFC).
-     * Returns the highest-priority format available per $imageFormats.
-     *
-     * @param  array  $card  A single card object from the Scryfall bulk JSON.
-     * @return array<string>  Zero or more image URIs.
-     */
-    public function getImageUris (array $card): array
-    {
-        // if the card itself has an 'image_uris' array with length > 0, use the image from there
-        if (array_key_exists('image_uris', $card) && count($card['image_uris']) > 0) {
-            foreach ($this->imageFormats as $format) {
-                if (array_key_exists($format, $card['image_uris'])) {
-                    return [$card['image_uris'][$format]];
-                }
-            }
-        }
-        // if the card has at least one card_face, get the image_uris from there.
-        else if (array_key_exists('card_faces', $card) && count($card['card_faces']) > 0) {
-            $uris = [];
-            foreach ($card['card_faces'] as $face) { // loop card faces
-                if (
-                    array_key_exists('image_uris', $face)
-                    && count($face['image_uris']) > 0
-                    && strlen($this->getCardFaceImageUri($face)) > 0
-                ) {
-                    $uris[] = $this->getCardFaceImageUri($face);
-                }
-            }
-            return $uris;
-        }
-        return []; // no image uris at all.
-    }
-
-    /**
-     * Resolve the best image URI for a single card face.
-     *
-     * Iterates through $imageFormats in priority order and returns
-     * the first match. Returns an empty string if none are available.
-     *
-     * @param  array  $face  A card_face object from the Scryfall bulk JSON.
-     * @return string
-     */
-    private function getCardFaceImageUri (array $face): string
-    {
-        foreach ($this->imageFormats as $format) { // loop formats and check if there is a image_uri key.
-            if (array_key_exists($format, $face['image_uris'])) {
-                return $face['image_uris'][$format];
-            }
-        }
-        return "";
     }
 
     /**
