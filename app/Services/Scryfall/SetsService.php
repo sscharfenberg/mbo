@@ -13,32 +13,26 @@ class SetsService
 {
 
     /**
-     * Prepare the database and storage for a sets import.
+     * Prepare the database for a sets import by truncating the sets table.
      *
-     * Always truncates the sets table. When running a full update,
-     * also purges all cached set icon SVGs so they are re-downloaded.
+     * Icon SVGs are intentionally not purged here — set icons are stable once
+     * released and getSetIcon() only downloads files that are missing, so
+     * wiping cached icons would cause unnecessary re-downloads on every run.
      *
-     * @param  bool  $full  Whether to also clear the set-icon storage disk.
      * @return void
      */
-    private function setup(bool $full): void
+    private function setup(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Set::truncate();
         Log::channel('scryfall')->debug("table 'sets' truncated.");
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        // if it's a full update, clean "set-icon" disk.
-        if ($full) {
-            $files = Storage::disk('set-icon')->allFiles();
-            Storage::disk('set-icon')->delete($files);
-            Log::channel('scryfall')->debug("full update => ".count($files)." set icons deleted.");
-        }
     }
 
     /**
      * Download a set icon SVG if it is not already cached locally.
      *
-     * Returns the public path to the icon file on the "set-icon" disk,
+     * Returns the public path to the icon file on the "set" disk,
      * regardless of whether a fresh download was needed.
      *
      * @param  string  $uri   The Scryfall icon_svg_uri for the set.
@@ -47,20 +41,25 @@ class SetsService
      *
      * @throws ConnectionException
      */
+    private function buildFileName(string $code): string
+    {
+        return $code.'.svg';
+    }
+
     private function getSetIcon(string $uri, string $code): string
     {
-        $fileName = $code.".svg";
-        if (Storage::disk('set-icon')->missing($fileName)) {
+        $fileName = $this->buildFileName($code);
+        if (Storage::disk('set')->missing($fileName)) {
             $response = Http::withHeaders(config('mbo.scryfall.header'))
                 ->get($uri);
             if ($response->successful()) {
-                Storage::disk('set-icon')->put($fileName, $response->body());
-                Log::channel('scryfall')->debug("created SVG in storage disk 'set-icon': $fileName");
+                Storage::disk('set')->put($fileName, $response->body());
+                Log::channel('scryfall')->debug("created SVG in storage disk 'set': $fileName");
             } else {
                 Log::channel('scryfall')->error("error calling icon uri '$uri' from scryfall: ".$response->body());
             }
         }
-        return "/set-icon/".$fileName;
+        return "/set/".$fileName;
     }
 
     /**
@@ -84,7 +83,7 @@ class SetsService
             'name' => $set['name'],
             'scryfall_uri' => $set['scryfall_uri'],
             'set_type' => $set['set_type'],
-            'icon' => $this->getSetIcon($set['icon_svg_uri'], $set['code']),
+            'path' => $this->getSetIcon($set['icon_svg_uri'], $set['code']),
             'card_count' => $set['card_count'],
             'digital' => $set['digital'],
         ];
@@ -103,15 +102,13 @@ class SetsService
     /**
      * Fetch all sets from the Scryfall API and replace the local database.
      *
-     * Filters out sets with zero cards. Runs setup() first to truncate
-     * existing data (and optionally clear cached icons on a full update).
+     * Filters out sets with zero cards. Runs setup() first to truncate existing data.
      *
-     * @param  bool  $full  Whether to also purge cached set icons before importing.
      * @return void
      */
-    public function updateSets(bool $full): void
+    public function updateSets(): void
     {
-        $this->setup($full);
+        $this->setup();
         try {
             $response = Http::withHeaders(config('mbo.scryfall.header'))
                 ->get('https://api.scryfall.com/sets');
@@ -121,9 +118,7 @@ class SetsService
                     $sets = collect($sets['data'])->filter(function ($set) {
                         return $set['card_count'] > 0;
                     });
-                    $sets->each(function ($set) {
-                        $this->insertSet($set);
-                    });
+                    $sets->each(fn($set) => $this->insertSet($set));
                 } else { // json does not have 'data' prop
                     Log::channel('scryfall')->error("Scryfall response successful, but json does not have a field 'data'.");
                 }

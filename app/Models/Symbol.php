@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\Scryfall\ScryfallSetType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Set extends Model
+class Symbol extends Model
 {
     use HasUuids;
 
@@ -30,7 +28,7 @@ class Set extends Model
      *
      * @var string
      */
-    protected $table = 'sets';
+    protected $table = 'symbols';
 
     /**
      * The primary key associated with the table.
@@ -40,8 +38,6 @@ class Set extends Model
     protected $primaryKey = 'id';
 
     /**
-     * Disable use of timestamps. Since we do a full DB insert, we do not need timestamps
-     *
      * @var bool
      */
     public $timestamps = false;
@@ -53,18 +49,19 @@ class Set extends Model
      */
     protected $fillable = [
         'id',
-        'code',
-        'name',
-        'block_code',
-        'block',
-        'parent_set_code',
-        'card_count',
-        'printed_size',
-        'set_type',
-        'digital',
-        'scryfall_uri',
+        'symbol',
+        'svg_uri',
+        'loose_variant',
+        'english',
+        'represents_mana',
+        'appears_in_mana_costs',
+        'transposable',
+        'hybrid',
+        'phyrexian',
+        'funny',
+        'cmc',
+        'colors',
         'path',
-        'released_at',
     ];
 
     /**
@@ -73,19 +70,13 @@ class Set extends Model
      * @var array
      */
     protected $casts = [
-        'digital'  => 'boolean',
-        'released_at' => 'date',
-        'set_type' => ScryfallSetType::class,
+        'represents_mana'       => 'boolean',
+        'appears_in_mana_costs' => 'boolean',
+        'transposable'          => 'boolean',
+        'hybrid'                => 'boolean',
+        'phyrexian'             => 'boolean',
+        'funny'                 => 'boolean',
+        'cmc'                   => 'integer',
     ];
-
-    /**
-     * Get the default cards belonging to this set.
-     *
-     * @return HasMany<DefaultCard>
-     */
-    public function defaultCards(): HasMany
-    {
-        return $this->hasMany(DefaultCard::class, 'set_id', 'id');
-    }
 
 }

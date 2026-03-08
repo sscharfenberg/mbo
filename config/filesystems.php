@@ -59,10 +59,18 @@ return [
             'throw' => false,
             'report' => false,
         ],
-        'set-icon' => [
+        'set' => [
             'driver' => 'local',
-            'root' => storage_path('app/set-icon'),
-            'url' => env('APP_URL').'/set-icon',
+            'root' => storage_path('app/set'),
+            'url' => env('APP_URL').'/set',
+            'visibility' => 'public',
+            'throw' => true,
+            'report' => false,
+        ],
+        'symbol' => [
+            'driver' => 'local',
+            'root' => storage_path('app/symbol'),
+            'url' => env('APP_URL').'/symbol',
             'visibility' => 'public',
             'throw' => true,
             'report' => false,
@@ -90,7 +98,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('set-icon') => storage_path('app/set-icon'),
+        public_path('set') => storage_path('app/set'),
+        public_path('symbol') => storage_path('app/symbol'),
     ],
 
 ];

@@ -82,6 +82,7 @@ class OracleCard extends Model
         'game_changer' => 'boolean',
         'layout'       => ScryfallCardLayout::class,
         'lang'         => ScryfallLang::class,
+        'cmc'          => 'float',
         'legalities'   => AsCollection::class,
         'image_uris'   => AsCollection::class,
     ];

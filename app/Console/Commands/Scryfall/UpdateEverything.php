@@ -49,7 +49,7 @@ class UpdateEverything extends Command
             Log::channel('scryfall')->info("artisan command 'scryfall:update' started.");
             Log::channel('scryfall')->info("=======================================================");
             // update sets
-            $this->call('scryfall:sets', ['--full' => true]);
+            $this->call('scryfall:sets');
             $waitTime += $this->sleep();
             // bulk data. we need this information for all of the other commands
             $this->call('scryfall:bulk');

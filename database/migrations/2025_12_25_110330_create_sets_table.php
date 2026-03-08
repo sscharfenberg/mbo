@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('set_type', 48)->nullable();
             $table->boolean('digital')->default(false);
             $table->string('scryfall_uri', length: 64);
-            $table->string('icon', length: 64);
+            $table->string('path', length: 64);
             $table->date('released_at')->nullable();
         });
     }
