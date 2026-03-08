@@ -41,9 +41,11 @@ if (currentYear > startYear) {
 @use "Abstracts/colors" as c;
 @use "Abstracts/mixins" as m;
 @use "Abstracts/sizes" as s;
+@use "Abstracts/z-indexes" as z;
 
 footer {
     position: relative;
+    z-index: map.get(z.$index, "background");
 
     margin-top: auto;
 
@@ -54,7 +56,7 @@ footer {
     &::before {
         position: absolute;
         inset: 0;
-        z-index: -1;
+        z-index: map.get(z.$index, "background");
 
         border-top: map.get(s.$footer, "border") solid transparent;
 

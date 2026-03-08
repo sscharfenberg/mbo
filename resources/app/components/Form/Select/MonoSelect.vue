@@ -7,21 +7,44 @@ interface SelectOption {
     value: string;
     label: string;
 }
-const props = defineProps<{
-    options: SelectOption[];
-    selected?: string;
-    placeholder?: string;
-    addonIcon?: string;
-}>();
+const props = withDefaults(
+    defineProps<{
+        options: SelectOption[];
+        selected?: string;
+        placeholder?: string;
+        addonIcon?: string;
+        sort?: boolean;
+    }>(),
+    { sort: true }
+);
+// Falls back to the i18n default when no placeholder prop is provided.
 const effectivePlaceholder = computed(() => props.placeholder ?? t("form.elements.select_placeholder"));
+/**
+ * Returns the options to render in the listbox.
+ * When `sort` is true, options are sorted alphabetically by label.
+ * The "other" option is always pinned to the bottom regardless of its label,
+ * because it represents a catch-all choice that should not compete with named options.
+ */
+const effectiveOptions = computed(() =>
+    props.sort
+        ? [...props.options].sort((a, b) => {
+              if (a.value === "other") return 1; // "other" sinks to the bottom
+              if (b.value === "other") return -1; // everything else floats above it
+              return a.label.localeCompare(b.label);
+          })
+        : props.options
+);
 const emit = defineEmits(["change"]);
+// Unique IDs tie the trigger button, clear button, and listbox together for ARIA.
 const uid = useId();
 const anchorName = `--select-${uid}`;
 const buttonId = `select-button-${uid}`;
 const listboxId = `select-listbox-${uid}`;
 const menuOpen = ref(false);
 const selectedValue = ref(props.selected);
+// Used for click-outside detection to close the dropdown.
 const dropdown = useTemplateRef<HTMLDivElement>("dropdown");
+// Resolves the human-readable label for the currently selected value.
 const selectedLabel = computed(() => props.options.find(o => o.value === selectedValue.value)?.label);
 /**
  * Sets the selected value and emits a change event if the value changed.
@@ -62,6 +85,7 @@ const onClickOutSide = (ev: MouseEvent) => {
         menuOpen.value = false;
     }
 };
+// Keep internal state in sync when the parent updates the selected prop externally.
 watch(
     () => props.selected,
     value => {
@@ -117,7 +141,7 @@ onUnmounted(() => {
             >
                 <div class="form-select__scroll">
                     <button
-                        v-for="option in options"
+                        v-for="option in effectiveOptions"
                         :key="option.value"
                         type="button"
                         role="option"
