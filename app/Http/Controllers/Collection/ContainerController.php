@@ -81,6 +81,6 @@ class ContainerController extends Controller
         $request->session()->flash('message', __('auth.container_created', ['name' => $container->name]));
         $request->session()->flash('type', 'success');
 
-        return redirect(route('collection'));
+        return redirect(route('containers'));
     }
 }

@@ -19,7 +19,5 @@ defineProps<{
 <template>
     <h2>List Containers</h2>
     <pre>{{ containers }}</pre>
-    <Link href="/collection/container/new">{{ $t("pages.new_container.link") }}</Link>
+    <Link href="/collection/containers/new">{{ $t("pages.new_container.link") }}</Link>
 </template>
-
-<style scoped lang="scss"></style>

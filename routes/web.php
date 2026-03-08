@@ -28,11 +28,11 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::get('/collection', [\App\Http\Controllers\Collection\CollectionController::class, 'list'])
         ->name('collection');
     // Containers
-    Route::get('collection/container', [\App\Http\Controllers\Collection\ContainerController::class, 'show'])
-        ->name('container');
-    Route::get('collection/container/new', [\App\Http\Controllers\Collection\ContainerController::class, 'create'])
+    Route::get('collection/containers', [\App\Http\Controllers\Collection\ContainerController::class, 'show'])
+        ->name('containers');
+    Route::get('collection/containers/new', [\App\Http\Controllers\Collection\ContainerController::class, 'create'])
         ->name('container.new');
-    Route::post('collection/container/new', [\App\Http\Controllers\Collection\ContainerController::class, 'store'])
+    Route::post('collection/containers/new', [\App\Http\Controllers\Collection\ContainerController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.store');
 

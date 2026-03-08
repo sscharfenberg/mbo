@@ -12,7 +12,7 @@ import Icon from "Components/UI/Icon.vue";
         <icon name="collection" :size="3" />
         {{ $t("pages.collection.title") }}
     </headline>
-    <Link href="/collection/container/new">{{ $t("pages.new_container.link") }}</Link>
+    <Link href="/collection/containers/new">{{ $t("pages.new_container.link") }}</Link>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
         praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid

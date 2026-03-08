@@ -33,7 +33,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
     </headline>
     <Form
         method="post"
-        action="/collection/container/new"
+        action="/collection/containers/new"
         class="form"
         #default="{ errors, processing, validating, valid, validate }"
     >
