@@ -158,5 +158,39 @@ $form: (
         "background-active": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
         "surface-active": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
         "border-active": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color"))
+    ),
+    "select": (
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            ),
+        "background": light-dark(
+                color.adjust(map.get(c.$grey, "white"), $alpha: -0.5),
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.5)
+            ),
+        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "surface-open": light-dark(#000, #fff),
+        "caret": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
+        "options-background": light-dark(
+                color.adjust(map.get(c.$grey, "white"), $alpha: -0.35),
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.35)
+            ),
+        "option": (
+            "background-odd": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "ebony")),
+            "background-even": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "bunker")),
+            "surface": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
+            "background-hover": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+            "surface-hover": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
+            "background-selected": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark2", "color")),
+            "surface-selected": light-dark(
+                    map.get(c.$brand, "light1", "contrast"),
+                    map.get(c.$brand, "dark2", "contrast")
+                )
+        ),
+        "clear-background": light-dark(
+                color.adjust(map.get(c.$grey, "white"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.25)
+            ),
+        "clear-surface": light-dark(#000, #fff)
     )
 ) !default;

@@ -11,5 +11,5 @@ enum BinderType: string
     case Other      = 'other';
     case Cube       = 'cube';
     case Tin        = 'tin';
-    case TopLoaders = 'Toploader';
+    case Toploader  = 'Toploader';
 }

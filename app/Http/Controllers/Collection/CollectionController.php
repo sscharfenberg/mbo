@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Mbo;
+namespace App\Http\Controllers\Collection;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class DecksController extends Controller
+class CollectionController extends Controller
 {
     /**
-     * Display the user decks page.
+     * Display the user collection page.
      *
-     * Renders the main decks view
+     * Renders the main collection view
      * with the current request context.
      *
      * @param  Request  $request
@@ -20,6 +20,6 @@ class DecksController extends Controller
      */
     public function show(Request $request): Response
     {
-        return Inertia::render('Decks/Decks', []);
+        return Inertia::render('Collection/Collection', []);
     }
 }

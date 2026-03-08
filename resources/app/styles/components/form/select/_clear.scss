@@ -1,0 +1,27 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+
+.form-select__clear {
+    position: absolute;
+    top: calc(anchor(top) + map.get(s.$form, "select", "border"));
+    right: calc(anchor(right) + 3ch + #{map.get(s.$form, "select", "caret") * 2});
+    bottom: calc(anchor(bottom) + map.get(s.$form, "select", "border"));
+
+    width: map.get(s.$form, "select", "clear");
+    border: 0;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition:
+        background-color map.get(ti.$timings, "fast") linear,
+        color map.get(ti.$timings, "fast") linear;
+
+    &:hover {
+        background: map.get(c.$form, "select", "clear-background");
+        color: map.get(c.$form, "select", "clear-surface");
+    }
+}

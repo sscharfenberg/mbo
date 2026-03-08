@@ -1,4 +1,16 @@
 {
+    "enums": {
+        "binder_type": {
+            "binder": "Binder",
+            "deckbox": "Deck Box",
+            "display": "Display",
+            "box": "Box",
+            "other": "Other",
+            "cube": "Cube",
+            "tin": "Booster Tin",
+            "Toploader": "Toploaders"
+        }
+    },
     "header": {
         "user_nav": "User and language navigation",
         "site_nav": "Site navigation",
@@ -177,6 +189,11 @@
             "title": "Your Collection",
             "link": "Collection"
         },
+        "new_container": {
+            "title": "Create new container",
+            "link": "Create new container",
+            "submit": "Create container"
+        },
         "decks": {
             "title": "Your Decks",
             "link": "Decks"
@@ -195,12 +212,20 @@
             "new_password": "New password",
             "password": "Password",
             "password_confirmation": "Repeat Password",
-            "remember": "Remember me"
+            "remember": "Remember me",
+            "container": {
+                "name": "Name",
+                "description": "Description",
+                "type": "Type",
+                "image": "Image"
+            }
         },
         "elements": {
             "password_show": "Show",
             "password_hide": "Hide",
-            "radio-group": "Available options"
+            "radio-group": "Available options",
+            "clear_select": "Clear selection",
+            "select_placeholder": "Please select"
         }
     },
     "state": {

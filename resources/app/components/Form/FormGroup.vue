@@ -52,8 +52,6 @@ const anchorName = `--fgf-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
                 <div v-if="!addonIcon && $slots.addon">
                     <slot name="addon" />
                 </div>
-                <!-- Wrapper that acts as the CSS anchor target for the valid indicator.
-                     Each instance gets a unique anchor-name via useId(). -->
                 <div class="form-group__field" :style="`anchor-name: ${anchorName}`">
                     <slot />
                 </div>

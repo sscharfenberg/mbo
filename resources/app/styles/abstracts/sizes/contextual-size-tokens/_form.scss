@@ -35,5 +35,13 @@ $form: (
         "radius": map.get(s.$radius, "base"),
         "border": map.get(s.$border, "base"),
         "line-height": map.get(s.$icons, "medium")
+    ),
+    "select": (
+        "radius": 20px,
+        "border": map.get(s.$border, "base"),
+        "height": map.get(s.$icons, "medium"),
+        "caret": math.round(s.$base * 0.4),
+        "option": 1ex 1ch,
+        "clear": map.get(s.$icons, "medium") * 2
     )
 ) !default;

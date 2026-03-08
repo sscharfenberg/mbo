@@ -1,0 +1,14 @@
+/******************************************************************************
+ * .form-select
+ * @type {Sass}
+ *****************************************************************************/
+@forward "button";
+@forward "clear";
+@forward "option";
+@forward "options";
+
+.form-select {
+    position: relative;
+
+    flex-grow: 1;
+}

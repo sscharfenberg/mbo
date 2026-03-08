@@ -10,7 +10,7 @@
     textarea {
         overflow-y: auto;
         width: 100%;
-        height: calc(8.25lh);
+        height: var(--textarea-height);
         border: 0;
 
         background: transparent;

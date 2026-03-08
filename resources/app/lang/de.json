@@ -1,4 +1,16 @@
 {
+    "enums": {
+        "binder_type": {
+            "binder": "Ordner",
+            "deckbox": "Deckbox",
+            "display": "Display",
+            "box": "Karton",
+            "other": "Sonstiges",
+            "cube": "Cube",
+            "tin": "Booster Tin",
+            "Toploader": "Toploader"
+        }
+    },
     "header": {
         "user_nav": "Benutzer- und Sprach-Navigation",
         "site_nav": "Site navigation",
@@ -177,6 +189,11 @@
             "title": "Deine Sammlung",
             "link": "Sammlung"
         },
+        "new_container": {
+            "title": "Neuen Container erstellen",
+            "link": "Neuen Container erstellen",
+            "submit": "Create container"
+        },
         "decks": {
             "title": "Deine Decks",
             "link": "Decks"
@@ -195,12 +212,20 @@
             "new_password": "Neues Passwort",
             "password": "Passwort",
             "password_confirmation": "Passwort bestätigen",
-            "remember": "Login merken"
+            "remember": "Login merken",
+            "container": {
+                "name": "Name",
+                "description": "Beschreibung",
+                "type": "Typ",
+                "image": "Bild"
+            }
         },
         "elements": {
             "password_show": "Zeigen",
             "password_hide": "Verbergen",
-            "radio-group": "Verfügbare Optionen"
+            "radio-group": "Verfügbare Optionen",
+            "clear_select": "Auswahl löschen",
+            "select_placeholder": "Bitte wählen"
         }
     },
     "state": {

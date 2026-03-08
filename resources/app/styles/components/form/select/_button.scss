@@ -1,0 +1,61 @@
+@use "sass:map";
+@use "Abstracts/sizes" as s;
+@use "Abstracts/colors" as c;
+@use "Abstracts/timings" as ti;
+
+.form-select__button {
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    width: 100%;
+    padding: 0.75ex calc(3ch + #{map.get(s.$form, "select", "caret") * 2} + map.get(s.$form, "select", "clear")) 0.75ex
+        2ch;
+    border: map.get(s.$form, "select", "border") solid map.get(c.$form, "select", "border");
+
+    background-color: map.get(c.$form, "select", "background");
+    color: map.get(c.$form, "select", "surface");
+    outline: 0;
+    border-radius: map.get(s.$form, "select", "radius");
+
+    line-height: map.get(s.$form, "select", "height");
+
+    transition:
+        color map.get(ti.$timings, "fast") ease,
+        border-bottom-right-radius map.get(ti.$timings, "fast") ease,
+        border-bottom-left-radius map.get(ti.$timings, "fast") ease;
+
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+
+    &.open {
+        color: map.get(c.$form, "select", "surface-open");
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+
+        .form-select__caret {
+            transform: translateY(-50%) rotate(180deg);
+        }
+    }
+}
+
+.form-select__caret {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 2ch;
+
+    width: 0;
+    height: 0;
+    border-width: map.get(s.$form, "select", "caret") map.get(s.$form, "select", "caret") 0;
+
+    transform: translateY(-50%);
+
+    border-style: solid;
+    border-color: map.get(c.$form, "select", "caret") transparent transparent;
+
+    @media (prefers-reduced-motion: no-preference) {
+        transition: transform map.get(ti.$timings, "fast") linear;
+    }
+}

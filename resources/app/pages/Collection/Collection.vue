@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 </script>
@@ -12,7 +12,7 @@ import Icon from "Components/UI/Icon.vue";
         <icon name="collection" :size="3" />
         {{ $t("pages.collection.title") }}
     </headline>
-    Collection Collection!
+    <Link href="/collection/container/new">{{ $t("pages.new_container.link") }}</Link>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
         praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid

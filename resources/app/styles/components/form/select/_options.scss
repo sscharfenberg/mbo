@@ -1,0 +1,32 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/z-indexes" as z;
+
+.form-select__options {
+    position: absolute;
+    top: anchor(bottom);
+    left: 0;
+    z-index: map.get(z.$index, "select");
+
+    overflow: hidden;
+    width: 100%;
+
+    padding: 1ex 0;
+    border: map.get(s.$form, "select", "border") solid map.get(c.$form, "select", "border");
+    border-top-width: 0;
+
+    background-color: map.get(c.$form, "select", "options-background");
+    border-bottom-right-radius: map.get(s.$form, "select", "radius");
+    border-bottom-left-radius: map.get(s.$form, "select", "radius");
+}
+
+.form-select__scroll {
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+
+    max-height: 30vh;
+    padding: 0 1ch;
+}

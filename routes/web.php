@@ -22,9 +22,15 @@ Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint']
 Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerification()) ? 'verified' : null]))->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'show'])
         ->name('dashboard');
-    Route::get('/collection', [\App\Http\Controllers\Mbo\CollectionController::class, 'show'])
+
+    // collection
+    Route::get('/collection', [\App\Http\Controllers\Collection\CollectionController::class, 'show'])
         ->name('collection');
-    Route::get('/decks', [\App\Http\Controllers\Mbo\DecksController::class, 'show'])
+    Route::get('collection/container/new', [\App\Http\Controllers\Collection\ContainerController::class, 'showNew'])
+        ->name('container.new');
+
+    // decks
+    Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])
         ->name('decks');
 });
 

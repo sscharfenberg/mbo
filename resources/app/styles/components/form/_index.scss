@@ -1,12 +1,11 @@
-@use "sass:map";
 @use "Abstracts/mixins" as m;
-@use "Abstracts/sizes" as s;
 @forward "btn";
 @forward "group";
 @forward "input";
 @forward "legend";
 @forward "otp";
 @forward "radio";
+@forward "select";
 @forward "textarea";
 
 .form {
