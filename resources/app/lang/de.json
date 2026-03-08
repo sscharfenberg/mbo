@@ -217,7 +217,8 @@
                 "name": "Name",
                 "description": "Beschreibung",
                 "type": "Typ",
-                "image": "Bild"
+                "image": "Bild",
+                "other_type": "Sonstiger Typ"
             }
         },
         "elements": {

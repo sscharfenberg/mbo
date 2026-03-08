@@ -18,7 +18,7 @@ class CollectionController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function show(Request $request): Response
+    public function list(Request $request): Response
     {
         return Inertia::render('Collection/Collection', []);
     }

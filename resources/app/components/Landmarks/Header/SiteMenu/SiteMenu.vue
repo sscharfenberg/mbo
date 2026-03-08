@@ -35,6 +35,8 @@ import LabelledLink from "Components/UI/LabelledLink.vue";
     @include m.mq("landscape") {
         flex-direction: row;
 
+        margin-left: auto;
+
         gap: 1ch;
     }
 

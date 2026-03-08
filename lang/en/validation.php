@@ -41,7 +41,22 @@ return [
         'current_password' => [
             'required' => 'Please enter your current password.',
             'current_password' => 'This password does not match our records.'
+        ],
+        'container_name' => [
+            'required' => 'Please enter the name of the container.',
+            'max' => 'The name can not have more than :max characters.',
+        ],
+        'container_description' => [
+            'max' => 'The description can not have more than :max characters.',
+        ],
+        'container_type' => [
+            'required' => 'Please choose the type of the container.',
+        ],
+        'container_type_other' => [
+            'required' => 'Please enter the custom type of the container.',
+            'max' => 'The custom type can not have more than :max characters.',
         ]
+
     ],
 
     /*

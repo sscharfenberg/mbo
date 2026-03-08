@@ -11,7 +11,7 @@
         position: absolute;
 
         // Align with the anchor's right edge (1.5ch inside) and vertical center.
-        top: anchor(center);
+        top: calc(anchor(top) + 0.9lh);
         right: calc(anchor(right) + 1.5ch);
         place-items: center;
 

@@ -41,6 +41,20 @@ return [
         'current_password' => [
             'required' => 'Bitte gib das aktuelle Passwort an.',
             'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.'
+        ],
+        'container_name' => [
+            'required' => 'Bitte gib den Namen des Containers an.',
+            'max' => 'Der Name darf nicht mehr als :max Zeichen enthalten.',
+        ],
+        'container_description' => [
+            'max' => 'Die Beschreibung des Containers darf nicht mehr als :max Zeichen enthalten.',
+        ],
+        'container_type' => [
+            'required' => 'Bitte wähle den Typ des Containers.',
+        ],
+        'container_type_other' => [
+            'required' => 'Bitte gib den Sonstigen Typ des Containers an.',
+            'max' => 'Der Sonstige Typ darf nicht mehr als :max Zeichen enthalten.',
         ]
     ],
 

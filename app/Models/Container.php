@@ -44,8 +44,6 @@ class Container extends Model
     protected $primaryKey = 'id';
 
     /**
-     * Disable use of timestamps. Since we do a full DB insert, we do not need timestamps
-     *
      * @var bool
      */
     public $timestamps = true;
@@ -59,6 +57,7 @@ class Container extends Model
         'id',
         'user_id',
         'name',
+        'description',
         'type',
         'custom_type',
     ];

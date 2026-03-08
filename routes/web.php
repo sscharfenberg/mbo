@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\HandleControllerPrecognitiveRequest;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -24,10 +25,16 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('dashboard');
 
     // collection
-    Route::get('/collection', [\App\Http\Controllers\Collection\CollectionController::class, 'show'])
+    Route::get('/collection', [\App\Http\Controllers\Collection\CollectionController::class, 'list'])
         ->name('collection');
-    Route::get('collection/container/new', [\App\Http\Controllers\Collection\ContainerController::class, 'showNew'])
+    // Containers
+    Route::get('collection/container', [\App\Http\Controllers\Collection\ContainerController::class, 'show'])
+        ->name('container');
+    Route::get('collection/container/new', [\App\Http\Controllers\Collection\ContainerController::class, 'create'])
         ->name('container.new');
+    Route::post('collection/container/new', [\App\Http\Controllers\Collection\ContainerController::class, 'store'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('container.store');
 
     // decks
     Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])

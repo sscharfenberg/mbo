@@ -29,5 +29,6 @@ return [
     'two_factor_activated' => 'Die Zwei-Faktor-Authentifizierung wurde aktiviert.',
     'two_factor_deactivated' => 'Die Zwei-Faktor-Authentifizierung wurde deaktiviert.',
     'account_deleted' => 'Dein Benutzerkonto wurde gelöscht - du bist jederzeit willkommen zurückzukehren.',
+    'container_created' => 'Container ":name" wurde erstellt.',
 
 ];

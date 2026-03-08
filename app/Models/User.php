@@ -17,10 +17,11 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
-    const NAME_MIN = 8;
-    const NAME_MAX = 80;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasUuids, TwoFactorAuthenticatable;
+
+    const NAME_MIN = 8;
+    const NAME_MAX = 80;
 
     /**
      * The attributes that are mass assignable.
