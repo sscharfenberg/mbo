@@ -7,7 +7,7 @@ defineProps<{
     type: string;
     num: number;
     size?: number;
-    manaIcon: string;
+    symbol: { path: string; english: string };
 }>();
 </script>
 
@@ -16,7 +16,7 @@ defineProps<{
         <headline :size="4">
             {{ $t("pages.welcome.stats." + type + ".title") }}
             <template #right>
-                <icon :name="manaIcon" />
+                <img :src="symbol.path" :alt="symbol.english" class="icon medium" />
             </template>
         </headline>
         <span class="stats-item__num">{{ formatDecimals(num) }}</span>

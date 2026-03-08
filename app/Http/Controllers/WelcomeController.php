@@ -6,6 +6,7 @@ use App\Models\BulkData;
 use App\Models\DefaultCard;
 use App\Models\OracleCard;
 use App\Models\Set;
+use App\Models\Symbol;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -32,6 +33,7 @@ class WelcomeController extends Controller
                 'size' => BulkData::where('type', 'default_cards')->first()?->size,
             ],
             'sets' => Set::count(),
+            'symbols' => Symbol::where('funny', false)->inRandomOrder()->limit(10)->get(['path', 'english']),
         ]);
     }
 

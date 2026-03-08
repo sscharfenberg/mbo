@@ -51,6 +51,9 @@ class UpdateEverything extends Command
             // update sets
             $this->call('scryfall:sets');
             $waitTime += $this->sleep();
+            // update symbols.
+            $this->call('scryfall:symbols');
+            $waitTime += $this->sleep();
             // bulk data. we need this information for all of the other commands
             $this->call('scryfall:bulk');
             $waitTime += $this->sleep();

@@ -9,6 +9,7 @@ defineProps<{
     oracleCards: { num: number; size: number };
     defaultCards: { num: number; size: number };
     sets: number;
+    symbols: { path: string; english: string }[];
 }>();
 </script>
 
@@ -21,7 +22,7 @@ defineProps<{
         {{ $t("pages.welcome.claim") }}
     </headline>
     <paragraph>{{ $t("pages.welcome.intro") }}</paragraph>
-    <stats :oracle-cards="oracleCards" :default-cards="defaultCards" :sets="sets" />
+    <stats :oracle-cards="oracleCards" :default-cards="defaultCards" :sets="sets" :symbols="symbols" />
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum
         eveniet nihil quibusdam saepe ut voluptates? Alias ipsam ipsum numquam sit unde. Alias dolore esse molestiae
