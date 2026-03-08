@@ -45,7 +45,6 @@ if (currentYear > startYear) {
 
 footer {
     position: relative;
-    z-index: map.get(z.$index, "background");
 
     margin-top: auto;
 
