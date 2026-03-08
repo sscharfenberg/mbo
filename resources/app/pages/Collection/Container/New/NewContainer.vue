@@ -56,9 +56,14 @@ const selectedType = ref("");
             :invalid="!!errors?.type"
             :validated="valid('type')"
             :validating="validating"
-            :required="false"
+            :required="true"
         >
-            <mono-select :options="types" :selected="selectedType" @change="selectedType = $event" />
+            <mono-select
+                :options="types"
+                :selected="selectedType"
+                @change="selectedType = $event"
+                addon-icon="container-type"
+            />
             <input type="hidden" name="type" :value="selectedType" />
         </form-group>
         <form-group>

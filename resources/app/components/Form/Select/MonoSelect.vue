@@ -11,6 +11,7 @@ const props = defineProps<{
     options: SelectOption[];
     selected?: string;
     placeholder?: string;
+    addonIcon?: string;
 }>();
 const effectivePlaceholder = computed(() => props.placeholder ?? t("form.elements.select_placeholder"));
 const emit = defineEmits(["change"]);
@@ -79,6 +80,7 @@ onUnmounted(() => {
 
 <template>
     <div class="form-select" ref="dropdown">
+        <span v-if="addonIcon" class="form-select__addon"><icon :name="addonIcon" /></span>
         <button
             type="button"
             :id="buttonId"

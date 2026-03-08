@@ -169,6 +169,8 @@ $form: (
                 color.adjust(map.get(c.$grey, "black"), $alpha: -0.5)
             ),
         "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "border-open": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
+        "background-open": light-dark(#fff, #000),
         "surface-open": light-dark(#000, #fff),
         "caret": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
         "options-background": light-dark(

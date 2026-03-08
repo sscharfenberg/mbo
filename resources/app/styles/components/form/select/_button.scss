@@ -21,18 +21,22 @@
     line-height: map.get(s.$form, "select", "height");
 
     transition:
+        background-color map.get(ti.$timings, "fast") ease,
         color map.get(ti.$timings, "fast") ease,
         border-bottom-right-radius map.get(ti.$timings, "fast") ease,
-        border-bottom-left-radius map.get(ti.$timings, "fast") ease;
+        border-bottom-left-radius map.get(ti.$timings, "fast") ease,
+        border-color map.get(ti.$timings, "fast") ease;
 
     &:not(:disabled) {
         cursor: pointer;
     }
 
     &.open {
+        background-color: map.get(c.$form, "select", "background-open");
         color: map.get(c.$form, "select", "surface-open");
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
+        border-color: map.get(c.$form, "select", "border-open");
 
         .form-select__caret {
             transform: translateY(-50%) rotate(180deg);

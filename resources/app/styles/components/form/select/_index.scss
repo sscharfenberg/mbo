@@ -2,12 +2,14 @@
  * .form-select
  * @type {Sass}
  *****************************************************************************/
+@forward "addon";
 @forward "button";
 @forward "clear";
 @forward "option";
 @forward "options";
 
 .form-select {
+    display: flex;
     position: relative;
 
     flex-grow: 1;
