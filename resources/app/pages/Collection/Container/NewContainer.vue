@@ -8,7 +8,12 @@ import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-const props = defineProps<{ containerTypes: string[] }>();
+const props = defineProps<{
+    containerTypes: string[];
+    nameMax: number;
+    descriptionMax: number;
+    customTypeMax: number;
+}>();
 const { t } = useI18n();
 const types = computed(() => props.containerTypes.map(value => ({ value, label: t(`enums.binder_type.${value}`) })));
 const selectedType = ref("");
@@ -48,6 +53,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 name="container_name"
                 id="container_name"
                 class="form-input"
+                :maxlength="props.nameMax"
                 @change="validate('container_name')"
             />
         </form-group>
@@ -65,6 +71,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 <textarea
                     name="container_description"
                     id="container_description"
+                    :maxlength="props.descriptionMax"
                     @change="validate('container_description')"
                 />
             </div>
@@ -101,6 +108,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 name="container_type_other"
                 id="container_type_other"
                 class="form-input"
+                :maxlength="props.customTypeMax"
                 @change="validate('container_type_other')"
             />
         </form-group>

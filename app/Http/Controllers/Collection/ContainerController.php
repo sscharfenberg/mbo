@@ -43,6 +43,9 @@ class ContainerController extends Controller
     {
         return Inertia::render('Collection/Container/NewContainer', [
             'containerTypes' => array_column(BinderType::cases(), 'value'),
+            'nameMax'        => Container::NAME_MAX,
+            'descriptionMax' => Container::DESCRIPTION_MAX,
+            'customTypeMax'  => Container::CUSTOM_TYPE_MAX,
         ]);
     }
 

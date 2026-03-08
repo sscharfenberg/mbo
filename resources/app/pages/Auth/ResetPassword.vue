@@ -52,6 +52,7 @@ const showPasswordConfirmation = ref(false);
                 @change="validate('email')"
                 class="form-input"
                 v-model="inputEmail"
+                maxlength="255"
                 readonly
             />
         </form-group>

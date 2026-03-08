@@ -18,13 +18,11 @@ return [
             'required' => 'Bitte gib den Benutzernamen an.',
             'required_if' => 'Bitte gib den Benutzernamen an.',
             'unique' => 'Dieser Benutzername ist bereits vergeben.',
-            'max' => 'Der Benutzername darf nicht mehr als :max Zeichen enthalten.',
             'min' => 'Der Benutzername muss mindestens :min Zeichen enthalten.'
         ],
         'email' => [
             'required' => 'Bitte gib die E-Mail-Adresse an.',
             'email' => 'Dies scheint keine gültige E-Mail-Adresse zu sein.',
-            'max' => 'Die E-Mail-Adresse darf nicht mehr als :max Zeichen enthalten.',
             'unique' => 'Diese E-Mail-Adresse wird bereits verwendet.',
             'exists' => 'Diese E-Mail-Adresse existiert nicht.'
         ],
@@ -44,17 +42,12 @@ return [
         ],
         'container_name' => [
             'required' => 'Bitte gib den Namen des Containers an.',
-            'max' => 'Der Name darf nicht mehr als :max Zeichen enthalten.',
-        ],
-        'container_description' => [
-            'max' => 'Die Beschreibung des Containers darf nicht mehr als :max Zeichen enthalten.',
         ],
         'container_type' => [
             'required' => 'Bitte wähle den Typ des Containers.',
         ],
         'container_type_other' => [
             'required' => 'Bitte gib den Sonstigen Typ des Containers an.',
-            'max' => 'Der Sonstige Typ darf nicht mehr als :max Zeichen enthalten.',
         ]
     ],
 

@@ -18,13 +18,11 @@ return [
             'required' => 'Please enter the username.',
             'required_if' => 'Please enter the username.',
             'unique' => 'The username has already been taken',
-            'max' => 'The username can not have more than :max characters.',
             'min' => 'The username must have at least :min characters.'
         ],
         'email' => [
             'required' => 'Please enter the email address.',
             'email' => 'This does not seem to be a valid e-mail-address.',
-            'max' => 'The e-mail can not have more than :max characters.',
             'unique' => 'This e-mail has already been taken.',
             'exists' => 'This e-mail does not exist in our records.'
         ],
@@ -44,17 +42,12 @@ return [
         ],
         'container_name' => [
             'required' => 'Please enter the name of the container.',
-            'max' => 'The name can not have more than :max characters.',
-        ],
-        'container_description' => [
-            'max' => 'The description can not have more than :max characters.',
         ],
         'container_type' => [
             'required' => 'Please choose the type of the container.',
         ],
         'container_type_other' => [
             'required' => 'Please enter the custom type of the container.',
-            'max' => 'The custom type can not have more than :max characters.',
         ]
 
     ],

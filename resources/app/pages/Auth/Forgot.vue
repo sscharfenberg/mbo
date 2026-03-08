@@ -52,7 +52,7 @@ const onChange = (ev: { target: { value: string } }) => {
             addon-icon="register"
             :required="true"
         >
-            <input type="text" name="name" id="name" @change="validate('name')" class="form-input" />
+            <input type="text" name="name" id="name" maxlength="80" @change="validate('name')" class="form-input" />
         </form-group>
         <form-group
             for-id="email"
@@ -64,7 +64,7 @@ const onChange = (ev: { target: { value: string } }) => {
             addon-icon="mail"
             :required="true"
         >
-            <input type="email" name="email" id="email" @change="validate('email')" class="form-input" />
+            <input type="email" name="email" id="email" maxlength="255" @change="validate('email')" class="form-input" />
         </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
