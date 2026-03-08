@@ -73,6 +73,7 @@ const onSubmit = (e: SubmitEvent) => {
         </form-group>
         <template v-if="isRecoveryCodesVisible">
             <form-group :label="$t('pages.dashboard.two_factor.recovery_codes.label')">
+                <div class="form-input__textarea-addon"><icon name="key" /></div>
                 <div class="form-input form-input__textarea">
                     <textarea :value="recoveryCodesString" readonly />
                 </div>

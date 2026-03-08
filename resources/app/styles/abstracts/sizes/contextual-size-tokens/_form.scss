@@ -6,6 +6,7 @@
 $form: (
     "input": (
         "radius": 100vw,
+        "radius-px": 20px,
         "border": map.get(s.$border, "base"),
         "line-height": map.get(s.$icons, "medium")
     ),

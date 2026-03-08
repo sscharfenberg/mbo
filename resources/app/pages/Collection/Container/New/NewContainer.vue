@@ -45,6 +45,7 @@ const selectedType = ref("");
             :validating="validating"
             :required="false"
         >
+            <div class="form-input__textarea-addon"><icon name="container-description" /></div>
             <div class="form-input form-input__textarea">
                 <textarea name="description" id="description" />
             </div>
