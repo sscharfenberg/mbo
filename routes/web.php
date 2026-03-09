@@ -39,7 +39,9 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     // decks
     Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])
         ->name('decks');
+
 });
+
 
 /******************************************************************************
  * Dev pages (no auth, not linked from anywhere)

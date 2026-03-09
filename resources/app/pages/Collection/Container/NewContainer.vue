@@ -2,6 +2,7 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import CardImageSearch from "Components/Form/CardImageSearch/CardImageSearch.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
@@ -58,6 +59,22 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
             />
         </form-group>
         <form-group
+            :label="$t('form.fields.container.type')"
+            :error="errors.container_type ?? ''"
+            :invalid="!!errors?.container_type"
+            :validated="valid('container_type')"
+            :validating="validating"
+            :required="true"
+        >
+            <mono-select
+                :options="types"
+                :selected="selectedType"
+                @change="onTypeChange($event, validate)"
+                addon-icon="container-type"
+            />
+            <input type="hidden" name="container_type" :value="selectedType" />
+        </form-group>
+        <form-group
             for-id="container_description"
             :label="$t('form.fields.container.description')"
             :error="errors.container_description ?? ''"
@@ -75,22 +92,6 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                     @change="validate('container_description')"
                 />
             </div>
-        </form-group>
-        <form-group
-            :label="$t('form.fields.container.type')"
-            :error="errors.container_type ?? ''"
-            :invalid="!!errors?.container_type"
-            :validated="valid('container_type')"
-            :validating="validating"
-            :required="true"
-        >
-            <mono-select
-                :options="types"
-                :selected="selectedType"
-                @change="onTypeChange($event, validate)"
-                addon-icon="container-type"
-            />
-            <input type="hidden" name="container_type" :value="selectedType" />
         </form-group>
         <form-group
             v-if="selectedType === 'other'"
@@ -112,6 +113,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 @change="validate('container_type_other')"
             />
         </form-group>
+        <card-image-search ref-id="container_image" />
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />

@@ -219,12 +219,25 @@
                 "type": "Typ",
                 "image": "Bild",
                 "other_type": "Sonstiger Typ"
+            },
+            "card_image": {
+                "search_input": "Kartenbild suchen",
+                "showing": "Zeige {visible} Ergebnisse von {total} gesamt. Scrollen für mehr.",
+                "search_tips": "Du kannst Leerzeichen benutzen um deine Anfrage aufzuteilen - {query} findet {result}. Du kannst außerdem {set} nutzen um deine Suche auf bestimmte Sets einzuschränken; {set_example} schränkt auf Karten aus {ecl} ein. Du kannst auch beides kombinieren - {both} findet {both_result}.",
+                "query": "bl kn",
+                "result": "Black Knight",
+                "set": "set:[code]",
+                "set_example": "set:ecl",
+                "ecl": "Lorwyn Eclipsed",
+                "both": "bl kn set:lea",
+                "both_result": "Black Knight aus Limited Edition Alpha",
+                "change_selection": "Auswahl ändern"
             }
         },
         "elements": {
             "password_show": "Zeigen",
             "password_hide": "Verbergen",
-            "radio-group": "Verfügbare Optionen",
+            "radio_group": "Verfügbare Optionen",
             "clear_select": "Auswahl löschen",
             "select_placeholder": "Bitte wählen"
         }

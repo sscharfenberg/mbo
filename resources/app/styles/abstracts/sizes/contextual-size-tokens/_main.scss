@@ -49,5 +49,13 @@ $main: (
         "radius": map.get(s.$radius, "featured"),
         "link-padding": 0.5ex 1ch,
         "link-radius": map.get(s.$radius, "base")
+    ),
+    "art-crop": (
+        "min-width": math.round(s.$base * 12),
+        "panel-padding": 1ex 1ch,
+        "set": map.get(s.$icons, "small"),
+        "radius": map.get(s.$radius, "featured"),
+        "border-active": math.round(map.get(s.$border, "featured") * 1.5),
+        "card-image-max": map.get(s.$breakpoints, "portrait")
     )
 ) !default;

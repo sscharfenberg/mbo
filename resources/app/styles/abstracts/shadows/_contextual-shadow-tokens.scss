@@ -17,7 +17,8 @@ $header: (
     "title-first-letter": map.get(shg.$outline, "2dp")
 ) !default;
 $main: (
-    "stats_num": map.get(shg.$text, "0dp")
+    "stats_num": map.get(shg.$text, "0dp"),
+    "card-image-active": shg.$inset
 ) !default;
 $footer: () !default;
 

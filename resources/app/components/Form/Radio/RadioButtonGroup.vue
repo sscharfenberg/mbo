@@ -25,7 +25,7 @@ const classList = computed(() => {
 </script>
 
 <template>
-    <ul role="list" :class="classList" :aria-label="$t('form.elements.radio-group')">
+    <ul role="list" :class="classList" :aria-label="$t('form.elements.radio_group')">
         <li v-for="button in radioButtons" :key="button.value" class="radio-group__item">
             <radio-button
                 :value="button.value"

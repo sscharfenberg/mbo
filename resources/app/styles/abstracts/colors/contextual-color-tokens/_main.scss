@@ -79,5 +79,10 @@ $main: (
                 map.get(c.$brand, "dark1", "contrast")
             ),
         "link-surface-active": light-dark(map.get(c.$brand, "light2", "contrast"), map.get(c.$brand, "dark1", "color"))
+    ),
+    "art-crop": (
+        "panel-background": hsl(from light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "infra")) h s l / 50%),
+        "panel-surface": light-dark(#fff, #000),
+        "border-active": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color"))
     )
 ) !default;

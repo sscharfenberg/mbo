@@ -219,12 +219,25 @@
                 "type": "Type",
                 "image": "Image",
                 "other_type": "Custom Type"
+            },
+            "card_image": {
+                "search_input": "Search for card image",
+                "showing": "Showing {visible} results of {total} total images. scroll down to see more.",
+                "search_tips": "You can use spaces to separate your search query - {query} finds {result}. You can also use {set} to restrict your search to a specific set; {set_example} finds only cards from {ecl}. You can even combine both - {both} finds {both_result}.",
+                "query": "bl kn",
+                "result": "Black Knight",
+                "set": "set:[code]",
+                "set_example": "set:ecl",
+                "ecl": "Lorwyn Eclipsed",
+                "both": "bl kn set:lea",
+                "both_result": "Black Knight from Limited Edition Alpha",
+                "change_selection": "Change selection"
             }
         },
         "elements": {
             "password_show": "Show",
             "password_hide": "Hide",
-            "radio-group": "Available options",
+            "radio_group": "Available options",
             "clear_select": "Clear selection",
             "select_placeholder": "Please select"
         }
