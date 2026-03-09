@@ -132,7 +132,7 @@
                 "disable": "2FA Deaktivieren",
                 "setup": {
                     "title": "Zwei-Faktor Authentifizierung Einrichten",
-                    "explanation": "Um die Einrichtung der 2FA abzuschließen, scannen Sie den QR Code in Ihrer Authentifizierungs-App, oder geben Sie den Setup Code manuell ein.",
+                    "explanation": "Um die Einrichtung der 2FA abzuschließen, scanne den QR Code in deiner Authentifizierungs-App, oder gib den Setup Code manuell ein.",
                     "qrcode_label": "QR Code",
                     "setupkey_label": "Manueller Setup Code",
                     "copy": "Kopieren",
@@ -141,7 +141,7 @@
                 },
                 "verification": {
                     "title": "2FA Bestätigen",
-                    "explanation": "Geben Sie das Einmalkennwort aus Ihrer App ein und klicken Sie auf 'Bestätigen'",
+                    "explanation": "Gib das Einmalkennwort aus deiner App ein und klicke auf 'Bestätigen'",
                     "submit": "Bestätigen",
                     "back": "Zurück"
                 },
