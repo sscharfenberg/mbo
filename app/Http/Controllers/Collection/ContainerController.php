@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Collection;
 use App\Enums\BinderType;
 use App\Http\Controllers\Controller;
 use App\Models\Container;
+use App\Models\DefaultCard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -24,9 +25,21 @@ class ContainerController extends Controller
      */
     public function show(Request $request): Response
     {
+        $containers = $request->user()->containers()
+            ->with('defaultCard')
+            ->orderBy('name')
+            ->get();
+
         return Inertia::render('Collection/Container/ListContainers', [
             'containerTypes' => array_column(BinderType::cases(), 'value'),
-            'containers' => $request->user()->containers()->orderBy('name')->get(),
+            'containers' => $containers->map(fn ($c) => [
+                'id'          => $c->id,
+                'name'        => $c->name,
+                'description' => $c->description,
+                'type'        => $c->type,
+                'custom_type' => $c->custom_type,
+                'artUrl'      => $c->defaultCard?->art_crops?->first(),
+            ]),
         ]);
     }
 
@@ -67,15 +80,17 @@ class ContainerController extends Controller
                 'container_description' => ['max:'.Container::DESCRIPTION_MAX],
                 'container_type' => ['required', 'string', Rule::enum(BinderType::class)],
                 'container_type_other' => ['required_if:container_type,other', 'string', 'max:'.Container::CUSTOM_TYPE_MAX],
+                'container_image' => ['nullable', Rule::exists(DefaultCard::class, 'id')],
             ]);
         });
 
         $container = Container::create([
-            'user_id'     => $request->user()->id,
-            'name'        => $request->container_name,
-            'description' => $request->container_description,
-            'type'        => $request->container_type,
-            'custom_type' => $request->container_type === 'other' ? $request->container_type_other : null,
+            'user_id'         => $request->user()->id,
+            'name'            => $request->container_name,
+            'description'     => $request->container_description,
+            'type'            => $request->container_type,
+            'custom_type'     => $request->container_type === 'other' ? $request->container_type_other : null,
+            'default_card_id' => $request->container_image ?: null,
         ]);
 
         $request->session()->flash('message', __('auth.container_created', ['name' => $container->name]));

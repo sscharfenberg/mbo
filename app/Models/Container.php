@@ -60,6 +60,7 @@ class Container extends Model
         'description',
         'type',
         'custom_type',
+        'default_card_id',
     ];
 
     /**
@@ -79,5 +80,15 @@ class Container extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the default card used as the container's cover image.
+     *
+     * @return BelongsTo<DefaultCard, Container>
+     */
+    public function defaultCard(): BelongsTo
+    {
+        return $this->belongsTo(DefaultCard::class, 'default_card_id');
     }
 }

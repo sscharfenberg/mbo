@@ -25,9 +25,7 @@ defineEmits<{
 @use "Abstracts/z-indexes" as z;
 
 .current-selection {
-    display: flex;
     flex-grow: 1;
-    flex-direction: column;
 
     padding: 0.75ex 1.5ch 1.25ex;
     border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
