@@ -13,7 +13,7 @@
 
 // base styling for all .btn variants
 [class|="btn"] {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
@@ -41,8 +41,8 @@
 
     font-family: map.get(t.$app, "button");
     font-size: 1rem;
-
     line-height: map.get(s.$button, "min-height");
+    text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.1ch;
 

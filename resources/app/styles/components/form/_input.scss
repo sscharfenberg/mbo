@@ -14,6 +14,7 @@
     border-radius: map.get(s.$form, "input", "radius");
 
     line-height: map.get(s.$form, "input", "line-height");
+    caret-shape: block;
 
     transition:
         background-color map.get(ti.$timings, "fast"),

@@ -57,5 +57,11 @@ $main: (
         "radius": map.get(s.$radius, "featured"),
         "border-active": math.round(map.get(s.$border, "featured") * 1.5),
         "card-image-max": map.get(s.$breakpoints, "portrait")
+    ),
+    "containers": (
+        "padding": 1ex 1ch,
+        "radius": map.get(s.$radius, "featured"),
+        "border": map.get(s.$border, "base"),
+        "types-radius": map.get(s.$radius, "featured")
     )
 ) !default;

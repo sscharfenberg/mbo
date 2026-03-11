@@ -189,6 +189,13 @@
             "title": "Deine Sammlung",
             "link": "Sammlung"
         },
+        "containers": {
+            "title": "Meine Container",
+            "link": "Meine Container",
+            "explanation": "Container sind das Rückgrat deiner Sammlung – organisiere deine Karten digital, genau wie du es mit den echten Pappkarten tust.",
+            "showing": "Zeige {amount} Container von {max} erlaubten Containern.",
+            "search": "Suchen"
+        },
         "new_container": {
             "title": "Neuen Container erstellen",
             "link": "Neuen Container erstellen",

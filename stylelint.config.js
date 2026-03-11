@@ -312,6 +312,7 @@ export default {
                     "word-wrap",
                     "white-space",
                     "caret-color",
+                    "caret-shape",
                     "tab-size",
                     "text-overflow",
                     "vertical-align",

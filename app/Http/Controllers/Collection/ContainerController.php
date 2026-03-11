@@ -27,11 +27,14 @@ class ContainerController extends Controller
     {
         $containers = $request->user()->containers()
             ->with('defaultCard')
-            ->orderBy('name')
+            ->orderBy('sort_order')
             ->get();
 
-        return Inertia::render('Collection/Container/ListContainers', [
-            'containerTypes' => array_column(BinderType::cases(), 'value'),
+        return Inertia::render('Collection/Container/ListContainers/ListContainersPage', [
+            'containerTypes'        => array_column(BinderType::cases(), 'value'),
+            'containersMax'          => Container::MAX_CONTAINERS,
+            'containersAmount'      => $containers->count(),
+            'canCreateNewContainer' => $containers->count() < Container::MAX_CONTAINERS,
             'containers' => $containers->map(fn ($c) => [
                 'id'          => $c->id,
                 'name'        => $c->name,
@@ -39,6 +42,7 @@ class ContainerController extends Controller
                 'type'        => $c->type,
                 'custom_type' => $c->custom_type,
                 'artUrl'      => $c->defaultCard?->art_crops?->first(),
+                'sort'        => $c->sort_order,
             ]),
         ]);
     }
@@ -84,6 +88,12 @@ class ContainerController extends Controller
             ]);
         });
 
+        if ($request->user()->containers()->count() >= Container::MAX_CONTAINERS) {
+            abort(422);
+        }
+
+        $nextSort = ($request->user()->containers()->max('sort_order') ?? 0) + 1;
+
         $container = Container::create([
             'user_id'         => $request->user()->id,
             'name'            => $request->container_name,
@@ -91,6 +101,7 @@ class ContainerController extends Controller
             'type'            => $request->container_type,
             'custom_type'     => $request->container_type === 'other' ? $request->container_type_other : null,
             'default_card_id' => $request->container_image ?: null,
+            'sort_order'      => $nextSort,
         ]);
 
         $request->session()->flash('message', __('auth.container_created', ['name' => $container->name]));

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('type', 64)
                 ->default(BinderType::Binder->value);
             $table->string('custom_type', Container::CUSTOM_TYPE_MAX)->nullable();
+            $table->unsignedSmallInteger('sort_order');
             $table->foreignUuid('user_id')
                 ->constrained()
                 ->cascadeOnDelete();

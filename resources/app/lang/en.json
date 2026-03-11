@@ -189,6 +189,13 @@
             "title": "Your Collection",
             "link": "Collection"
         },
+        "containers": {
+            "title": "My Containers",
+            "link": "My Containers",
+            "explanation": "Containers are the backbone of your collection - digitally organize your cards like you do with the paper cards in real life.",
+            "showing": "Showing {amount} containers of {max} possible containers.",
+            "search": "Search"
+        },
         "new_container": {
             "title": "Create new container",
             "link": "Create new container",

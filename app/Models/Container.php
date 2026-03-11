@@ -14,6 +14,7 @@ class Container extends Model
     const NAME_MAX        = 128;
     const DESCRIPTION_MAX = 255;
     const CUSTOM_TYPE_MAX = 64;
+    const MAX_CONTAINERS  = 100;
 
     /**
      * The data type of the primary key ID.
@@ -61,6 +62,7 @@ class Container extends Model
         'type',
         'custom_type',
         'default_card_id',
+        'sort_order',
     ];
 
     /**
