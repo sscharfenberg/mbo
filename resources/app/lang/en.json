@@ -195,7 +195,9 @@
             "explanation": "Containers are the backbone of your collection - digitally organize your cards like you do with the paper cards in real life.",
             "showing": "Showing {amount} containers of {max} possible containers.",
             "search": "Search",
-            "filter_by_type": "Filter by type"
+            "filter_by_type": "Filter by type",
+            "sort_saving": "Saving order…",
+            "sort_error": "The sort order could not be saved. Please try again."
         },
         "new_container": {
             "title": "Create new container",

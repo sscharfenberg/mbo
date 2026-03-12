@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Head, Link } from "@inertiajs/vue3";
-import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import ContainersResultList, { type Container } from "@/pages/Collection/Containers/ContainersResultList.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
-
-const { t } = useI18n();
+import { useContainerFilter } from "Composables/useContainerFilter";
+import { useContainerSort } from "Composables/useContainerSort";
 
 const props = defineProps<{
     containers: Container[];
@@ -17,59 +17,12 @@ const props = defineProps<{
     canCreateNewContainer: boolean;
 }>();
 
-/** Currently selected type filter keys. Empty set means no filter active. */
-const activeTypes = ref<Set<string>>(new Set());
-
-/** Current name search string (raw, lowercasing happens in filteredContainers). */
-const search = ref("");
-
-/**
- * Returns the display/filter key for a container.
- * For "other" containers, returns the custom_type value instead of "other"
- * so custom types can be filtered and labeled individually.
- */
-function effectiveType(c: Container): string {
-    return c.type === "other" && c.custom_type ? c.custom_type : c.type;
-}
-
-/**
- * Returns the translated label for a standard binder type,
- * or the raw string for user-defined custom types.
- */
-function typeLabel(type: string): string {
-    return props.containerTypes.includes(type) ? t(`enums.binder_type.${type}`) : type;
-}
-
-/** Unique effective types present in the current container list, used to build the type filter. */
-const usedTypes = computed(() => [...new Set(props.containers.map(effectiveType))]);
-
-/**
- * Containers after applying both the active type filter and the name search.
- * Type filter: passes all when empty, otherwise requires effectiveType match.
- * Name filter: case-insensitive substring match on container name.
- */
-const filteredContainers = computed(() => {
-    const needle = search.value.toLowerCase();
-    return props.containers.filter(
-        c =>
-            (activeTypes.value.size === 0 || activeTypes.value.has(effectiveType(c))) &&
-            (!needle || c.name.toLowerCase().includes(needle))
-    );
-});
-
-/**
- * Toggles a type in the active filter set.
- * Selecting an already-active type deselects it.
- */
-function toggleType(type: string) {
-    const next = new Set(activeTypes.value);
-    if (next.has(type)) {
-        next.delete(type);
-    } else {
-        next.add(type);
-    }
-    activeTypes.value = next;
-}
+const { t } = useI18n();
+const { localContainers, isSaving, handleReorder } = useContainerSort(props.containers);
+const { activeTypes, search, usedTypes, filteredContainers, toggleType, typeLabel } = useContainerFilter(
+    localContainers,
+    props.containerTypes
+);
 </script>
 
 <template>
@@ -84,6 +37,10 @@ function toggleType(type: string) {
     <ul class="meta">
         <li class="meta__showing">
             {{ t("pages.containers.showing", { amount: containersAmount, max: containersMax }) }}
+        </li>
+        <li v-if="isSaving" class="meta__saving" aria-live="polite">
+            <loading-spinner :size="1.5" />
+            {{ $t("pages.containers.sort_saving") }}
         </li>
         <li class="meta__search">
             <label for="container-search" class="sr-only">{{ $t("pages.containers.search") }}</label>
@@ -118,7 +75,7 @@ function toggleType(type: string) {
             </Link>
         </li>
     </ul>
-    <ContainersResultList :containers="filteredContainers" />
+    <ContainersResultList :containers="filteredContainers" @reorder="handleReorder" />
 </template>
 
 <style lang="scss" scoped>
@@ -137,6 +94,16 @@ function toggleType(type: string) {
     gap: 1ch;
 
     list-style: none;
+
+    &__saving {
+        display: flex;
+        align-items: center;
+        opacity: 0.7;
+
+        gap: 1ch;
+
+        font-size: 0.875em;
+    }
 }
 
 .type-filter {

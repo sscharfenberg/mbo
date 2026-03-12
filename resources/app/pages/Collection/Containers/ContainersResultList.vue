@@ -1,21 +1,48 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
+import { VueDraggable } from "vue-draggable-plus";
 import Icon from "Components/UI/Icon.vue";
-
+/** Shape of a single container row, exported so ContainersPage can share the type. */
 export interface Container {
     id: string;
     name: string;
     description: string | null;
+    /** Enum value from BinderType (e.g. "binder", "deckbox", "other"). */
     type: string;
+    /** Free-text label used when type === "other". */
     custom_type: string | null;
+    /** URL of the default card's art crop, or null if no default card is set. */
     artUrl: string | null;
+    /** Persisted sort_order from the database. */
     sort: number;
 }
-defineProps<{ containers: Container[] }>();
+const props = defineProps<{ containers: Container[] }>();
+/** Emitted after a successful drag-drop; carries the visible rows in their new order. */
+const emit = defineEmits<{ reorder: [containers: Container[]] }>();
+/**
+ * Local writable copy of the containers prop, used as VueDraggable's v-model.
+ * A watch keeps it in sync whenever the parent passes a fresh array (e.g. after
+ * an Inertia page reload), without breaking any in-progress drag.
+ */
+const list = ref([...props.containers]);
+watch(
+    () => props.containers,
+    val => {
+        list.value = [...val];
+    }
+);
 </script>
 
 <template>
-    <ul class="clist">
-        <li v-for="container in containers" :key="container.id" class="clist__item">
+    <VueDraggable
+        v-model="list"
+        tag="ul"
+        class="clist"
+        handle=".clist__drag-handle"
+        ghost-class="clist__item--ghost"
+        @end="emit('reorder', list)"
+    >
+        <li v-for="container in list" :key="container.id" class="clist__item">
             <span class="clist__drag-handle"><icon name="drag" /></span>
             <span class="clist__data">
                 <img
@@ -36,7 +63,7 @@ defineProps<{ containers: Container[] }>();
                 <span class="clist__price">125,56€</span>
             </span>
         </li>
-    </ul>
+    </VueDraggable>
 </template>
 
 <style scoped lang="scss">
@@ -72,6 +99,10 @@ defineProps<{ containers: Container[] }>();
             background: map.get(c.$main, "containers", "background", "even");
         }
 
+        &--ghost {
+            opacity: 0.3;
+        }
+
         @include m.mq("portrait") {
             gap: 1rem;
         }
@@ -90,6 +121,12 @@ defineProps<{ containers: Container[] }>();
         border-bottom-left-radius: calc(
             map.get(s.$main, "containers", "radius") - map.get(s.$main, "containers", "border")
         );
+
+        cursor: grab;
+
+        &:active {
+            cursor: grabbing;
+        }
     }
 
     &__data {

@@ -195,7 +195,9 @@
             "explanation": "Container sind das Rückgrat deiner Sammlung – organisiere deine Karten digital, genau wie du es mit den echten Pappkarten tust.",
             "showing": "Zeige {amount} Container von {max} erlaubten Containern.",
             "search": "Suchen",
-            "filter_by_type": "Nach Typ filtern"
+            "filter_by_type": "Nach Typ filtern",
+            "sort_saving": "Reihenfolge wird gespeichert…",
+            "sort_error": "Die Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut."
         },
         "new_container": {
             "title": "Neuen Container erstellen",

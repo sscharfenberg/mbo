@@ -6,6 +6,7 @@ use App\Enums\BinderType;
 use App\Http\Controllers\Controller;
 use App\Models\Container;
 use App\Models\DefaultCard;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -108,5 +109,34 @@ class ContainerController extends Controller
         $request->session()->flash('type', 'success');
 
         return redirect(route('containers'));
+    }
+
+    /**
+     * Persist a new sort order for the user's containers.
+     *
+     * Expects `order`: an array of container UUIDs in the desired order.
+     * Only IDs that belong to the authenticated user are accepted —
+     * any unknown or foreign IDs are silently ignored.
+     *
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function reorder(Request $request): JsonResponse
+    {
+        $request->validate([
+            'order'   => ['required', 'array'],
+            'order.*' => ['uuid'],
+        ]);
+
+        $userContainerIds = $request->user()->containers()->pluck('id')->flip();
+
+        foreach ($request->order as $index => $id) {
+            if (!$userContainerIds->has($id)) {
+                continue;
+            }
+            Container::where('id', $id)->update(['sort_order' => $index + 1]);
+        }
+
+        return response()->json(['ok' => true]);
     }
 }
