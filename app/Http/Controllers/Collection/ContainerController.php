@@ -30,7 +30,7 @@ class ContainerController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return Inertia::render('Collection/Container/ListContainers/ListContainersPage', [
+        return Inertia::render('Collection/Containers/ContainersPage', [
             'containerTypes'        => array_column(BinderType::cases(), 'value'),
             'containersMax'          => Container::MAX_CONTAINERS,
             'containersAmount'      => $containers->count(),
@@ -58,7 +58,7 @@ class ContainerController extends Controller
      */
     public function create(Request $request): Response
     {
-        return Inertia::render('Collection/Container/NewContainer', [
+        return Inertia::render('Collection/Container/NewContainerPage', [
             'containerTypes' => array_column(BinderType::cases(), 'value'),
             'nameMax'        => Container::NAME_MAX,
             'descriptionMax' => Container::DESCRIPTION_MAX,

@@ -1,0 +1,18 @@
+/******************************************************************************
+ * Visually hidden helper — hides element from view while keeping it
+ * accessible to screen readers and other assistive technology.
+ * @type {Sass}
+ * @layer components
+ *****************************************************************************/
+.sr-only {
+    position: absolute;
+
+    overflow: hidden;
+
+    width: 1px;
+    height: 1px;
+
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+}

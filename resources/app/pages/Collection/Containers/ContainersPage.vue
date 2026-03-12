@@ -2,7 +2,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import List, { type Container } from "@/pages/Collection/Container/ListContainers/List.vue";
+import ContainersResultList, { type Container } from "@/pages/Collection/Containers/ContainersResultList.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
@@ -86,23 +86,28 @@ function toggleType(type: string) {
             {{ t("pages.containers.showing", { amount: containersAmount, max: containersMax }) }}
         </li>
         <li class="meta__search">
+            <label for="container-search" class="sr-only">{{ $t("pages.containers.search") }}</label>
             <input
+                id="container-search"
                 type="text"
                 :placeholder="$t('pages.containers.search')"
                 class="form-input"
-                @keyup="search = ($event.target as HTMLInputElement).value"
+                @input="search = ($event.target as HTMLInputElement).value"
             />
         </li>
         <li class="meta__types">
-            <ul class="type-filter">
-                <li
-                    v-for="type in usedTypes"
-                    :key="type"
-                    class="type-filter__item"
-                    :class="{ 'type-filter__item--active': activeTypes.has(type) }"
-                    @click="toggleType(type)"
-                >
-                    {{ typeLabel(type) }}
+            <ul class="type-filter" role="group" :aria-label="$t('pages.containers.filter_by_type')">
+                <li v-for="type in usedTypes" :key="type" class="type-filter__item">
+                    <input
+                        :id="`type-filter-${type}`"
+                        type="checkbox"
+                        class="type-filter__checkbox sr-only"
+                        :checked="activeTypes.has(type)"
+                        @change="toggleType(type)"
+                    />
+                    <label :for="`type-filter-${type}`" class="type-filter__label">
+                        {{ typeLabel(type) }}
+                    </label>
                 </li>
             </ul>
         </li>
@@ -113,7 +118,7 @@ function toggleType(type: string) {
             </Link>
         </li>
     </ul>
-    <List :containers="filteredContainers" />
+    <ContainersResultList :containers="filteredContainers" />
 </template>
 
 <style lang="scss" scoped>
@@ -146,18 +151,20 @@ function toggleType(type: string) {
     list-style: none;
     border-radius: map.get(s.$main, "containers", "types-radius");
 
-    &__item {
+    &__label {
+        display: block;
+
         padding: 0.5ex 1ch;
 
         background-color: map.get(c.$main, "containers", "type-background");
         border-radius: map.get(s.$main, "containers", "types-radius");
 
         cursor: pointer;
+    }
 
-        &--active {
-            background-color: map.get(c.$main, "containers", "type-background-active");
-            color: map.get(c.$main, "containers", "type-surface-active");
-        }
+    &__item:has(&__checkbox:checked) &__label {
+        background-color: map.get(c.$main, "containers", "type-background-active");
+        color: map.get(c.$main, "containers", "type-surface-active");
     }
 }
 </style>

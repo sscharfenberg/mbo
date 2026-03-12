@@ -20,6 +20,6 @@ class CollectionController extends Controller
      */
     public function list(Request $request): Response
     {
-        return Inertia::render('Collection/Collection', []);
+        return Inertia::render('Collection/CollectionPage', []);
     }
 }

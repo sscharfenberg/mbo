@@ -27,7 +27,10 @@ defineProps<{ containers: Container[] }>();
                 <span v-else class="clist__image" />
                 <span class="clist__name">{{ container.name }}</span>
                 <span class="clist__type"
-                    ><icon name="container-type" /> {{ container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type) }}</span
+                    ><icon name="container-type" />
+                    {{
+                        container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
+                    }}</span
                 >
                 <span class="clist__count">0</span>
                 <span class="clist__price">125,56€</span>

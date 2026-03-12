@@ -194,7 +194,8 @@
             "link": "My Containers",
             "explanation": "Containers are the backbone of your collection - digitally organize your cards like you do with the paper cards in real life.",
             "showing": "Showing {amount} containers of {max} possible containers.",
-            "search": "Search"
+            "search": "Search",
+            "filter_by_type": "Filter by type"
         },
         "new_container": {
             "title": "Create new container",
