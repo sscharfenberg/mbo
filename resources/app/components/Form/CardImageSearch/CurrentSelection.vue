@@ -25,12 +25,14 @@ defineEmits<{
 @use "Abstracts/z-indexes" as z;
 
 .current-selection {
+    display: flex;
     flex-grow: 1;
+    flex-direction: column;
 
     padding: 0.75ex 1.5ch 1.25ex;
     border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
     border-left-width: 0;
-    gap: 1ch;
+    gap: 1lh;
 
     background-color: map.get(c.$form, "input", "background");
     color: map.get(c.$form, "input", "surface");
@@ -42,7 +44,7 @@ defineEmits<{
     }
 
     .btn-default {
-        margin-top: 2ex;
+        align-self: flex-start;
     }
 }
 </style>

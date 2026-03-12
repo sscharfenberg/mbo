@@ -1,32 +1,30 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { useStickyNav } from "Composables/useStickyNav";
-
 export type StickyNavItem = {
     id: string;
     label: string;
 };
-
+const { t } = useI18n();
 const props = defineProps<{
     items: StickyNavItem[];
+    label?: string;
 }>();
-
+const navLabel = computed(() => props.label ?? t("sticky_nav.region"));
 const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i.id));
 </script>
 
 <template>
     <div ref="sentinel" aria-hidden="true" class="sticky-nav__sentinel" />
-    <nav class="sticky-nav" :class="{ 'sticky-nav--sticky': isStuck }">
-        <a
-            v-for="item in items"
-            :key="item.id"
-            :href="`#${item.id}`"
-            :class="{ active: activeSection === item.id }"
-            >{{ item.label }}</a
-        >
+    <nav class="sticky-nav" :class="{ 'sticky-nav--sticky': isStuck }" :aria-label="navLabel">
+        <a v-for="item in items" :key="item.id" :href="`#${item.id}`" :class="{ active: activeSection === item.id }">{{
+            item.label
+        }}</a>
     </nav>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use "sass:map";
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;

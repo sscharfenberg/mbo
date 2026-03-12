@@ -256,5 +256,8 @@
     },
     "modal": {
         "close": "Schließen"
+    },
+    "sticky_nav": {
+        "region": "Navigation innerhalb dieser Seite"
     }
 }

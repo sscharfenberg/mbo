@@ -16,6 +16,8 @@ const selectedCard = ref<CardResult | null>(null);
 const searchQuery = ref("");
 /** Card results returned by the search endpoint. */
 const results = ref<CardResult[]>([]);
+/** True while a search XHR is in flight. */
+const processing = ref(false);
 /** Timer handle for debouncing search input. */
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 /**
@@ -47,11 +49,13 @@ async function searchCards(query: string) {
         results.value = [];
         return;
     }
+    processing.value = true;
     const response = await fetch(`/api/card-image/search?q=${encodeURIComponent(query)}`);
     if (response.ok) {
         const data = await response.json();
         if (data) results.value = data;
     }
+    processing.value = false;
 }
 /** Debounce search input changes by 300 ms before calling the API. */
 watch(searchQuery, query => {
@@ -61,7 +65,7 @@ watch(searchQuery, query => {
 </script>
 
 <template>
-    <form-group :label="$t('form.fields.container.image')" addon-icon="container-image">
+    <form-group :label="$t('form.fields.container.image')" addon-icon="container-image" :validating="processing">
         <current-selection v-if="selectedCard" :card="selectedCard" @clear="onClearSelection" />
         <template v-else>
             <input

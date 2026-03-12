@@ -75,25 +75,6 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
             <input type="hidden" name="container_type" :value="selectedType" />
         </form-group>
         <form-group
-            for-id="container_description"
-            :label="$t('form.fields.container.description')"
-            :error="errors.container_description ?? ''"
-            :invalid="!!errors?.container_description"
-            :validated="valid('container_description')"
-            :validating="validating"
-            :required="false"
-        >
-            <div class="form-input__textarea-addon"><icon name="text" /></div>
-            <div class="form-input form-input__textarea">
-                <textarea
-                    name="container_description"
-                    id="container_description"
-                    :maxlength="props.descriptionMax"
-                    @change="validate('container_description')"
-                />
-            </div>
-        </form-group>
-        <form-group
             v-if="selectedType === 'other'"
             for-id="container_type_other"
             :label="$t('form.fields.container.other_type')"
@@ -112,6 +93,25 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 :maxlength="props.customTypeMax"
                 @change="validate('container_type_other')"
             />
+        </form-group>
+        <form-group
+            for-id="container_description"
+            :label="$t('form.fields.container.description')"
+            :error="errors.container_description ?? ''"
+            :invalid="!!errors?.container_description"
+            :validated="valid('container_description')"
+            :validating="validating"
+            :required="false"
+        >
+            <div class="form-input__textarea-addon"><icon name="text" /></div>
+            <div class="form-input form-input__textarea">
+                <textarea
+                    name="container_description"
+                    id="container_description"
+                    :maxlength="props.descriptionMax"
+                    @change="validate('container_description')"
+                />
+            </div>
         </form-group>
         <card-image-search ref-id="container_image" />
         <form-group>

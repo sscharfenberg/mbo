@@ -62,6 +62,8 @@ $main: (
         "padding": 1ex 1ch,
         "radius": map.get(s.$radius, "featured"),
         "border": map.get(s.$border, "base"),
-        "types-radius": map.get(s.$radius, "featured")
+        "types-radius": map.get(s.$radius, "featured"),
+        "types-padding": 0.5lh 1ch,
+        "types-border": map.get(s.$border, "base")
     )
 ) !default;

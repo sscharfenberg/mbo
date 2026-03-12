@@ -143,7 +143,8 @@ function toggleType(type: string) {
     display: flex;
     flex-wrap: wrap;
 
-    padding: 0.75ex 1ch;
+    padding: map.get(s.$main, "containers", "types-padding");
+    border: map.get(s.$main, "containers", "types-border") solid map.get(c.$main, "containers", "types-border");
     margin: 0;
     gap: 1ch;
 
