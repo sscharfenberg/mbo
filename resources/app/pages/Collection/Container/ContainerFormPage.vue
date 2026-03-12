@@ -3,21 +3,64 @@ import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import CardImageSearch from "Components/Form/CardImageSearch/CardImageSearch.vue";
+import type { CardResult } from "Components/Form/CardImageSearch/types";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+/**
+ * Existing container data passed by the controller in edit mode.
+ * Mirrors the shape serialized in ContainerController::edit().
+ */
+interface EditableContainer {
+    id: string;
+    name: string;
+    description: string | null;
+    /** Enum value from BinderType (e.g. "binder", "deckbox", "other"). */
+    type: string;
+    /** Free-text label used when type === "other". */
+    custom_type: string | null;
+    /** Pre-selected card for the cover image, or null if none is set. */
+    defaultCard: CardResult | null;
+}
 const props = defineProps<{
     containerTypes: string[];
     nameMax: number;
     descriptionMax: number;
     customTypeMax: number;
+    /** Present in edit mode; absent when creating a new container. */
+    container?: EditableContainer;
 }>();
 const { t } = useI18n();
+/**
+ * Local refs for text inputs — initialized from the container prop in edit mode,
+ * empty strings when creating. Using local refs (rather than `:value="prop"`)
+ * prevents Inertia's precognitive re-renders from resetting in-progress edits.
+ */
+const nameValue = ref(props.container?.name ?? "");
+const descriptionValue = ref(props.container?.description ?? "");
+const customTypeValue = ref(props.container?.custom_type ?? "");
+/** True when a container prop is present, i.e. the form is in edit mode. */
+const isEdit = computed(() => !!props.container);
+/** Form action URL — points to the edit endpoint in edit mode, create endpoint otherwise. */
+const formAction = computed(() =>
+    isEdit.value ? `/collection/containers/${props.container!.id}` : "/collection/containers/new"
+);
+/** HTTP method — PATCH for edit, POST for create. */
+const formMethod = computed(() => (isEdit.value ? "patch" : "post"));
+/** BinderType options formatted for MonoSelect: `{ value, label }` pairs with translated labels. */
 const types = computed(() => props.containerTypes.map(value => ({ value, label: t(`enums.binder_type.${value}`) })));
-const selectedType = ref("");
+/** Currently selected binder type. Initialized from the container prop in edit mode. */
+const selectedType = ref(props.container?.type ?? "");
+/**
+ * Called when the type select changes. Updates selectedType and re-triggers
+ * precognitive validation for the container_type field.
+ *
+ * @param value - The newly selected type value.
+ * @param validate - The precognitive validate callback from the Form slot.
+ */
 const onTypeChange = (value: string, validate: (field: string) => void) => {
     selectedType.value = value;
     nextTick(() => validate("container_type"));
@@ -26,15 +69,15 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
 
 <template>
     <Head
-        ><title>{{ $t("pages.new_container.title") }}</title></Head
+        ><title>{{ isEdit ? $t("pages.edit_container.title") : $t("pages.new_container.title") }}</title></Head
     >
     <headline>
-        <icon name="add" :size="3" />
-        {{ $t("pages.new_container.title") }}
+        <icon :name="isEdit ? 'container-type' : 'add'" :size="3" />
+        {{ isEdit ? $t("pages.edit_container.title") : $t("pages.new_container.title") }}
     </headline>
     <Form
-        method="post"
-        action="/collection/containers/new"
+        :method="formMethod"
+        :action="formAction"
         class="form"
         #default="{ errors, processing, validating, valid, validate }"
     >
@@ -55,6 +98,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 id="container_name"
                 class="form-input"
                 :maxlength="props.nameMax"
+                v-model="nameValue"
                 @change="validate('container_name')"
             />
         </form-group>
@@ -91,6 +135,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                 id="container_type_other"
                 class="form-input"
                 :maxlength="props.customTypeMax"
+                v-model="customTypeValue"
                 @change="validate('container_type_other')"
             />
         </form-group>
@@ -109,15 +154,16 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
                     name="container_description"
                     id="container_description"
                     :maxlength="props.descriptionMax"
+                    v-model="descriptionValue"
                     @change="validate('container_description')"
                 />
             </div>
         </form-group>
-        <card-image-search ref-id="container_image" />
+        <card-image-search ref-id="container_image" :initial-card="container?.defaultCard ?? null" />
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />
-                {{ $t("pages.new_container.submit") }}
+                {{ isEdit ? $t("pages.edit_container.submit") : $t("pages.new_container.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
         </form-group>

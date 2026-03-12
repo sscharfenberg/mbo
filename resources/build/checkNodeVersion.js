@@ -3,8 +3,8 @@
  * @type {module}
  *****************************************************************************/
 import { createRequire } from "node:module";
-import semver from "semver";
 import chalk from "chalk";
+import semver from "semver";
 
 const require = createRequire(import.meta.url); // https://nodejs.org/dist/latest-v18.x/docs/api/module.html#modulecreaterequirefilename
 const { engines } = require("../../package.json");

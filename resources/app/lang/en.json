@@ -204,6 +204,10 @@
             "link": "Create new container",
             "submit": "Create container"
         },
+        "edit_container": {
+            "title": "Edit container",
+            "submit": "Save changes"
+        },
         "decks": {
             "title": "Your Decks",
             "link": "Decks"

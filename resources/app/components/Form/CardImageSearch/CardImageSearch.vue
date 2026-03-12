@@ -5,13 +5,15 @@ import Results from "Components/Form/CardImageSearch/Results.vue";
 import type { CardResult } from "Components/Form/CardImageSearch/types";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
-defineProps<{
+const props = defineProps<{
     refId: string;
+    /** Pre-selected card for edit mode. When provided, the selection UI shows immediately. */
+    initialCard?: CardResult | null;
 }>();
 /** The selected card id submitted with the form. */
-const refValue = ref("");
+const refValue = ref(props.initialCard?.id ?? "");
 /** The currently selected card result. */
-const selectedCard = ref<CardResult | null>(null);
+const selectedCard = ref<CardResult | null>(props.initialCard ?? null);
 /** The current text in the search input, bound via v-model. */
 const searchQuery = ref("");
 /** Card results returned by the search endpoint. */

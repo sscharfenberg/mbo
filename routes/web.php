@@ -37,6 +37,11 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('container.store');
     Route::patch('collection/containers/sort', [\App\Http\Controllers\Collection\ContainerController::class, 'reorder'])
         ->name('container.reorder');
+    Route::get('collection/containers/{container}/edit', [\App\Http\Controllers\Collection\ContainerController::class, 'edit'])
+        ->name('container.edit');
+    Route::patch('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'update'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('container.update');
 
     // decks
     Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])

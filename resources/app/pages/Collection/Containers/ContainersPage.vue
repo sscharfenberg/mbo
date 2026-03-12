@@ -38,10 +38,6 @@ const { activeTypes, search, usedTypes, filteredContainers, toggleType, typeLabe
         <li class="meta__showing">
             {{ t("pages.containers.showing", { amount: containersAmount, max: containersMax }) }}
         </li>
-        <li v-if="isSaving" class="meta__saving" aria-live="polite">
-            <loading-spinner :size="1.5" />
-            {{ $t("pages.containers.sort_saving") }}
-        </li>
         <li class="meta__search">
             <label for="container-search" class="sr-only">{{ $t("pages.containers.search") }}</label>
             <input
@@ -73,6 +69,10 @@ const { activeTypes, search, usedTypes, filteredContainers, toggleType, typeLabe
                 <icon name="add" />
                 {{ $t("pages.new_container.link") }}
             </Link>
+        </li>
+        <li v-if="isSaving" class="meta__saving" aria-live="polite">
+            <loading-spinner :size="1.5" />
+            {{ $t("pages.containers.sort_saving") }}
         </li>
     </ul>
     <ContainersResultList :containers="filteredContainers" @reorder="handleReorder" />

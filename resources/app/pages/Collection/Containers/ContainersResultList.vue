@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import Icon from "Components/UI/Icon.vue";
@@ -44,7 +45,7 @@ watch(
     >
         <li v-for="container in list" :key="container.id" class="clist__item">
             <span class="clist__drag-handle"><icon name="drag" /></span>
-            <span class="clist__data">
+            <Link class="clist__data" :href="`/collection/containers/${container.id}/edit`">
                 <img
                     v-if="container.artUrl"
                     :src="container.artUrl ?? undefined"
@@ -52,7 +53,10 @@ watch(
                     :alt="container.name"
                 />
                 <span v-else class="clist__image" />
-                <span class="clist__name">{{ container.name }}</span>
+                <span class="clist__name">
+                    {{ container.name }}
+                    <span v-if="container.description" class="clist__description">{{ container.description }}</span>
+                </span>
                 <span class="clist__type"
                     ><icon name="container-type" />
                     {{
@@ -61,7 +65,7 @@ watch(
                 >
                 <span class="clist__count">0</span>
                 <span class="clist__price">125,56€</span>
-            </span>
+            </Link>
         </li>
     </VueDraggable>
 </template>
@@ -71,6 +75,7 @@ watch(
 @use "Abstracts/colors" as c;
 @use "Abstracts/mixins" as m;
 @use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
 
 .clist {
     display: grid;
@@ -78,7 +83,7 @@ watch(
 
     padding: 0;
     margin: 1lh 0 0;
-    gap: 0.5lh 1ch;
+    row-gap: 0.5lh;
 
     list-style: none;
 
@@ -89,14 +94,24 @@ watch(
         grid-column: 1 / -1;
 
         border: map.get(s.$main, "containers", "border") solid map.get(c.$main, "containers", "border");
-        gap: 0.5rem;
+        row-gap: 0.5rem;
 
         background: map.get(c.$main, "containers", "background", "odd");
         color: map.get(c.$main, "containers", "surface");
         border-radius: map.get(s.$main, "containers", "radius");
 
+        transition: background-color map.get(ti.$timings, "fast") linear;
+
+        &:hover {
+            background: map.get(c.$main, "containers", "background-hover", "odd");
+        }
+
         &:nth-of-type(even) {
             background: map.get(c.$main, "containers", "background", "even");
+
+            &:hover {
+                background: map.get(c.$main, "containers", "background-hover", "even");
+            }
         }
 
         &--ghost {
@@ -104,7 +119,7 @@ watch(
         }
 
         @include m.mq("portrait") {
-            gap: 1rem;
+            row-gap: 1rem;
         }
     }
 
@@ -136,14 +151,34 @@ watch(
         grid-column: 2 / -1;
 
         padding-right: 1ch;
+
+        color: inherit;
+
+        column-gap: 1ch;
+        text-decoration: none;
     }
 
     &__name {
         overflow: hidden;
         min-width: 0;
+        padding: 0.5ex 0;
 
         white-space: nowrap;
 
+        text-overflow: ellipsis;
+    }
+
+    &__description {
+        display: block;
+
+        overflow: hidden;
+        min-width: 0;
+        padding: 0 0 0.5ex;
+
+        color: map.get(c.$main, "containers", "surface-description");
+
+        font-size: 0.8rem;
+        white-space: nowrap;
         text-overflow: ellipsis;
     }
 

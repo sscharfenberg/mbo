@@ -5,11 +5,11 @@
  * -w watch files for changes
  * -i inline SVG, defaults to false
  *****************************************************************************/
-import chalk from "chalk";
-import processAgs from "minimist";
 import fs from "node:fs";
 import path from "node:path";
 import { argv, cwd, exit, hrtime } from "node:process";
+import chalk from "chalk";
+import processAgs from "minimist";
 import { optimize } from "svgo";
 import svgStore from "svgstore";
 const args = processAgs(argv.slice(2));
@@ -83,7 +83,7 @@ const getSvgFileNames = () => {
  */
 const writeSpriteToDisk = (data, length, start) => {
     if (!fs.existsSync(OUT_DIR)) {
-        args.v && log.info(`creating output directory ${chalk.yellow(path.basename(OUT_DIR))}`);
+        if (args.v) log.info(`creating output directory ${chalk.yellow(path.basename(OUT_DIR))}`);
         fs.mkdirSync(OUT_DIR);
     }
     log.info(`writing icon sprite with ${chalk.bgRed.white(" " + length + " ")} symbols`);
@@ -151,7 +151,7 @@ export const createIconSprite = () => {
     });
     const time = hrtime.bigint();
     log.info("preparing svg icon sprite sheet.");
-    args.v && log.info(`found ${chalk.bgRed.white(" " + svgFiles.length + " ")} svg icon files`);
+    if (args.v) log.info(`found ${chalk.bgRed.white(" " + svgFiles.length + " ")} svg icon files`);
     // only proceed if we do have icons.
     if (svgFiles.length > 0) {
         svgFiles.forEach(svgFile => {
@@ -163,7 +163,7 @@ export const createIconSprite = () => {
             const optimizedSvg = optimize(fileContents, {
                 multipass: true
             }).data;
-            optimizedSvg && args.v && log.debug(id); // verbose output of icon id
+            if (optimizedSvg && args.v) log.debug(id); // verbose output of icon id
             counter++;
             sprites.add(id, optimizedSvg, { symbolAttrs: { "aria-role": "icon" } }); // add to sprite
             if (counter === svgFiles.length) {
@@ -185,9 +185,9 @@ export const createIconSprite = () => {
 /**
  * main script execution via node resources/build/icons.js
  */
-args.v && log.debug("verbose output selected");
-args.w && log.debug("watch option selected");
-args.i && log.debug("inline option selected");
+if (args.v) log.debug("verbose output selected");
+if (args.w) log.debug("watch option selected");
+if (args.i) log.debug("inline option selected");
 if (args.w) {
     log.info(`watching icon directory for changes ʕ•ᴥ•ʔ`);
     watch();

@@ -202,7 +202,11 @@
         "new_container": {
             "title": "Neuen Container erstellen",
             "link": "Neuen Container erstellen",
-            "submit": "Create container"
+            "submit": "Container erstellen"
+        },
+        "edit_container": {
+            "title": "Container bearbeiten",
+            "submit": "Änderungen speichern"
         },
         "decks": {
             "title": "Deine Decks",

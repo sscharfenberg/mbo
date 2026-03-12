@@ -90,7 +90,12 @@ $main: (
             "odd": light-dark(color.adjust(#fff, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),
             "even": light-dark(color.adjust(#fff, $alpha: -0.2), color.adjust(#000, $alpha: -0.3))
         ),
+        "background-hover": (
+            "odd": light-dark(color.adjust(#fff, $alpha: -0.2), color.adjust(#000, $alpha: -0.2)),
+            "even": light-dark(#fff, #000)
+        ),
         "surface": light-dark(map.get(c.$grey, "bunker"), map.get(c.$grey, "infra")),
+        "surface-description": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "iron")),
         "border": light-dark(
                 color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
                 color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
