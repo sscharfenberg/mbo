@@ -28,7 +28,7 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::get('/collection', [\App\Http\Controllers\Collection\CollectionController::class, 'list'])
         ->name('collection');
     // Containers
-    Route::get('collection/containers', [\App\Http\Controllers\Collection\ContainerController::class, 'show'])
+    Route::get('collection/containers', [\App\Http\Controllers\Collection\ContainerController::class, 'list'])
         ->name('containers');
     Route::get('collection/containers/new', [\App\Http\Controllers\Collection\ContainerController::class, 'create'])
         ->name('container.new');
@@ -39,6 +39,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('container.reorder');
     Route::get('collection/containers/{container}/edit', [\App\Http\Controllers\Collection\ContainerController::class, 'edit'])
         ->name('container.edit');
+    Route::get('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'show'])
+        ->name('container.show');
     Route::patch('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'update'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.update');

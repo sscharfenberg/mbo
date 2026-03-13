@@ -1,37 +1,22 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
+import type { Container } from "Types/container";
 import { computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import CardImageSearch from "Components/Form/CardImageSearch/CardImageSearch.vue";
-import type { CardResult } from "Components/Form/CardImageSearch/types";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-/**
- * Existing container data passed by the controller in edit mode.
- * Mirrors the shape serialized in ContainerController::edit().
- */
-interface EditableContainer {
-    id: string;
-    name: string;
-    description: string | null;
-    /** Enum value from BinderType (e.g. "binder", "deckbox", "other"). */
-    type: string;
-    /** Free-text label used when type === "other". */
-    custom_type: string | null;
-    /** Pre-selected card for the cover image, or null if none is set. */
-    defaultCard: CardResult | null;
-}
 const props = defineProps<{
     containerTypes: string[];
     nameMax: number;
     descriptionMax: number;
     customTypeMax: number;
     /** Present in edit mode; absent when creating a new container. */
-    container?: EditableContainer;
+    container?: Container;
 }>();
 const { t } = useI18n();
 /**

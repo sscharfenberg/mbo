@@ -206,6 +206,7 @@
         },
         "edit_container": {
             "title": "Container bearbeiten",
+            "link": "Bearbeiten",
             "submit": "Änderungen speichern"
         },
         "decks": {

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Head, Link } from "@inertiajs/vue3";
+import type { Container } from "Types/container";
 import { useI18n } from "vue-i18n";
-import ContainersResultList, { type Container } from "@/pages/Collection/Containers/ContainersResultList.vue";
+import ContainersResultList from "@/pages/Collection/Containers/ContainersResultList.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useContainerFilter } from "Composables/useContainerFilter";
 import { useContainerSort } from "Composables/useContainerSort";
-
 const props = defineProps<{
     containers: Container[];
     containerTypes: string[];
@@ -16,7 +16,6 @@ const props = defineProps<{
     containersAmount: number;
     canCreateNewContainer: boolean;
 }>();
-
 const { t } = useI18n();
 const { localContainers, isSaving, handleReorder } = useContainerSort(props.containers);
 const { activeTypes, search, usedTypes, filteredContainers, toggleType, typeLabel } = useContainerFilter(

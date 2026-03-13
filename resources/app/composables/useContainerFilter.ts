@@ -1,8 +1,7 @@
+import type { Container } from "Types/container";
 import { computed, ref } from "vue";
 import type { Ref, ComputedRef } from "vue";
 import { useI18n } from "vue-i18n";
-import type { Container } from "@/pages/Collection/Containers/ContainersResultList.vue";
-
 export type UseContainerFilterReturn = {
     activeTypes: Ref<Set<string>>;
     search: Ref<string>;
@@ -11,7 +10,6 @@ export type UseContainerFilterReturn = {
     toggleType: (type: string) => void;
     typeLabel: (type: string) => string;
 };
-
 /**
  * Manages type-filter and name-search state for the containers list.
  *

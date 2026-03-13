@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
+import type { Container } from "Types/container";
 import { ref, watch } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
+import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
-/** Shape of a single container row, exported so ContainersPage can share the type. */
-export interface Container {
-    id: string;
-    name: string;
-    description: string | null;
-    /** Enum value from BinderType (e.g. "binder", "deckbox", "other"). */
-    type: string;
-    /** Free-text label used when type === "other". */
-    custom_type: string | null;
-    /** URL of the default card's art crop, or null if no default card is set. */
-    artUrl: string | null;
-    /** Persisted sort_order from the database. */
-    sort: number;
-}
 const props = defineProps<{ containers: Container[] }>();
 /** Emitted after a successful drag-drop; carries the visible rows in their new order. */
 const emit = defineEmits<{ reorder: [containers: Container[]] }>();
@@ -45,10 +33,10 @@ watch(
     >
         <li v-for="container in list" :key="container.id" class="clist__item">
             <span class="clist__drag-handle"><icon name="drag" /></span>
-            <Link class="clist__data" :href="`/collection/containers/${container.id}/edit`">
+            <Link class="clist__data" :href="`/collection/containers/${container.id}`">
                 <img
-                    v-if="container.artUrl"
-                    :src="container.artUrl ?? undefined"
+                    v-if="container.defaultCard"
+                    :src="container.defaultCard.art_crop"
                     class="clist__image"
                     :alt="container.name"
                 />
@@ -66,6 +54,7 @@ watch(
                 <span class="clist__count">0</span>
                 <span class="clist__price">125,56€</span>
             </Link>
+            <ContainerMenu :container-id="container.id" />
         </li>
     </VueDraggable>
 </template>
@@ -79,13 +68,17 @@ watch(
 
 .clist {
     display: grid;
-    grid-template-columns: auto 4rem 1fr auto auto auto;
+    grid-template-columns: auto 1fr auto auto auto;
 
     padding: 0;
     margin: 1lh 0 0;
     row-gap: 0.5lh;
 
     list-style: none;
+
+    @include m.mq("landscape") {
+        grid-template-columns: auto 4rem 1fr auto auto auto auto;
+    }
 
     &__item {
         display: grid;
@@ -148,7 +141,7 @@ watch(
         display: grid;
         align-items: center;
         grid-template-columns: subgrid;
-        grid-column: 2 / -1;
+        grid-column: 2 / -2;
 
         padding-right: 1ch;
 
@@ -191,24 +184,29 @@ watch(
         .icon {
             display: none;
 
-            @include m.mq("portrait") {
+            @include m.mq("landscape") {
                 display: block;
             }
         }
     }
 
     &__image {
+        display: none;
         align-self: stretch;
 
         width: 100%;
 
         object-fit: cover;
+
+        @include m.mq("landscape") {
+            display: block;
+        }
     }
 
     &__price {
         display: none;
 
-        @include m.mq("portrait") {
+        @include m.mq("landscape") {
             display: block;
         }
     }

@@ -1,23 +1,23 @@
 <script setup lang="ts">
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 import { ref, watch } from "vue";
 import CurrentSelection from "Components/Form/CardImageSearch/CurrentSelection.vue";
 import Results from "Components/Form/CardImageSearch/Results.vue";
-import type { CardResult } from "Components/Form/CardImageSearch/types";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 const props = defineProps<{
     refId: string;
     /** Pre-selected card for edit mode. When provided, the selection UI shows immediately. */
-    initialCard?: CardResult | null;
+    initialCard?: DefaultCardArtCrop | null;
 }>();
 /** The selected card id submitted with the form. */
 const refValue = ref(props.initialCard?.id ?? "");
 /** The currently selected card result. */
-const selectedCard = ref<CardResult | null>(props.initialCard ?? null);
+const selectedCard = ref<DefaultCardArtCrop | null>(props.initialCard ?? null);
 /** The current text in the search input, bound via v-model. */
 const searchQuery = ref("");
 /** Card results returned by the search endpoint. */
-const results = ref<CardResult[]>([]);
+const results = ref<DefaultCardArtCrop[]>([]);
 /** True while a search XHR is in flight. */
 const processing = ref(false);
 /** Timer handle for debouncing search input. */
@@ -26,7 +26,7 @@ let debounceTimer: ReturnType<typeof setTimeout> | null = null;
  * Called when the user clicks a result. Stores the selection and clears
  * the results list so the search UI is replaced by CurrentSelection.
  */
-function onCardSelected(card: CardResult) {
+function onCardSelected(card: DefaultCardArtCrop) {
     selectedCard.value = card;
     refValue.value = card.id;
     results.value = [];

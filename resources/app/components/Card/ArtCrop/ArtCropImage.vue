@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { CardResult } from "Components/Form/CardImageSearch/types";
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 defineProps<{
-    card: CardResult;
+    card: DefaultCardArtCrop;
     /** When true, shows a zoom effect on hover. Use in clickable contexts (e.g. results grid). */
     interactive?: boolean;
 }>();

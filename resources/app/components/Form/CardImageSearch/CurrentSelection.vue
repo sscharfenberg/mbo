@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import CardImage from "Components/Form/CardImageSearch/CardImage.vue";
-import type { CardResult } from "Components/Form/CardImageSearch/types";
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
+import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
 defineProps<{
-    card: CardResult;
+    card: DefaultCardArtCrop;
 }>();
 defineEmits<{
     clear: [];
@@ -11,7 +11,7 @@ defineEmits<{
 
 <template>
     <div class="current-selection">
-        <card-image :card="card" />
+        <art-crop-image :card="card" />
         <button type="button" class="btn-default" @click="$emit('clear')">
             {{ $t("form.fields.card_image.change_selection") }}
         </button>

@@ -6,6 +6,7 @@ use App\Enums\BinderType;
 use App\Http\Controllers\Controller;
 use App\Models\Container;
 use App\Models\DefaultCard;
+use App\Services\ContainerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,27 +25,19 @@ class ContainerController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function show(Request $request): Response
+    public function list(Request $request): Response
     {
         $containers = $request->user()->containers()
-            ->with('defaultCard')
+            ->with('defaultCard.set')
             ->orderBy('sort_order')
             ->get();
 
         return Inertia::render('Collection/Containers/ContainersPage', [
             'containerTypes'        => array_column(BinderType::cases(), 'value'),
-            'containersMax'          => Container::MAX_CONTAINERS,
+            'containersMax'         => Container::MAX_CONTAINERS,
             'containersAmount'      => $containers->count(),
             'canCreateNewContainer' => $containers->count() < Container::MAX_CONTAINERS,
-            'containers' => $containers->map(fn ($c) => [
-                'id'          => $c->id,
-                'name'        => $c->name,
-                'description' => $c->description,
-                'type'        => $c->type,
-                'custom_type' => $c->custom_type,
-                'artUrl'      => $c->defaultCard?->art_crops?->first(),
-                'sort'        => $c->sort_order,
-            ]),
+            'containers'            => $containers->map(fn ($c) => ContainerService::serializeContainer($c)),
         ]);
     }
 
@@ -132,22 +125,7 @@ class ContainerController extends Controller
             'nameMax'        => Container::NAME_MAX,
             'descriptionMax' => Container::DESCRIPTION_MAX,
             'customTypeMax'  => Container::CUSTOM_TYPE_MAX,
-            'container' => [
-                'id'          => $container->id,
-                'name'        => $container->name,
-                'description' => $container->description,
-                'type'        => $container->type,
-                'custom_type' => $container->custom_type,
-                'defaultCard' => $container->defaultCard ? [
-                    'id'      => $container->defaultCard->id,
-                    'name'    => $container->defaultCard->name,
-                    'art_crop' => $container->defaultCard->art_crops?->first(),
-                    'set'     => [
-                        'name' => $container->defaultCard->set?->name,
-                        'code' => $container->defaultCard->set?->code,
-                    ],
-                ] : null,
-            ],
+            'container'      => ContainerService::serializeContainer($container),
         ]);
     }
 
@@ -217,5 +195,26 @@ class ContainerController extends Controller
         }
 
         return response()->json(['ok' => true]);
+    }
+
+    /**
+     * Display a single container's detail page.
+     *
+     * Aborts with 403 if the container belongs to another user.
+     * Route model binding automatically returns 404 if the container does not exist.
+     *
+     * @param  Request    $request
+     * @param  Container  $container
+     * @return Response
+     */
+    public function show(Request $request, Container $container): Response
+    {
+        abort_if($container->user_id !== $request->user()->id, 403);
+
+        $container->load('defaultCard.set');
+
+        return Inertia::render('Collection/Container/ContainerPage', [
+            'container' => ContainerService::serializeContainer($container),
+        ]);
     }
 }
