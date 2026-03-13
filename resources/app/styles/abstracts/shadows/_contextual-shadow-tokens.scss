@@ -18,7 +18,8 @@ $header: (
 ) !default;
 $main: (
     "stats_num": map.get(shg.$text, "0dp"),
-    "card-image-active": shg.$inset
+    "card-image-active": shg.$inset,
+    "container-name": map.get(shg.$outline, "2dp")
 ) !default;
 $footer: () !default;
 

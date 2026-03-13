@@ -56,7 +56,7 @@ $main: (
         "set": map.get(s.$icons, "small"),
         "radius": map.get(s.$radius, "featured"),
         "border-active": math.round(map.get(s.$border, "featured") * 1.5),
-        "card-image-max": map.get(s.$breakpoints, "portrait")
+        "card-image-max": map.get(s.$breakpoints, "landscape")
     ),
     "containers": (
         "padding": 1ex 1ch,
@@ -65,5 +65,12 @@ $main: (
         "types-radius": map.get(s.$radius, "featured"),
         "types-padding": 0.5lh 1ch,
         "types-border": map.get(s.$border, "base")
+    ),
+    "container": (
+        "meta": (
+            "padding": 1lh 2ch,
+            "radius": map.get(s.$radius, "featured"),
+            "border": map.get(s.$border, "base")
+        )
     )
 ) !default;

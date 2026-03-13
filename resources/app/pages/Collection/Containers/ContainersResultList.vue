@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
-import type { Container } from "Types/container";
 import { ref, watch } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
+import type { Container } from "Types/container";
 const props = defineProps<{ containers: Container[] }>();
 /** Emitted after a successful drag-drop; carries the visible rows in their new order. */
 const emit = defineEmits<{ reorder: [containers: Container[]] }>();
@@ -51,8 +51,8 @@ watch(
                         container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
                     }}</span
                 >
-                <span class="clist__count">0</span>
-                <span class="clist__price">125,56€</span>
+                <span class="clist__count"><icon name="deck" />0</span>
+                <span class="clist__price"><icon name="wallet" />125,56€</span>
             </Link>
             <ContainerMenu :container-id="container.id" />
         </li>
@@ -175,7 +175,9 @@ watch(
         text-overflow: ellipsis;
     }
 
-    &__type {
+    &__type,
+    &__count,
+    &__price {
         display: flex;
         align-items: center;
 
@@ -207,7 +209,7 @@ watch(
         display: none;
 
         @include m.mq("landscape") {
-            display: block;
+            display: flex;
         }
     }
 }

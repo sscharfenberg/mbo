@@ -29,6 +29,7 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
 @use "Abstracts/timings" as ti;
+@use "Abstracts/z-indexes" as z;
 
 .sticky-nav__sentinel {
     height: 0;
@@ -55,7 +56,7 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
     &::before {
         position: absolute;
         inset: 0;
-        z-index: -1;
+        z-index: map.get(z.$index, "background");
 
         border: map.get(s.$main, "sticky-nav", "border") solid transparent;
 

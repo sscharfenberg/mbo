@@ -8,13 +8,13 @@ defineProps<{
 </script>
 
 <template>
-    <div class="card-image" :class="{ 'card-image--interactive': interactive }">
-        <img :src="card.art_crop" alt="" loading="lazy" class="card-image__art-crop" />
-        <span class="card-image__panel">
-            <span class="card-image__name">{{ card.name }}</span>
+    <div class="art-crop" :class="{ 'card-image--interactive': interactive }">
+        <img :src="card.art_crop" alt="" loading="lazy" class="art-crop__image" />
+        <span class="art-crop__panel">
+            <span class="art-crop__name">{{ card.name }}</span>
             <img
                 :src="`/set/${card.set.code}.svg`"
-                class="card-image__set"
+                class="art-crop__set"
                 :alt="`${card.set.code.toUpperCase()} - ${card.set.name}`"
                 :title="`${card.set.code.toUpperCase()} - ${card.set.name}`"
             />
@@ -28,7 +28,7 @@ defineProps<{
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
 
-.card-image {
+.art-crop {
     position: relative;
 
     overflow: hidden;
@@ -38,7 +38,7 @@ defineProps<{
 
     border-radius: map.get(s.$main, "art-crop", "radius");
 
-    &__art-crop {
+    &__image {
         position: absolute;
         inset: 0;
         z-index: map.get(z.$index, "background");
