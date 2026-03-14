@@ -22,7 +22,13 @@ defineProps<{
         {{ $t("pages.welcome.claim") }}
     </headline>
     <paragraph>{{ $t("pages.welcome.intro") }}</paragraph>
-    <stats :oracle-cards="oracleCards" :default-cards="defaultCards" :sets="sets" :symbols="symbols" />
+    <stats
+        v-if="symbols.length"
+        :oracle-cards="oracleCards"
+        :default-cards="defaultCards"
+        :sets="sets"
+        :symbols="symbols"
+    />
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum
         eveniet nihil quibusdam saepe ut voluptates? Alias ipsam ipsum numquam sit unde. Alias dolore esse molestiae

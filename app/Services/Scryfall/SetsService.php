@@ -30,9 +30,20 @@ class SetsService
     }
 
     /**
+     * Derive the local filename for a set icon SVG.
+     *
+     * @param  string  $code  The set code (e.g. "lea", "mh3").
+     * @return string  e.g. "lea.svg"
+     */
+    private function buildFileName(string $code): string
+    {
+        return $code.'.svg';
+    }
+
+    /**
      * Download a set icon SVG if it is not already cached locally.
      *
-     * Returns the public path to the icon file on the "set" disk,
+     * Returns the public-facing path to the icon file on the "set" disk,
      * regardless of whether a fresh download was needed.
      *
      * @param  string  $uri   The Scryfall icon_svg_uri for the set.
@@ -41,11 +52,6 @@ class SetsService
      *
      * @throws ConnectionException
      */
-    private function buildFileName(string $code): string
-    {
-        return $code.'.svg';
-    }
-
     private function getSetIcon(string $uri, string $code): string
     {
         $fileName = $this->buildFileName($code);

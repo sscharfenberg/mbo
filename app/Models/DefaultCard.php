@@ -68,6 +68,7 @@ class DefaultCard extends Model
         'prices',
         'digital',
         'rarity',
+        'artist_id',
         'set_id',
         'oracle_id'
     ];
@@ -107,6 +108,16 @@ class DefaultCard extends Model
     public function set(): BelongsTo
     {
         return $this->belongsTo(Set::class, 'set_id', 'id');
+    }
+
+    /**
+     * Get the artist associated with this default card.
+     *
+     * @return BelongsTo<Artist, DefaultCard>
+     */
+    public function artist(): BelongsTo
+    {
+        return $this->belongsTo(Artist::class, 'artist_id', 'id');
     }
 
 }

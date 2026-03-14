@@ -4,13 +4,24 @@ namespace App\Services\Scryfall;
 
 use App\Models\OracleCard;
 use App\Services\FormatService;
+use Cerbero\JsonParser\JsonParser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Cerbero\JsonParser\JsonParser;
 use Illuminate\Support\Facades\Storage;
 
 class OracleCardsService
 {
+
+    private ScryfallImageService $imageService;
+    private FormatService $formatService;
+    private BulkdataService $bulkdataService;
+
+    public function __construct()
+    {
+        $this->imageService = new ScryfallImageService();
+        $this->formatService = new FormatService();
+        $this->bulkdataService = new BulkdataService();
+    }
 
     /**
      * Truncate the oracle_cards table before a fresh import.
@@ -32,14 +43,13 @@ class OracleCardsService
      *
      * Maps required Scryfall fields and conditionally includes optional
      * ones (mana_cost, layout, colors, color_identity). Image URIs are
-     * resolved via BulkdataService::getImageUris().
+     * resolved via ScryfallImageService::getImageUris().
      *
      * @param  array  $card  A single card object from the oracle_cards bulk JSON.
      * @return void
      */
     private function insertCard (array $card): void
     {
-        $sis = new ScryfallImageService();
         // non nullable values
         $arr = [
             'id' => $card['oracle_id'],
@@ -49,7 +59,7 @@ class OracleCardsService
             'lang' => $card['lang'],
             'cmc' => $card['cmc'],
             'legalities' => $card['legalities'],
-            'image_uris' => $sis->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
+            'image_uris' => $this->imageService->getImageUris($card),
             'reserved' => $card['reserved'],
             'game_changer' => $card['game_changer'],
             'scryfall_uri' => $card['scryfall_uri'],
@@ -87,7 +97,6 @@ class OracleCardsService
     private function traverseJson($fileName): void
     {
         $start = now();
-        $f = new FormatService();
         $count = 0;
         Log::channel('scryfall')->notice("begin traversing oracle cards json.");
         JsonParser::parse(Storage::disk('scryfall-bulk')->get($fileName))->traverse(function (mixed $value, string|int $key, JsonParser $parser) use (&$count) {
@@ -96,7 +105,7 @@ class OracleCardsService
         });
         $ms = $start->diffInMilliseconds(now());
         $numCards = number_format($count, 0, ",", ".");
-        Log::channel('scryfall')->notice("finished inserting $numCards oracle cards into database in ".$f->formatMs($ms).".");
+        Log::channel('scryfall')->notice("finished inserting $numCards oracle cards into database in ".$this->formatService->formatMs($ms).".");
     }
 
     /**
@@ -111,14 +120,13 @@ class OracleCardsService
     public function updateOracleCards(): void
     {
         $type = "oracle_cards";
-        $bds = new BulkDataService();
-        if (!$bds->prepareJson($type)) {
+        if (!$this->bulkdataService->prepareJson($type)) {
             Log::channel('scryfall')->error("error preparing '$type.json', aborting.");
             return; // error downloading file, abort
         }
         $this->preRunCleanup();
         $this->traverseJson($type.".json");
-        $bds->postRunCleanup($type.".json");
+        $this->bulkdataService->postRunCleanup($type.".json");
     }
 
 }

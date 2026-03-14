@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Storage;
 class BulkdataService
 {
 
+    private FormatService $formatService;
+
+    public function __construct()
+    {
+        $this->formatService = new FormatService();
+    }
+
     /**
      * Download a Scryfall bulk-data JSON file to local storage.
      *
@@ -26,7 +33,6 @@ class BulkdataService
     public function prepareJson(string $type): bool
     {
         $fileName = $type.".json";
-        $f = new FormatService();
         if (Storage::disk('scryfall-bulk')->exists($fileName)) {
             Log::channel('scryfall')->notice("JSON file '$fileName' already exists in disk 'scryfall-bulk'.");
             return true;
@@ -51,9 +57,9 @@ class BulkdataService
                     return false;
                 }
                 Log::channel('scryfall')->debug("downloaded '$fileName' from scryfall to disk 'scryfall-bulk'.");
-                Log::channel('scryfall')->debug("filesize for '$fileName' ($realSizeFormatted = ".$f->formatBytes($realSize).") as expected.");
+                Log::channel('scryfall')->debug("filesize for '$fileName' ($realSizeFormatted = ".$this->formatService->formatBytes($realSize).") as expected.");
                 $ms = $start->diffInMilliseconds(now());
-                Log::channel('scryfall')->notice("downloaded '$fileName' in ".$f->formatMs($ms).".");
+                Log::channel('scryfall')->notice("downloaded '$fileName' in ".$this->formatService->formatMs($ms).".");
                 return true;
             }
         } catch (\Exception $e) {

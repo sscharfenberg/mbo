@@ -27,6 +27,10 @@ return new class extends Migration
             $table->json('prices');
             $table->boolean('digital')->default(false);
             $table->string('rarity', 32);
+            $table->foreignUuid('artist_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->foreignUuid('set_id')
                 ->constrained()
                 ->cascadeOnDelete();
