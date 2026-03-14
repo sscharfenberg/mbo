@@ -199,6 +199,10 @@
             "sort_saving": "Reihenfolge wird gespeichert…",
             "sort_error": "Die Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut."
         },
+        "container": {
+            "title": "Container {name}",
+            "link": "Container {name}"
+        },
         "new_container": {
             "title": "Neuen Container erstellen",
             "link": "Neuen Container erstellen",
@@ -266,5 +270,8 @@
     },
     "sticky_nav": {
         "region": "Navigation innerhalb dieser Seite"
+    },
+    "breadcrumb": {
+        "nav": "Breadcrumb-Navigation"
     }
 }

@@ -43,5 +43,14 @@ $app: (
                 color.adjust(map.get(c.$grey, "mystic"), $alpha: -0.25)
             ),
         "surface-hover": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "bunker"))
+    ),
+    "breadcrumb": (
+        "background": light-dark(map.get(c.$grey, "astral"), map.get(c.$grey, "bunker")),
+        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "border": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey")),
+        "background-hover": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "ebony")),
+        "surface-hover": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
+        "background-current": light-dark(map.get(c.$brand, "light2", "color"), map.get(c.$brand, "dark2", "color")),
+        "surface-current": light-dark(map.get(c.$brand, "light2", "contrast"), map.get(c.$brand, "dark2", "contrast"))
     )
 );

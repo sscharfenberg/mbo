@@ -4,8 +4,15 @@ import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import { useBreadcrumbs } from "Composables/useBreadcrumbs";
 import type { Container } from "Types/container";
-defineProps<{ container: Container }>();
+const props = defineProps<{ container: Container }>();
+const { setBreadcrumbs } = useBreadcrumbs();
+setBreadcrumbs([
+    { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
+    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "container-type" },
+    { label: props.container.name, icon: "container-type" }
+]);
 </script>
 
 <template>

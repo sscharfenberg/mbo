@@ -199,6 +199,10 @@
             "sort_saving": "Saving order…",
             "sort_error": "The sort order could not be saved. Please try again."
         },
+        "container": {
+            "title": "Container {name}",
+            "link": "Container {name}"
+        },
         "new_container": {
             "title": "Create new container",
             "link": "Create new container",
@@ -266,5 +270,8 @@
     },
     "sticky_nav": {
         "region": "Navigation within the page"
+    },
+    "breadcrumb": {
+        "nav": "Breadcrumb navigation"
     }
 }

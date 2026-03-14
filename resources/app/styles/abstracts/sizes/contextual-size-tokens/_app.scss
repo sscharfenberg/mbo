@@ -30,5 +30,10 @@ $app: (
         "radius": map.get(s.$radius, "featured"),
         "padding": 0.5lh 2ch 0.5lh 1ch,
         "progress": math.round(map.get(s.$border, "base") * 1.5)
+    ),
+    "breadcrumb": (
+        "padding": 0.5rem 1rem,
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured")
     )
 ) !default;

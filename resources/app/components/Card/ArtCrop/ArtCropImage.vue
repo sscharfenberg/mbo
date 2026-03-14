@@ -89,7 +89,7 @@ defineProps<{
 // doesn't work scoped.
 @use "Abstracts/mixins" as m;
 
-@include m.theme-dark(".card-image__set") {
+@include m.theme-dark(".art-crop__set") {
     filter: none;
 }
 </style>
