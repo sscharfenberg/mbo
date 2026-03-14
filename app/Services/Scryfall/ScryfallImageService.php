@@ -44,28 +44,28 @@ class ScryfallImageService
     }
 
     /**
-     * Extract art crop URIs from a Scryfall card object.
+     * Extract the first art crop URI from a Scryfall card object.
      *
-     * Returns a single art crop for single-faced cards, or one per face
-     * for multi-faced cards (e.g. transform, modal DFC). Returns an empty
-     * array if no art crops are available.
+     * Returns the card-level art crop if available, otherwise the first
+     * face's art crop for multi-faced cards (e.g. transform, modal DFC).
+     * Returns null if no art crop is available.
      *
      * @param  array  $card  A single card object from the Scryfall bulk JSON.
-     * @return array<string>  Zero, one, or two art crop URIs.
+     * @return string|null
      */
-    public function getArtCrops(array $card): array
+    public function getArtCrop(array $card): ?string
     {
-        $crops = [];
         if (array_key_exists('image_uris', $card) && array_key_exists('art_crop', $card['image_uris'])) {
-            $crops[] = $card['image_uris']['art_crop'];
-        } elseif (array_key_exists('card_faces', $card) && count($card['card_faces']) > 1) {
+            return $card['image_uris']['art_crop'];
+        }
+        if (array_key_exists('card_faces', $card) && count($card['card_faces']) > 1) {
             foreach ($card['card_faces'] as $face) {
                 if (array_key_exists('image_uris', $face) && array_key_exists('art_crop', $face['image_uris'])) {
-                    $crops[] = $face['image_uris']['art_crop'];
+                    return $face['image_uris']['art_crop'];
                 }
             }
         }
-        return $crops;
+        return null;
     }
 
     /**

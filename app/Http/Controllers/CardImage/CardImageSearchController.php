@@ -41,7 +41,7 @@ class CardImageSearchController extends Controller
             return response()->json([]);
         }
 
-        $query = DefaultCard::whereNotNull('art_crops');
+        $query = DefaultCard::whereNotNull('art_crop');
 
         if ($setCode) {
             $query->whereHas('set', fn ($q) => $q->where('code', $setCode));
@@ -52,14 +52,14 @@ class CardImageSearchController extends Controller
             $query->where('name', 'like', "%$segment%");
         }
 
-        $cards = $query->select('id', 'name', 'art_crops', 'set_id')
+        $cards = $query->select('id', 'name', 'art_crop', 'set_id')
             ->with('set:id,name,code')
             ->orderBy('name')
             ->get()
             ->map(fn (DefaultCard $card) => [
                 'id'       => $card->id,
                 'name'     => $card->name,
-                'art_crop' => $card->art_crops->first(),
+                'art_crop' => $card->art_crop,
                 'set'      => $card->set ? [
                     'name' => $card->set->name,
                     'code' => $card->set->code,

@@ -40,10 +40,10 @@ setBreadcrumbs([
     </headline>
     <paragraph> {{ $t("pages.containers.explanation") }}<br /> </paragraph>
     <ul class="meta">
-        <li class="meta__showing">
-            {{ t("pages.containers.showing", { amount: containersAmount, max: containersMax }) }}
+        <li class="meta__showing" v-if="containersAmount && filteredContainers.length">
+            {{ t("pages.containers.showing", { filtered: filteredContainers.length, total: containersAmount }) }}
         </li>
-        <li class="meta__search">
+        <li class="meta__search" v-if="containersAmount">
             <label for="container-search" class="sr-only">{{ $t("pages.containers.search") }}</label>
             <input
                 id="container-search"
@@ -53,7 +53,7 @@ setBreadcrumbs([
                 @input="search = ($event.target as HTMLInputElement).value"
             />
         </li>
-        <li class="meta__types">
+        <li class="meta__types" v-if="usedTypes.length > 1">
             <ul class="type-filter" role="group" :aria-label="$t('pages.containers.filter_by_type')">
                 <li v-for="type in usedTypes" :key="type" class="type-filter__item">
                     <input
@@ -80,7 +80,8 @@ setBreadcrumbs([
             {{ $t("pages.containers.sort_saving") }}
         </li>
     </ul>
-    <ContainersResultList :containers="filteredContainers" @reorder="handleReorder" />
+    <ContainersResultList v-if="filteredContainers.length" :containers="filteredContainers" @reorder="handleReorder" />
+    <paragraph v-else>{{ $t("pages.containers.none") }}</paragraph>
 </template>
 
 <style lang="scss" scoped>

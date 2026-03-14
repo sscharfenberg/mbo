@@ -27,7 +27,7 @@ class ContainerService
             'defaultCard' => $container->defaultCard ? [
                 'id'      => $container->defaultCard->id,
                 'name'    => $container->defaultCard->name,
-                'art_crop' => $container->defaultCard->art_crops?->first(),
+                'art_crop' => $container->defaultCard->art_crop,
                 'set'     => [
                     'name' => $container->defaultCard->set?->name,
                     'code' => $container->defaultCard->set?->code,

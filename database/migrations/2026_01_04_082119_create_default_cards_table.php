@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('layout', 48);
             $table->string('lang', 8);
             $table->json('image_uris')->nullable();
-            $table->json('art_crops')->nullable();
+            $table->string('art_crop')->nullable();
             $table->json('finishes');
             $table->json('games');
             $table->json('prices');

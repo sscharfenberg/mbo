@@ -1,9 +1,9 @@
 import { usePage } from "@inertiajs/vue3";
-import type { Container } from "Types/container";
 import { ref } from "vue";
 import type { Ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "Composables/useToast";
+import type { Container } from "Types/container";
 
 export type UseContainerSortReturn = {
     localContainers: Ref<Container[]>;

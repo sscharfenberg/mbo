@@ -48,7 +48,7 @@ class DefaultCardsService
             'collector_number' => $card['collector_number'],
             'lang' => $card['lang'],
             'image_uris' => $sis->getImageUris($card), // actually nullable, but the function returns an empty array if no applicable values exist
-            'art_crops' => $sis->getArtCrops($card),
+            'art_crop' => $sis->getArtCrop($card),
             'finishes' => $card['finishes'],
             'games' => $card['games'],
             'prices' => $card['prices'],
