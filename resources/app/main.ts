@@ -2,7 +2,6 @@
  * Main app entrypoint
  *****************************************************************************/
 import "@/styles/app.scss";
-import "floating-vue/dist/style.css";
 import { createInertiaApp, router } from "@inertiajs/vue3";
 import {
     doesProgressBarExist,
