@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
-import type { Container } from "Types/container";
 import { computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import CardImageSearch from "Components/Form/CardImageSearch/CardImageSearch.vue";
@@ -10,6 +9,8 @@ import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
+import type { Container } from "Types/container";
 const props = defineProps<{
     containerTypes: string[];
     nameMax: number;
@@ -50,6 +51,14 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
     selectedType.value = value;
     nextTick(() => validate("container_type"));
 };
+const { setBreadcrumbs } = useBreadcrumbs();
+setBreadcrumbs([
+    { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
+    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "container-type" },
+    {
+        labelKey: isEdit.value ? t("pages.edit_container.title") : t("pages.new_container.title")
+    }
+]);
 </script>
 
 <template>

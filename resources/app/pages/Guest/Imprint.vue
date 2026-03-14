@@ -2,6 +2,9 @@
 import { Head } from "@inertiajs/vue3";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
+const { setBreadcrumbs } = useBreadcrumbs();
+setBreadcrumbs([{ labelKey: "pages.imprint.link" }]);
 </script>
 
 <template>

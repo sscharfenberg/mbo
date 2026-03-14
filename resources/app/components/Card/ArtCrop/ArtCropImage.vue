@@ -41,7 +41,7 @@ defineProps<{
     &__image {
         position: absolute;
         inset: 0;
-        z-index: map.get(z.$index, "background");
+        z-index: map.get(z.$index, "default");
 
         width: 100%;
         height: 100%;

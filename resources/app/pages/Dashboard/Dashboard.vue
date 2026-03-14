@@ -5,6 +5,7 @@ import { useI18n } from "vue-i18n";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import StickyNav from "Components/UI/StickyNav.vue";
+import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import DashboardPassword from "./DashboardPassword.vue";
 import DashboardProfile from "./DashboardProfile.vue";
 import DeleteAccount from "./Delete/DeleteAccount.vue";
@@ -16,6 +17,8 @@ const navItems = computed(() => [
     { id: "2faSection", label: t("pages.dashboard.two_factor.link") },
     { id: "deleteSection", label: t("pages.dashboard.deletion.link") }
 ]);
+const { setBreadcrumbs } = useBreadcrumbs();
+setBreadcrumbs([{ labelKey: "pages.dashboard.link" }]);
 </script>
 
 <template>

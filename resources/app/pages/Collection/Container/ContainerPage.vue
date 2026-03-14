@@ -9,9 +9,9 @@ import type { Container } from "Types/container";
 const props = defineProps<{ container: Container }>();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
-    { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
+    { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
     { labelKey: "pages.containers.link", href: "/collection/containers", icon: "container-type" },
-    { label: props.container.name, icon: "container-type" }
+    { label: props.container.name }
 ]);
 </script>
 
@@ -20,7 +20,7 @@ setBreadcrumbs([
         ><title>{{ container.name }}</title></Head
     >
     <headline>
-        <icon name="container-type" :size="3" />
+        <icon name="container-name" :size="3" />
         {{ container.name }}
         <badge type="info">{{
             container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
