@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('layout', 48);
             $table->string('type_line', 128);
             $table->string('lang', 8);
-            $table->decimal('cmc', 5, 1);
+            $table->decimal('cmc', 8, 1);
             $table->string('mana_cost', 64)->nullable();
             $table->string('color_identity', 6)->nullable();
             $table->string('colors', 6)->nullable();
