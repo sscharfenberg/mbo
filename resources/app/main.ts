@@ -12,6 +12,7 @@ import {
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
 import { useBreadcrumbs } from "@/composables/useBreadcrumbs.ts";
+import { useNavigation } from "@/composables/useNavigation.ts";
 import { setupI18n, loadLocaleMessages } from "@/i18n.ts";
 import FullLayout from "./components/Layout/FullLayout.vue";
 const progressBarSettings = { ariaLabel: "Ladefortschritt", parent: "#app" };
@@ -65,6 +66,7 @@ createInertiaApp({
  *****************************************************************************/
 router.on("start", () => {
     useBreadcrumbs().setBreadcrumbs([]);
+    useNavigation().navigating.value = true;
     timeout = setTimeout(() => startProgress(progressBarSettings), 250);
 });
 router.on("progress", event => {
@@ -73,6 +75,7 @@ router.on("progress", event => {
     }
 });
 router.on("finish", event => {
+    useNavigation().navigating.value = false;
     clearTimeout(timeout);
     if (doesProgressBarExist() && event.detail.visit.completed) {
         finishProgress();

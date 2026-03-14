@@ -41,6 +41,16 @@
     &.colored {
         color: map.get(c.$form, "input", "validating");
     }
+
+    &.branded {
+        &::before {
+            color: map.get(c.$app, "spinner", "before");
+        }
+
+        &::after {
+            color: map.get(c.$app, "spinner", "after");
+        }
+    }
 }
 
 @keyframes spin {

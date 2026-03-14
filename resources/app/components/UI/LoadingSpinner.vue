@@ -1,15 +1,10 @@
 <script setup lang="ts">
-const props = defineProps({
-    size: {
-        type: Number,
-        default: 4
-    }
-});
+const props = withDefaults(defineProps<{ size?: number; branded?: boolean }>(), { size: 4, branded: false });
 const pixelSize = `${props.size * 12}px`;
 </script>
 
 <template>
-    <span class="loading-spinner"></span>
+    <span :class="['loading-spinner', { branded: props.branded }]"></span>
 </template>
 
 <style scoped lang="scss">
