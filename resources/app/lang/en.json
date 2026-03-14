@@ -60,6 +60,10 @@
                 "artists": {
                     "title": "Artists",
                     "explanation": "Every artist that has created artwork for a MtG card."
+                },
+                "artCrops": {
+                    "title": "Art Crops",
+                    "explanation": "Card images, cropped so it shows only the art itself."
                 }
             }
         },

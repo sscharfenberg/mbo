@@ -8,6 +8,7 @@ defineProps<{
     sets: number;
     symbols: { path: string; english: string }[];
     artists: number;
+    artCrops: { num: number; size: number };
 }>();
 </script>
 
@@ -18,6 +19,7 @@ defineProps<{
         <stats-item type="default" :num="defaultCards.num" :size="defaultCards.size" :symbol="symbols[1]!" />
         <stats-item type="sets" :num="sets" :symbol="symbols[2]!" />
         <stats-item type="artists" :num="artists" :symbol="symbols[3]!" />
+        <stats-item type="artCrops" :num="artCrops.num" :size="artCrops.size" :symbol="symbols[4]!" />
     </ul>
 </template>
 

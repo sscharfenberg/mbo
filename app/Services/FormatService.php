@@ -16,17 +16,21 @@ class FormatService
      */
     public function formatMs(float $input): string
     {
-        $uSec = $input % 1000;
-        $dateString = $uSec."ms";
+        $ms = $input % 1000;
+        $dateString = $ms."ms";
         $input = floor($input / 1000);
         $seconds = $input % 60;
         $input = floor($input / 60);
         $minutes = $input % 60;
+        $hours = floor($input / 60);
         if ($seconds > 0) {
             $dateString = $seconds."s ".$dateString;
         }
         if ($minutes > 0) {
             $dateString = $minutes."m ".$dateString;
+        }
+        if ($hours > 0) {
+            $dateString = $hours."h ".$dateString;
         }
         return $dateString;
     }

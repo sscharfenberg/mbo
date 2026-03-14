@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Handles downloading Scryfall images to the local filesystem.
+ *
+ * This service only writes to disk — it does not update the database.
+ * Path resolution (Scryfall URL → local path) is handled by DefaultCardsService
+ * during the next card import, which checks the disk for cached images.
+ *
+ * Separation of concerns:
+ *   - DefaultCardsService → database (import, path resolution)
+ *   - ImageDownloadService → filesystem (downloading images to disk)
+ */
 class ImageDownloadService
 {
 
@@ -25,7 +36,8 @@ class ImageDownloadService
      *
      * Walks every default_card that still has a Scryfall URL in art_crop,
      * checks the local disk for a cached version with the same timestamp,
-     * downloads if missing or outdated, and updates the DB to the local path.
+     * and downloads if missing or outdated. Does not update the database —
+     * path resolution happens in DefaultCardsService during the next import.
      *
      * @return void
      */
@@ -65,8 +77,8 @@ class ImageDownloadService
      * Process a single card's art crop image.
      *
      * Checks if the local disk already has the correct version (by timestamp),
-     * downloads from Scryfall if not, cleans up old versions, and updates
-     * the art_crop column to the local public URL.
+     * downloads from Scryfall if not, and cleans up old versions.
+     * Does not update the database — path resolution happens in DefaultCardsService.
      *
      * @param  DefaultCard  $card
      * @return string  'downloaded', 'skipped', or 'failed'
@@ -85,9 +97,8 @@ class ImageDownloadService
         $filename = $this->imageService->buildArtCropFilename($card->id, $timestamp);
         $diskPath = "$setCode/$filename";
 
-        // Already cached with same timestamp — just update URL to local path
+        // Already cached with same timestamp — nothing to do
         if (Storage::disk('art-crops')->exists($diskPath)) {
-            $card->update(['art_crop' => "/art-crops/$diskPath"]);
             return 'skipped';
         }
 
@@ -99,7 +110,6 @@ class ImageDownloadService
             $response = Http::get($scryfallUrl);
             if ($response->successful()) {
                 Storage::disk('art-crops')->put($diskPath, $response->body());
-                $card->update(['art_crop' => "/art-crops/$diskPath"]);
                 Log::channel('scryfall')->debug("downloaded art crop for [{$setCode}] {$card->name}.");
                 return 'downloaded';
             }

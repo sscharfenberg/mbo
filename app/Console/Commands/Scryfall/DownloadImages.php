@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Scryfall;
 
 use App\Services\FormatService;
+use App\Services\Scryfall\DefaultCardsService;
 use App\Services\Scryfall\ImageDownloadService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -25,12 +26,14 @@ class DownloadImages extends Command
 
     private FormatService $formatService;
     private ImageDownloadService $imageDownloadService;
+    private DefaultCardsService $defaultCardsService;
 
     public function __construct()
     {
         parent::__construct();
         $this->formatService = new FormatService();
         $this->imageDownloadService = new ImageDownloadService();
+        $this->defaultCardsService = new DefaultCardsService();
     }
 
     /**
@@ -43,7 +46,11 @@ class DownloadImages extends Command
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:images' started.");
         Log::channel('scryfall')->info("=======================================================");
+        // download missing images to disk
         $this->imageDownloadService->downloadArtCrops();
+        // resolve Scryfall URLs → local paths for newly downloaded images
+        $resolved = $this->defaultCardsService->resolveArtCropPaths();
+        $this->info("resolved $resolved art crop paths to local cache.");
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:images' finished in ".$this->formatService->formatMs($ms).".");

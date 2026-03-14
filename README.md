@@ -51,7 +51,11 @@ Updates everything and calls all later commands after one another. Use this for 
 
 ### `php artisan scryfall:sets`
 
-This command gets all the sets from scryfall and updates the database accordingly. On sundays `set-icon` storage disk will be pruned before contacting scryfall, all other days do not prune the storage disk.
+This command gets all the sets from scryfall and updates the database accordingly.
+
+### `php artisan scryfall:symbols`
+
+This command gets all the symbols from scryfall and updates the database accordingly.
 
 ### `php artisan scryfall:bulk`
 
@@ -61,9 +65,17 @@ Get meta information for bulk data from scryfall - URLs and expected filesize.
 
 Get Oracle cards from scryfall and update the database oracle_cards table.
 
-### `php artisan scryfall:all_cards`
+### `php artisan scryfall:scryfall:default_cards`
 
-Get information about all cards from scryfall and update the database printed_cards table.
+Get information about the `default_cards` from scryfall and update the database.
+
+### `php artisan scryfall:scryfall:images`
+
+Walk the `default_cards` table, and for every card, check if we have a art_crop image on local disk. if not, download file to local disk. if image is present, check timestamps and compare with scryfall - redownload if needed. This takes is a long running script:
+* 4 hours for art_crops on a cold cache (initial download)
+* 20+ minutes for art_crops with a hot cache (subsequent downloads)
+
+Console command calls `defaultCardsService->resolveArtCropPaths()`, which checks `default_cards` with scryfall art_crop URIs, checks local disk and updates the URIs if needed. 
 
 ## NPM commands
 

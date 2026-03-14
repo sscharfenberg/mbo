@@ -68,6 +68,9 @@ class UpdateEverything extends Command
             $this->call('scryfall:oracle');
             $waitTime += $this->sleep();
             $this->call('scryfall:default_cards');
+            $waitTime += $this->sleep();
+            // download missing art crop images to local disk
+            $this->call('scryfall:images');
             $ms = $start->diffInMilliseconds(now());
             Log::channel('scryfall')->info("=======================================================");
             Log::channel('scryfall')->info("artisan command 'scryfall:update' finished in ".$this->formatService->formatMs($ms).", including $waitTime seconds idle time.");

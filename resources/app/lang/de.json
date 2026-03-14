@@ -59,7 +59,11 @@
                 },
                 "artists": {
                     "title": "Künstler",
-                    "explanation": "Jeder Künstler der artwork für Magic Karten erstellt hat."
+                    "explanation": "Jeder Künstler der Illustrationen für Magic Karten erstellt hat."
+                },
+                "artCrops": {
+                    "title": "Bildausschnitte",
+                    "explanation": "Ausschnitte der Kartenillustrationen aller Magic Karten."
                 }
             }
         },
