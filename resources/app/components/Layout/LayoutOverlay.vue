@@ -26,7 +26,7 @@ import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
     background-color: map.get(c.$app, "nav-overlay", "background");
     border-radius: inherit;
 
-    animation: nav-overlay-show 0s 250ms forwards;
+    animation: nav-overlay-show 0s 100ms forwards; // 100ms delay, so very fast requests do not show the overlay
 }
 
 @keyframes nav-overlay-show {
