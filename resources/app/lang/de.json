@@ -56,6 +56,10 @@
                 "sets": {
                     "title": "Sets",
                     "explanation": "Jedes Set, inklusive vieler inoffizieller Sets um Promo- oder Ausreißer-Karten zu gruppieren."
+                },
+                "artists": {
+                    "title": "Künstler",
+                    "explanation": "Jeder Künstler der artwork für Magic Karten erstellt hat."
                 }
             }
         },

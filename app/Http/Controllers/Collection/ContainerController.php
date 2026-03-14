@@ -28,7 +28,7 @@ class ContainerController extends Controller
     public function list(Request $request): Response
     {
         $containers = $request->user()->containers()
-            ->with('defaultCard.set')
+            ->with('defaultCard.set', 'defaultCard.artist')
             ->orderBy('sort_order')
             ->get();
 
@@ -118,7 +118,7 @@ class ContainerController extends Controller
     {
         abort_if($container->user_id !== $request->user()->id, 403);
 
-        $container->load('defaultCard.set');
+        $container->load('defaultCard.set', 'defaultCard.artist');
 
         return Inertia::render('Collection/Container/ContainerFormPage', [
             'containerTypes' => array_column(BinderType::cases(), 'value'),
@@ -211,7 +211,7 @@ class ContainerController extends Controller
     {
         abort_if($container->user_id !== $request->user()->id, 403);
 
-        $container->load('defaultCard.set');
+        $container->load('defaultCard.set', 'defaultCard.artist');
 
         return Inertia::render('Collection/Container/ContainerPage', [
             'container' => ContainerService::serializeContainer($container),

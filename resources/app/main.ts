@@ -2,6 +2,7 @@
  * Main app entrypoint
  *****************************************************************************/
 import "@/styles/app.scss";
+import "floating-vue/dist/style.css";
 import { createInertiaApp, router } from "@inertiajs/vue3";
 import {
     doesProgressBarExist,
@@ -9,6 +10,7 @@ import {
     setProgress,
     startProgress
 } from "@sscharfenberg/progressbar/progressbar.js";
+import FloatingVue from "floating-vue";
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
 import { useBreadcrumbs } from "@/composables/useBreadcrumbs.ts";
@@ -52,6 +54,14 @@ createInertiaApp({
 
         app.use(plugin);
         app.use(i18n);
+        app.use(FloatingVue, {
+            themes: {
+                tooltip: {
+                    triggers: ["hover", "focus", "click"],
+                    hideTriggers: ["hover", "focus", "click"]
+                }
+            }
+        });
 
         loadLocaleMessages(i18n, initialLocale).then(() => app.mount(el));
     },

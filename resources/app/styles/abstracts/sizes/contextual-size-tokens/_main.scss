@@ -53,7 +53,7 @@ $main: (
     "art-crop": (
         "min-width": math.round(s.$base * 12),
         "panel-padding": 1ex 1ch,
-        "set": map.get(s.$icons, "small"),
+        "set": map.get(s.$icons, "medium"),
         "radius": map.get(s.$radius, "featured"),
         "border-active": math.round(map.get(s.$border, "featured") * 1.5),
         "card-image-max": 626px // scryfall's intrinsic width for most images

@@ -52,14 +52,15 @@ class CardImageSearchController extends Controller
             $query->where('name', 'like', "%$segment%");
         }
 
-        $cards = $query->select('id', 'name', 'art_crop', 'set_id')
-            ->with('set:id,name,code')
+        $cards = $query->select('id', 'name', 'art_crop', 'set_id', 'artist_id')
+            ->with('set:id,name,code', 'artist:id,name')
             ->orderBy('name')
             ->get()
             ->map(fn (DefaultCard $card) => [
                 'id'       => $card->id,
                 'name'     => $card->name,
                 'art_crop' => $card->art_crop,
+                'artist'   => $card->artist?->name,
                 'set'      => $card->set ? [
                     'name' => $card->set->name,
                     'code' => $card->set->code,

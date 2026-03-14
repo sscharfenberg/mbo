@@ -56,7 +56,7 @@ setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
     { labelKey: "pages.containers.link", href: "/collection/containers", icon: "container-type" },
     {
-        labelKey: isEdit.value ? t("pages.edit_container.title") : t("pages.new_container.title")
+        label: isEdit.value ? t("pages.edit_container.title") : t("pages.new_container.title")
     }
 ]);
 </script>

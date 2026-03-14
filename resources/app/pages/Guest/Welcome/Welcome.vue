@@ -10,6 +10,7 @@ defineProps<{
     defaultCards: { num: number; size: number };
     sets: number;
     symbols: { path: string; english: string }[];
+    artists: number;
 }>();
 </script>
 
@@ -28,6 +29,7 @@ defineProps<{
         :default-cards="defaultCards"
         :sets="sets"
         :symbols="symbols"
+        :artists="artists"
     />
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum

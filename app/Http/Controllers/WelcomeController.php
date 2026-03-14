@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artist;
 use App\Models\BulkData;
 use App\Models\DefaultCard;
 use App\Models\OracleCard;
@@ -33,6 +34,7 @@ class WelcomeController extends Controller
                 'size' => BulkData::where('type', 'default_cards')->first()?->size,
             ],
             'sets' => Set::count(),
+            'artists' => Artist::count(),
             'symbols' => Symbol::where('funny', false)->inRandomOrder()->limit(10)->get(['path', 'english']),
         ]);
     }

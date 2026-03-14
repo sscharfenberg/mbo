@@ -56,6 +56,10 @@
                 "sets": {
                     "title": "Sets",
                     "explanation": "Every set, including many un-official sets as a way to group promotional or outlier cards together."
+                },
+                "artists": {
+                    "title": "Artists",
+                    "explanation": "Every artist that has created artwork for a MtG card."
                 }
             }
         },

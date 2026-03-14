@@ -7,6 +7,7 @@ defineProps<{
     defaultCards: { num: number; size: number };
     sets: number;
     symbols: { path: string; english: string }[];
+    artists: number;
 }>();
 </script>
 
@@ -16,6 +17,7 @@ defineProps<{
         <stats-item type="oracle" :num="oracleCards.num" :size="oracleCards.size" :symbol="symbols[0]!" />
         <stats-item type="default" :num="defaultCards.num" :size="defaultCards.size" :symbol="symbols[1]!" />
         <stats-item type="sets" :num="sets" :symbol="symbols[2]!" />
+        <stats-item type="artists" :num="artists" :symbol="symbols[3]!" />
     </ul>
 </template>
 

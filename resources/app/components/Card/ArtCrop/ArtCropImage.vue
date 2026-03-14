@@ -11,12 +11,16 @@ defineProps<{
     <div class="art-crop" :class="{ 'card-image--interactive': interactive }">
         <img :src="card.art_crop" alt="" loading="lazy" class="art-crop__image" />
         <span class="art-crop__panel">
-            <span class="art-crop__name">{{ card.name }}</span>
+            <span class="art-crop__info" v-tooltip="`${card.name}`">
+                <span class="art-crop__name">{{ card.name }}</span>
+                <span v-if="card.artist" class="art-crop__artist">{{ card.artist }}</span>
+            </span>
             <img
                 :src="`/set/${card.set.code}.svg`"
                 class="art-crop__set"
                 :alt="`${card.set.code.toUpperCase()} - ${card.set.name}`"
                 :title="`${card.set.code.toUpperCase()} - ${card.set.name}`"
+                v-tooltip="`${card.set.code.toUpperCase()} - ${card.set.name}`"
             />
         </span>
     </div>
@@ -72,8 +76,30 @@ defineProps<{
         border-bottom-left-radius: map.get(s.$main, "art-crop", "radius");
     }
 
+    &__info {
+        display: flex;
+        flex-direction: column;
+
+        overflow: hidden;
+        min-width: 0;
+    }
+
     &__name {
+        overflow: hidden;
+
         font-size: 0.9em;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__artist {
+        opacity: 0.8;
+
+        overflow: hidden;
+
+        font-size: 0.75em;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     &__set {
