@@ -82,6 +82,14 @@ return [
             'throw' => true,
             'report' => true,
         ],
+        'art-crops' => [
+            'driver' => 'local',
+            'root' => storage_path('app/art-crops'),
+            'url' => env('APP_URL').'/art-crops',
+            'visibility' => 'public',
+            'throw' => true,
+            'report' => false,
+        ],
 
     ],
 
@@ -100,6 +108,7 @@ return [
         public_path('storage') => storage_path('app/public'),
         public_path('set') => storage_path('app/set'),
         public_path('symbol') => storage_path('app/symbol'),
+        public_path('art-crops') => storage_path('app/art-crops'),
     ],
 
 ];

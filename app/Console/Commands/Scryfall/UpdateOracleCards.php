@@ -23,23 +23,31 @@ class UpdateOracleCards extends Command
      */
     protected $description = 'Update database with oracle cards from scryfall.';
 
+    private FormatService $formatService;
+    private OracleCardsService $oracleCardsService;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->formatService = new FormatService();
+        $this->oracleCardsService = new OracleCardsService();
+    }
+
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $fd = new FormatService();
-        $ocs = new OracleCardsService();
         $start = now();
         $this->info("artisan command 'scryfall:oracle' started.");
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:oracle' started.");
         Log::channel('scryfall')->info("=======================================================");
-        $ocs->updateOracleCards();
+        $this->oracleCardsService->updateOracleCards();
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
-        Log::channel('scryfall')->info("artisan command 'scryfall:oracle' finished in ".$fd->formatMs($ms).".");
+        Log::channel('scryfall')->info("artisan command 'scryfall:oracle' finished in ".$this->formatService->formatMs($ms).".");
         Log::channel('scryfall')->info("=======================================================");
-        $this->info("artisan command 'scryfall:oracle' finished in ".$fd->formatMs($ms).".");
+        $this->info("artisan command 'scryfall:oracle' finished in ".$this->formatService->formatMs($ms).".");
     }
 }

@@ -23,23 +23,31 @@ class UpdateSymbols extends Command
      */
     protected $description = 'Get all symbols from scryfall, save them to the public disk, and update the database';
 
+    private FormatService $formatService;
+    private SymbolsService $symbolsService;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->formatService = new FormatService();
+        $this->symbolsService = new SymbolsService();
+    }
+
     /**
      * Execute the console command.
      */
     public function handle(): void
     {
-        $fd = new FormatService();
-        $s = new SymbolsService();
         $start = now();
         $this->info("artisan command 'scryfall:symbols' started.");
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:symbols' started.");
         Log::channel('scryfall')->info("=======================================================");
-        $s->updateSymbols();
+        $this->symbolsService->updateSymbols();
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
-        Log::channel('scryfall')->info("artisan command 'scryfall:symbols' finished in ".$fd->formatMs($ms).".");
+        Log::channel('scryfall')->info("artisan command 'scryfall:symbols' finished in ".$this->formatService->formatMs($ms).".");
         Log::channel('scryfall')->info("=======================================================");
-        $this->info("artisan command 'scryfall:symbols' finished in ".$fd->formatMs($ms).".");
+        $this->info("artisan command 'scryfall:symbols' finished in ".$this->formatService->formatMs($ms).".");
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Scryfall;
 
 use App\Services\FormatService;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -23,8 +22,17 @@ class UpdateEverything extends Command
      */
     protected $description = 'Update every scryfall resource.';
 
+    private FormatService $formatService;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->formatService = new FormatService();
+    }
+
     /**
-     * @function sleep for a configured amount of seconds, then return the idled seconds
+     * Sleep for a configured amount of seconds, then return the idled seconds.
+     *
      * @return int
      */
     private function sleep(): int
@@ -40,7 +48,6 @@ class UpdateEverything extends Command
     public function handle(): void
     {
         $start = now();
-        $fd = new FormatService();
         $waitTime = 0;
         if (app()->isProduction()) $this->call('down'); // 503 http requests
         try {
@@ -63,9 +70,9 @@ class UpdateEverything extends Command
             $this->call('scryfall:default_cards');
             $ms = $start->diffInMilliseconds(now());
             Log::channel('scryfall')->info("=======================================================");
-            Log::channel('scryfall')->info("artisan command 'scryfall:update' finished in ".$fd->formatMs($ms).", including $waitTime seconds idle time.");
+            Log::channel('scryfall')->info("artisan command 'scryfall:update' finished in ".$this->formatService->formatMs($ms).", including $waitTime seconds idle time.");
             Log::channel('scryfall')->info("=======================================================");
-            $this->info("artisan command 'scryfall:update' finished in ".$fd->formatMs($ms).", including $waitTime seconds idle time.");
+            $this->info("artisan command 'scryfall:update' finished in ".$this->formatService->formatMs($ms).", including $waitTime seconds idle time.");
         } finally {
             if (app()->isProduction()) $this->call('up'); // make sure the site goes back up.
         }

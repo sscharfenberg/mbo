@@ -23,23 +23,31 @@ class UpdateBulkData extends Command
      */
     protected $description = 'Get bulk data from scryfall';
 
+    private FormatService $formatService;
+    private BulkdataService $bulkdataService;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->formatService = new FormatService();
+        $this->bulkdataService = new BulkdataService();
+    }
+
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $fd = new FormatService();
-        $bds = new BulkdataService();
         $start = now();
         $this->info("artisan command 'scryfall:bulk' started.");
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:bulk' started.");
         Log::channel('scryfall')->info("=======================================================");
-        $bds->getBulkMetadata();
+        $this->bulkdataService->getBulkMetadata();
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
-        Log::channel('scryfall')->info("artisan command 'scryfall:bulk' finished in ".$fd->formatMs($ms).".");
+        Log::channel('scryfall')->info("artisan command 'scryfall:bulk' finished in ".$this->formatService->formatMs($ms).".");
         Log::channel('scryfall')->info("=======================================================");
-        $this->info("artisan command 'scryfall:bulk' finished in ".$fd->formatMs($ms).".");
+        $this->info("artisan command 'scryfall:bulk' finished in ".$this->formatService->formatMs($ms).".");
     }
 }
