@@ -46,7 +46,7 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
     flex-wrap: wrap;
 
     margin: 0 0 1lh 6px;
-    gap: 0.5ch;
+    gap: 0.25rem;
 
     &__item {
         position: relative;
@@ -142,6 +142,8 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
         }
 
         &:last-child {
+            margin-left: 1px;
+
             color: map.get(c.$app, "breadcrumb", "surface-current");
 
             &::before,
