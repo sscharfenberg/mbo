@@ -100,4 +100,8 @@
 // close button specials
 .btn-close {
     padding: map.get(s.$button, "close", "padding");
+
+    &:not(:has(span)) {
+        padding: map.get(s.$button, "close", "padding-no-text");
+    }
 }

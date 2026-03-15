@@ -56,7 +56,8 @@ $button: (
     "border": map.get(s.$border, "featured"),
     "min-height": map.get(s.$icons, "medium"),
     "close": (
-        "padding": map.get(s.$border, "base") 0.5rem
+        "padding": map.get(s.$border, "base") 0.5rem,
+        "padding-no-text": map.get(s.$border, "base")
     )
 ) !default;
 

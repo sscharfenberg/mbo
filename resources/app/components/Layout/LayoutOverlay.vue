@@ -18,15 +18,16 @@ import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
     position: absolute;
     inset: 0;
     z-index: map.get(z.$index, "overlay");
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-
     opacity: 0;
+
+    padding-top: 10dvh;
 
     background-color: map.get(c.$app, "nav-overlay", "background");
     border-radius: inherit;
 
-    animation: nav-overlay-show 0s 150ms forwards; // 100ms delay, so very fast requests do not show the overlay
+    animation: nav-overlay-show 0s 100ms forwards; // 100ms delay, so very fast requests do not show the overlay
 }
 
 @keyframes nav-overlay-show {
