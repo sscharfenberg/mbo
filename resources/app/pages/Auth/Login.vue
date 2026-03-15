@@ -22,6 +22,11 @@ const features = computed(() => page.props.features);
 const showPassword = ref(false);
 const { errors, name, password, remember, requiresTwoFactor, recoveryCode, showRecoveryCode, processing, submit } =
     useLogin();
+const legendItems = computed(() => {
+    const items = [{ slot: "required", icon: "info" }];
+    if (requiresTwoFactor.value) items.push({ slot: "twoFactor", icon: "security" });
+    return items;
+});
 const codeTypes = [
     { value: "2fa", label: "pages.login.2fa.toggle.2fa", checked: !showRecoveryCode.value },
     { value: "recovery", label: "pages.login.2fa.toggle.recovery", checked: showRecoveryCode.value }
@@ -41,7 +46,14 @@ const onCodeTypeChange = (event: Event) => {
         {{ $t("pages.login.title") }}
     </headline>
     <form class="form" @submit.prevent="submit">
-        <form-legend :required="true" :two-factor="requiresTwoFactor" />
+        <form-legend :items="legendItems">
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+            <template #twoFactor>{{ $t("form.legend.2fa") }}</template>
+        </form-legend>
         <form-group
             v-if="!requiresTwoFactor"
             for-id="name"

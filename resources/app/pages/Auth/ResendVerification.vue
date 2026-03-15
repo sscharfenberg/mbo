@@ -23,7 +23,9 @@ defineOptions({ layout: NarrowLayout });
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend>{{ $t("pages.resend_verification.intro") }}</form-legend>
+        <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
+            <template #intro>{{ $t("pages.resend_verification.intro") }}</template>
+        </form-legend>
         <form-group
             for-id="name"
             :label="$t('form.fields.username')"

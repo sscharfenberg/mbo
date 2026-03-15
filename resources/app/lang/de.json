@@ -206,11 +206,14 @@
             "search": "Suchen",
             "filter_by_type": "Nach Typ filtern",
             "sort_saving": "Reihenfolge wird gespeichert…",
-            "sort_error": "Die Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut."
-        },
-        "container": {
-            "title": "Container {name}",
-            "link": "Container {name}"
+            "sort_error": "Die Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut.",
+            "delete": {
+                "link": "Löschen",
+                "title": "Container {name} löschen?",
+                "question": "Bist du sicher das du diesen Container löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "aff": "Ja, Löschen",
+                "neg": "Nein, Abbruch"
+            }
         },
         "new_container": {
             "title": "Neuen Container erstellen",

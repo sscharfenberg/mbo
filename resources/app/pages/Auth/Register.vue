@@ -30,7 +30,21 @@ const showPasswordConfirmation = ref(false);
         class="form"
         #default="{ errors, processing, validate, validating, invalid, valid }"
     >
-        <form-legend :required="true" :password="true">{{ $t("pages.register.intro") }}</form-legend>
+        <form-legend
+            :items="[
+                { slot: 'intro', icon: 'info' },
+                { slot: 'required', icon: 'info' },
+                { slot: 'password', icon: 'key' }
+            ]"
+        >
+            <template #intro>{{ $t("pages.register.intro") }}</template>
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+            <template #password>{{ $t("form.legend.password") }}</template>
+        </form-legend>
         <form-group
             for-id="name"
             :label="$t('form.fields.username')"
@@ -53,7 +67,14 @@ const showPasswordConfirmation = ref(false);
             addon-icon="mail"
             :required="true"
         >
-            <input type="email" name="email" id="email" maxlength="255" @change="validate('email')" class="form-input" />
+            <input
+                type="email"
+                name="email"
+                id="email"
+                maxlength="255"
+                @change="validate('email')"
+                class="form-input"
+            />
         </form-group>
         <form-group
             for-id="password"

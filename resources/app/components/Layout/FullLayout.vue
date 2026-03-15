@@ -13,9 +13,9 @@ const { navigating } = useNavigation();
     <toast-container />
     <app-header />
     <app-main>
-        <breadcrumb v-if="!navigating" />
+        <breadcrumb v-show="!navigating" />
         <slot />
-        <layout-overlay v-if="navigating" />
+        <layout-overlay v-show="navigating" />
     </app-main>
     <app-footer />
 </template>

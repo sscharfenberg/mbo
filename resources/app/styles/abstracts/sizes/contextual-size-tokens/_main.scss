@@ -28,7 +28,7 @@ $main: (
         "radius": map.get(s.$radius, "featured")
     ),
     "modal": (
-        "padding": 0.5lh 1ch,
+        "padding": 0.5lh 1rem,
         "border": map.get(s.$border, "base"),
         "radius": map.get(s.$radius, "featured"),
         "max-width": map.get(s.$breakpoints, "landscape")

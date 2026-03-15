@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -10,15 +10,25 @@ import TwoFactorRecoveryCodes from "./TwoFactorRecoveryCodes.vue";
 const { processing, validationErrors, requiresConfirmation, disableTwoFactor } = useTwoFactorAuth();
 const password = ref("");
 const showPassword = ref(false);
+const legendItems = computed(() => {
+    const items = [{ slot: "intro", icon: "info" }];
+    if (requiresConfirmation.value) items.push({ slot: "required", icon: "info" });
+    return items;
+});
 </script>
 
 <template>
     <TwoFactorRecoveryCodes />
     <headline :size="4">{{ $t("pages.dashboard.two_factor.disable_section.headline") }}</headline>
     <form class="form" @submit.prevent="disableTwoFactor(password)">
-        <form-legend :required="requiresConfirmation">{{
-            $t("pages.dashboard.two_factor.disable_section.explanation")
-        }}</form-legend>
+        <form-legend :items="legendItems">
+            <template #intro>{{ $t("pages.dashboard.two_factor.disable_section.explanation") }}</template>
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+        </form-legend>
         <form-group
             v-if="requiresConfirmation"
             for-id="disable-password"

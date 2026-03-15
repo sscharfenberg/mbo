@@ -58,6 +58,12 @@
         margin-left: auto;
     }
 
+    &.required {
+        background-color: map.get(c.$form, "required", "background");
+        color: map.get(c.$form, "required", "surface");
+        border-radius: 100vw;
+    }
+
     &-sprite {
         display: none;
     }

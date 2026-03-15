@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import DeleteModal from "@/pages/Dashboard/Delete/DeleteModal.vue";
+import AccountDeleteModal from "@/pages/Dashboard/Delete/AccountDeleteModal.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
@@ -35,5 +35,5 @@ const showModal = ref(false);
             </button>
         </form-group>
     </form>
-    <delete-modal v-if="showModal" @close="showModal = false" />
+    <account-delete-modal v-if="showModal" @close="showModal = false" />
 </template>

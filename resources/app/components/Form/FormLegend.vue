@@ -1,38 +1,17 @@
 <script setup lang="ts">
 import Icon from "Components/UI/Icon.vue";
-withDefaults(
-    defineProps<{
-        required?: boolean;
-        password?: boolean;
-        twoFactor?: boolean;
-    }>(),
-    { required: false, password: false, twoFactor: false }
-);
+defineProps<{
+    items: { slot: string; icon: string }[];
+}>();
 </script>
 
 <template>
     <ul class="form-legend">
-        <li v-if="$slots.default">
-            <icon name="info" />
-            <span><slot /></span>
-        </li>
-        <li v-if="required">
-            <icon name="info" />
-            <span>
-                <i18n-t keypath="form.legend.required" scope="global">
-                    <template #icon>
-                        <icon name="required" class="form-group__icon form-group__icon--required" />
-                    </template>
-                </i18n-t>
-            </span>
-        </li>
-        <li v-if="password">
-            <icon name="key" />
-            <span>{{ $t("form.legend.password") }} </span>
-        </li>
-        <li v-if="twoFactor">
-            <icon name="security" />
-            <span>{{ $t("form.legend.2fa") }} </span>
-        </li>
+        <template v-for="item in items" :key="item.slot">
+            <li v-if="$slots[item.slot]">
+                <icon :name="item.icon" />
+                <span><slot :name="item.slot" /></span>
+            </li>
+        </template>
     </ul>
 </template>

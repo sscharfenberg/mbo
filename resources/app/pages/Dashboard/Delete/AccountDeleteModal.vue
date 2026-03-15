@@ -6,17 +6,12 @@ import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useDeleteAccount } from "Composables/useDeleteAccount.ts";
-
 const emit = defineEmits<{ close: [] }>();
-
 const showPassword = ref(false);
 const password = ref("");
 const passwordRef = ref<HTMLInputElement | null>(null);
-
 onMounted(() => passwordRef.value?.focus());
-
 const { processing, passwordError, deleteAccount } = useDeleteAccount();
-
 const onSubmit = () => deleteAccount(password.value);
 </script>
 
@@ -26,7 +21,9 @@ const onSubmit = () => deleteAccount(password.value);
             {{ $t("pages.dashboard.deletion.modal.title") }}
         </template>
         <form class="form" @submit.prevent="onSubmit">
-            <form-legend>{{ $t("pages.dashboard.deletion.modal.explanation") }}</form-legend>
+            <form-legend :items="[{ slot: 'intro', icon: 'question' }]">
+                <template #intro>{{ $t("pages.dashboard.deletion.modal.explanation") }}</template>
+            </form-legend>
             <form-group
                 for-id="password"
                 :label="$t('form.fields.password')"

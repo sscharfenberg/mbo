@@ -75,7 +75,13 @@ setBreadcrumbs([
         class="form"
         #default="{ errors, processing, validating, valid, validate }"
     >
-        <form-legend :required="true" />
+        <form-legend :items="[{ slot: 'required', icon: 'info' }]">
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+        </form-legend>
         <form-group
             for-id="container_name"
             :label="$t('form.fields.container.name')"

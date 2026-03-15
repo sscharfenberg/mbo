@@ -54,7 +54,7 @@ watch(
                 <span class="clist__count"><icon name="deck" />0</span>
                 <span class="clist__price"><icon name="wallet" />125,56€</span>
             </Link>
-            <ContainerMenu :container-id="container.id" />
+            <ContainerMenu :container="container" />
         </li>
     </VueDraggable>
 </template>

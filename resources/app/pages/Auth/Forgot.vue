@@ -37,7 +37,19 @@ const onChange = (ev: { target: { value: string } }) => {
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend :required="true">{{ $t("pages.forgot.intro") }}</form-legend>
+        <form-legend
+            :items="[
+                { slot: 'intro', icon: 'info' },
+                { slot: 'required', icon: 'info' }
+            ]"
+        >
+            <template #intro>{{ $t("pages.forgot.intro") }}</template>
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+        </form-legend>
         <form-group for-id="type_password">
             <radio-button-group name="type" :radio-buttons="types" @change="onChange" />
         </form-group>
@@ -64,7 +76,14 @@ const onChange = (ev: { target: { value: string } }) => {
             addon-icon="mail"
             :required="true"
         >
-            <input type="email" name="email" id="email" maxlength="255" @change="validate('email')" class="form-input" />
+            <input
+                type="email"
+                name="email"
+                id="email"
+                maxlength="255"
+                @change="validate('email')"
+                class="form-input"
+            />
         </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">

@@ -1,7 +1,7 @@
-import type { ComponentCustomProperties } from "vue";
+export {};
 
 declare module "vue" {
     interface ComponentCustomProperties {
-        $t: (key: string) => string;
+        $t: (key: string, named?: Record<string, unknown>) => string;
     }
 }

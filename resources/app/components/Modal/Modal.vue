@@ -93,7 +93,7 @@ onMounted(() => {
     >
         <div ref="contentRef" class="modal-dialog__content">
             <modal-header @close="closeModal"><slot name="header" /></modal-header>
-            <modal-body><slot /></modal-body>
+            <modal-body :has-footer="!!$slots.footer"><slot /></modal-body>
             <modal-footer v-if="$slots.footer"><slot name="footer" /></modal-footer>
         </div>
     </dialog>

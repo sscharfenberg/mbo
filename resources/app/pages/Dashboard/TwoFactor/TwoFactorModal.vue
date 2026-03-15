@@ -47,7 +47,9 @@ const handleModalNextStep = async () => {
             <span v-else>{{ $t("pages.dashboard.two_factor.verification.title") }}</span>
         </template>
         <form v-if="!showVerificationStep" class="form">
-            <form-legend>{{ $t("pages.dashboard.two_factor.setup.explanation") }}</form-legend>
+            <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
+                <template #intro>{{ $t("pages.dashboard.two_factor.setup.explanation") }}</template>
+            </form-legend>
             <loading-spinner v-if="!qrCodeSvg" :size="2" />
             <form-group v-else :label="$t('pages.dashboard.two_factor.setup.qrcode_label')">
                 <div v-html="qrCodeSvg" />
@@ -87,7 +89,9 @@ const handleModalNextStep = async () => {
             method="post"
             v-slot="{ errors, processing, submit }"
         >
-            <form-legend>{{ $t("pages.dashboard.two_factor.verification.explanation") }}</form-legend>
+            <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
+                <template #intro>{{ $t("pages.dashboard.two_factor.verification.explanation") }}</template>
+            </form-legend>
             <form-group
                 :error="errors?.code"
                 :invalid="!!errors?.code"

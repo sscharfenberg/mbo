@@ -19,10 +19,6 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    required: {
-        type: Boolean,
-        default: false
-    },
     additionalClasses: {
         type: Array,
         default: () => []
@@ -34,7 +30,6 @@ const cssClasses = computed(() => {
     cssClasses.push(sizeClasses[props.size]);
     cssClasses.push(props.name);
     if (props.rotate) cssClasses.push("rotate");
-    if (props.required) cssClasses.push("required");
     return cssClasses.join(" ");
 });
 </script>

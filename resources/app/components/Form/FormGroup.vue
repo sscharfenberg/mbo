@@ -39,7 +39,7 @@ const anchorName = `--fgf-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
     <div class="form-group">
         <label v-if="label?.length" :for="forId">
             <span>{{ label }}:</span>
-            <span v-if="required" class="form-group__icon form-group__icon--required"><icon name="required" /></span>
+            <span v-if="required" class="form-group__icon"><icon name="required" /></span>
         </label>
         <span v-else class="label"
             ><span v-if="required" class="form-group__icon"><icon name="required" /></span

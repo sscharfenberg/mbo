@@ -19,6 +19,11 @@ const {
 const recoveryCodesString = computed(() => recoveryCodesList.value.join("\n"));
 const password = ref("");
 const showPassword = ref(false);
+const legendItems = computed(() => {
+    const items = [{ slot: "intro", icon: "info" }];
+    if (requiresConfirmation.value) items.push({ slot: "required", icon: "info" });
+    return items;
+});
 
 const onSubmit = (e: SubmitEvent) => {
     const action = (e.submitter as HTMLButtonElement | null)?.value;
@@ -30,9 +35,14 @@ const onSubmit = (e: SubmitEvent) => {
 <template>
     <headline :size="4">{{ $t("pages.dashboard.two_factor.recovery_codes.headline") }}</headline>
     <form class="form" @submit.prevent="onSubmit">
-        <form-legend :required="requiresConfirmation">{{
-            $t("pages.dashboard.two_factor.recovery_codes.explanation")
-        }}</form-legend>
+        <form-legend :items="legendItems">
+            <template #intro>{{ $t("pages.dashboard.two_factor.recovery_codes.explanation") }}</template>
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+        </form-legend>
         <form-group
             v-if="requiresConfirmation && !isRecoveryCodesVisible"
             for-id="recovery-codes-password"
@@ -78,7 +88,9 @@ const onSubmit = (e: SubmitEvent) => {
                     <textarea :value="recoveryCodesString" readonly />
                 </div>
             </form-group>
-            <form-legend>{{ $t("pages.dashboard.two_factor.regenerate_codes.explanation") }}</form-legend>
+            <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
+                <template #intro>{{ $t("pages.dashboard.two_factor.regenerate_codes.explanation") }}</template>
+            </form-legend>
             <form-group>
                 <button type="submit" name="action" value="regenerate" class="btn-default" :disabled="processing">
                     {{ $t("pages.dashboard.two_factor.regenerate_codes.submit") }}

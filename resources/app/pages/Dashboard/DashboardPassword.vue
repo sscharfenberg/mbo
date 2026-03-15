@@ -24,7 +24,19 @@ const showPasswordConfirmation = ref(false);
         @success="reset"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend :required="true">{{ $t("pages.dashboard.password.intro") }}</form-legend>
+        <form-legend
+            :items="[
+                { slot: 'intro', icon: 'required' },
+                { slot: 'required', icon: 'info' }
+            ]"
+        >
+            <template #intro>{{ $t("pages.dashboard.password.intro") }}</template>
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+        </form-legend>
         <form-group
             for-id="current_password"
             :label="$t('form.fields.current_password')"

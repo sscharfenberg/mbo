@@ -206,11 +206,14 @@
             "search": "Search",
             "filter_by_type": "Filter by type",
             "sort_saving": "Saving order…",
-            "sort_error": "The sort order could not be saved. Please try again."
-        },
-        "container": {
-            "title": "Container {name}",
-            "link": "Container {name}"
+            "sort_error": "The sort order could not be saved. Please try again.",
+            "delete": {
+                "link": "Delete",
+                "title": "Delete Container {name}?",
+                "question": "Are you sure you want to delete this container? This action can not be undone.",
+                "aff": "Yes, delete",
+                "neg": "No, cancel"
+            }
         },
         "new_container": {
             "title": "Create new container",

@@ -1,7 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+withDefaults(
+    defineProps<{
+        hasFooter?: boolean;
+    }>(),
+    {
+        hasFooter: false
+    }
+);
+</script>
 
 <template>
-    <div class="modal-dialog__body"><slot /></div>
+    <div :class="['modal-dialog__body', { 'modal-dialog__body--no-footer': !hasFooter }]"><slot /></div>
 </template>
 
 <style scoped lang="scss">
@@ -13,6 +22,9 @@
     max-height: 75dvh;
 
     padding: map.get(s.$main, "modal", "padding");
-    margin-bottom: calc(#{map.get(s.$main, "modal", "radius")} - #{map.get(s.$main, "modal", "border")});
+
+    &--no-footer {
+        margin-bottom: calc(#{map.get(s.$main, "modal", "radius")} - #{map.get(s.$main, "modal", "border")});
+    }
 }
 </style>

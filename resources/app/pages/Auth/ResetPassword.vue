@@ -34,7 +34,9 @@ const showPasswordConfirmation = ref(false);
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend>{{ $t("pages.reset_password.intro") }}</form-legend>
+        <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
+            <template #intro>{{ $t("pages.reset_password.intro") }}</template>
+        </form-legend>
         <form-group
             for-id="email"
             :label="$t('form.fields.email')"

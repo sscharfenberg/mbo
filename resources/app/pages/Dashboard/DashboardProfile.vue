@@ -19,7 +19,19 @@ const email = ref(user?.email ?? "");
         class="form"
         #default="{ errors, valid, invalid, validating, validate, processing }"
     >
-        <form-legend :required="true">{{ $t("pages.dashboard.profile.intro") }}</form-legend>
+        <form-legend
+            :items="[
+                { slot: 'intro', icon: 'info' },
+                { slot: 'required', icon: 'info' }
+            ]"
+        >
+            <template #intro>{{ $t("pages.dashboard.profile.intro") }}</template>
+            <template #required>
+                <i18n-t keypath="form.legend.required" scope="global">
+                    <template #icon><icon name="required" /></template>
+                </i18n-t>
+            </template>
+        </form-legend>
         <form-group
             for-id="name"
             :label="$t('form.fields.username')"

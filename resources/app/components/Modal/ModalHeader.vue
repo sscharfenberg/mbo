@@ -26,7 +26,7 @@ import Icon from "Components/UI/Icon.vue";
         align-items: flex-start;
 
         padding: map.get(s.$main, "modal", "padding");
-        gap: 1ch;
+        gap: 2ch;
 
         background-color: map.get(c.$main, "modal", "title-background");
 

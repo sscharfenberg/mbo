@@ -18,7 +18,7 @@ const { navigating } = useNavigation();
     <app-header />
     <app-main>
         <slot />
-        <div v-if="navigating" class="nav-overlay" aria-hidden="true">
+        <div v-show="navigating" class="nav-overlay" aria-hidden="true">
             <loading-spinner :size="8" :branded="true" />
         </div>
     </app-main>
