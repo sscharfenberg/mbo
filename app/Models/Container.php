@@ -6,6 +6,7 @@ use App\Enums\BinderType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Container extends Model
 {
@@ -92,5 +93,15 @@ class Container extends Model
     public function defaultCard(): BelongsTo
     {
         return $this->belongsTo(DefaultCard::class, 'default_card_id');
+    }
+
+    /**
+     * Get the card stacks stored in this container.
+     *
+     * @return HasMany<CardStack>
+     */
+    public function cardStacks(): HasMany
+    {
+        return $this->hasMany(CardStack::class);
     }
 }

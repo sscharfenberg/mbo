@@ -102,4 +102,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return $this->hasMany(Container::class);
     }
+
+    /**
+     * Get the card stacks belonging to this user.
+     *
+     * @return HasMany<CardStack>
+     */
+    public function cardStacks(): HasMany
+    {
+        return $this->hasMany(CardStack::class);
+    }
 }
