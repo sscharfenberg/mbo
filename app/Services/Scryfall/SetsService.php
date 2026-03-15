@@ -4,12 +4,11 @@ namespace App\Services\Scryfall;
 
 use App\Models\Set;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class SetsService
+class SetsService extends ScryfallService
 {
 
     /**
@@ -56,7 +55,7 @@ class SetsService
     {
         $fileName = $this->buildFileName($code);
         if (Storage::disk('set')->missing($fileName)) {
-            $response = Http::withHeaders(config('mbo.scryfall.header'))
+            $response = $this->http()
                 ->get($uri);
             if ($response->successful()) {
                 Storage::disk('set')->put($fileName, $response->body());
@@ -116,7 +115,7 @@ class SetsService
     {
         $this->setup();
         try {
-            $response = Http::withHeaders(config('mbo.scryfall.header'))
+            $response = $this->http()
                 ->get('https://api.scryfall.com/sets');
             if ($response->successful()) {
                 $sets = $response->json();

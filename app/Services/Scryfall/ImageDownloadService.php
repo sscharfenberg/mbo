@@ -4,7 +4,6 @@ namespace App\Services\Scryfall;
 
 use App\Models\DefaultCard;
 use App\Services\FormatService;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
  *   - DefaultCardsService → database (import, path resolution)
  *   - ImageDownloadService → filesystem (downloading images to disk)
  */
-class ImageDownloadService
+class ImageDownloadService extends ScryfallService
 {
 
     private ScryfallImageService $imageService;
@@ -107,7 +106,7 @@ class ImageDownloadService
 
         // Download from Scryfall
         try {
-            $response = Http::get($scryfallUrl);
+            $response = $this->http()->get($scryfallUrl);
             if ($response->successful()) {
                 Storage::disk('art-crops')->put($diskPath, $response->body());
                 Log::channel('scryfall')->debug("downloaded art crop for [{$setCode}] {$card->name}.");

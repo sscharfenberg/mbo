@@ -5,11 +5,10 @@ namespace App\Services\Scryfall;
 use App\Models\Symbol;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class SymbolsService
+class SymbolsService extends ScryfallService
 {
 
     /**
@@ -62,7 +61,7 @@ class SymbolsService
     {
         $fileName = $this->buildFileName($symbol);
         if (Storage::disk('symbol')->missing($fileName)) {
-            $response = Http::withHeaders(config('mbo.scryfall.header'))
+            $response = $this->http()
                 ->get($symbol['svg_uri']);
             if ($response->successful()) {
                 Storage::disk('symbol')->put($fileName, $response->body());
@@ -116,7 +115,7 @@ class SymbolsService
     {
         $this->setup();
         try {
-            $response = Http::withHeaders(config('mbo.scryfall.header'))
+            $response = $this->http()
                 ->get('https://api.scryfall.com/symbology');
             if ($response->successful()) {
                 $symbols = $response->json();

@@ -5,12 +5,11 @@ namespace App\Services\Scryfall;
 use App\Models\BulkData;
 use App\Services\FormatService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 
-class BulkdataService
+class BulkdataService extends ScryfallService
 {
 
     private FormatService $formatService;
@@ -42,7 +41,7 @@ class BulkdataService
         $uri = $bd->download_uri;
         try {
             Log::channel('scryfall')->notice("starting download of '$fileName' from scryfall.");
-            $response = Http::withHeaders(config('mbo.scryfall.header'))
+            $response = $this->http()
                 ->timeout(-1) // disable timeouts since we want to download large files.
                 ->get($uri);
             if ($response->failed()) {
@@ -142,7 +141,7 @@ class BulkdataService
         Log::channel('scryfall')->debug('Updating bulk metadata from scryfall.');
         $this->preRunCleanup();
         try {
-            $response = Http::accept('application/json')
+            $response = $this->http()
                 ->get('https://api.scryfall.com/bulk-data');
             if ($response->successful()) {
                 $json = $response->json();
