@@ -16,7 +16,7 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
         {{ $t("pages.collection.title") }}
     </headline>
     <Link href="/collection/containers" class="btn-default">
-        <icon name="container-type" />
+        <icon name="storage" />
         {{ $t("pages.containers.link") }}
     </Link>
     <p>list cards, search cards, stats.</p>

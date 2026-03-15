@@ -54,7 +54,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
-    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "container-type" },
+    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" },
     {
         label: isEdit.value ? t("pages.edit_container.title") : t("pages.new_container.title")
     }
@@ -66,7 +66,7 @@ setBreadcrumbs([
         ><title>{{ isEdit ? $t("pages.edit_container.title") : $t("pages.new_container.title") }}</title></Head
     >
     <headline>
-        <icon :name="isEdit ? 'container-type' : 'add'" :size="3" />
+        <icon :name="isEdit ? 'storage' : 'add'" :size="3" />
         {{ isEdit ? $t("pages.edit_container.title") : $t("pages.new_container.title") }}
     </headline>
     <Form
@@ -114,7 +114,7 @@ setBreadcrumbs([
                 :options="types"
                 :selected="selectedType"
                 @change="onTypeChange($event, validate)"
-                addon-icon="container-type"
+                addon-icon="storage"
             />
             <input type="hidden" name="container_type" :value="selectedType" />
         </form-group>

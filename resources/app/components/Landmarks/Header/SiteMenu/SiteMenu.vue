@@ -24,8 +24,7 @@ import LabelledLink from "Components/UI/LabelledLink.vue";
 @use "Abstracts/sizes" as s;
 
 .site-menus {
-    display: flex;
-    flex-direction: column;
+    display: none;
 
     padding: 0;
     margin: 0;
@@ -33,6 +32,7 @@ import LabelledLink from "Components/UI/LabelledLink.vue";
     list-style: none;
 
     @include m.mq("landscape") {
+        display: flex;
         flex-direction: row;
 
         margin-left: auto;

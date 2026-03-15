@@ -32,7 +32,7 @@ setBreadcrumbs([
         ><title>{{ $t("pages.containers.title") }}</title></Head
     >
     <headline>
-        <icon name="container-type" :size="3" />
+        <icon name="storage" :size="3" />
         {{ $t("pages.containers.title") }}
     </headline>
     <paragraph> {{ $t("pages.containers.explanation") }}<br /> </paragraph>

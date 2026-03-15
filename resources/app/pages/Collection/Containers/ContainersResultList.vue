@@ -46,7 +46,7 @@ watch(
                     <span v-if="container.description" class="clist__description">{{ container.description }}</span>
                 </span>
                 <span class="clist__type"
-                    ><icon name="container-type" />
+                    ><icon name="storage" />
                     {{
                         container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
                     }}</span

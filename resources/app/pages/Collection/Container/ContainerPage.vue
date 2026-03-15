@@ -11,7 +11,7 @@ const props = defineProps<{ container: Container }>();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
-    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "container-type" },
+    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" },
     { label: props.container.name }
 ]);
 </script>
@@ -35,7 +35,7 @@ setBreadcrumbs([
         <li v-if="container.description">{{ container.description }}</li>
         <li v-if="container.defaultCard"><art-crop-image :card="container.defaultCard" /></li>
         <li>
-            <icon name="container-type" />{{
+            <icon name="storage" />{{
                 container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
             }}
         </li>

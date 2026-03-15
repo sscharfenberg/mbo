@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
+import SiteMenuPopover from "Components/Landmarks/Header/SiteMenu/SiteMenuPopover.vue";
 import LanguageMenu from "./LanguageMenu/LanguageMenu.vue";
 import SiteMenu from "./SiteMenu/SiteMenu.vue";
 import UserMenu from "./UserMenu/UserMenu.vue";
@@ -11,6 +12,7 @@ const user = computed(() => page.props.auth.user);
 <template>
     <site-menu v-if="user" />
     <nav class="user-menus" :aria-label="$t('header.user_nav')">
+        <site-menu-popover v-if="user" />
         <language-menu />
         <user-menu />
     </nav>
