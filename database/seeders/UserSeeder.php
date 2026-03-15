@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'id' => Str::uuid()->toString(),
             'name' => 'Username',
-            'email' => 'test@test.de',
+            'email' => '5430451+sscharfenberg@users.noreply.github.com',
             'email_verified_at' => Carbon::now(),
             'locale' => 'de',
             'password' => Hash::make('password'),
