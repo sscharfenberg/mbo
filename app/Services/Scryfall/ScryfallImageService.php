@@ -15,16 +15,16 @@ class ScryfallImageService
     protected array $imageFormats = ["large", "normal", "small", "png"];
 
     /**
-     * Extract image URIs from a Scryfall card object.
+     * Extract card image URLs from a Scryfall card object.
      *
      * Checks the card-level image_uris first, then falls back to
      * per-face image_uris for multi-faced cards (e.g. transform, modal DFC).
      * Returns the highest-priority format available per $imageFormats.
      *
      * @param  array  $card  A single card object from the Scryfall bulk JSON.
-     * @return array<string>  Zero or more image URIs.
+     * @return array{card_image_0: string|null, card_image_1: string|null}
      */
-    public function getImageUris(array $card): array
+    public function getCardImages(array $card): array
     {
         $uris = [];
         if (array_key_exists('image_uris', $card) && count($card['image_uris']) > 0) {
@@ -40,7 +40,10 @@ class ScryfallImageService
                 }
             }
         }
-        return $uris;
+        return [
+            'card_image_0' => $uris[0] ?? null,
+            'card_image_1' => $uris[1] ?? null,
+        ];
     }
 
     /**

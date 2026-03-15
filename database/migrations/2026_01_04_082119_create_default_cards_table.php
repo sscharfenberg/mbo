@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('collector_number', 10);
             $table->string('layout', 48);
             $table->string('lang', 8);
-            $table->json('image_uris')->nullable();
+            $table->string('card_image_0')->nullable();
+            $table->string('card_image_1')->nullable();
             $table->string('art_crop')->nullable();
             $table->json('finishes');
             $table->json('games');

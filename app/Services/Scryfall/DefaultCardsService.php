@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Storage;
  * Handles all database operations for the default_cards table.
  *
  * This service owns the DB writes for default cards. During import, it resolves
- * art_crop URLs to local paths when a cached image already exists on disk,
+ * image URLs to local paths when a cached image already exists on disk,
  * otherwise stores the Scryfall URL for later download by ImageDownloadService.
  *
  * Separation of concerns:
- *   - DefaultCardsService → database (import, path resolution)
- *   - ImageDownloadService → filesystem (downloading images to disk)
+ *   - DefaultCardsService         → database (import, eagerly resolves paths during insert)
+ *   - ImageDownloadService        → filesystem (downloading images to disk)
+ *   - ResolveImagePathsService    → database (post-download URL → local path resolution)
  */
 class DefaultCardsService
 {
@@ -86,6 +87,40 @@ class DefaultCardsService
     }
 
     /**
+     * Resolve a single card image (front or back face).
+     *
+     * If a locally cached image exists on disk with a matching timestamp,
+     * returns the local public path. Otherwise returns the Scryfall URL
+     * so that ImageDownloadService can download it later.
+     *
+     * @param  array        $card        A single card object from the default_cards bulk JSON.
+     * @param  string|null  $scryfallUrl The Scryfall image URL, or null if no image for this face.
+     * @param  int          $index       Face index (0 = front, 1 = back).
+     * @return string|null  Local path or Scryfall URL, null if no image for this face.
+     */
+    private function resolveCardImage(array $card, ?string $scryfallUrl, int $index): ?string
+    {
+        if ($scryfallUrl === null) {
+            return null;
+        }
+
+        $setCode = $card['set'] ?? null;
+        if ($setCode === null) {
+            return $scryfallUrl;
+        }
+
+        $timestamp = $this->imageService->parseTimestamp($scryfallUrl);
+        $filename = $this->imageService->buildCardImageFilename($card['id'], $timestamp, $index);
+        $diskPath = "$setCode/$filename";
+
+        if (Storage::disk('card-images')->exists($diskPath)) {
+            return "/card-images/$diskPath";
+        }
+
+        return $scryfallUrl;
+    }
+
+    /**
      * Persist a single default card to the database.
      *
      * Maps required Scryfall fields (prices, finishes, rarity, etc.) and
@@ -97,13 +132,15 @@ class DefaultCardsService
      */
     private function insertCard(array $card): void
     {
+        $cardImages = $this->imageService->getCardImages($card);
         // non nullable values
         $arr = [
             'id' => $card['id'],
             'name' => $card['name'],
             'collector_number' => $card['collector_number'],
             'lang' => $card['lang'],
-            'image_uris' => $this->imageService->getImageUris($card),
+            'card_image_0' => $this->resolveCardImage($card, $cardImages['card_image_0'], 0),
+            'card_image_1' => $this->resolveCardImage($card, $cardImages['card_image_1'], 1),
             'art_crop' => $this->resolveArtCrop($card),
             'finishes' => $card['finishes'],
             'games' => $card['games'],
@@ -146,105 +183,6 @@ class DefaultCardsService
         $ms = $start->diffInMilliseconds(now());
         $numCards = number_format($count, 0, ",", ".");
         Log::channel('scryfall')->notice("finished inserting $numCards cards into database in ".$this->formatService->formatMs($ms).".");
-    }
-
-    /**
-     * Update art_crop paths for cards that still point to Scryfall URLs
-     * but already have a cached image on disk.
-     *
-     * This is a lightweight post-download pass — no JSON parsing or API calls,
-     * just a DB query with disk checks. Intended to be called after
-     * ImageDownloadService has finished downloading images.
-     *
-     * @return int  Number of paths resolved.
-     */
-    public function resolveArtCropPaths(): int
-    {
-        $resolved = 0;
-
-        DefaultCard::whereNotNull('art_crop')
-            ->where('art_crop', 'like', 'https://%')
-            ->with('set:id,code')
-            ->chunkById(500, function ($cards) use (&$resolved) {
-                foreach ($cards as $card) {
-                    $setCode = $card->set?->code;
-                    if (!$setCode) {
-                        continue;
-                    }
-
-                    $timestamp = $this->imageService->parseTimestamp($card->art_crop);
-                    $filename = $this->imageService->buildArtCropFilename($card->id, $timestamp);
-                    $diskPath = "$setCode/$filename";
-
-                    if (Storage::disk('art-crops')->exists($diskPath)) {
-                        $card->update(['art_crop' => "/art-crops/$diskPath"]);
-                        $resolved++;
-                    }
-                }
-            });
-
-        if ($resolved > 0) {
-            Log::channel('scryfall')->notice("resolved $resolved art crop paths to local cache.");
-        }
-
-        return $resolved;
-    }
-
-    /**
-     * Update image_uris for cards that still have Scryfall URLs
-     * but already have cached images on disk.
-     *
-     * Iterates each entry in the JSON array, checks the disk for the
-     * corresponding file (using the face index in the filename), and
-     * replaces the URL with the local path. Only writes to the DB
-     * when at least one URL was resolved.
-     *
-     * @return int  Number of cards with at least one resolved image path.
-     */
-    public function resolveCardImagePaths(): int
-    {
-        $resolved = 0;
-
-        DefaultCard::whereNotNull('image_uris')
-            ->whereRaw("JSON_CONTAINS(image_uris, '\"https://%\"') OR image_uris LIKE '%https://%'")
-            ->with('set:id,code')
-            ->chunkById(500, function ($cards) use (&$resolved) {
-                foreach ($cards as $card) {
-                    $setCode = $card->set?->code;
-                    if (!$setCode) {
-                        continue;
-                    }
-
-                    $uris = $card->image_uris->toArray();
-                    $changed = false;
-
-                    foreach ($uris as $index => $url) {
-                        if (!str_starts_with($url, 'https://')) {
-                            continue;
-                        }
-
-                        $timestamp = $this->imageService->parseTimestamp($url);
-                        $filename = $this->imageService->buildCardImageFilename($card->id, $timestamp, $index);
-                        $diskPath = "$setCode/$filename";
-
-                        if (Storage::disk('card-images')->exists($diskPath)) {
-                            $uris[$index] = "/card-images/$diskPath";
-                            $changed = true;
-                        }
-                    }
-
-                    if ($changed) {
-                        $card->update(['image_uris' => $uris]);
-                        $resolved++;
-                    }
-                }
-            });
-
-        if ($resolved > 0) {
-            Log::channel('scryfall')->notice("resolved image_uris for $resolved cards to local cache.");
-        }
-
-        return $resolved;
     }
 
     /**

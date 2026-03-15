@@ -26,7 +26,8 @@ return new class extends Migration
             $table->string('color_identity', 6)->nullable();
             $table->string('colors', 6)->nullable();
             $table->json('legalities');
-            $table->json('image_uris')->nullable();
+            $table->string('card_image_0')->nullable();
+            $table->string('card_image_1')->nullable();
             $table->boolean('reserved')->default(false);
             $table->boolean('game_changer')->default(false);
             $table->string('scryfall_uri', 255);

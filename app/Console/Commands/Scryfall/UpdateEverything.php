@@ -69,8 +69,11 @@ class UpdateEverything extends Command
             $waitTime += $this->sleep();
             $this->call('scryfall:default_cards');
             $waitTime += $this->sleep();
-            // download missing art crop images to local disk
+            // download missing art crop and card images to local disk
             $this->call('scryfall:images');
+            $waitTime += $this->sleep();
+            // resolve Scryfall URLs → local paths for downloaded images
+            $this->call('scryfall:resolve-paths');
             $ms = $start->diffInMilliseconds(now());
             Log::channel('scryfall')->info("=======================================================");
             Log::channel('scryfall')->info("artisan command 'scryfall:update' finished in ".$this->formatService->formatMs($ms).", including $waitTime seconds idle time.");

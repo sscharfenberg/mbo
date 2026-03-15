@@ -144,7 +144,7 @@ class ImageDownloadService extends ScryfallService
     /**
      * Download all missing or outdated card images from Scryfall.
      *
-     * Walks every default_card that has Scryfall URLs in image_uris,
+     * Walks every default_card that has Scryfall URLs in card_image_0 or card_image_1,
      * checks the local disk for each face (front/back), and downloads
      * if missing or outdated. Does not update the database.
      *
@@ -159,7 +159,10 @@ class ImageDownloadService extends ScryfallService
 
         Log::channel('scryfall')->notice("begin downloading card images.");
 
-        DefaultCard::whereNotNull('image_uris')
+        DefaultCard::where(function ($q) {
+                $q->where('card_image_0', 'like', 'https://%')
+                  ->orWhere('card_image_1', 'like', 'https://%');
+            })
             ->with('set:id,code')
             ->chunkById(200, function ($cards) use (&$downloaded, &$skipped, &$failed) {
                 foreach ($cards as $card) {
@@ -182,9 +185,8 @@ class ImageDownloadService extends ScryfallService
     /**
      * Process all face images for a single card.
      *
-     * Iterates over the card's image_uris array (1 entry for single-faced,
-     * 2 for dual-faced). Each face is stored with its index in the filename
-     * (e.g. uuid--timestamp--0.jpg, uuid--timestamp--1.jpg).
+     * Checks card_image_0 and card_image_1 for Scryfall URLs and downloads
+     * each face that is missing from the local disk.
      *
      * @param  DefaultCard  $card
      * @return array{downloaded: int, skipped: int, failed: int}
@@ -196,13 +198,13 @@ class ImageDownloadService extends ScryfallService
 
         if (!$setCode) {
             Log::channel('scryfall')->warning("card {$card->id} ({$card->name}) has no set, skipping card images.");
-            $counts['failed'] += count($card->image_uris);
+            $counts['failed']++;
             return $counts;
         }
 
-        foreach ($card->image_uris as $index => $scryfallUrl) {
-            if (!str_starts_with($scryfallUrl, 'https://')) {
-                $counts['skipped']++;
+        foreach ([0, 1] as $index) {
+            $scryfallUrl = $card->{"card_image_$index"};
+            if ($scryfallUrl === null || !str_starts_with($scryfallUrl, 'https://')) {
                 continue;
             }
 

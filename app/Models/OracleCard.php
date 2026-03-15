@@ -66,7 +66,8 @@ class OracleCard extends Model
         'color_identity',
         'colors',
         'legalities',
-        'image_uris',
+        'card_image_0',
+        'card_image_1',
         'reserved',
         'game_changer',
         'scryfall_uri'
@@ -84,7 +85,6 @@ class OracleCard extends Model
         'lang'         => ScryfallLang::class,
         'cmc'          => 'float',
         'legalities'   => AsCollection::class,
-        'image_uris'   => AsCollection::class,
     ];
 
     /**

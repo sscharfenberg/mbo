@@ -42,8 +42,8 @@ class OracleCardsService
      * Persist a single oracle card to the database.
      *
      * Maps required Scryfall fields and conditionally includes optional
-     * ones (mana_cost, layout, colors, color_identity). Image URIs are
-     * resolved via ScryfallImageService::getImageUris().
+     * ones (mana_cost, layout, colors, color_identity). Card images are
+     * resolved via ScryfallImageService::getCardImages().
      *
      * @param  array  $card  A single card object from the oracle_cards bulk JSON.
      * @return void
@@ -59,7 +59,7 @@ class OracleCardsService
             'lang' => $card['lang'],
             'cmc' => $card['cmc'],
             'legalities' => $card['legalities'],
-            'image_uris' => $this->imageService->getImageUris($card),
+            ...$this->imageService->getCardImages($card),
             'reserved' => $card['reserved'],
             'game_changer' => $card['game_changer'],
             'scryfall_uri' => $card['scryfall_uri'],
