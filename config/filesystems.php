@@ -90,6 +90,14 @@ return [
             'throw' => true,
             'report' => false,
         ],
+        'card-images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/card-images'),
+            'url' => env('APP_URL').'/card-images',
+            'visibility' => 'public',
+            'throw' => true,
+            'report' => false,
+        ],
 
     ],
 
@@ -109,6 +117,7 @@ return [
         public_path('set') => storage_path('app/set'),
         public_path('symbol') => storage_path('app/symbol'),
         public_path('art-crops') => storage_path('app/art-crops'),
+        public_path('card-images') => storage_path('app/card-images'),
     ],
 
 ];

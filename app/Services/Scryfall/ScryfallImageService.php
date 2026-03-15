@@ -118,6 +118,41 @@ class ScryfallImageService
     }
 
     /**
+     * Build the local filename for a cached card image.
+     *
+     * Embeds the Scryfall timestamp and face index in the filename so that
+     * a filesystem check alone can determine whether the cached version is current.
+     *
+     * Format: {uuid}--{timestamp}--{index}.jpg  (or {uuid}--{index}.jpg if no timestamp)
+     *
+     * @param  string       $uuid       The card UUID.
+     * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
+     * @param  int          $index      The face index (0 = front, 1 = back).
+     * @return string  e.g. "abcdef-1234--1709234567--0.jpg"
+     */
+    public function buildCardImageFilename(string $uuid, ?string $timestamp, int $index): string
+    {
+        if ($timestamp !== null) {
+            return "$uuid--$timestamp--$index.jpg";
+        }
+        return "$uuid--$index.jpg";
+    }
+
+    /**
+     * Build the full local path for a cached card image.
+     *
+     * @param  string       $setCode    The set code (e.g. "lea", "mh3").
+     * @param  string       $uuid       The card UUID.
+     * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
+     * @param  int          $index      The face index (0 = front, 1 = back).
+     * @return string  e.g. "card-images/lea/abcdef-1234--1709234567--0.jpg"
+     */
+    public function buildCardImagePath(string $setCode, string $uuid, ?string $timestamp, int $index): string
+    {
+        return "card-images/$setCode/" . $this->buildCardImageFilename($uuid, $timestamp, $index);
+    }
+
+    /**
      * Resolve the best image URI for a single card face.
      *
      * Iterates through $imageFormats in priority order and returns

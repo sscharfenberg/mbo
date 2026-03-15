@@ -22,7 +22,7 @@ class DownloadImages extends Command
      *
      * @var string
      */
-    protected $description = 'Download art crop images from Scryfall and cache them locally.';
+    protected $description = 'Download art crop and card images from Scryfall and cache them locally.';
 
     private FormatService $formatService;
     private ImageDownloadService $imageDownloadService;
@@ -46,11 +46,16 @@ class DownloadImages extends Command
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:images' started.");
         Log::channel('scryfall')->info("=======================================================");
-        // download missing images to disk
+        // download missing art crop images to disk
         $this->imageDownloadService->downloadArtCrops();
-        // resolve Scryfall URLs → local paths for newly downloaded images
+        // resolve Scryfall URLs → local paths for newly downloaded art crops
         $resolved = $this->defaultCardsService->resolveArtCropPaths();
         $this->info("resolved $resolved art crop paths to local cache.");
+        // download missing card images (full scans) to disk
+        $this->imageDownloadService->downloadCardImages();
+        // resolve Scryfall URLs → local paths for newly downloaded card images
+        $resolvedImages = $this->defaultCardsService->resolveCardImagePaths();
+        $this->info("resolved $resolvedImages card image paths to local cache.");
         $ms = $start->diffInMilliseconds(now());
         Log::channel('scryfall')->info("=======================================================");
         Log::channel('scryfall')->info("artisan command 'scryfall:images' finished in ".$this->formatService->formatMs($ms).".");

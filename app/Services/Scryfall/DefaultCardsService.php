@@ -191,6 +191,63 @@ class DefaultCardsService
     }
 
     /**
+     * Update image_uris for cards that still have Scryfall URLs
+     * but already have cached images on disk.
+     *
+     * Iterates each entry in the JSON array, checks the disk for the
+     * corresponding file (using the face index in the filename), and
+     * replaces the URL with the local path. Only writes to the DB
+     * when at least one URL was resolved.
+     *
+     * @return int  Number of cards with at least one resolved image path.
+     */
+    public function resolveCardImagePaths(): int
+    {
+        $resolved = 0;
+
+        DefaultCard::whereNotNull('image_uris')
+            ->whereRaw("JSON_CONTAINS(image_uris, '\"https://%\"') OR image_uris LIKE '%https://%'")
+            ->with('set:id,code')
+            ->chunkById(500, function ($cards) use (&$resolved) {
+                foreach ($cards as $card) {
+                    $setCode = $card->set?->code;
+                    if (!$setCode) {
+                        continue;
+                    }
+
+                    $uris = $card->image_uris->toArray();
+                    $changed = false;
+
+                    foreach ($uris as $index => $url) {
+                        if (!str_starts_with($url, 'https://')) {
+                            continue;
+                        }
+
+                        $timestamp = $this->imageService->parseTimestamp($url);
+                        $filename = $this->imageService->buildCardImageFilename($card->id, $timestamp, $index);
+                        $diskPath = "$setCode/$filename";
+
+                        if (Storage::disk('card-images')->exists($diskPath)) {
+                            $uris[$index] = "/card-images/$diskPath";
+                            $changed = true;
+                        }
+                    }
+
+                    if ($changed) {
+                        $card->update(['image_uris' => $uris]);
+                        $resolved++;
+                    }
+                }
+            });
+
+        if ($resolved > 0) {
+            Log::channel('scryfall')->notice("resolved image_uris for $resolved cards to local cache.");
+        }
+
+        return $resolved;
+    }
+
+    /**
      * Run a full default-cards import from Scryfall.
      *
      * Downloads the "default_cards" bulk JSON (if not already cached),

@@ -141,4 +141,120 @@ class ImageDownloadService extends ScryfallService
         }
     }
 
+    /**
+     * Download all missing or outdated card images from Scryfall.
+     *
+     * Walks every default_card that has Scryfall URLs in image_uris,
+     * checks the local disk for each face (front/back), and downloads
+     * if missing or outdated. Does not update the database.
+     *
+     * @return void
+     */
+    public function downloadCardImages(): void
+    {
+        $start = now();
+        $downloaded = 0;
+        $skipped = 0;
+        $failed = 0;
+
+        Log::channel('scryfall')->notice("begin downloading card images.");
+
+        DefaultCard::whereNotNull('image_uris')
+            ->with('set:id,code')
+            ->chunkById(200, function ($cards) use (&$downloaded, &$skipped, &$failed) {
+                foreach ($cards as $card) {
+                    $results = $this->processCardImages($card);
+                    $downloaded += $results['downloaded'];
+                    $skipped += $results['skipped'];
+                    $failed += $results['failed'];
+                }
+            });
+
+        $ms = $start->diffInMilliseconds(now());
+        $total = $downloaded + $skipped + $failed;
+        Log::channel('scryfall')->notice(
+            "finished card image download: $total images processed "
+            . "($downloaded downloaded, $skipped skipped, $failed failed) "
+            . "in " . $this->formatService->formatMs($ms) . "."
+        );
+    }
+
+    /**
+     * Process all face images for a single card.
+     *
+     * Iterates over the card's image_uris array (1 entry for single-faced,
+     * 2 for dual-faced). Each face is stored with its index in the filename
+     * (e.g. uuid--timestamp--0.jpg, uuid--timestamp--1.jpg).
+     *
+     * @param  DefaultCard  $card
+     * @return array{downloaded: int, skipped: int, failed: int}
+     */
+    private function processCardImages(DefaultCard $card): array
+    {
+        $counts = ['downloaded' => 0, 'skipped' => 0, 'failed' => 0];
+        $setCode = $card->set?->code;
+
+        if (!$setCode) {
+            Log::channel('scryfall')->warning("card {$card->id} ({$card->name}) has no set, skipping card images.");
+            $counts['failed'] += count($card->image_uris);
+            return $counts;
+        }
+
+        foreach ($card->image_uris as $index => $scryfallUrl) {
+            if (!str_starts_with($scryfallUrl, 'https://')) {
+                $counts['skipped']++;
+                continue;
+            }
+
+            $timestamp = $this->imageService->parseTimestamp($scryfallUrl);
+            $filename = $this->imageService->buildCardImageFilename($card->id, $timestamp, $index);
+            $diskPath = "$setCode/$filename";
+
+            if (Storage::disk('card-images')->exists($diskPath)) {
+                $counts['skipped']++;
+                continue;
+            }
+
+            $this->cleanupOldCardImages($setCode, $card->id);
+
+            try {
+                $response = $this->http()->get($scryfallUrl);
+                if ($response->successful()) {
+                    Storage::disk('card-images')->put($diskPath, $response->body());
+                    Log::channel('scryfall')->debug("downloaded card image for [{$setCode}] {$card->name} (face $index).");
+                    $counts['downloaded']++;
+                } else {
+                    Log::channel('scryfall')->error("failed to download card image for {$card->name} (face $index): HTTP {$response->status()}");
+                    $counts['failed']++;
+                }
+            } catch (\Exception $e) {
+                Log::channel('scryfall')->error("failed to download card image for {$card->name} (face $index): {$e->getMessage()}");
+                $counts['failed']++;
+            }
+        }
+
+        return $counts;
+    }
+
+    /**
+     * Delete any previously cached card image versions for a given card.
+     *
+     * Finds files matching the card UUID pattern in the set directory
+     * and removes them before downloading new versions.
+     *
+     * @param  string  $setCode  The set code directory.
+     * @param  string  $uuid     The card UUID.
+     * @return void
+     */
+    private function cleanupOldCardImages(string $setCode, string $uuid): void
+    {
+        $files = Storage::disk('card-images')->files($setCode);
+        foreach ($files as $file) {
+            $basename = basename($file);
+            if ($basename === "$uuid.jpg" || str_starts_with($basename, "$uuid--")) {
+                Storage::disk('card-images')->delete($file);
+            }
+        }
+    }
+
 }
