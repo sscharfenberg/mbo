@@ -100,6 +100,8 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
 
             padding: map.get(s.$app, "breadcrumb", "padding");
             gap: 1ch;
+
+            line-height: map.get(s.$app, "breadcrumb", "line-height");
         }
 
         &:first-child {
