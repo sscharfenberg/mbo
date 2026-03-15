@@ -65,7 +65,6 @@ const select = (value: string) => {
 const toggleMenu = () => {
     menuOpen.value = !menuOpen.value;
 };
-
 /**
  * Scrolls the selected option into view after the enter transition completes.
  *
@@ -93,7 +92,6 @@ watch(
     },
     { immediate: true }
 );
-
 onMounted(() => {
     document.addEventListener("click", onClickOutSide);
 });

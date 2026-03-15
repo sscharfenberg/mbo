@@ -6,7 +6,6 @@ import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
-
 const {
     handleRegenerateRecoveryCodes,
     handleShowRecoveryCodes,
@@ -16,15 +15,25 @@ const {
     requiresConfirmation,
     validationErrors
 } = useTwoFactorAuth();
+/** Recovery codes joined by newline for display in the readonly textarea. */
 const recoveryCodesString = computed(() => recoveryCodesList.value.join("\n"));
+/** Password input bound to the confirmation field (only shown when the session requires re-confirmation). */
 const password = ref("");
+/** Toggles the password field between `text` and `password` type for visibility. */
 const showPassword = ref(false);
+/** FormLegend items — includes the "required" hint only when password confirmation is active. */
 const legendItems = computed(() => {
     const items = [{ slot: "intro", icon: "info" }];
     if (requiresConfirmation.value) items.push({ slot: "required", icon: "info" });
     return items;
 });
-
+/**
+ * Dispatches the form submission to the correct handler based on the submitter button's value.
+ * - `"show"` reveals the existing recovery codes.
+ * - `"regenerate"` generates a fresh set and displays them.
+ *
+ * @param e - The native submit event, used to identify which button triggered the submission.
+ */
 const onSubmit = (e: SubmitEvent) => {
     const action = (e.submitter as HTMLButtonElement | null)?.value;
     if (action === "show") handleShowRecoveryCodes(password.value);

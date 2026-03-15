@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 import { computed, onUnmounted, ref, watch } from "vue";
 import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
 import NumVisible from "Components/Form/CardImageSearch/NumVisible.vue";
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 const props = defineProps<{
     results: DefaultCardArtCrop[];
 }>();

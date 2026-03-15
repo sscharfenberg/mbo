@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import StatsItem from "@/pages/Guest/Welcome/StatsItem.vue";
 import Headline from "Components/UI/Headline.vue";
-
 defineProps<{
     oracleCards: { num: number; size: number };
     defaultCards: { num: number; size: number };

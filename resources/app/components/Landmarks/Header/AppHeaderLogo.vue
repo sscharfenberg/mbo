@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 </script>
+
 <template>
     <Link href="/"><img src="./logo.svg" alt="MtG Binder Organizer Logo" /></Link>
 </template>

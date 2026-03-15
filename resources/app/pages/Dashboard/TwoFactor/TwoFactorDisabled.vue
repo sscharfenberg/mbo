@@ -7,12 +7,16 @@ import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorModal from "./TwoFactorModal.vue";
-
 const { processing, validationErrors, requiresConfirmation, showSetupModal, enableTwoFactor, clearSetupData } =
     useTwoFactorAuth();
+/** Password input bound to the confirmation field (only shown when the session requires re-confirmation). */
 const password = ref("");
+/** Toggles the password field between `text` and `password` type for visibility. */
 const showPassword = ref(false);
-
+/**
+ * Resets all local state and shared composable data when the setup modal is dismissed.
+ * Called on both successful activation and user cancellation.
+ */
 const handleModalClose = () => {
     showSetupModal.value = false;
     password.value = "";

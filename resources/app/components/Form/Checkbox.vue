@@ -2,10 +2,15 @@
 import { ref } from "vue";
 const props = withDefaults(
     defineProps<{
+        /** HTML `id` and `name` for the hidden input — auto-generated if omitted. */
         refId: string;
+        /** Initial checked state on mount. */
         checkedInitially?: boolean;
+        /** Whether the checkbox is disabled (not currently wired to the template). */
         disabled?: boolean;
+        /** Visible label text (hidden off-screen, used for accessibility). */
         label?: string;
+        /** Form value submitted when checked. */
         value?: string;
     }>(),
     {
@@ -14,12 +19,13 @@ const props = withDefaults(
         value: "true"
     }
 );
+/** Local checked state — initialised from `checkedInitially` and updated on user interaction. */
 const checkboxStatus = ref(props.checkedInitially);
-
+/** @emits change — Fired with the new boolean checked state whenever the user toggles the checkbox. */
 const emit = defineEmits<{
     change: [checked: boolean];
 }>();
-
+/** Syncs local state with the native input and emits the new checked value to the parent. */
 const onCheckboxChange = (event: Event) => {
     checkboxStatus.value = (event.target as HTMLInputElement).checked;
     emit("change", checkboxStatus.value);

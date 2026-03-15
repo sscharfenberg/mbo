@@ -52,11 +52,11 @@ $glass: (
 
 // .btn component
 $button: (
-    "padding": 0.2lh 3ch,
+    "padding": 0.2rem 1.5rem,
     "border": map.get(s.$border, "featured"),
     "min-height": map.get(s.$icons, "medium"),
     "close": (
-        "padding": map.get(s.$border, "base")
+        "padding": map.get(s.$border, "base") 0.5rem
     )
 ) !default;
 

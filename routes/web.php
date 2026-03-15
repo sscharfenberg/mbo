@@ -44,6 +44,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::patch('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'update'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.update');
+    Route::delete('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'destroy'])
+        ->name('container.destroy');
 
     // decks
     Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])

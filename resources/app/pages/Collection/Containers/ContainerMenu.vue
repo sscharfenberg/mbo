@@ -20,9 +20,9 @@ const showDeleteModal = ref(false);
         :aria-label="$t('header.user.label')"
         class-string="popover-button--rounded container-context-menu"
         :reference="refId"
-        width="16ch"
+        width="10rem"
     >
-        <ul class="popover-list popover-list--short">
+        <ul class="popover-list">
             <li>
                 <Link
                     class="popover-list-item"

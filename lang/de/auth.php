@@ -31,5 +31,6 @@ return [
     'account_deleted' => 'Dein Benutzerkonto wurde gelöscht - du bist jederzeit willkommen zurückzukehren.',
     'container_created' => 'Container ":name" wurde erstellt.',
     'container_updated' => 'Container ":name" wurde aktualisiert.',
+    'container_deleted' => 'Container ":name" wurde gelöscht.',
 
 ];

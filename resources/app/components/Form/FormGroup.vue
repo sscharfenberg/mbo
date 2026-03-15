@@ -2,36 +2,38 @@
 import { useId } from "vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-
-defineProps({
-    forId: String,
-    label: String,
-    error: {
-        type: String,
-        default: ""
-    },
-    invalid: {
-        type: Boolean,
-        default: false
-    },
-    validating: {
-        type: Boolean,
-        default: false
-    },
-    validated: {
-        type: Boolean,
-        default: false
-    },
-    addonIcon: String,
-    required: {
-        type: Boolean,
-        default: false
+withDefaults(
+    defineProps<{
+        /** HTML `for` attribute linking the label to its input. */
+        forId?: string;
+        /** Visible label text rendered before the input. When empty, the label row is still rendered for layout. */
+        label?: string;
+        /** Validation error message shown below the input when `invalid` is true. */
+        error?: string;
+        /** When true, renders the error message and marks the field visually as invalid. */
+        invalid?: boolean;
+        /** Shows a loading spinner beside the input (e.g. during async server-side validation). */
+        validating?: boolean;
+        /** Shows a check-mark indicator anchored to the input when validation has passed. */
+        validated?: boolean;
+        /** Icon name rendered as a static addon to the left of the input. */
+        addonIcon?: string;
+        /** When true, displays the required icon next to the label. */
+        required?: boolean;
+    }>(),
+    {
+        error: "",
+        invalid: false,
+        validating: false,
+        validated: false,
+        required: false
     }
-});
-
-// Unique CSS anchor name for this instance so each form-group's valid
-// indicator is anchored to its own input, not to a sibling's.
-// useId() may contain colons (SSR mode), so strip non-CSS-ident characters.
+);
+/**
+ * Unique CSS anchor name for this instance so each form-group's valid
+ * indicator is anchored to its own input, not to a sibling's.
+ * `useId()` may contain colons (SSR mode), so non-CSS-ident characters are stripped.
+ */
 const anchorName = `--fgf-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
 </script>
 

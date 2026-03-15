@@ -134,11 +134,17 @@ onMounted(() => {
 
         // padding: map.get(s.$main, "modal", "padding");
         border: map.get(s.$main, "modal", "border") solid map.get(c.$main, "modal", "border");
-        margin: 1lh 0;
+        margin: 1rem 0;
 
         background-color: map.get(c.$main, "modal", "background");
         color: map.get(c.$main, "modal", "surface");
         border-radius: map.get(s.$main, "modal", "radius");
+
+        // reset modal styles, since we might open the modal from within an
+        // element with different values, and we don't want to inherit them.
+        font-size: 1rem;
+        font-weight: normal;
+        text-shadow: none;
     }
 }
 </style>

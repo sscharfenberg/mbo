@@ -16,7 +16,6 @@
     "scripts": {
         "dev": "npm run preinstall && vite --host",
         "build": "npm run preinstall && npm run lint && run-p type-check \"build-only {@}\" -- && npm run icons",
-        "preview": "npm run preinstall && vite preview --host",
         "build-only": "vite build",
         "type-check": "vue-tsc --build",
         "lint": "eslint 'resources/app/**/*.{js,ts,vue}' --fix && stylelint 'resources/app/**/*.{vue,scss}' --fix --quiet-deprecation-warnings",

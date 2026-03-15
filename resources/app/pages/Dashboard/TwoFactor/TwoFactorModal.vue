@@ -10,25 +10,31 @@ import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useClipboard } from "Composables/useClipboard.ts";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 type Props = {
+    /** When true, an additional OTP verification step is required after scanning the QR code. */
     requiresConfirmation?: boolean;
 };
-
 const props = withDefaults(defineProps<Props>(), {
     requiresConfirmation: false
 });
-
 const { qrCodeSvg, manualSetupKey, fetchSetupData } = useTwoFactorAuth();
 const { copy, copied } = useClipboard();
+/** Controls which step is visible: `false` = QR code / setup key, `true` = OTP verification form. */
 const showVerificationStep = ref(false);
+/** The 6-digit OTP code entered by the user during the verification step. */
 const code = ref<string>("");
-
+/** Fetches the QR code and manual setup key from the server if not already loaded. */
 onMounted(async () => {
     if (!qrCodeSvg.value) {
         await fetchSetupData();
     }
 });
+/** @emits close — Fired when the modal should be dismissed (cancellation or successful confirmation). */
 const emit = defineEmits(["close"]);
-
+/**
+ * Handles the "Next" button in the setup step.
+ * If confirmation is required, transitions to the OTP verification step and auto-focuses the input.
+ * Otherwise, closes the modal immediately (2FA is already active without confirmation).
+ */
 const handleModalNextStep = async () => {
     if (props.requiresConfirmation) {
         showVerificationStep.value = true;

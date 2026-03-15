@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from "@inertiajs/vue3";
+import { toRef } from "vue";
 import { useI18n } from "vue-i18n";
 import ContainersResultList from "@/pages/Collection/Containers/ContainersResultList.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -7,8 +8,7 @@ import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
-import { useContainerFilter } from "Composables/useContainerFilter";
-import { useContainerSort } from "Composables/useContainerSort";
+import { useContainer } from "Composables/useContainer";
 import type { Container } from "Types/container";
 const props = defineProps<{
     containers: Container[];
@@ -18,11 +18,8 @@ const props = defineProps<{
     canCreateNewContainer: boolean;
 }>();
 const { t } = useI18n();
-const { localContainers, isSaving, handleReorder } = useContainerSort(props.containers);
-const { activeTypes, search, usedTypes, filteredContainers, toggleType, typeLabel } = useContainerFilter(
-    localContainers,
-    props.containerTypes
-);
+const { isSaving, handleReorder, activeTypes, search, usedTypes, filteredContainers, toggleType, typeLabel } =
+    useContainer(toRef(props, "containers"), props.containerTypes);
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },

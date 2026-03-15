@@ -19,7 +19,7 @@
 
     padding: map.get(s.$button, "padding");
     border: map.get(s.$button, "border") solid transparent;
-    gap: 0.5ch;
+    gap: 0.25rem;
 
     background:
         radial-gradient(circle, var(--button-fill) var(--button-fill-stop), transparent) padding-box,
@@ -80,7 +80,7 @@
     }
 
     @include m.mq("landscape") {
-        gap: 1ch;
+        gap: 0.5rem;
     }
 }
 

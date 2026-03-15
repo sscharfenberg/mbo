@@ -4,7 +4,6 @@ import Stats from "@/pages/Guest/Welcome/Stats.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
-
 defineProps<{
     oracleCards: { num: number; size: number };
     defaultCards: { num: number; size: number };

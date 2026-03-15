@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
+import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -27,7 +28,10 @@ setBreadcrumbs([
         }}</badge>
     </headline>
     <ul class="container-meta">
-        <li class="container-meta__name">{{ container.name }}</li>
+        <li class="container-meta__name">
+            {{ container.name }}
+            <ContainerMenu :container="container" />
+        </li>
         <li v-if="container.description">{{ container.description }}</li>
         <li v-if="container.defaultCard"><art-crop-image :card="container.defaultCard" /></li>
         <li>
@@ -37,12 +41,6 @@ setBreadcrumbs([
         </li>
         <li><icon name="deck" />255 Cards</li>
         <li><icon name="wallet" />145,56 €</li>
-        <li>
-            <Link :href="`/collection/containers/${container.id}`" class="btn-default">
-                <icon name="edit" />
-                {{ $t("pages.edit_container.link") }}
-            </Link>
-        </li>
     </ul>
     (List Cards in this container here. tbd)
 </template>
@@ -117,6 +115,12 @@ setBreadcrumbs([
     }
 
     &__name {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 1rem;
+
         color: map.get(c.$main, "container", "meta", "surface-name");
 
         font-size: 2rem;

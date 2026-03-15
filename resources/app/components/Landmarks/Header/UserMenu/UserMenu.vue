@@ -5,16 +5,24 @@ import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
 const page = usePage();
+/** The authenticated user object, or `null`/`undefined` when logged out — controls which menu items are visible. */
 const user = computed(() => page.props.auth.user);
+/** Feature flags from the backend (e.g. `registration`, `resetPasswords`) gating guest-only links. */
 const features = computed(() => page.props.features);
+/**
+ * Handles logout by flushing all pending Inertia requests and closing the popover.
+ * The actual POST to `/logout` is handled by the Inertia `<Link>` element.
+ */
 const handleLogout = () => {
     router.flushAll();
     closePopover();
 };
+/** Programmatically hides the user menu popover by its DOM id. */
 const closePopover = () => {
     const dialog = document.getElementById("userMenu");
     if (dialog !== null) dialog.hidePopover();
 };
+/** Trigger button classes — adds `--active` highlight when a user is logged in. */
 const buttonClassList = computed(() => {
     const classes = ["popover-button--rounded"];
     if (user.value) {

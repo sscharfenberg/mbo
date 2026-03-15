@@ -2,31 +2,30 @@
 import { usePage } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import { getI18n, loadLocaleMessages, setI18nLanguage } from "@/i18n.ts";
-
-const props = defineProps({
-    locale: {
-        type: String,
-        required: true
-    }
-});
-
+const props = defineProps<{
+    /** BCP-47 locale code (e.g. `"de"`, `"en"`) this menu item represents. */
+    locale: string;
+}>();
+/** The currently active locale from vue-i18n, used to highlight the selected item. */
 const { locale: currentLocale } = useI18n();
-
+/** @emits close — Fired to dismiss the language popover after a locale switch. */
 const emit = defineEmits(["close"]);
-
+/**
+ * Switches the application locale when the user picks a different language.
+ * 1. Lazy-loads the translation messages for the target locale.
+ * 2. Sets the active i18n locale (updates all `$t()` calls reactively).
+ * 3. Persists the choice on the server so it survives page reloads.
+ * No-ops if the selected locale is already active.
+ */
 const onLocaleChange = async () => {
     if (currentLocale.value === props.locale) return;
 
     emit("close");
     const i18n = getI18n();
 
-    // 1) lazy load messages for the new locale
     await loadLocaleMessages(i18n, props.locale);
-
-    // 2) switch the active locale
     setI18nLanguage(i18n, props.locale);
 
-    // 3) persist on the backend via native fetch
     await fetch("/lang/" + props.locale, {
         method: "POST",
         headers: {

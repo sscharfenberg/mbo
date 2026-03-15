@@ -2,7 +2,6 @@
 import { Head } from "@inertiajs/vue3";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
-
 const iconGlob = import.meta.glob("../../assets/icons/*.svg");
 const iconNames = Object.keys(iconGlob)
     .map(p => p.replace(/^.*\/(.+)\.svg$/, "$1"))

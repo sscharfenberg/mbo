@@ -31,5 +31,6 @@ return [
     'account_deleted' => 'Your account has been deleted - you\'re welcome back any time.',
     'container_created' => 'Container ":name" has been created.',
     'container_updated' => 'Container ":name" has been updated.',
+    'container_deleted' => 'Container ":name" has been deleted.',
 
 ];

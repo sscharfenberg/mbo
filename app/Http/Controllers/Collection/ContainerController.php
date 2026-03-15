@@ -198,6 +198,29 @@ class ContainerController extends Controller
     }
 
     /**
+     * Delete a container.
+     *
+     * Aborts with 403 if the container belongs to another user.
+     * Redirects back to the containers list with a success flash message.
+     *
+     * @param  Request    $request
+     * @param  Container  $container
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request, Container $container): RedirectResponse
+    {
+        abort_if($container->user_id !== $request->user()->id, 403);
+
+        $name = $container->name;
+        $container->delete();
+
+        $request->session()->flash('message', __('auth.container_deleted', ['name' => $name]));
+        $request->session()->flash('type', 'success');
+
+        return redirect(route('containers'));
+    }
+
+    /**
      * Display a single container's detail page.
      *
      * Aborts with 403 if the container belongs to another user.

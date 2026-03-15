@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 import { ref, watch } from "vue";
 import CurrentSelection from "Components/Form/CardImageSearch/CurrentSelection.vue";
 import Results from "Components/Form/CardImageSearch/Results.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 const props = defineProps<{
     refId: string;
     /** Pre-selected card for edit mode. When provided, the selection UI shows immediately. */
