@@ -69,7 +69,7 @@ StyleLint should be run while editing in the IDE. This does not work well in `.v
 ### `php artisan scryfall:update`
 
 Runs all Scryfall commands in sequence. Use this for a daily cronjob.
-Warning: downloads ~2.5 GB of bulk JSON data from Scryfall per run.
+Warning: downloads ~600MB of bulk JSON data from Scryfall per run if in production. Other envs, only downloads once and keeps the downloadedd JSON files.
 
 In production, the app is put into maintenance mode (`artisan down`) for the duration and brought back up (`artisan up`) when done. There is a 2-second sleep between each step to avoid hammering the Scryfall API.
 
