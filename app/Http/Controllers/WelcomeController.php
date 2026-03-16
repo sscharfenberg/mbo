@@ -26,8 +26,8 @@ class WelcomeController extends Controller
             return ['num' => 0, 'size' => 0];
         }
         return [
-            'num' => (int) trim(shell_exec("find $path -type f | wc -l")),
-            'size' => (int) trim(shell_exec("du -sb $path | cut -f1")),
+            'num' => (int) trim(shell_exec("find -L $path -type f | wc -l")),
+            'size' => (int) trim(shell_exec("du -sLb $path | cut -f1")),
         ];
     }
 
@@ -43,8 +43,8 @@ class WelcomeController extends Controller
             return ['num' => 0, 'size' => 0];
         }
         return [
-            'num' => (int) trim(shell_exec("find $path -type f | wc -l")),
-            'size' => (int) trim(shell_exec("du -sb $path | cut -f1")),
+            'num' => (int) trim(shell_exec("find -L $path -type f | wc -l")),
+            'size' => (int) trim(shell_exec("du -sLb $path | cut -f1")),
         ];
     }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
 defineProps<{
     card: DefaultCardArtCrop;
 }>();

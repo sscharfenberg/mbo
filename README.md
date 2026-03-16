@@ -22,7 +22,7 @@ composer setup
 
 This runs: `composer install` → copy `.env.example` → `key:generate` → `migrate` → `npm install` → `npm run build`.
 
-After setup, configure `.env` with your database credentials and `APP_URL`.
+After setup, configure `.env` with your database credentials and `APP_URL` and `APP_CONTACT`.
 
 Then create the storage symlinks so that public disks (set icons, symbols, art crops, card images) are accessible from the web:
 
