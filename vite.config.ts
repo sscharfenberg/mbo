@@ -152,7 +152,16 @@ export default defineConfig(({ mode }) => {
             origin: env.VITE_SERVER_ORIGIN || undefined,
             cors: true,
             watch: {
-                ignored: ["**/vendor/**", "**/storage/**", "**/node_modules/**"]
+                ignored: [
+                    "**/vendor/**",
+                    "**/storage/**",
+                    "**/node_modules/**",
+                    "**/public/art-crops/**",
+                    "**/public/card-images/**",
+                    "**/public/set/**",
+                    "**/public/symbol/**",
+                    "**/public/storage/**"
+                ]
             }
         }
     };
