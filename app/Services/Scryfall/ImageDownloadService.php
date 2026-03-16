@@ -217,7 +217,7 @@ class ImageDownloadService extends ScryfallService
                 continue;
             }
 
-            $this->cleanupOldCardImages($setCode, $card->id);
+            $this->cleanupOldCardImages($setCode, $card->id, $index);
 
             try {
                 $response = $this->http()->get($scryfallUrl);
@@ -239,21 +239,24 @@ class ImageDownloadService extends ScryfallService
     }
 
     /**
-     * Delete any previously cached card image versions for a given card.
+     * Delete any previously cached card image versions for a given card face.
      *
-     * Finds files matching the card UUID pattern in the set directory
-     * and removes them before downloading new versions.
+     * Finds files matching the card UUID and face index pattern in the set
+     * directory and removes them before downloading the new version.
+     * Only deletes files for the specific face index, leaving other faces intact.
      *
-     * @param  string  $setCode  The set code directory.
-     * @param  string  $uuid     The card UUID.
+     * @param  string  $setCode    The set code directory.
+     * @param  string  $uuid       The card UUID.
+     * @param  int     $faceIndex  The face index (0 = front, 1 = back).
      * @return void
      */
-    private function cleanupOldCardImages(string $setCode, string $uuid): void
+    private function cleanupOldCardImages(string $setCode, string $uuid, int $faceIndex): void
     {
+        $suffix = "--$faceIndex.jpg";
         $files = Storage::disk('card-images')->files($setCode);
         foreach ($files as $file) {
             $basename = basename($file);
-            if ($basename === "$uuid.jpg" || str_starts_with($basename, "$uuid--")) {
+            if (str_starts_with($basename, "$uuid--") && str_ends_with($basename, $suffix)) {
                 Storage::disk('card-images')->delete($file);
             }
         }
