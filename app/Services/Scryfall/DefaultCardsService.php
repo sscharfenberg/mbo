@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Handles all database operations for the default_cards table.
  *
- * This service owns the DB writes for default cards. During import, it resolves
- * image URLs to local paths when a cached image already exists on disk,
- * otherwise stores the Scryfall URL for later download by ImageDownloadService.
+ * This service owns the DB writes for default cards. During import, it stores
+ * Scryfall URLs as-is. Path resolution to local cache is handled separately
+ * by ResolveImagePathsService after ImageDownloadService has fetched images.
  *
  * Separation of concerns:
- *   - DefaultCardsService         → database (import, eagerly resolves paths during insert)
+ *   - DefaultCardsService         → database (import, stores Scryfall URLs)
  *   - ImageDownloadService        → filesystem (downloading images to disk)
- *   - ResolveImagePathsService    → database (post-download URL → local path resolution)
+ *   - ResolveImagePathsService    → database (URL → local path resolution)
  */
 class DefaultCardsService
 {
@@ -54,78 +54,12 @@ class DefaultCardsService
     }
 
     /**
-     * Resolve the art crop value for a card.
-     *
-     * If a locally cached image exists on disk with a matching timestamp,
-     * returns the local public path. Otherwise returns the Scryfall URL
-     * so that ImageDownloadService can download it later.
-     *
-     * @param  array  $card  A single card object from the default_cards bulk JSON.
-     * @return string|null   Local path or Scryfall URL, null if no art crop available.
-     */
-    private function resolveArtCrop(array $card): ?string
-    {
-        $scryfallUrl = $this->imageService->getArtCrop($card);
-        if ($scryfallUrl === null) {
-            return null;
-        }
-
-        $setCode = $card['set'] ?? null;
-        if ($setCode === null) {
-            return $scryfallUrl;
-        }
-
-        $timestamp = $this->imageService->parseTimestamp($scryfallUrl);
-        $filename = $this->imageService->buildArtCropFilename($card['id'], $timestamp);
-        $diskPath = "$setCode/$filename";
-
-        if (Storage::disk('art-crops')->exists($diskPath)) {
-            return "/art-crops/$diskPath";
-        }
-
-        return $scryfallUrl;
-    }
-
-    /**
-     * Resolve a single card image (front or back face).
-     *
-     * If a locally cached image exists on disk with a matching timestamp,
-     * returns the local public path. Otherwise returns the Scryfall URL
-     * so that ImageDownloadService can download it later.
-     *
-     * @param  array        $card        A single card object from the default_cards bulk JSON.
-     * @param  string|null  $scryfallUrl The Scryfall image URL, or null if no image for this face.
-     * @param  int          $index       Face index (0 = front, 1 = back).
-     * @return string|null  Local path or Scryfall URL, null if no image for this face.
-     */
-    private function resolveCardImage(array $card, ?string $scryfallUrl, int $index): ?string
-    {
-        if ($scryfallUrl === null) {
-            return null;
-        }
-
-        $setCode = $card['set'] ?? null;
-        if ($setCode === null) {
-            return $scryfallUrl;
-        }
-
-        $timestamp = $this->imageService->parseTimestamp($scryfallUrl);
-        $filename = $this->imageService->buildCardImageFilename($card['id'], $timestamp, $index);
-        $diskPath = "$setCode/$filename";
-
-        if (Storage::disk('card-images')->exists($diskPath)) {
-            return "/card-images/$diskPath";
-        }
-
-        return $scryfallUrl;
-    }
-
-    /**
      * Persist a single default card to the database.
      *
      * Maps required Scryfall fields (prices, finishes, rarity, etc.) and
      * conditionally includes optional ones (oracle_id, layout, artist_id).
-     * Art crop is resolved to a local path if cached, otherwise the Scryfall URL is stored.
+     * Image URLs are stored as Scryfall URLs; resolution to local paths
+     * happens later via ResolveImagePathsService.
      *
      * @param  array  $card  A single card object from the default_cards bulk JSON.
      * @return void
@@ -139,9 +73,9 @@ class DefaultCardsService
             'name' => $card['name'],
             'collector_number' => $card['collector_number'],
             'lang' => $card['lang'],
-            'card_image_0' => $this->resolveCardImage($card, $cardImages['card_image_0'], 0),
-            'card_image_1' => $this->resolveCardImage($card, $cardImages['card_image_1'], 1),
-            'art_crop' => $this->resolveArtCrop($card),
+            'card_image_0' => $cardImages['card_image_0'],
+            'card_image_1' => $cardImages['card_image_1'],
+            'art_crop' => $this->imageService->getArtCrop($card),
             'finishes' => $card['finishes'],
             'games' => $card['games'],
             'prices' => $card['prices'],

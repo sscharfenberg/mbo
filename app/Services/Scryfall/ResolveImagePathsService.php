@@ -4,7 +4,6 @@ namespace App\Services\Scryfall;
 
 use App\Models\DefaultCard;
 use App\Models\OracleCard;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -58,10 +57,6 @@ class ResolveImagePathsService
                 }
             });
 
-        if ($resolved > 0) {
-            Log::channel('scryfall')->notice("resolved $resolved art crop paths to local cache.");
-        }
-
         return $resolved;
     }
 
@@ -98,10 +93,6 @@ class ResolveImagePathsService
                         }
                     }
                 });
-        }
-
-        if ($resolved > 0) {
-            Log::channel('scryfall')->notice("resolved $resolved card image paths to local cache.");
         }
 
         return $resolved;
@@ -142,10 +133,6 @@ class ResolveImagePathsService
                     $resolved++;
                 }
             });
-
-        if ($resolved > 0) {
-            Log::channel('scryfall')->notice("resolved $resolved oracle card image paths from default cards.");
-        }
 
         return $resolved;
     }
