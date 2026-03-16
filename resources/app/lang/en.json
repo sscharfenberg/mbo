@@ -64,6 +64,10 @@
                 "artCrops": {
                     "title": "Art Crops",
                     "explanation": "Card images, cropped so it shows only the art itself."
+                },
+                "cardImages": {
+                    "title": "Card Images",
+                    "explanation": "Scanned images of the full card."
                 }
             }
         },

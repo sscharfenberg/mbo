@@ -11,6 +11,7 @@ defineProps<{
     symbols: { path: string; english: string }[];
     artists: number;
     artCrops: { num: number; size: number };
+    cardImages: { num: number; size: number };
 }>();
 </script>
 
@@ -31,6 +32,7 @@ defineProps<{
         :symbols="symbols"
         :artists="artists"
         :art-crops="artCrops"
+        :card-images="cardImages"
     />
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur deleniti distinctio dolores eum

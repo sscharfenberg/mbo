@@ -1,6 +1,8 @@
 # MTG Binder Organizer
 
-A Magic: The Gathering card collection manager. Work-In-Progress.
+A Magic: The Gathering card collection manager with a focus on UX: Dark/Light mode. Multi-language. Accessibility first. Responsive. Fast.
+
+**Work-In-Progress!**
 
 **Stack:** Laravel 12 / PHP 8.2 · Vue 3 + TypeScript · Inertia.js · Vite · SCSS · MariaDB · Vue-i18n (de/en) · Laravel Fortify (auth + 2FA TOTP)
 
@@ -10,6 +12,7 @@ A Magic: The Gathering card collection manager. Work-In-Progress.
 * Composer
 * Node 24.11+ / npm 11.3+
 * MariaDB
+* `27.6 Gb` of harddisk space for image and json downloads. This will increase over time.
 
 ## Installation
 
@@ -71,7 +74,7 @@ StyleLint should be run while editing in the IDE. This does not work well in `.v
 Runs all Scryfall commands in sequence. Use this for a daily cronjob.
 Warning: downloads ~600MB of bulk JSON data from Scryfall per run if in production. Other envs, only downloads once and keeps the downloadedd JSON files.
 
-In production, the app is put into maintenance mode (`artisan down`) for the duration and brought back up (`artisan up`) when done. There is a 2-second sleep between each step to avoid hammering the Scryfall API.
+In production, the app is put into maintenance mode (`artisan down`) for the duration and brought back up (`artisan up`) when done.
 
 The execution order is:
 
@@ -89,9 +92,9 @@ scryfall:resolve-paths  → update Scryfall URLs in database to point at local i
 
 Image handling is split across three services, each with a single responsibility:
 
-1. **Import** (`DefaultCardsService`, `OracleCardsService`) — stores raw Scryfall image URLs in the database. No disk access, no path resolution.
-2. **Download** (`ImageDownloadService`) — reads Scryfall URLs from the database, downloads images to local disk. Filesystem only, no database writes.
-3. **Resolve** (`ResolveImagePathsService`) — walks database records that still have Scryfall URLs, checks if the corresponding local file exists, and updates the URL to a local path. Database only, no downloads.
+1. **Import** (`DefaultCardsService`, `OracleCardsService`) → stores raw Scryfall image URLs in the database. No disk access, no path resolution.
+2. **Download** (`ImageDownloadService`) → reads Scryfall URLs from the database, downloads images to local disk. Filesystem only, no database writes.
+3. **Resolve** (`ResolveImagePathsService`) → walks database records that still have Scryfall URLs, checks if the corresponding local file exists, and updates the URL to a local path. Database only, no downloads.
 
 This separation means each step can be re-run independently. If a download is interrupted, re-running `scryfall:images` picks up where it left off. If images are on disk but the database still has Scryfall URLs (e.g. after a re-import), `scryfall:resolve-paths` fixes the references without re-downloading anything.
 
@@ -123,9 +126,11 @@ Downloads the `default_cards` bulk JSON from Scryfall (if not already cached), t
 
 Walks the `default_cards` table looking for rows that still have Scryfall URLs (i.e. images not yet cached locally). Downloads art crops to the `art-crops` storage disk and card images to the `card-images` storage disk. Does not modify the database — that is the job of `scryfall:resolve-paths`.
 
-This is a long-running command:
-* ~4 hours on a cold cache (initial download of all images)
-* ~20 minutes on a hot cache (only downloading new/changed images)
+This is potentially a long-running command:
+* ~8 hours on a cold cache (initial download of all images)
+* ~20 seconds on a hot cache (no images need downloading)
+
+Hot cache currently takes about `25 Gb` of image files.
 
 ### `php artisan scryfall:resolve-paths`
 

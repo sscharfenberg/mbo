@@ -45,15 +45,15 @@ class ResolveImagePaths extends Command
         Log::channel('scryfall')->info("=======================================================");
 
         $artCrops = $this->resolveService->resolveArtCropPaths();
-        $this->info("resolved $artCrops art crop paths to local cache.");
+        $this->line("resolved $artCrops art crop paths to local cache.");
         Log::channel('scryfall')->notice("resolved $artCrops art crop paths to local cache.");
 
         $cardImages = $this->resolveService->resolveCardImagePaths();
-        $this->info("resolved $cardImages card image paths to local cache.");
+        $this->line("resolved $cardImages card image paths to local cache.");
         Log::channel('scryfall')->notice("resolved $cardImages card image paths to local cache.");
 
         $oracleImages = $this->resolveService->resolveOracleCardImagePaths();
-        $this->info("resolved $oracleImages oracle card image paths from default cards.");
+        $this->line("resolved $oracleImages oracle card image paths from default cards.");
         Log::channel('scryfall')->notice("resolved $oracleImages oracle card image paths from default cards.");
 
         $ms = $start->diffInMilliseconds(now());

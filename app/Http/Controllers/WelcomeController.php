@@ -32,6 +32,23 @@ class WelcomeController extends Controller
     }
 
     /**
+     * Get the number and total size of card images.
+     *
+     * @return array{num: int, size: int}
+     */
+    private function getCardImageStats(): array
+    {
+        $path = storage_path('app/card-images');
+        if (!is_dir($path)) {
+            return ['num' => 0, 'size' => 0];
+        }
+        return [
+            'num' => (int) trim(shell_exec("find $path -type f | wc -l")),
+            'size' => (int) trim(shell_exec("du -sb $path | cut -f1")),
+        ];
+    }
+
+    /**
      * Display the welcome / landing page.
      *
      * Public entry point of the application, shown to unauthenticated visitors.
@@ -53,7 +70,8 @@ class WelcomeController extends Controller
             'sets' => Set::count(),
             'artists' => Artist::count(),
             'symbols' => Symbol::where('funny', false)->inRandomOrder()->limit(10)->get(['path', 'english']),
-            'artCrops' => $this->getArtCropStats()
+            'artCrops' => $this->getArtCropStats(),
+            'cardImages' => $this->getCardImageStats()
         ]);
     }
 
