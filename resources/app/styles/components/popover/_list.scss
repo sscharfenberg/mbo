@@ -43,15 +43,23 @@
 
         cursor: pointer;
 
-        transition: background-color map.get(ti.$timings, "fast") linear;
+        transition:
+            background-color map.get(ti.$timings, "fast") linear,
+            color map.get(ti.$timings, "fast") linear;
 
         &:hover {
             background-color: map.get(c.$popover, "item-background-hover");
+            color: map.get(c.$popover, "item-surface-hover");
         }
 
         &--selected {
             background-color: map.get(c.$popover, "item-background-selected");
             color: map.get(c.$popover, "item-surface-selected");
+        }
+
+        &--caution {
+            background-color: map.get(c.$state, "warning", "background");
+            color: map.get(c.$state, "warning", "surface");
         }
     }
 }

@@ -19,5 +19,9 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
         <icon name="storage" />
         {{ $t("pages.containers.link") }}
     </Link>
+    <Link href="/collection/add" class="btn-default">
+        <icon name="add" />
+        {{ $t("pages.add_cards.link") }}
+    </Link>
     <p>list cards, search cards, stats.</p>
 </template>

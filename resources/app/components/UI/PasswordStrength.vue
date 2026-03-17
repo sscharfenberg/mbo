@@ -93,6 +93,7 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
     // right of the meter (in the reserved padding area) instead of inside it.
     .form-group--valid,
     .form-group--invalid {
+        top: calc(anchor(top) + 0.4lh);
         right: unset;
         left: calc(anchor(right) + 0.5ch);
     }

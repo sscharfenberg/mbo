@@ -14,8 +14,9 @@ const props = withDefaults(
         placeholder?: string;
         addonIcon?: string;
         sort?: boolean;
+        max?: string;
     }>(),
-    { sort: true }
+    { sort: true, max: "100%" }
 );
 // Falls back to the i18n default when no placeholder prop is provided.
 const effectivePlaceholder = computed(() => props.placeholder ?? t("form.elements.select_placeholder"));
@@ -101,7 +102,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="form-select" ref="dropdown">
+    <div class="form-select" ref="dropdown" :style="{ 'max-width': max }">
         <span v-if="addonIcon" class="form-select__addon"><icon :name="addonIcon" /></span>
         <button
             type="button"

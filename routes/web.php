@@ -47,6 +47,12 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::delete('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'destroy'])
         ->name('container.destroy');
 
+    // add cards
+    Route::get('collection/add', [\App\Http\Controllers\Collection\CardsController::class, 'add'])
+        ->name('cards.add');
+    Route::get('collection/containers/{container}/add', [\App\Http\Controllers\Collection\CardsController::class, 'add'])
+        ->name('container.cards.add');
+
     // decks
     Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])
         ->name('decks');

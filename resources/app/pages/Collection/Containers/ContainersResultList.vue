@@ -86,14 +86,15 @@ watch(
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
 
+        padding-right: 1ch;
         border: map.get(s.$main, "containers", "border") solid map.get(c.$main, "containers", "border");
-        row-gap: 0.5rem;
 
         background: map.get(c.$main, "containers", "background", "odd");
         color: map.get(c.$main, "containers", "surface");
         border-radius: map.get(s.$main, "containers", "radius");
 
         transition: background-color map.get(ti.$timings, "fast") linear;
+        row-gap: 0.5rem;
 
         &:hover {
             background: map.get(c.$main, "containers", "background-hover", "odd");

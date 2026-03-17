@@ -232,6 +232,13 @@
         "decks": {
             "title": "Deine Decks",
             "link": "Decks"
+        },
+        "add_cards": {
+            "title": "Karten hinzufügen",
+            "link": "Karten hinzufügen",
+            "to_collection": "Sammlung",
+            "container_link": "Karten zu {container} hinzufügen",
+            "explanation": "Füge Karten deiner Sammlung hinzu, indem du nach einer OracleId suchst, und dann nach dem Set suchst."
         }
     },
     "form": {
@@ -253,7 +260,8 @@
                 "description": "Beschreibung",
                 "type": "Typ",
                 "image": "Bild",
-                "other_type": "Sonstiger Typ"
+                "other_type": "Sonstiger Typ",
+                "id": "Container"
             },
             "card_image": {
                 "search_input": "Kartenbild suchen",
@@ -267,7 +275,8 @@
                 "both": "bl kn set:lea",
                 "both_result": "Black Knight aus Limited Edition Alpha",
                 "change_selection": "Auswahl ändern"
-            }
+            },
+            "card_search": "Karte suchen"
         },
         "elements": {
             "password_show": "Zeigen",

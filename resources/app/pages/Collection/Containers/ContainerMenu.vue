@@ -20,7 +20,7 @@ const showDeleteModal = ref(false);
         :aria-label="$t('header.user.label')"
         class-string="popover-button--rounded container-context-menu"
         :reference="refId"
-        width="10rem"
+        width="14rem"
     >
         <ul class="popover-list">
             <li>
@@ -34,8 +34,25 @@ const showDeleteModal = ref(false);
                 </Link>
             </li>
             <li>
-                <button
+                <Link
                     class="popover-list-item"
+                    :href="`/collection/containers/${container.id}/add`"
+                    @click="closePopover"
+                >
+                    <icon name="add" :size="1" />
+                    {{
+                        $t("pages.add_cards.container_link", {
+                            container:
+                                container.type === "other"
+                                    ? container.custom_type
+                                    : $t("enums.binder_type." + container.type)
+                        })
+                    }}
+                </Link>
+            </li>
+            <li>
+                <button
+                    class="popover-list-item popover-list-item--caution"
                     @click="
                         showDeleteModal = true;
                         closePopover;
@@ -49,9 +66,3 @@ const showDeleteModal = ref(false);
     </pop-over>
     <containers-delete-modal v-if="showDeleteModal" @close="showDeleteModal = false" :container="container" />
 </template>
-
-<style lang="scss" scoped>
-.popover {
-    margin-right: 1ch;
-}
-</style>

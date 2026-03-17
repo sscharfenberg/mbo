@@ -90,9 +90,9 @@ setBreadcrumbs([
         content: "";
     }
 
-    @include m.mq("landscape") {
+    @include m.mq("desktop") {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr minmax(auto, 626px);
 
         li:has(.art-crop) {
             display: flex;

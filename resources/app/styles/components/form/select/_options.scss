@@ -6,6 +6,7 @@
 .form-select__options {
     position: absolute;
     top: anchor(bottom);
+    right: anchor(right);
     left: 0;
     z-index: map.get(z.$index, "select");
 

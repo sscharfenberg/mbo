@@ -115,6 +115,7 @@ setBreadcrumbs([
                 :selected="selectedType"
                 @change="onTypeChange($event, validate)"
                 addon-icon="storage"
+                max="100%"
             />
             <input type="hidden" name="container_type" :value="selectedType" />
         </form-group>
