@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
-import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
-defineProps<{
-    card: DefaultCardArtCrop;
-}>();
 defineEmits<{
     clear: [];
 }>();
@@ -11,9 +6,9 @@ defineEmits<{
 
 <template>
     <div class="current-selection">
-        <art-crop-image :card="card" />
+        <slot />
         <button type="button" class="btn-default" @click="$emit('clear')">
-            {{ $t("form.fields.card_image.change_selection") }}
+            {{ $t("card.search.change_selection") }}
         </button>
     </div>
 </template>

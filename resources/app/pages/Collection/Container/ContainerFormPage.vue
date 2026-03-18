@@ -2,7 +2,8 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import CardImageSearch from "Components/Form/CardImageSearch/CardImageSearch.vue";
+import ArtCropImage from "Components/Card/ArtCropImage.vue";
+import CardSearch from "Components/Card/CardSearch/CardSearch.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
@@ -160,7 +161,22 @@ setBreadcrumbs([
                 />
             </div>
         </form-group>
-        <card-image-search ref-id="container_image" :initial-card="container?.defaultCard ?? null" />
+        <card-search
+            ref-id="container_image"
+            endpoint="/api/art-crop"
+            label="form.fields.container.image"
+            placeholder="card.search.placeholder.art_crop"
+            search-icon="image-search"
+            selected-icon="container-image"
+            :initial-card="container?.defaultCard ?? null"
+        >
+            <template #result="{ card }">
+                <art-crop-image :card="card" interactive />
+            </template>
+            <template #selected="{ card }">
+                <art-crop-image :card="card" />
+            </template>
+        </card-search>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />

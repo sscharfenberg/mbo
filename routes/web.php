@@ -53,6 +53,7 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::get('collection/containers/{container}/add', [\App\Http\Controllers\Collection\CardsController::class, 'add'])
         ->name('container.cards.add');
 
+
     // decks
     Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])
         ->name('decks');

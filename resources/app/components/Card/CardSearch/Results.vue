@@ -1,13 +1,11 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends { id: string }">
 import { computed, onUnmounted, ref, watch } from "vue";
-import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
-import NumVisible from "Components/Form/CardImageSearch/NumVisible.vue";
-import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
+import NumVisible from "Components/Card/CardSearch/NumVisible.vue";
 const props = defineProps<{
-    results: DefaultCardArtCrop[];
+    results: T[];
 }>();
 const emit = defineEmits<{
-    change: [card: DefaultCardArtCrop];
+    change: [card: T];
 }>();
 /** Number of results rendered per page / scroll batch. */
 const PAGE_SIZE = 20;
@@ -20,7 +18,7 @@ const sentinel = ref<HTMLElement | null>(null);
 /** The slice of results currently rendered in the DOM. */
 const visibleResults = computed(() => props.results.slice(0, visibleCount.value));
 /** Marks the clicked card as selected and notifies the parent. */
-function selectCard(card: DefaultCardArtCrop) {
+function selectCard(card: T) {
     selectedId.value = card.id;
     emit("change", card);
 }
@@ -64,7 +62,7 @@ onUnmounted(() => observer?.disconnect());
                 :class="{ 'result--active': card.id === selectedId }"
                 @click="selectCard(card)"
             >
-                <art-crop-image :card="card" interactive />
+                <slot name="result" :card="card" />
             </li>
         </ul>
         <div ref="sentinel" class="results__sentinel" />

@@ -8,7 +8,7 @@ defineProps<{
 <template>
     <div class="results__count-wrapper">
         <span class="results__count">
-            <i18n-t keypath="form.fields.card_image.showing" scope="global">
+            <i18n-t keypath="card.search.showing" scope="global">
                 <template #visible
                     ><strong>{{ visibleCount }}</strong></template
                 >

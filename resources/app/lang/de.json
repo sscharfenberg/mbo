@@ -263,20 +263,7 @@
                 "other_type": "Sonstiger Typ",
                 "id": "Container"
             },
-            "card_image": {
-                "search_input": "Kartenbild suchen",
-                "showing": "Zeige {visible} Ergebnisse von {total} gesamt. Scrollen für mehr.",
-                "search_tips": "Du kannst Leerzeichen benutzen um deine Anfrage aufzuteilen - {query} findet {result}. Du kannst außerdem {set} nutzen um deine Suche auf bestimmte Sets einzuschränken; {set_example} schränkt auf Karten aus {ecl} ein. Du kannst auch beides kombinieren - {both} findet {both_result}.",
-                "query": "bl kn",
-                "result": "Black Knight",
-                "set": "set:[code]",
-                "set_example": "set:ecl",
-                "ecl": "Lorwyn Eclipsed",
-                "both": "bl kn set:lea",
-                "both_result": "Black Knight aus Limited Edition Alpha",
-                "change_selection": "Auswahl ändern"
-            },
-            "card_search": "Karte suchen"
+            "card": "Karte"
         },
         "elements": {
             "password_show": "Zeigen",
@@ -298,5 +285,31 @@
     },
     "breadcrumb": {
         "nav": "Breadcrumb-Navigation"
+    },
+    "card": {
+        "search": {
+            "placeholder": {
+                "art_crop": "Kartenbild suchen",
+                "face": "Karte suchen"
+            },
+            "showing": "Zeige {visible} Ergebnisse von {total} gesamt. Scrollen für mehr.",
+            "tips": {
+                "general": "Du kannst Leerzeichen benutzen um deine Anfrage aufzuteilen - {query} findet (unter anderem) {result}.",
+                "query": "bl kn",
+                "result": "Black Knight",
+                "set":"Du kannst außerdem {set_codes} nutzen um deine Suche auf bestimmte Sets einzuschränken; {set_example} schränkt auf Karten aus {set_result} ein.",
+                "set_codes": "set:[code] oder s:[code] oder e:[code]",
+                "set_example": "set:ecl",
+                "set_result": "Lorwyn Eclipsed",
+                "cn": "Du kannst mit {cn_codes} auf bestimmte Sammlernummern einschränken - {cn_example} schränkt auf {cn_result} ein.",
+                "cn_codes": "number:[Sammlernummer] oder cn:[Sammlernummer]",
+                "cn_example": "cn:144",
+                "cn_result": "Alle Karten mit Sammlernummer 144",
+                "combined": "Du kannst auch beliebige Punkte kombinieren - {combined_example} findet {combined_result}.",
+                "combined_example": "set:ecl cn:99",
+                "combined_result": "Dawnhand Eulogist - Sammlernummer 99 in Lorwyn Eclipsed"
+            },
+            "change_selection": "Auswahl ändern"
+        }
     }
 }

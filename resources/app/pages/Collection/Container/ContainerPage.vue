@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
 import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
-import ArtCropImage from "Components/Card/ArtCrop/ArtCropImage.vue";
+import ArtCropImage from "Components/Card/ArtCropImage.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";

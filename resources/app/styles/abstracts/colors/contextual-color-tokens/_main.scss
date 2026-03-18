@@ -85,6 +85,14 @@ $main: (
         "panel-surface": light-dark(#fff, #000),
         "border-active": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color"))
     ),
+    "face-image": (
+        "flip": (
+            "background": hsl(from light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "infra")) h s l / 50%),
+            "surface": light-dark(#fff, #000),
+            "background-hover": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
+            "surface-hover": light-dark(map.get(c.$brand, "dark1", "contrast"), map.get(c.$brand, "light1", "contrast"))
+        )
+    ),
     "containers": (
         "background": (
             "odd": light-dark(color.adjust(#fff, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),

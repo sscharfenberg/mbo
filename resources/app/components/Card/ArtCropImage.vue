@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop";
+import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop.ts";
 defineProps<{
     card: DefaultCardArtCrop;
     /** When true, shows a zoom effect on hover. Use in clickable contexts (e.g. results grid). */
