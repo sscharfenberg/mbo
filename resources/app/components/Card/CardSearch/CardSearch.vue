@@ -19,8 +19,9 @@ const props = defineProps<{
     /** Pre-selected card for edit mode. */
     initialCard?: T | null;
 }>();
-const { searchQuery, results, processing, selectedCard, refValue, onCardSelected, onClearSelection } =
-    useCardSearch<T>(props.endpoint);
+const { searchQuery, results, processing, selectedCard, refValue, onCardSelected, onClearSelection } = useCardSearch<T>(
+    props.endpoint
+);
 if (props.initialCard) {
     selectedCard.value = props.initialCard;
     refValue.value = props.initialCard.id;
@@ -34,27 +35,19 @@ if (props.initialCard) {
         :validating="processing"
     >
         <current-selection v-if="selectedCard" @clear="onClearSelection">
-            <slot name="selected" :card="(selectedCard as T)" />
+            <slot name="selected" :card="selectedCard as T" />
         </current-selection>
         <template v-else>
-            <input
-                type="text"
-                class="form-input"
-                :id="refId"
-                :placeholder="$t(placeholder)"
-                v-model="searchQuery"
-            />
+            <input type="text" class="form-input" :id="refId" :placeholder="$t(placeholder)" v-model="searchQuery" />
         </template>
         <input type="hidden" :name="refId" :value="refValue" />
-        <template v-if="results.length > 0" #text>
-            <Results :results="(results as T[])" @change="onCardSelected">
-                <template #result="{ card }">
-                    <slot name="result" :card="(card as T)" />
-                </template>
-            </Results>
-        </template>
-        <template v-else-if="!selectedCard" #text>
+        <template v-if="!selectedCard && results.length === 0" #text>
             <search-syntax />
         </template>
     </form-group>
+    <Results v-if="results.length > 0" :results="results as T[]" @change="onCardSelected">
+        <template #result="{ card }">
+            <slot name="result" :card="card as T" />
+        </template>
+    </Results>
 </template>

@@ -9,6 +9,15 @@
             "cube": "Cube",
             "tin": "Booster Tin",
             "Toploader": "Toploaders"
+        },
+        "conditions": {
+            "mint":  "Mint",
+            "near_mint": "Near mint",
+            "excellent": "Excellent",
+            "good":  "Good",
+            "light_played": "Light played",
+            "played": "Played",
+            "poor": "Poor"
         }
     },
     "header": {
@@ -263,7 +272,8 @@
                 "other_type": "Custom Type",
                 "id": "Container"
             },
-            "card": "Card"
+            "card": "Card",
+            "condition": "Condition"
         },
         "elements": {
             "password_show": "Show",

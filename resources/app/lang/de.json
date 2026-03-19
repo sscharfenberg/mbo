@@ -9,6 +9,15 @@
             "cube": "Cube",
             "tin": "Booster Tin",
             "Toploader": "Toploader"
+        },
+        "conditions": {
+            "mint":  "Makellos",
+            "near_mint": "Fast makellos",
+            "excellent": "Hervorragend",
+            "good":  "Gut",
+            "light_played": "Leicht bespielt",
+            "played": "Bespielt",
+            "poor": "Schlecht"
         }
     },
     "header": {
@@ -263,7 +272,8 @@
                 "other_type": "Sonstiger Typ",
                 "id": "Container"
             },
-            "card": "Karte"
+            "card": "Karte",
+            "condition": "Zustand"
         },
         "elements": {
             "password_show": "Zeigen",

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import AddCardsSearch from "@/pages/Collection/AddCards/AddCardsSearch.vue";
 import type { Container } from "@/types/container";
 import type { ContainerListItem } from "@/types/containerListItem";
@@ -24,6 +25,7 @@ const props = defineProps<{
     /** CardLanguage enum values. */
     languages: string[];
 }>();
+const { t } = useI18n();
 const containerOptions = computed(() =>
     props.containers.map(container => {
         return {
@@ -33,7 +35,15 @@ const containerOptions = computed(() =>
     })
 );
 const selectedContainer = ref(props.container?.id as string);
-
+const conditionOptions = computed(() =>
+    props.conditions.map(condition => {
+        return {
+            value: condition,
+            label: t("enums.conditions." + condition)
+        };
+    })
+);
+const selectedCondition = ref("");
 /**
  * Called when the type select changes. Updates selectedType and re-triggers
  * precognitive validation for the container_type field.
@@ -41,10 +51,15 @@ const selectedContainer = ref(props.container?.id as string);
  * @param value - The newly selected type value.
  * @param validate - The precognitive validate callback from the Form slot.
  */
-const onTypeChange = (value: string, validate: (field: string) => void) => {
+const onContainerChange = (value: string, validate: (field: string) => void) => {
     selectedContainer.value = value;
-    nextTick(() => validate("container_type"));
+    nextTick(() => validate("container_id"));
 };
+const onConditionChange = (value: string, validate: (field: string) => void) => {
+    selectedCondition.value = value;
+    nextTick(() => validate("condition"));
+};
+
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
@@ -69,6 +84,8 @@ setBreadcrumbs([
             {{ $t("pages.add_cards.to_collection") }}
         </badge>
     </headline>
+    {{ foilTypes }}
+    {{ languages }}
     <Form action="/collection/add" method="post" class="form" #default="{ validate, processing }">
         <form-legend
             :items="[
@@ -87,12 +104,22 @@ setBreadcrumbs([
             <mono-select
                 :options="containerOptions"
                 :selected="selectedContainer"
-                @change="onTypeChange($event, validate)"
+                @change="onContainerChange($event, validate)"
                 addon-icon="storage"
             />
             <input type="hidden" name="container_id" :value="selectedContainer" />
         </form-group>
         <add-cards-search />
+        <form-group :label="$t('form.fields.condition')">
+            <mono-select
+                :options="conditionOptions"
+                :selected="selectedCondition"
+                @change="onConditionChange($event, validate)"
+                :sort="false"
+                addon-icon="cards"
+            />
+            <input type="hidden" name="condition" :value="selectedCondition" />
+        </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />
