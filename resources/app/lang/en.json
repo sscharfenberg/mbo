@@ -18,6 +18,15 @@
             "light_played": "Light played",
             "played": "Played",
             "poor": "Poor"
+        },
+        "foil_types": {
+            "foil": "Foil",
+            "etched": "Etched",
+            "surge": "Surge",
+            "galaxy": "Galaxy",
+            "gilded": "Gilded",
+            "textured": "Textured",
+            "serialized": "Serialized"
         }
     },
     "header": {
@@ -247,7 +256,8 @@
             "link": "Add cards",
             "to_collection": "Collection",
             "container_link": "Add cards to {container}",
-            "explanation": "Add cards to your collection. Search for an oracle card first, then choose the printing."
+            "explanation": "Add cards to your collection. Search for an oracle card first, then choose the printing.",
+            "submit": "Add"
         }
     },
     "form": {
@@ -273,7 +283,9 @@
                 "id": "Container"
             },
             "card": "Card",
-            "condition": "Condition"
+            "condition": "Condition",
+            "amount": "Amount",
+            "foil_type": "Foil"
         },
         "elements": {
             "password_show": "Show",

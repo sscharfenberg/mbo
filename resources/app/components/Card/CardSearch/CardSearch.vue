@@ -4,21 +4,28 @@ import Results from "Components/Card/CardSearch/Results.vue";
 import SearchSyntax from "Components/Card/SearchSyntax.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import { useCardSearch } from "Composables/useCardSearch.ts";
-const props = defineProps<{
-    refId: string;
-    /** API endpoint to search against (e.g. "/api/art-crop"). */
-    endpoint: string;
-    /** i18n key for the form group label. */
-    label: string;
-    /** i18n key for the input placeholder. */
-    placeholder: string;
-    /** Icon shown on the form group addon when nothing is selected. */
-    searchIcon?: string;
-    /** Icon shown on the form group addon when a card is selected. */
-    selectedIcon?: string;
-    /** Pre-selected card for edit mode. */
-    initialCard?: T | null;
-}>();
+const props = withDefaults(
+    defineProps<{
+        refId: string;
+        /** API endpoint to search against (e.g. "/api/art-crop"). */
+        endpoint: string;
+        /** i18n key for the form group label. */
+        label: string;
+        /** i18n key for the input placeholder. */
+        placeholder: string;
+        /** Icon shown on the form group addon when nothing is selected. */
+        searchIcon?: string;
+        /** Icon shown on the form group addon when a card is selected. */
+        selectedIcon?: string;
+        /** Pre-selected card for edit mode. */
+        initialCard?: T | null;
+        /** form-group required? **/
+        required?: boolean;
+    }>(),
+    {
+        required: false
+    }
+);
 const { searchQuery, results, processing, selectedCard, refValue, onCardSelected, onClearSelection } = useCardSearch<T>(
     props.endpoint
 );
@@ -33,6 +40,7 @@ if (props.initialCard) {
         :label="$t(label)"
         :addon-icon="selectedCard ? (selectedIcon ?? searchIcon ?? 'image-search') : (searchIcon ?? 'image-search')"
         :validating="processing"
+        :required="required"
     >
         <current-selection v-if="selectedCard" @clear="onClearSelection">
             <slot name="selected" :card="selectedCard as T" />

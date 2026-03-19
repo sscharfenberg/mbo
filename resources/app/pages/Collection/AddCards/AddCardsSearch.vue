@@ -7,13 +7,14 @@ const initialCard: DefaultCardImage | null = null;
 
 <template>
     <card-search
-        ref-id="search"
+        ref-id="default_card_id"
         endpoint="/api/card-image"
         label="form.fields.card"
         placeholder="card.search.placeholder.face"
         search-icon="image-search"
         selected-icon="container-image"
         :initial-card="initialCard"
+        :required="true"
     >
         <template #result="{ card }">
             <card-face-image :card="card as DefaultCardImage" interactive />

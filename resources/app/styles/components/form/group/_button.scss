@@ -6,41 +6,59 @@
 @use "Abstracts/timings" as ti;
 
 .form-group {
-    &__button button {
+    &__button {
         display: flex;
-        align-items: center;
 
-        padding: 0.75ex 1.5ch 0.75ex 1ch;
         border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
-        gap: 1ch;
 
-        background-color: map.get(c.$form, "input", "background");
-        color: map.get(c.$form, "input", "surface");
-        outline: 0;
         border-radius: map.get(s.$form, "input", "radius");
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
 
-        line-height: map.get(s.$form, "input", "line-height");
+        button {
+            display: flex;
+            align-items: center;
 
-        cursor: pointer;
+            padding: 0.75ex 1.5ch 0.75ex 1ch;
+            border: 0;
+            gap: 1ch;
 
-        transition:
-            background-color map.get(ti.$timings, "fast") linear,
-            color map.get(ti.$timings, "fast") linear;
+            background-color: map.get(c.$form, "input", "background");
+            color: map.get(c.$form, "input", "surface");
+            outline: 0;
 
-        &:hover,
-        &:focus,
-        &:active {
-            background-color: map.get(c.$form, "input", "button", "background-hover");
-            color: map.get(c.$form, "input", "button", "surface-hover");
-        }
+            line-height: map.get(s.$form, "input", "line-height");
 
-        > span {
-            display: none;
+            cursor: pointer;
 
-            @include m.mq("portrait") {
-                display: block;
+            transition:
+                background-color map.get(ti.$timings, "fast") linear,
+                color map.get(ti.$timings, "fast") linear;
+
+            &:not([disabled]):hover,
+            &:not([disabled]):focus,
+            &:not([disabled]):active {
+                background-color: map.get(c.$form, "input", "button", "background-hover");
+                color: map.get(c.$form, "input", "button", "surface-hover");
+            }
+
+            > span {
+                display: none;
+
+                @include m.mq("portrait") {
+                    display: block;
+                }
+            }
+
+            &:last-child {
+                border-top-right-radius: map.get(s.$form, "input", "radius");
+                border-bottom-right-radius: map.get(s.$form, "input", "radius");
+            }
+
+            &[disabled] {
+                color: map.get(c.$form, "input", "surface");
+
+                cursor: not-allowed;
             }
         }
     }

@@ -44,6 +44,15 @@ const conditionOptions = computed(() =>
     })
 );
 const selectedCondition = ref("");
+const foilOptions = computed(() =>
+    props.foilTypes.map(type => {
+        return {
+            value: type,
+            label: t("enums.foil_types." + type)
+        };
+    })
+);
+const selectedFoilType = ref("");
 /**
  * Called when the type select changes. Updates selectedType and re-triggers
  * precognitive validation for the container_type field.
@@ -59,8 +68,12 @@ const onConditionChange = (value: string, validate: (field: string) => void) => 
     selectedCondition.value = value;
     nextTick(() => validate("condition"));
 };
-
+const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
+    selectedFoilType.value = value;
+    nextTick(() => validate("foil_type"));
+};
 const { setBreadcrumbs } = useBreadcrumbs();
+const amount = ref(1);
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
     { labelKey: "pages.add_cards.link", href: "/collection/containers" }
@@ -84,9 +97,8 @@ setBreadcrumbs([
             {{ $t("pages.add_cards.to_collection") }}
         </badge>
     </headline>
-    {{ foilTypes }}
     {{ languages }}
-    <Form action="/collection/add" method="post" class="form" #default="{ validate, processing }">
+    <Form action="/collection/add" method="post" class="form" #default="{ validate, processing, errors, invalid }">
         <form-legend
             :items="[
                 { slot: 'required', icon: 'info' },
@@ -120,10 +132,38 @@ setBreadcrumbs([
             />
             <input type="hidden" name="condition" :value="selectedCondition" />
         </form-group>
+        <form-group
+            for-id="amount"
+            :label="$t('form.fields.amount')"
+            :error="errors.amount ?? ''"
+            :invalid="invalid('amount')"
+            :required="true"
+            addon-icon="deck"
+        >
+            <input type="text" class="form-input" inputmode="numeric" v-model="amount" />
+            <template #button>
+                <button type="button" @mousedown.prevent @click="amount++" tabindex="-1">
+                    <icon name="add" />
+                </button>
+                <button type="button" @mousedown.prevent @click="amount--" :disabled="amount <= 1" tabindex="-1">
+                    <icon name="subtract" />
+                </button>
+            </template>
+        </form-group>
+        <form-group :label="$t('form.fields.foil_type')">
+            <mono-select
+                :options="foilOptions"
+                :selected="selectedFoilType"
+                @change="onFoilTypeChange($event, validate)"
+                :sort="false"
+                addon-icon="star"
+            />
+            <input type="hidden" name="condition" :value="selectedFoilType" />
+        </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />
-                {{ $t("pages.register.submit") }}
+                {{ $t("pages.add_cards.submit") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
         </form-group>

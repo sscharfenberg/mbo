@@ -18,6 +18,15 @@
             "light_played": "Leicht bespielt",
             "played": "Bespielt",
             "poor": "Schlecht"
+        },
+        "foil_types": {
+            "foil": "Foil",
+            "etched": "Geätzt",
+            "surge": "Surge",
+            "galaxy": "Galaxie",
+            "gilded": "Vergoldet",
+            "textured": "Texturiert",
+            "serialized": "Serialisiert"
         }
     },
     "header": {
@@ -247,7 +256,8 @@
             "link": "Karten hinzufügen",
             "to_collection": "Sammlung",
             "container_link": "Karten zu {container} hinzufügen",
-            "explanation": "Füge Karten deiner Sammlung hinzu, indem du nach einer OracleId suchst, und dann nach dem Set suchst."
+            "explanation": "Füge Karten deiner Sammlung hinzu, indem du nach einer OracleId suchst, und dann nach dem Set suchst.",
+            "submit": "Hinzufügen"
         }
     },
     "form": {
@@ -273,7 +283,9 @@
                 "id": "Container"
             },
             "card": "Karte",
-            "condition": "Zustand"
+            "condition": "Zustand",
+            "amount": "Anzahl",
+            "foil_type": "Foil"
         },
         "elements": {
             "password_show": "Zeigen",
