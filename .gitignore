@@ -1,5 +1,6 @@
 *.log
 .DS_Store
+.env
 .env.production
 .env.backup
 .env.staging
@@ -26,5 +27,5 @@ tsconfig.tsbuildinfo
 
 CLAUDE.md
 .mcp.json
+boost.json
 /.claude
-/.cursor
