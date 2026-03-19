@@ -24,11 +24,34 @@ function onFlip() {
         :class="{ 'face-image--interactive': interactive, 'face-image--flipped': flipped }"
         @transitionend="animating = false"
     >
-        <img :src="card.card_image_0 ?? undefined" alt="" loading="lazy" class="face-image__front" />
-        <img v-if="card.card_image_1" :src="card.card_image_1" alt="" loading="lazy" class="face-image__back" />
+        <img :src="card.card_image_0 ?? undefined" :alt="card.name" loading="lazy" class="face-image__front" />
+        <img
+            v-if="card.card_image_1"
+            :src="card.card_image_1"
+            :alt="card.name"
+            loading="lazy"
+            class="face-image__back"
+        />
         <button type="button" class="face-image__flip" v-if="card.card_image_1" @click.stop="onFlip">
             <icon name="flip" />
         </button>
+        <div class="face-image__panel">
+            <span class="face-image__panel-line">
+                <icon name="star" :size="0" />
+                {{ card.cn }}
+                <img
+                    :src="`/set/${card.set.code}.svg`"
+                    class="face-image__set"
+                    :alt="`${card.set.code.toUpperCase()} - ${card.set.name}`"
+                    :title="`${card.set.code.toUpperCase()} - ${card.set.name}`"
+                    v-tooltip="`${card.set.code.toUpperCase()} - ${card.set.name}`"
+                />
+            </span>
+            <span v-if="card.artist" class="face-image__panel-artist">
+                <icon name="brush" :size="0" />
+                {{ card.artist }}
+            </span>
+        </div>
     </div>
 </template>
 
@@ -109,5 +132,50 @@ function onFlip() {
             height: map.get(s.$main, "face-image", "flip-size");
         }
     }
+
+    &__panel {
+        position: absolute;
+        inset: auto 0 0;
+        z-index: map.get(z.$index, "main");
+
+        padding: map.get(s.$main, "face-image", "panel-padding");
+
+        background-color: map.get(c.$main, "face-image", "meta", "background");
+        color: map.get(c.$main, "face-image", "meta", "surface");
+        border-bottom-right-radius: inherit;
+        border-bottom-left-radius: inherit;
+
+        &-line,
+        &-artist {
+            display: flex;
+            align-items: center;
+
+            gap: 1ch;
+
+            font-size: 0.9em;
+        }
+
+        &-artist {
+            opacity: 0.8;
+
+            font-size: 0.8em;
+        }
+    }
+
+    &__set {
+        width: map.get(s.$main, "art-crop", "set");
+        height: map.get(s.$main, "art-crop", "set");
+        margin-left: auto;
+
+        filter: invert(1);
+    }
+}
+</style>
+<style lang="scss">
+// doesn't work scoped.
+@use "Abstracts/mixins" as m;
+
+@include m.theme-dark(".face-image__set") {
+    filter: none;
 }
 </style>

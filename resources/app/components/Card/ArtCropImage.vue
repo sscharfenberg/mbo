@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Icon from "Components/UI/Icon.vue";
 import type { DefaultCardArtCrop } from "Types/defaultCardArtCrop.ts";
 defineProps<{
     card: DefaultCardArtCrop;
@@ -13,7 +14,10 @@ defineProps<{
         <span class="art-crop__panel">
             <span class="art-crop__info" v-tooltip="`${card.name}`">
                 <span class="art-crop__name">{{ card.name }}</span>
-                <span v-if="card.artist" class="art-crop__artist">{{ card.artist }}</span>
+                <span v-if="card.artist" class="art-crop__artist">
+                    <icon name="brush" :size="0" />
+                    {{ card.artist }}
+                </span>
             </span>
             <img
                 :src="`/set/${card.set.code}.svg`"
@@ -85,17 +89,16 @@ defineProps<{
     }
 
     &__name {
-        overflow: hidden;
-
         font-size: 0.9em;
-        white-space: nowrap;
-        text-overflow: ellipsis;
     }
 
     &__artist {
+        display: flex;
         opacity: 0.8;
 
         overflow: hidden;
+
+        gap: 1ch;
 
         font-size: 0.75em;
         white-space: nowrap;

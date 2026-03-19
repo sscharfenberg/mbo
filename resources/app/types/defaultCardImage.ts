@@ -5,5 +5,6 @@ export type DefaultCardImage = {
     card_image_0: string | null;
     card_image_1: string | null;
     artist: string | null;
+    cn: string;
     set: { name: string; code: string };
 };

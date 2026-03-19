@@ -126,19 +126,20 @@ class DefaultCardsController extends Controller
             return response()->json([]);
         }
 
-        $cards = $query->select('id', 'name', 'card_image_0', 'card_image_1', 'set_id', 'artist_id')
+        $cards = $query->select('id', 'name', 'card_image_0', 'card_image_1', 'set_id', 'artist_id', 'collector_number')
             ->with('set:id,name,code', 'artist:id,name')
             ->orderBy('name')
             ->get()
             ->map(fn (DefaultCard $card) => [
-                'id'           => $card->id,
-                'name'         => $card->name,
-                'card_image_0' => $card->card_image_0,
-                'card_image_1' => $card->card_image_1,
-                'artist'       => $card->artist?->name,
-                'set'          => $card->set ? [
-                    'name' => $card->set->name,
-                    'code' => $card->set->code,
+                'id'            => $card->id,
+                'name'          => $card->name,
+                'card_image_0'  => $card->card_image_0,
+                'card_image_1'  => $card->card_image_1,
+                'artist'        => $card->artist?->name,
+                'cn'            => $card->collector_number,
+                'set'           => $card->set ? [
+                    'name'      => $card->set->name,
+                    'code'      => $card->set->code,
                 ] : null,
             ]);
 
