@@ -27,6 +27,20 @@
             "gilded": "Gilded",
             "textured": "Textured",
             "serialized": "Serialized"
+        },
+        "card_languages": {
+            "en": "English",
+            "de": "German",
+            "fr": "French",
+            "it": "Italian",
+            "es": "Spanish",
+            "pt": "Portuguese",
+            "ja": "Japanese",
+            "ko": "Korean",
+            "zhs": "Chinese (Simplified)",
+            "zht": "Chinese (Traditional)",
+            "ru": "Russian",
+            "ph": "Phyrexian"
         }
     },
     "header": {
@@ -285,7 +299,8 @@
             "card": "Card",
             "condition": "Condition",
             "amount": "Amount",
-            "foil_type": "Foil"
+            "foil_type": "Foil",
+            "language": "Language"
         },
         "elements": {
             "password_show": "Show",

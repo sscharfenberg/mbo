@@ -27,6 +27,20 @@
             "gilded": "Vergoldet",
             "textured": "Texturiert",
             "serialized": "Serialisiert"
+        },
+        "card_languages": {
+            "en": "Englisch",
+            "de": "Deutsch",
+            "fr": "Französisch",
+            "it": "Italienisch",
+            "es": "Spanisch",
+            "pt": "Portugiesisch",
+            "ja": "Japanisch",
+            "ko": "Koreanisch",
+            "zhs": "Chinesisch (vereinfacht)",
+            "zht": "Chinesisch (traditionell)",
+            "ru": "Russisch",
+            "ph": "Phyrexianisch"
         }
     },
     "header": {
@@ -285,7 +299,8 @@
             "card": "Karte",
             "condition": "Zustand",
             "amount": "Anzahl",
-            "foil_type": "Foil"
+            "foil_type": "Foil",
+            "language": "Sprache"
         },
         "elements": {
             "password_show": "Zeigen",

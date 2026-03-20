@@ -72,18 +72,11 @@
     }
 
     // if the input is focussed, continue the border color.
-    &:has(input:not([readonly])):focus .form-group__button button,
-    &:has(input:not([readonly])):focus-visible .form-group__button button,
-    &:has(input:not([readonly])):focus-within .form-group__button button {
+    &:has(input:not([readonly])):focus .form-group__button,
+    &:has(input:not([readonly])):focus-visible .form-group__button,
+    &:has(input:not([readonly])):focus-within .form-group__button {
         background-color: map.get(c.$form, "input", "background-focus");
         color: map.get(c.$form, "input", "surface-focus");
         border-color: map.get(c.$form, "input", "border-focus");
-
-        &:hover,
-        &:focus,
-        &:active {
-            background-color: map.get(c.$form, "input", "button", "background-hover");
-            color: map.get(c.$form, "input", "button", "surface-hover");
-        }
     }
 }

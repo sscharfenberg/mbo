@@ -36,9 +36,9 @@
     }
 
     // if the form group has an addon, reduce padding on form-input a bit
-    .form-group:has(.form-group__addon) & {
-        padding-left: 1.5ch;
-    }
+    // .form-group:has(.form-group__addon) & {
+    //    padding-left: 1.5ch;
+    // }
 }
 
 // if a button in the form group is focussed, show form-input focus styles as well.

@@ -2,6 +2,7 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import AddCardsLanguage from "@/pages/Collection/AddCards/AddCardsLanguage.vue";
 import AddCardsSearch from "@/pages/Collection/AddCards/AddCardsSearch.vue";
 import type { Container } from "@/types/container";
 import type { ContainerListItem } from "@/types/containerListItem";
@@ -97,7 +98,6 @@ setBreadcrumbs([
             {{ $t("pages.add_cards.to_collection") }}
         </badge>
     </headline>
-    {{ languages }}
     <Form action="/collection/add" method="post" class="form" #default="{ validate, processing, errors, invalid }">
         <form-legend
             :items="[
@@ -112,26 +112,6 @@ setBreadcrumbs([
                 </i18n-t>
             </template>
         </form-legend>
-        <form-group :label="$t('form.fields.container.id')">
-            <mono-select
-                :options="containerOptions"
-                :selected="selectedContainer"
-                @change="onContainerChange($event, validate)"
-                addon-icon="storage"
-            />
-            <input type="hidden" name="container_id" :value="selectedContainer" />
-        </form-group>
-        <add-cards-search />
-        <form-group :label="$t('form.fields.condition')">
-            <mono-select
-                :options="conditionOptions"
-                :selected="selectedCondition"
-                @change="onConditionChange($event, validate)"
-                :sort="false"
-                addon-icon="cards"
-            />
-            <input type="hidden" name="condition" :value="selectedCondition" />
-        </form-group>
         <form-group
             for-id="amount"
             :label="$t('form.fields.amount')"
@@ -149,6 +129,27 @@ setBreadcrumbs([
                     <icon name="subtract" />
                 </button>
             </template>
+        </form-group>
+        <add-cards-search />
+        <add-cards-language :languages="languages" />
+        <form-group :label="$t('form.fields.container.id')">
+            <mono-select
+                :options="containerOptions"
+                :selected="selectedContainer"
+                @change="onContainerChange($event, validate)"
+                addon-icon="storage"
+            />
+            <input type="hidden" name="container_id" :value="selectedContainer" />
+        </form-group>
+        <form-group :label="$t('form.fields.condition')">
+            <mono-select
+                :options="conditionOptions"
+                :selected="selectedCondition"
+                @change="onConditionChange($event, validate)"
+                :sort="false"
+                addon-icon="cards"
+            />
+            <input type="hidden" name="condition" :value="selectedCondition" />
         </form-group>
         <form-group :label="$t('form.fields.foil_type')">
             <mono-select

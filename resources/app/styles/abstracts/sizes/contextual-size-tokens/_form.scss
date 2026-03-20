@@ -44,5 +44,11 @@ $form: (
         "caret": math.round(s.$base * 0.4),
         "option": 1ex 1ch,
         "clear": map.get(s.$icons, "medium") * 2
+    ),
+    "language": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5625rem 1ch,
+        "img-radius": map.get(s.$radius, "base")
     )
 ) !default;

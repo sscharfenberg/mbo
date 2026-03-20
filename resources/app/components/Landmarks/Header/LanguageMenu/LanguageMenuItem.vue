@@ -35,6 +35,12 @@ const onLocaleChange = async () => {
         }
     });
 };
+const flagSrc = (lang: string): string => new URL(`../../../../assets/flags/${lang}.svg`, import.meta.url).href;
+const localeLabel = (lang: string): string =>
+    [
+        { locale: "en", label: "English language" },
+        { locale: "de", label: "Deutsche Sprache" }
+    ].find(l => l.locale === lang)?.label ?? lang;
 </script>
 
 <template>
@@ -45,8 +51,7 @@ const onLocaleChange = async () => {
             :class="{ 'popover-list-item--selected': currentLocale === locale }"
             @click="onLocaleChange"
         >
-            <img v-if="locale === 'de'" class="flag" src="./de.svg" alt="Deutsche Sprache" />
-            <img v-if="locale === 'en'" class="flag" src="./en.svg" alt="English Language" />
+            <img class="flag" :src="flagSrc(locale)" :alt="localeLabel(locale)" />
             {{ locale }}
         </button>
     </li>
