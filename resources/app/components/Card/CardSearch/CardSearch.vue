@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends { id: string }">
+import { nextTick, useTemplateRef } from "vue";
 import CurrentSelection from "Components/Card/CardSearch/CurrentSelection.vue";
 import Results from "Components/Card/CardSearch/Results.vue";
 import SearchSyntax from "Components/Card/SearchSyntax.vue";
@@ -33,6 +34,11 @@ if (props.initialCard) {
     selectedCard.value = props.initialCard;
     refValue.value = props.initialCard.id;
 }
+const searchInput = useTemplateRef<HTMLInputElement>("searchInput");
+function onClearAndFocus() {
+    onClearSelection();
+    nextTick(() => searchInput.value?.focus());
+}
 </script>
 
 <template>
@@ -42,11 +48,11 @@ if (props.initialCard) {
         :validating="processing"
         :required="required"
     >
-        <current-selection v-if="selectedCard" @clear="onClearSelection">
+        <current-selection v-if="selectedCard" @clear="onClearAndFocus">
             <slot name="selected" :card="selectedCard as T" />
         </current-selection>
         <template v-else>
-            <input type="text" class="form-input" :id="refId" :placeholder="$t(placeholder)" v-model="searchQuery" />
+            <input ref="searchInput" type="text" class="form-input" :id="refId" :placeholder="$t(placeholder)" v-model="searchQuery" />
         </template>
         <input type="hidden" :name="refId" :value="refValue" />
         <template v-if="!selectedCard && results.length === 0" #text>
