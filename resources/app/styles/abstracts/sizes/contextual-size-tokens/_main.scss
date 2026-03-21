@@ -83,5 +83,10 @@ $main: (
         "border": map.get(s.$border, "base"),
         "padding": 0.5rem,
         "radius": map.get(s.$radius, "featured")
+    ),
+    "defaults": (
+        "border": map.get(s.$border, "base"),
+        "padding": 0.5rem,
+        "radius": map.get(s.$radius, "base")
     )
 ) !default;

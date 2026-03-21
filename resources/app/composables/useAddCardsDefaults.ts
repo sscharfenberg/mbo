@@ -63,13 +63,23 @@ export function useAddCardsDefaults() {
     /** True when the user has saved at least one custom default. */
     const hasSavedDefaults = computed(() => Object.keys(savedDefaults.value).length > 0);
 
-    /**
-     * Persist the given form values as the user's defaults.
-     *
-     * @param current - The current form field values to save.
-     */
-    function saveDefaults(current: AddCardsDefaults): void {
-        persist(current);
+    /** Reactive form values, initialized from saved defaults. */
+    const amount = ref(defaults.value.amount);
+    const language = ref(defaults.value.language);
+    const condition = ref(defaults.value.condition);
+    const foilType = ref(defaults.value.foilType);
+
+    /** Incremented on reset to force keyed child components to remount. */
+    const resetKey = ref(0);
+
+    /** Persist the current form values as the user's defaults. */
+    function saveDefaults(): void {
+        persist({
+            amount: amount.value,
+            language: language.value,
+            condition: condition.value,
+            foilType: foilType.value
+        });
     }
 
     /** Remove all saved defaults, reverting to app-wide fallbacks. */
@@ -78,11 +88,26 @@ export function useAddCardsDefaults() {
         savedDefaults.value = {};
     }
 
+    /** Reset all form values back to defaults. Called after successful submission. */
+    function resetToDefaults(): void {
+        amount.value = defaults.value.amount;
+        language.value = defaults.value.language;
+        condition.value = defaults.value.condition;
+        foilType.value = defaults.value.foilType;
+        resetKey.value++;
+    }
+
     return {
         defaults,
         savedDefaults,
         hasSavedDefaults,
+        amount,
+        language,
+        condition,
+        foilType,
+        resetKey,
         saveDefaults,
-        clearDefaults
+        clearDefaults,
+        resetToDefaults
     };
 }

@@ -34,11 +34,18 @@ setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
     { labelKey: "pages.add_cards.link", href: "/collection/containers" }
 ]);
-const { defaults, savedDefaults, hasSavedDefaults, saveDefaults, clearDefaults } = useAddCardsDefaults();
-/** Number of copies to add. Initialized from saved defaults. */
-const amount = ref(defaults.value.amount);
-/** Currently selected language. Initialized from saved defaults. */
-const selectedLanguage = ref(defaults.value.language);
+const {
+    savedDefaults,
+    hasSavedDefaults,
+    amount,
+    language: selectedLanguage,
+    condition: selectedCondition,
+    foilType: selectedFoilType,
+    resetKey: searchKey,
+    saveDefaults,
+    clearDefaults,
+    resetToDefaults
+} = useAddCardsDefaults();
 /** Container options formatted for MonoSelect: `{ value, label }` pairs. */
 const containerOptions = computed(() =>
     props.containers.map(container => ({
@@ -55,8 +62,6 @@ const conditionOptions = computed(() =>
         label: t("enums.conditions." + condition)
     }))
 );
-/** Currently selected card condition. Initialized from saved defaults. */
-const selectedCondition = ref(defaults.value.condition);
 /** FoilType options formatted for MonoSelect with translated labels. */
 const foilOptions = computed(() =>
     props.foilTypes.map(type => ({
@@ -64,8 +69,6 @@ const foilOptions = computed(() =>
         label: t("enums.foil_types." + type)
     }))
 );
-/** Currently selected foil type. Initialized from saved defaults. */
-const selectedFoilType = ref(defaults.value.foilType);
 /** Maps form field names to their corresponding refs for generic select handling. */
 const selectRefs: Record<string, Ref<string>> = {
     container_id: selectedContainer,
@@ -80,6 +83,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
     selectRefs[field].value = value;
     nextTick(() => validate(field));
 };
+
 </script>
 
 <template>
@@ -103,6 +107,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
         action="/collection/add"
         method="post"
         class="form"
+        @success="resetToDefaults"
         #default="{ validate, processing, validating, errors, valid }"
     >
         <add-cards-defaults
@@ -112,17 +117,10 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             :foil-type="selectedFoilType"
             :saved-defaults="savedDefaults"
             :has-saved-defaults="hasSavedDefaults"
-            @save="
-                saveDefaults({
-                    amount,
-                    language: selectedLanguage,
-                    condition: selectedCondition,
-                    foilType: selectedFoilType
-                })
-            "
+            @save="saveDefaults"
             @clear="clearDefaults"
         />
-        <add-cards-search :error="errors.default_card_id ?? ''" :invalid="!!errors?.default_card_id" />
+        <add-cards-search :key="searchKey" :error="errors.default_card_id ?? ''" :invalid="!!errors?.default_card_id" />
         <form-group
             for-id="amount"
             :label="$t('form.fields.amount')"

@@ -38,26 +38,47 @@ function displayValue(value: string | number | undefined, translationPrefix?: st
     <accordion>
         <template #head>{{ $t("pages.add_cards.defaults.title") }}</template>
         <template #body>
-            <paragraph style="margin-top: 0">
+            <paragraph style="margin: 0">
                 {{ $t("pages.add_cards.defaults.explanation") }}
-                <span v-if="hasSavedDefaults"
-                    ><br />
-                    <strong>{{ $t("pages.add_cards.defaults.saved_defaults") }}:</strong>
-                    {{ $t("form.fields.amount") }}={{ savedDefaults.amount ?? "-" }},
-                    {{ $t("form.fields.language") }}={{
-                        displayValue(savedDefaults.language, "enums.card_languages.")
-                    }}, {{ $t("form.fields.condition") }}={{
-                        displayValue(savedDefaults.condition, "enums.conditions.")
-                    }}, {{ $t("form.fields.foil_type") }}={{
-                        displayValue(savedDefaults.foilType, "enums.foil_types.")
-                    }} </span
-                ><br />
-                <strong>{{ $t("pages.add_cards.defaults.current_settings") }}:</strong>
-                {{ $t("form.fields.amount") }}={{ amount }}, {{ $t("form.fields.language") }}={{
-                    displayValue(language, "enums.card_languages.")
-                }}, {{ $t("form.fields.condition") }}={{ displayValue(condition, "enums.conditions.") }},
-                {{ $t("form.fields.foil_type") }}={{ displayValue(foilType, "enums.foil_types.") }}
             </paragraph>
+            <div class="defaults">
+                <ul v-if="hasSavedDefaults">
+                    <li>{{ $t("pages.add_cards.defaults.saved_defaults") }}</li>
+                    <li>
+                        {{ $t("form.fields.amount") }} <span>{{ savedDefaults.amount ?? "-" }}</span>
+                    </li>
+                    <li>
+                        {{ $t("form.fields.language") }}
+                        <span>{{ displayValue(savedDefaults.language, "enums.card_languages.") }}</span>
+                    </li>
+                    <li>
+                        {{ $t("form.fields.condition") }}
+                        <span>{{ displayValue(savedDefaults.condition, "enums.conditions.") }}</span>
+                    </li>
+                    <li>
+                        {{ $t("form.fields.foil_type") }}
+                        <span>{{ displayValue(savedDefaults.foilType, "enums.foil_types.") }}</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li>{{ $t("pages.add_cards.defaults.current_settings") }}</li>
+                    <li>
+                        {{ $t("form.fields.amount") }} <span>{{ amount }}</span>
+                    </li>
+                    <li>
+                        {{ $t("form.fields.language") }}
+                        <span>{{ displayValue(language, "enums.card_languages.") }}</span>
+                    </li>
+                    <li>
+                        {{ $t("form.fields.condition") }}
+                        <span>{{ displayValue(condition, "enums.conditions.") }}</span>
+                    </li>
+                    <li>
+                        {{ $t("form.fields.foil_type") }}
+                        <span>{{ displayValue(foilType, "enums.foil_types.") }}</span>
+                    </li>
+                </ul>
+            </div>
             <button-group>
                 <button type="button" class="btn-primary" @click="$emit('save')">
                     <icon name="save" />
@@ -71,3 +92,45 @@ function displayValue(value: string | number | undefined, translationPrefix?: st
         </template>
     </accordion>
 </template>
+
+<style lang="scss" scoped>
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+.defaults {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    margin: 0.5rem 0;
+    gap: 0.5rem;
+}
+
+ul {
+    display: inline-flex;
+    flex-wrap: wrap;
+
+    overflow: hidden;
+
+    padding: map.get(s.$main, "defaults", "border");
+    border: 0;
+    margin: 0;
+    gap: map.get(s.$main, "defaults", "border");
+
+    background-color: map.get(c.$main, "defaults", "border");
+
+    list-style: none;
+    border-radius: map.get(s.$main, "defaults", "radius");
+
+    li {
+        padding: map.get(s.$main, "defaults", "padding");
+
+        background-color: map.get(c.$main, "accordion", "background");
+
+        span {
+            font-weight: bold;
+        }
+    }
+}
+</style>
