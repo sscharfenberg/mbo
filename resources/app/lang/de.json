@@ -271,7 +271,8 @@
             "to_collection": "Sammlung",
             "container_link": "Karten zu {container} hinzufügen",
             "explanation": "Füge Karten deiner Sammlung hinzu, indem du nach einer OracleId suchst, und dann nach dem Set suchst.",
-            "submit": "Hinzufügen"
+            "submit": "Speichern",
+            "submit_and_add_more": "Speichern und mehr hinzufügen"
         }
     },
     "form": {

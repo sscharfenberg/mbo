@@ -271,7 +271,8 @@
             "to_collection": "Collection",
             "container_link": "Add cards to {container}",
             "explanation": "Add cards to your collection. Search for an oracle card first, then choose the printing.",
-            "submit": "Add"
+            "submit": "Save",
+            "submit_and_add_more": "Save and add more"
         }
     },
     "form": {

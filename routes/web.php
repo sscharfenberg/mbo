@@ -1,5 +1,13 @@
 <?php
 
+use App\Http\Controllers\Collection\CardsController;
+use App\Http\Controllers\Collection\CollectionController;
+use App\Http\Controllers\Collection\ContainerController;
+use App\Http\Controllers\Decks\DecksController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\HandleControllerPrecognitiveRequest;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -8,61 +16,62 @@ use Laravel\Fortify\Features;
 /******************************************************************************
  * Guest pages
  *****************************************************************************/
-Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'show'])
+Route::get('/', [WelcomeController::class, 'show'])
     ->name('welcome');
-Route::post('/lang/{locale}', [\App\Http\Controllers\LocaleController::class, 'update'])
+Route::post('/lang/{locale}', [LocaleController::class, 'update'])
     ->name('locale');
-Route::get('/privacy', [\App\Http\Controllers\GuestController::class, 'privacy'])
+Route::get('/privacy', [GuestController::class, 'privacy'])
     ->name('privacy');
-Route::get('/imprint', [\App\Http\Controllers\GuestController::class, 'imprint'])
+Route::get('/imprint', [GuestController::class, 'imprint'])
     ->name('imprint');
 
 /******************************************************************************
  * Authed pages
  *****************************************************************************/
 Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerification()) ? 'verified' : null]))->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'show'])
+    Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
 
     // collection
-    Route::get('/collection', [\App\Http\Controllers\Collection\CollectionController::class, 'list'])
+    Route::get('/collection', [CollectionController::class, 'list'])
         ->name('collection');
     // Containers
-    Route::get('collection/containers', [\App\Http\Controllers\Collection\ContainerController::class, 'list'])
+    Route::get('collection/containers', [ContainerController::class, 'list'])
         ->name('containers');
-    Route::get('collection/containers/new', [\App\Http\Controllers\Collection\ContainerController::class, 'create'])
+    Route::get('collection/containers/new', [ContainerController::class, 'create'])
         ->name('container.new');
-    Route::post('collection/containers/new', [\App\Http\Controllers\Collection\ContainerController::class, 'store'])
+    Route::post('collection/containers/new', [ContainerController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.store');
-    Route::patch('collection/containers/sort', [\App\Http\Controllers\Collection\ContainerController::class, 'reorder'])
+    Route::patch('collection/containers/sort', [ContainerController::class, 'reorder'])
         ->name('container.reorder');
-    Route::get('collection/containers/{container}/edit', [\App\Http\Controllers\Collection\ContainerController::class, 'edit'])
+    Route::get('collection/containers/{container}/edit', [ContainerController::class, 'edit'])
         ->name('container.edit');
-    Route::get('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'show'])
+    Route::get('collection/containers/{container}', [ContainerController::class, 'show'])
         ->name('container.show');
-    Route::patch('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'update'])
+    Route::patch('collection/containers/{container}', [ContainerController::class, 'update'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.update');
-    Route::delete('collection/containers/{container}', [\App\Http\Controllers\Collection\ContainerController::class, 'destroy'])
+    Route::delete('collection/containers/{container}', [ContainerController::class, 'destroy'])
         ->name('container.destroy');
 
     // add cards
-    Route::get('collection/add', [\App\Http\Controllers\Collection\CardsController::class, 'add'])
+    Route::get('collection/add', [CardsController::class, 'add'])
         ->name('cards.add');
-    Route::get('collection/containers/{container}/add', [\App\Http\Controllers\Collection\CardsController::class, 'add'])
+    Route::get('collection/containers/{container}/add', [CardsController::class, 'add'])
         ->name('container.cards.add');
-
+    Route::post('collection/add', [CardsController::class, 'store'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('cards.store');
 
     // decks
-    Route::get('/decks', [\App\Http\Controllers\Decks\DecksController::class, 'show'])
+    Route::get('/decks', [DecksController::class, 'show'])
         ->name('decks');
 
 });
 
-
 /******************************************************************************
  * Dev pages (no auth, not linked from anywhere)
  *****************************************************************************/
-Route::get('/icons', fn() => Inertia::render('Dev/Icons'))
+Route::get('/icons', fn () => Inertia::render('Dev/Icons'))
     ->name('dev.icons');

@@ -4,21 +4,25 @@ import FormGroup from "Components/Form/FormGroup.vue";
 const props = defineProps<{
     /** CardLanguage enum values. */
     languages: string[];
+    /** Validation error message for the language field. */
+    error?: string;
+    /** Whether the field is in an invalid state. */
+    invalid?: boolean;
 }>();
 const selectedLangauge = ref(props.languages[0]);
 const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}.svg`, import.meta.url).href;
 </script>
 
 <template>
-    <form-group :label="$t('form.fields.language')" :required="true">
+    <form-group :label="$t('form.fields.language')" :required="true" :error="error" :invalid="invalid">
         <div class="lang__wrapper">
             <span class="lang" v-for="lang in languages" :key="lang">
                 <input
                     type="radio"
                     :id="`language-${lang}`"
                     name="language"
-                    :value="lang"
                     :checked="lang === selectedLangauge"
+                    :value="lang"
                     class="sr-only"
                 />
                 <label

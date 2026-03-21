@@ -36,6 +36,7 @@ h3,
 h4 {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 
     margin: 0 0 0.5lh;
     gap: 0.5ch;

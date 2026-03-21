@@ -22,9 +22,15 @@ const props = withDefaults(
         initialCard?: T | null;
         /** form-group required? **/
         required?: boolean;
+        /** Validation error message from the parent form. */
+        error?: string;
+        /** Whether the field is in an invalid state. */
+        invalid?: boolean;
     }>(),
     {
-        required: false
+        required: false,
+        error: "",
+        invalid: false
     }
 );
 const { searchQuery, results, processing, selectedCard, refValue, onCardSelected, onClearSelection } = useCardSearch<T>(
@@ -47,6 +53,8 @@ function onClearAndFocus() {
         :addon-icon="selectedCard ? (selectedIcon ?? searchIcon ?? 'image-search') : (searchIcon ?? 'image-search')"
         :validating="processing"
         :required="required"
+        :error="error"
+        :invalid="invalid"
     >
         <current-selection v-if="selectedCard" @clear="onClearAndFocus">
             <slot name="selected" :card="selectedCard as T" />

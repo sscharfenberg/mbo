@@ -18,19 +18,19 @@ return [
             'required' => 'Bitte gib den Benutzernamen an.',
             'required_if' => 'Bitte gib den Benutzernamen an.',
             'unique' => 'Dieser Benutzername ist bereits vergeben.',
-            'min' => 'Der Benutzername muss mindestens :min Zeichen enthalten.'
+            'min' => 'Der Benutzername muss mindestens :min Zeichen enthalten.',
         ],
         'email' => [
             'required' => 'Bitte gib die E-Mail-Adresse an.',
             'email' => 'Dies scheint keine gültige E-Mail-Adresse zu sein.',
             'unique' => 'Diese E-Mail-Adresse wird bereits verwendet.',
-            'exists' => 'Diese E-Mail-Adresse existiert nicht.'
+            'exists' => 'Diese E-Mail-Adresse existiert nicht.',
         ],
         'password' => [
             'required' => 'Bitte gib das Passwort an.',
             'min' => 'Das Passwort muss mindestens :min Zeichen enthalten.',
             'entropy' => 'Das Passwort ist nicht sicher genug.',
-            'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.'
+            'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.',
         ],
         'password_confirmation' => [
             'required' => 'Bitte bestätige das Passwort.',
@@ -38,7 +38,7 @@ return [
         ],
         'current_password' => [
             'required' => 'Bitte gib das aktuelle Passwort an.',
-            'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.'
+            'current_password' => 'Dieses Passwort entspricht nicht unseren Aufzeichnungen.',
         ],
         'container_name' => [
             'required' => 'Bitte gib den Namen des Containers an.',
@@ -48,7 +48,19 @@ return [
         ],
         'container_type_other' => [
             'required' => 'Bitte gib den Sonstigen Typ des Containers an.',
-        ]
+        ],
+        'default_card_id' => [
+            'required' => 'Bitte wähle eine Karte aus.',
+        ],
+        'amount' => [
+            'required' => 'Bitte gib die Anzahl der Karten an.',
+            'integer' => 'Die Anzahl muss eine ganze Zahl sein.',
+            'min' => 'Die Anzahl muss mindestens :min betragen.',
+            'max' => 'Die Anzahl darf :max nicht überschreiten.',
+        ],
+        'language' => [
+            'required' => 'Bitte wähle eine Sprache aus.',
+        ],
     ],
 
     /*

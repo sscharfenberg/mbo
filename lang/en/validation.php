@@ -18,19 +18,19 @@ return [
             'required' => 'Please enter the username.',
             'required_if' => 'Please enter the username.',
             'unique' => 'The username has already been taken',
-            'min' => 'The username must have at least :min characters.'
+            'min' => 'The username must have at least :min characters.',
         ],
         'email' => [
             'required' => 'Please enter the email address.',
             'email' => 'This does not seem to be a valid e-mail-address.',
             'unique' => 'This e-mail has already been taken.',
-            'exists' => 'This e-mail does not exist in our records.'
+            'exists' => 'This e-mail does not exist in our records.',
         ],
         'password' => [
             'required' => 'Please enter the password.',
             'min' => 'The password can not be less than :min characters.',
             'entropy' => 'The password is not secure enough.',
-            'current_password' => 'This password does not match our records.'
+            'current_password' => 'This password does not match our records.',
         ],
         'password_confirmation' => [
             'required' => 'Please confirm the password.',
@@ -38,7 +38,7 @@ return [
         ],
         'current_password' => [
             'required' => 'Please enter your current password.',
-            'current_password' => 'This password does not match our records.'
+            'current_password' => 'This password does not match our records.',
         ],
         'container_name' => [
             'required' => 'Please enter the name of the container.',
@@ -48,7 +48,19 @@ return [
         ],
         'container_type_other' => [
             'required' => 'Please enter the custom type of the container.',
-        ]
+        ],
+        'default_card_id' => [
+            'required' => 'Please select a card.',
+        ],
+        'amount' => [
+            'required' => 'Please enter the number of cards.',
+            'integer' => 'The amount must be a whole number.',
+            'min' => 'The amount must be at least :min.',
+            'max' => 'The amount must not exceed :max.',
+        ],
+        'language' => [
+            'required' => 'Please select a language.',
+        ],
 
     ],
 
