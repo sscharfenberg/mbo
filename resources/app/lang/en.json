@@ -270,7 +270,14 @@
             "link": "Add cards",
             "to_collection": "Collection",
             "container_link": "Add cards to {container}",
-            "explanation": "Add cards to your collection. Search for an oracle card first, then choose the printing.",
+            "defaults": {
+                "title": "Defaults",
+                "explanation": "You can use the current settings as defaults so they will be used when you return to this page. Clearing the current defaults will return to app-wide defaults.",
+                "saved_defaults": "Saved defaults",
+                "current_settings": "Current settings",
+                "save": "Save as defaults",
+                "clear": "Clear defaults"
+            },
             "submit": "Save",
             "submit_and_add_more": "Save and add more"
         }

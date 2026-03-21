@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
-import { computed, nextTick, ref } from "vue";
+import { type Ref, computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import AddCardsDefaults from "@/pages/Collection/AddCards/AddCardsDefaults.vue";
 import AddCardsLanguage from "@/pages/Collection/AddCards/AddCardsLanguage.vue";
 import AddCardsSearch from "@/pages/Collection/AddCards/AddCardsSearch.vue";
 import type { Container } from "@/types/container";
 import type { ContainerListItem } from "@/types/containerListItem";
 import ButtonGroup from "Components/Form/ButtonGroup.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
-import FormLegend from "Components/Form/FormLegend.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
+import { useAddCardsDefaults } from "Composables/useAddCardsDefaults.ts";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 const props = defineProps<{
     /** Present when adding cards to a specific container; null for unsorted / collection-level. */
@@ -26,20 +27,18 @@ const props = defineProps<{
     foilTypes: string[];
     /** CardLanguage enum values. */
     languages: string[];
-    /** URL to redirect to when using the "Save" button. */
-    backUrl: string;
 }>();
 const { t } = useI18n();
-
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
     { labelKey: "pages.add_cards.link", href: "/collection/containers" }
 ]);
-
-/** Number of copies to add. */
-const amount = ref(1);
-
+const { defaults, savedDefaults, hasSavedDefaults, saveDefaults, clearDefaults } = useAddCardsDefaults();
+/** Number of copies to add. Initialized from saved defaults. */
+const amount = ref(defaults.value.amount);
+/** Currently selected language. Initialized from saved defaults. */
+const selectedLanguage = ref(defaults.value.language);
 /** Container options formatted for MonoSelect: `{ value, label }` pairs. */
 const containerOptions = computed(() =>
     props.containers.map(container => ({
@@ -49,18 +48,6 @@ const containerOptions = computed(() =>
 );
 /** Currently selected container id. Initialized from the container prop when present. */
 const selectedContainer = ref(props.container?.id as string);
-/**
- * Called when the container select changes. Updates selectedContainer and
- * re-triggers precognitive validation for the container_id field.
- *
- * @param value - The newly selected container id.
- * @param validate - The precognitive validate callback from the Form slot.
- */
-const onContainerChange = (value: string, validate: (field: string) => void) => {
-    selectedContainer.value = value;
-    nextTick(() => validate("container_id"));
-};
-
 /** CardCondition options formatted for MonoSelect with translated labels. */
 const conditionOptions = computed(() =>
     props.conditions.map(condition => ({
@@ -68,20 +55,8 @@ const conditionOptions = computed(() =>
         label: t("enums.conditions." + condition)
     }))
 );
-/** Currently selected card condition. */
-const selectedCondition = ref("");
-/**
- * Called when the condition select changes. Updates selectedCondition and
- * re-triggers precognitive validation for the condition field.
- *
- * @param value - The newly selected condition value.
- * @param validate - The precognitive validate callback from the Form slot.
- */
-const onConditionChange = (value: string, validate: (field: string) => void) => {
-    selectedCondition.value = value;
-    nextTick(() => validate("condition"));
-};
-
+/** Currently selected card condition. Initialized from saved defaults. */
+const selectedCondition = ref(defaults.value.condition);
 /** FoilType options formatted for MonoSelect with translated labels. */
 const foilOptions = computed(() =>
     props.foilTypes.map(type => ({
@@ -89,18 +64,21 @@ const foilOptions = computed(() =>
         label: t("enums.foil_types." + type)
     }))
 );
-/** Currently selected foil type. */
-const selectedFoilType = ref("");
+/** Currently selected foil type. Initialized from saved defaults. */
+const selectedFoilType = ref(defaults.value.foilType);
+/** Maps form field names to their corresponding refs for generic select handling. */
+const selectRefs: Record<string, Ref<string>> = {
+    container_id: selectedContainer,
+    condition: selectedCondition,
+    foil_type: selectedFoilType
+};
 /**
- * Called when the foil type select changes. Updates selectedFoilType and
- * re-triggers precognitive validation for the foil_type field.
- *
- * @param value - The newly selected foil type value.
- * @param validate - The precognitive validate callback from the Form slot.
+ * Generic change handler for MonoSelect fields. Updates the ref and
+ * re-triggers precognitive validation for the given field name.
  */
-const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
-    selectedFoilType.value = value;
-    nextTick(() => validate("foil_type"));
+const onSelectChange = (field: string, value: string, validate: (field: string) => void) => {
+    selectRefs[field].value = value;
+    nextTick(() => validate(field));
 };
 </script>
 
@@ -127,19 +105,23 @@ const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
         class="form"
         #default="{ validate, processing, validating, errors, valid }"
     >
-        <form-legend
-            :items="[
-                { slot: 'required', icon: 'info' },
-                { slot: 'add', icon: 'add' }
-            ]"
-        >
-            <template #add>{{ $t("pages.add_cards.explanation") }}</template>
-            <template #required>
-                <i18n-t keypath="form.legend.required" scope="global">
-                    <template #icon><icon name="required" /></template>
-                </i18n-t>
-            </template>
-        </form-legend>
+        <add-cards-defaults
+            :amount="amount"
+            :language="selectedLanguage"
+            :condition="selectedCondition"
+            :foil-type="selectedFoilType"
+            :saved-defaults="savedDefaults"
+            :has-saved-defaults="hasSavedDefaults"
+            @save="
+                saveDefaults({
+                    amount,
+                    language: selectedLanguage,
+                    condition: selectedCondition,
+                    foilType: selectedFoilType
+                })
+            "
+            @clear="clearDefaults"
+        />
         <add-cards-search :error="errors.default_card_id ?? ''" :invalid="!!errors?.default_card_id" />
         <form-group
             for-id="amount"
@@ -168,7 +150,12 @@ const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
                 </button>
             </template>
         </form-group>
-        <add-cards-language :languages="languages" :error="errors.language ?? ''" :invalid="!!errors?.language" />
+        <add-cards-language
+            v-model="selectedLanguage"
+            :languages="languages"
+            :error="errors.language ?? ''"
+            :invalid="!!errors?.language"
+        />
         <form-group
             :label="$t('form.fields.container.id')"
             :error="errors.container_id ?? ''"
@@ -179,7 +166,7 @@ const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
             <mono-select
                 :options="containerOptions"
                 :selected="selectedContainer"
-                @change="onContainerChange($event, validate)"
+                @change="onSelectChange('container_id', $event, validate)"
                 addon-icon="storage"
             />
             <input type="hidden" name="container_id" :value="selectedContainer" />
@@ -194,7 +181,7 @@ const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
             <mono-select
                 :options="conditionOptions"
                 :selected="selectedCondition"
-                @change="onConditionChange($event, validate)"
+                @change="onSelectChange('condition', $event, validate)"
                 :sort="false"
                 addon-icon="cards"
             />
@@ -210,13 +197,12 @@ const onFoilTypeChange = (value: string, validate: (field: string) => void) => {
             <mono-select
                 :options="foilOptions"
                 :selected="selectedFoilType"
-                @change="onFoilTypeChange($event, validate)"
+                @change="onSelectChange('foil_type', $event, validate)"
                 :sort="false"
                 addon-icon="star"
             />
             <input type="hidden" name="foil_type" :value="selectedFoilType" />
         </form-group>
-        <input type="hidden" name="back_url" :value="backUrl" />
         <form-group class="button-group">
             <button-group>
                 <button type="submit" name="redirect" value="back" class="btn-default" :disabled="processing">

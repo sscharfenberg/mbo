@@ -132,5 +132,14 @@ $main: (
             "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker")),
             "surface-name": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "bunker"))
         )
+    ),
+    "accordion": (
+        "background": light-dark(color.adjust(#fff, $alpha: -0.25), color.adjust(#000, $alpha: -0.25)),
+        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            ),
+        "background-hover": light-dark(#fff, #000)
     )
 ) !default;

@@ -270,7 +270,14 @@
             "link": "Karten hinzufügen",
             "to_collection": "Sammlung",
             "container_link": "Karten zu {container} hinzufügen",
-            "explanation": "Füge Karten deiner Sammlung hinzu, indem du nach einer OracleId suchst, und dann nach dem Set suchst.",
+            "defaults": {
+                "title": "Voreinstellungen",
+                "explanation": "Du kannst die aktuellen Einstellungen als Voreinstellungen verwenden, sie werden dann vorbelegt wenn du zu dieser Seite zurückkehrst. Das Zurücksetzen der Voreinstellungen verwendet dann wieder Standard Vorbelegungen.",
+                "saved_defaults": "Gespeicherte Voreinstellungen",
+                "current_settings": "Aktuelle Einstellungen",
+                "save": "Voreinstellungen speichern",
+                "clear": "Voreinstellungen zurücksetzen"
+            },
             "submit": "Speichern",
             "submit_and_add_more": "Speichern und mehr hinzufügen"
         }

@@ -67,6 +67,25 @@
     &-sprite {
         display: none;
     }
+
+    // chevron => default chevron points down
+    &.chevron {
+        &.left {
+            transform: rotate(90deg);
+        }
+
+        &.up {
+            transform: rotate(180deg);
+        }
+
+        &.right {
+            transform: rotate(270deg);
+        }
+
+        &.down {
+            transform: rotate(0deg);
+        }
+    }
 }
 
 // rotating

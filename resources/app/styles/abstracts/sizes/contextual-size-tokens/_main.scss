@@ -78,5 +78,10 @@ $main: (
             "radius": map.get(s.$radius, "featured"),
             "border": map.get(s.$border, "base")
         )
+    ),
+    "accordion": (
+        "border": map.get(s.$border, "base"),
+        "padding": 0.5rem,
+        "radius": map.get(s.$radius, "featured")
     )
 ) !default;

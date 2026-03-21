@@ -43,22 +43,12 @@ class CardsController extends Controller
                 'name' => $c->name,
             ]);
 
-        $backUrl = url()->previous();
-        $allowed = [route('collection'), route('containers')];
-        if ($container) {
-            $allowed[] = route('container.show', $container);
-        }
-        if (! in_array($backUrl, $allowed)) {
-            $backUrl = route('collection');
-        }
-
         return Inertia::render('Collection/AddCards/AddCardsPage', [
             'container' => $container ? ContainerService::serializeContainer($container) : null,
             'containers' => $containers,
             'conditions' => array_column(CardCondition::cases(), 'value'),
             'foilTypes' => array_column(FoilType::cases(), 'value'),
             'languages' => array_column(CardLanguage::cases(), 'value'),
-            'backUrl' => $backUrl,
         ]);
     }
 
@@ -101,14 +91,17 @@ class CardsController extends Controller
         $request->session()->flash('type', 'success');
 
         if ($request->redirect === 'add_more') {
+            if ($request->container_id) {
+                return redirect(route('container.cards.add', $request->container_id));
+            }
+
             return redirect(route('cards.add'));
         }
 
-        $backUrl = $request->input('back_url', route('collection'));
-        if (! str_starts_with($backUrl, config('app.url'))) {
-            $backUrl = route('collection');
+        if ($request->container_id) {
+            return redirect(route('container.show', $request->container_id));
         }
 
-        return redirect($backUrl);
+        return redirect(route('containers'));
     }
 }

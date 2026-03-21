@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
-const props = defineProps<{
+defineProps<{
     /** CardLanguage enum values. */
     languages: string[];
+    /** Currently selected language, controlled by the parent via v-model. */
+    modelValue: string;
     /** Validation error message for the language field. */
     error?: string;
     /** Whether the field is in an invalid state. */
     invalid?: boolean;
 }>();
-const selectedLangauge = ref(props.languages[0]);
+const emit = defineEmits<{
+    "update:modelValue": [value: string];
+}>();
+/** Resolve the flag image URL for a given language code. */
 const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}.svg`, import.meta.url).href;
 </script>
 
@@ -21,9 +25,10 @@ const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}
                     type="radio"
                     :id="`language-${lang}`"
                     name="language"
-                    :checked="lang === selectedLangauge"
+                    :checked="lang === modelValue"
                     :value="lang"
                     class="sr-only"
+                    @change="emit('update:modelValue', lang)"
                 />
                 <label
                     :for="`language-${lang}`"
