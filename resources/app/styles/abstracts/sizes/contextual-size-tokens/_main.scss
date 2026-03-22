@@ -54,14 +54,14 @@ $main: (
         "min-width": math.round(s.$base * 12),
         "panel-padding": 1ex 1ch,
         "set": map.get(s.$icons, "medium"),
-        "radius": map.get(s.$radius, "featured"),
+        "radius": math.round(map.get(s.$radius, "featured") * 1.45),
         "border-active": math.round(map.get(s.$border, "featured") * 1.5),
         "card-image-max": 626px // scryfall's intrinsic width for most images
     ),
     "face-image": (
         "flip-size": 2rem,
         "card-image-max": 24rem,
-        "radius": map.get(s.$radius, "featured"),
+        "radius": math.round(map.get(s.$radius, "featured") * 1.45),
         "panel-padding": 1ex 1ch
     ),
     "containers": (

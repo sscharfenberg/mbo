@@ -104,6 +104,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
         </badge>
     </headline>
     <Form
+        :key="searchKey"
         action="/collection/add"
         method="post"
         class="form"
@@ -120,7 +121,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             @save="saveDefaults"
             @clear="clearDefaults"
         />
-        <add-cards-search :key="searchKey" :error="errors.default_card_id ?? ''" :invalid="!!errors?.default_card_id" />
+        <add-cards-search :error="errors.default_card_id ?? ''" :invalid="!!errors?.default_card_id" />
         <form-group
             for-id="amount"
             :label="$t('form.fields.amount')"

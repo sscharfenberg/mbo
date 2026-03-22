@@ -2,6 +2,7 @@
 
 return [
 
-    'card_added' => 'Karte wurde zu deiner Sammlung hinzugefügt.',
+    'card_added' => ':name wurde zu deiner Sammlung hinzugefügt.',
+    'amount_changed' => 'Anzahl von :name wurde auf :amount geändert.',
 
 ];

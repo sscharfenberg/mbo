@@ -6,9 +6,9 @@ use App\Enums\CardCondition;
 use App\Enums\CardLanguage;
 use App\Enums\FoilType;
 use App\Http\Controllers\Controller;
-use App\Models\CardStack;
 use App\Models\Container;
 use App\Models\DefaultCard;
+use App\Services\CardStackService;
 use App\Services\ContainerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -77,17 +77,22 @@ class CardsController extends Controller
             abort_if($container->user_id !== $request->user()->id, 403);
         }
 
-        CardStack::create([
-            'user_id' => $request->user()->id,
-            'default_card_id' => $request->default_card_id,
-            'container_id' => $request->container_id ?: null,
-            'amount' => $request->amount,
-            'condition' => $request->condition ?: null,
-            'foil_type' => $request->foil_type ?: null,
-            'language' => $request->language,
-        ]);
+        $result = CardStackService::addToCollection($request->user(), $request->only([
+            'default_card_id', 'amount', 'language', 'container_id', 'condition', 'foil_type',
+        ]));
 
-        $request->session()->flash('message', __('collection.card_added'));
+        $cardName = DefaultCard::find($request->default_card_id)->name;
+
+        if ($result['merged']) {
+            $message = __('collection.amount_changed', [
+                'name' => $cardName,
+                'amount' => $result['stack']->amount,
+            ]);
+        } else {
+            $message = __('collection.card_added', ['name' => $cardName]);
+        }
+
+        $request->session()->flash('message', $message);
         $request->session()->flash('type', 'success');
 
         if ($request->redirect === 'add_more') {
