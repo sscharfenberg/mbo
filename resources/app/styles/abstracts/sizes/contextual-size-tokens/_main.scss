@@ -56,7 +56,7 @@ $main: (
         "set": map.get(s.$icons, "medium"),
         "radius": math.round(map.get(s.$radius, "featured") * 1.45),
         "border-active": math.round(map.get(s.$border, "featured") * 1.5),
-        "card-image-max": 626px // scryfall's intrinsic width for most images
+        "card-image-max": 24rem // scryfall's intrinsic width for most images
     ),
     "face-image": (
         "flip-size": 2rem,

@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
+import ContainerCardStacks from "@/pages/Collection/Container/ContainerCardStacks.vue";
 import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import ArtCropImage from "Components/Card/ArtCropImage.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs";
+import type { CardStackRow } from "Types/cardStackRow";
 import type { Container } from "Types/container";
-const props = defineProps<{ container: Container }>();
+import type { TableResponse } from "Types/dataTable";
+
+const props = defineProps<{
+    container: Container;
+    table: TableResponse<CardStackRow>;
+}>();
+
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
@@ -39,10 +47,10 @@ setBreadcrumbs([
                 container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
             }}
         </li>
-        <li><icon name="deck" />255 Cards</li>
-        <li><icon name="wallet" />145,56 €</li>
+        <li><icon name="deck" />{{ table.total }} {{ table.total === 1 ? "Card" : "Cards" }}</li>
     </ul>
-    (List Cards in this container here. tbd)
+
+    <container-card-stacks :table="table" :base-url="`/collection/containers/${container.id}`" />
 </template>
 
 <style lang="scss" scoped>
@@ -92,7 +100,7 @@ setBreadcrumbs([
 
     @include m.mq("desktop") {
         display: grid;
-        grid-template-columns: 1fr minmax(auto, 626px);
+        grid-template-columns: 1fr minmax(auto, map.get(s.$main, "art-crop", "card-image-max"));
 
         li:has(.art-crop) {
             display: flex;

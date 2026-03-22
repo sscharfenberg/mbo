@@ -261,6 +261,19 @@
             "link": "Edit",
             "submit": "Save changes"
         },
+        "container_page": {
+            "columns": {
+                "name": "Card name",
+                "set_name": "Set",
+                "collector_number": "No.",
+                "amount": "Qty",
+                "condition": "Condition",
+                "foil_type": "Foil",
+                "language": "Language"
+            },
+            "empty": "This container has no cards yet.",
+            "add_cards": "Add cards"
+        },
         "decks": {
             "title": "Your Decks",
             "link": "Decks"
@@ -355,6 +368,29 @@
                 "combined_result": "Dawnhand Eulogist - collector number 99 in Lorwyn Eclipsed"
             },
             "change_selection": "Change selection"
+        }
+    },
+    "components": {
+        "datatable": {
+            "select_all": "Select all on this page",
+            "select_row": "Select row",
+            "actions": "Actions",
+            "row_actions": "Row actions",
+            "pagination": "Pagination",
+            "first": "First page",
+            "previous": "Previous page",
+            "next": "Next page",
+            "last": "Last page",
+            "jump_to_page": "Jump to page",
+            "page_size": "Items per page",
+            "search": "Search",
+            "search_placeholder": "Search…",
+            "items_selected": "{count} selected",
+            "sorted_asc": "Sorted by {column}, ascending",
+            "sorted_desc": "Sorted by {column}, descending",
+            "page_status": "Page {page} of {total}, {size} results",
+            "loading": "Loading…",
+            "close_actions": "Close actions"
         }
     }
 }
