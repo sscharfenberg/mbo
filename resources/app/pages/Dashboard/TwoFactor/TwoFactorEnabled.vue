@@ -50,13 +50,11 @@ const legendItems = computed(() => {
                     type="button"
                     @mousedown.prevent
                     @click="showPassword = !showPassword"
-                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    :aria-label="showPassword ? $t('components.password.hide') : $t('components.password.show')"
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                    <span>{{
-                        showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show")
-                    }}</span>
+                    <span>{{ showPassword ? $t("components.password.hide") : $t("components.password.show") }}</span>
                 </button>
             </template>
         </form-group>

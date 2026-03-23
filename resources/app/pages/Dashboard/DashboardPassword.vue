@@ -60,14 +60,12 @@ const showPasswordConfirmation = ref(false);
                     type="button"
                     @mousedown.prevent
                     @click="showCurrentPassword = !showCurrentPassword"
-                    :aria-label="
-                        showCurrentPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')
-                    "
+                    :aria-label="showCurrentPassword ? $t('components.password.hide') : $t('components.password.show')"
                     tabindex="-1"
                 >
                     <icon :name="showCurrentPassword ? 'visibility-off' : 'visibility-on'" />
                     <span>{{
-                        showCurrentPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show")
+                        showCurrentPassword ? $t("components.password.hide") : $t("components.password.show")
                     }}</span>
                 </button>
             </template>
@@ -96,13 +94,11 @@ const showPasswordConfirmation = ref(false);
                     type="button"
                     @mousedown.prevent
                     @click="showPassword = !showPassword"
-                    :aria-label="showPassword ? $t('form.elements.password_hide') : $t('form.elements.password_show')"
+                    :aria-label="showPassword ? $t('components.password.hide') : $t('components.password.show')"
                     tabindex="-1"
                 >
                     <icon :name="showPassword ? 'visibility-off' : 'visibility-on'" />
-                    <span>{{
-                        showPassword ? $t("form.elements.password_hide") : $t("form.elements.password_show")
-                    }}</span>
+                    <span>{{ showPassword ? $t("components.password.hide") : $t("components.password.show") }}</span>
                 </button>
             </template>
             <template #text><PasswordStrength v-if="score !== null" :score="score" /></template>
@@ -130,13 +126,13 @@ const showPasswordConfirmation = ref(false);
                     @mousedown.prevent
                     @click="showPasswordConfirmation = !showPasswordConfirmation"
                     :aria-label="
-                        showPasswordConfirmation ? $t('form.elements.password_hide') : $t('form.elements.password_show')
+                        showPasswordConfirmation ? $t('components.password.hide') : $t('components.password.show')
                     "
                     tabindex="-1"
                 >
                     <icon :name="showPasswordConfirmation ? 'visibility-off' : 'visibility-on'" />
                     <span>{{
-                        showPasswordConfirmation ? $t("form.elements.password_hide") : $t("form.elements.password_show")
+                        showPasswordConfirmation ? $t("components.password.hide") : $t("components.password.show")
                     }}</span>
                 </button>
             </template>

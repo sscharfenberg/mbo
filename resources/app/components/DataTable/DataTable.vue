@@ -197,7 +197,9 @@ let observer: IntersectionObserver | null = null;
 
 onMounted(() => {
     if (!stickysentinel.value) return;
-    const offset = getComputedStyle(stickysentinel.value.closest(".dt")!).getPropertyValue("--datatable-sticky-offset").trim();
+    const offset = getComputedStyle(stickysentinel.value.closest(".dt")!)
+        .getPropertyValue("--datatable-sticky-offset")
+        .trim();
     const margin = offset ? `-${offset} 0px 0px 0px` : "0px";
     observer = new IntersectionObserver(
         ([entry]) => {
@@ -221,7 +223,7 @@ onBeforeUnmount(() => {
             </template>
         </data-table-toolbar>
 
-        <div class="dt__table-wrap">
+        <div class="dt__wrapper">
             <div v-if="isLoading" class="dt__overlay">
                 <loading-spinner :size="3" />
             </div>
@@ -293,7 +295,7 @@ onBeforeUnmount(() => {
         pointer-events: none;
     }
 
-    &__table-wrap {
+    &__wrapper {
         position: relative;
     }
 

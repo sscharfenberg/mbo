@@ -322,13 +322,6 @@
             "amount": "Anzahl",
             "foil_type": "Foil",
             "language": "Sprache"
-        },
-        "elements": {
-            "password_show": "Zeigen",
-            "password_hide": "Verbergen",
-            "radio_group": "Verfügbare Optionen",
-            "clear_select": "Auswahl löschen",
-            "select_placeholder": "Bitte wählen"
         }
     },
     "state": {
@@ -394,6 +387,17 @@
                 "move": "Verschieben",
                 "delete": "Löschen"
             }
+        },
+        "select": {
+            "clear": "Auswahl löschen",
+            "placeholder": "Bitte wählen"
+        },
+        "radio": {
+            "label": "Verfügbare Optionen"
+        },
+        "password": {
+            "show": "Zeigen",
+            "hide": "Verbergen"
         }
     }
 }

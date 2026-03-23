@@ -322,13 +322,6 @@
             "amount": "Amount",
             "foil_type": "Foil",
             "language": "Language"
-        },
-        "elements": {
-            "password_show": "Show",
-            "password_hide": "Hide",
-            "radio_group": "Available options",
-            "clear_select": "Clear selection",
-            "select_placeholder": "Please select"
         }
     },
     "state": {
@@ -394,6 +387,17 @@
                 "move": "Move",
                 "delete": "Delete"
             }
+        },
+        "select": {
+            "clear": "Clear selection",
+            "placeholder": "Please select"
+        },
+        "radio": {
+            "label": "Available options"
+        },
+        "password": {
+            "show": "Show",
+            "hide": "Hide"
         }
     }
 }

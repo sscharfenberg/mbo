@@ -19,7 +19,7 @@ const props = withDefaults(
     { sort: true, max: "100%" }
 );
 // Falls back to the i18n default when no placeholder prop is provided.
-const effectivePlaceholder = computed(() => props.placeholder ?? t("form.elements.select_placeholder"));
+const effectivePlaceholder = computed(() => props.placeholder ?? t("components.select.placeholder"));
 /**
  * Returns the options to render in the listbox.
  * When `sort` is true, options are sorted alphabetically by label.
@@ -125,7 +125,7 @@ onUnmounted(() => {
             v-if="selectedValue"
             :style="{ 'position-anchor': anchorName }"
             @click.prevent="select('')"
-            :aria-label="$t('form.elements.clear_select')"
+            :aria-label="$t('components.select.clear')"
         >
             <icon name="clear" aria-hidden="true" />
         </button>

@@ -73,8 +73,10 @@ createInertiaApp({
 /******************************************************************************
  * Inertia router
  *****************************************************************************/
-router.on("start", () => {
-    useBreadcrumbs().setBreadcrumbs([]);
+router.on("start", event => {
+    if (!event.detail.visit.preserveState) {
+        useBreadcrumbs().setBreadcrumbs([]);
+    }
     useNavigation().navigating.value = true;
     timeout = setTimeout(() => startProgress(progressBarSettings), 250);
 });

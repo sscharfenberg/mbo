@@ -52,15 +52,17 @@ const pageSizes = [25, 50, 100];
 
 <template>
     <nav class="dt-pagination" :aria-label="$t('components.datatable.pagination')">
-        <span class="dt-pagination__info">
-            {{ from }}–{{ to }} / {{ total }}
-        </span>
+        <span class="dt-pagination__info"> {{ from }}–{{ to }} / {{ total }} </span>
         <div v-if="totalPages > 1" class="dt-pagination__controls">
             <button :disabled="page <= 1" @click="emit('navigate', 1)" :aria-label="$t('components.datatable.first')">
                 <icon name="chevron" :size="1" :additional-classes="['dt-pagination__chevron-left']" />
                 <icon name="chevron" :size="1" :additional-classes="['dt-pagination__chevron-left']" />
             </button>
-            <button :disabled="page <= 1" @click="emit('navigate', page - 1)" :aria-label="$t('components.datatable.previous')">
+            <button
+                :disabled="page <= 1"
+                @click="emit('navigate', page - 1)"
+                :aria-label="$t('components.datatable.previous')"
+            >
                 <icon name="chevron" :size="1" :additional-classes="['dt-pagination__chevron-left']" />
             </button>
             <template v-for="p in visiblePages" :key="p">
@@ -74,10 +76,18 @@ const pageSizes = [25, 50, 100];
                     {{ p }}
                 </button>
             </template>
-            <button :disabled="page >= totalPages" @click="emit('navigate', page + 1)" :aria-label="$t('components.datatable.next')">
+            <button
+                :disabled="page >= totalPages"
+                @click="emit('navigate', page + 1)"
+                :aria-label="$t('components.datatable.next')"
+            >
                 <icon name="chevron" :size="1" :additional-classes="['dt-pagination__chevron-right']" />
             </button>
-            <button :disabled="page >= totalPages" @click="emit('navigate', totalPages)" :aria-label="$t('components.datatable.last')">
+            <button
+                :disabled="page >= totalPages"
+                @click="emit('navigate', totalPages)"
+                :aria-label="$t('components.datatable.last')"
+            >
                 <icon name="chevron" :size="1" :additional-classes="['dt-pagination__chevron-right']" />
                 <icon name="chevron" :size="1" :additional-classes="['dt-pagination__chevron-right']" />
             </button>
@@ -111,6 +121,7 @@ const pageSizes = [25, 50, 100];
     align-items: center;
     flex-wrap: wrap;
 
+    margin-top: 0.5rem;
     gap: 1rem;
 
     &__controls {
