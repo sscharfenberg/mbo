@@ -29,6 +29,11 @@ $form: (
     ),
     "checkbox": (
         "size": map.get(s.$icons, "medium"),
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "base")
+    ),
+    "switch": (
+        "size": map.get(s.$icons, "medium"),
         "border": map.get(s.$border, "base")
     ),
     "otp": (

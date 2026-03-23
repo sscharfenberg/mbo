@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends { id: string }">
 import { computed, inject } from "vue";
+import Checkbox from "Components/Form/Checkbox.vue";
 import type { ColumnDef, SortEntry } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
 const props = defineProps<{
@@ -46,13 +47,13 @@ function onHeaderCheckbox() {
 <template>
     <thead class="dt-head" :class="{ 'dt-head--stuck': stuck }">
         <tr>
-            <th v-if="selectable" class="dt-head__check">
-                <input
-                    type="checkbox"
-                    :checked="headerCheckState === true"
+            <th v-if="selectable" class="dt-head__check" @click.stop>
+                <checkbox
+                    ref-id="dt-select-all"
+                    :checked-initially="headerCheckState === true"
                     :indeterminate="headerCheckState === 'indeterminate'"
-                    @click.stop="onHeaderCheckbox"
-                    :aria-label="$t('components.datatable.select_all')"
+                    :label="$t('components.datatable.select_all')"
+                    @change="onHeaderCheckbox"
                 />
             </th>
             <th

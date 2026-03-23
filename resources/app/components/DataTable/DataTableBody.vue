@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends { id: string; href?: string }">
 import { router } from "@inertiajs/vue3";
 import { inject } from "vue";
+import Checkbox from "Components/Form/Checkbox.vue";
 import Icon from "Components/UI/Icon.vue";
 import type { ColumnDef } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
@@ -32,12 +33,12 @@ function onActionClick(row: T, event: MouseEvent) {
             :class="{ 'dt-body__row--clickable': !!row.href }"
             @click="row.href && onRowClick(row)"
         >
-            <td v-if="selectable" class="dt-body__check">
-                <input
-                    type="checkbox"
-                    :checked="provided.selectedIds.value.includes(row.id)"
-                    @click.stop="provided.toggleSelection(row.id)"
-                    :aria-label="$t('components.datatable.select_row')"
+            <td v-if="selectable" class="dt-body__check" @click.stop>
+                <checkbox
+                    :ref-id="`dt-select-${row.id}`"
+                    :checked-initially="provided.selectedIds.value.includes(row.id)"
+                    :label="$t('components.datatable.select_row')"
+                    @change="provided.toggleSelection(row.id)"
                 />
             </td>
             <td v-for="col in columns" :key="col.key" :style="{ textAlign: col.align ?? 'left' }">
@@ -72,6 +73,8 @@ function onActionClick(row: T, event: MouseEvent) {
 
     &__check {
         width: 2rem;
+
+        vertical-align: middle;
     }
 
     &__actions {

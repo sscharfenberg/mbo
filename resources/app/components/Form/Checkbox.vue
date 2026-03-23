@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useTemplateRef, watch } from "vue";
 const props = withDefaults(
     defineProps<{
         /** HTML `id` and `name` for the hidden input — auto-generated if omitted. */
         refId: string;
         /** Initial checked state on mount. */
         checkedInitially?: boolean;
-        /** Whether the checkbox is disabled (not currently wired to the template). */
+        /** Whether the checkbox is disabled. */
         disabled?: boolean;
+        /** Whether the checkbox is in indeterminate state (some selected). */
+        indeterminate?: boolean;
         /** Visible label text (hidden off-screen, used for accessibility). */
         label?: string;
         /** Form value submitted when checked. */
@@ -16,11 +18,26 @@ const props = withDefaults(
     {
         refId: () => Math.random().toString(36).substring(2),
         checkedInitially: false,
+        indeterminate: false,
         value: "true"
     }
 );
 /** Local checked state — initialised from `checkedInitially` and updated on user interaction. */
 const checkboxStatus = ref(props.checkedInitially);
+watch(
+    () => props.checkedInitially,
+    value => {
+        checkboxStatus.value = value;
+    }
+);
+const inputRef = useTemplateRef<HTMLInputElement>("inputRef");
+watch(
+    () => props.indeterminate,
+    value => {
+        if (inputRef.value) inputRef.value.indeterminate = value;
+    },
+    { flush: "post", immediate: true }
+);
 /** @emits change — Fired with the new boolean checked state whenever the user toggles the checkbox. */
 const emit = defineEmits<{
     change: [checked: boolean];
@@ -33,17 +50,16 @@ const onCheckboxChange = (event: Event) => {
 </script>
 
 <template>
-    <div class="wrapper">
-        <input
-            :id="refId"
-            type="checkbox"
-            :name="refId"
-            @change="onCheckboxChange"
-            :value="value"
-            :checked="checkboxStatus"
-        />
-        <label :for="refId">{{ label }}</label>
-    </div>
+    <input
+        ref="inputRef"
+        :id="refId"
+        type="checkbox"
+        :name="refId"
+        @change="onCheckboxChange"
+        :value="value"
+        :checked="checkboxStatus"
+    />
+    <label :for="refId">{{ label }}</label>
 </template>
 
 <style lang="scss" scoped>
@@ -53,66 +69,81 @@ const onCheckboxChange = (event: Event) => {
 @use "Abstracts/timings" as ti;
 
 input {
-    visibility: hidden;
+    position: absolute;
+
+    opacity: 0;
 
     width: 0;
     height: 0;
 
     &:checked + label {
-        background: map.get(c.$form, "checkbox", "background-checked");
+        background-color: map.get(c.$form, "checkbox", "background-checked");
+        border-color: map.get(c.$form, "checkbox", "border-checked");
 
         &::after {
-            background: map.get(c.$form, "checkbox", "surface-checked");
+            opacity: 1;
+
+            transform: rotate(45deg) scale(1);
         }
     }
 
-    &:checked + label::after {
-        left: calc(100% - #{map.get(s.$form, "checkbox", "border")});
+    &:indeterminate + label {
+        background-color: map.get(c.$form, "checkbox", "background-checked");
+        border-color: map.get(c.$form, "checkbox", "border-checked");
 
-        transform: translateX(-100%);
+        &::after {
+            opacity: 1;
+
+            width: 50%;
+            height: 0;
+            border-right: 0;
+            border-bottom: 2px solid map.get(c.$form, "checkbox", "checkmark");
+            margin-bottom: 0;
+
+            transform: rotate(0deg) scale(1);
+        }
     }
 }
 
 label {
-    display: block;
+    display: flex;
     position: relative;
+    align-items: center;
+    justify-content: center;
 
-    width: map.get(s.$form, "checkbox", "size") * 2;
+    width: map.get(s.$form, "checkbox", "size");
     height: map.get(s.$form, "checkbox", "size");
+    border: map.get(s.$form, "checkbox", "border") solid map.get(c.$form, "checkbox", "border");
 
     background-color: map.get(c.$form, "checkbox", "background");
-    border-radius: 90dvh;
+    border-radius: map.get(s.$form, "checkbox", "radius");
 
     text-indent: -9999px;
 
     cursor: pointer;
 
-    transition: map.get(ti.$timings, "quick");
+    transition:
+        background-color map.get(ti.$timings, "quick") ease,
+        border-color map.get(ti.$timings, "quick") ease;
 
     &::after {
         position: absolute;
-        top: #{map.get(s.$form, "checkbox", "border")};
-        left: #{map.get(s.$form, "checkbox", "border")};
 
-        width: map.get(s.$form, "checkbox", "size") - 2 * map.get(s.$form, "checkbox", "border");
-        height: map.get(s.$form, "checkbox", "size") - 2 * map.get(s.$form, "checkbox", "border");
+        opacity: 0;
 
-        background: map.get(c.$form, "checkbox", "surface");
-        border-radius: 90dvh;
+        width: 30%;
+        height: 55%;
+        border-right: 2px solid map.get(c.$form, "checkbox", "checkmark");
+        border-bottom: 2px solid map.get(c.$form, "checkbox", "checkmark");
+        margin-bottom: 10%;
+
+        transform: rotate(45deg) scale(0.5);
 
         content: "";
 
-        transition: map.get(ti.$timings, "quick");
+        transition:
+            opacity map.get(ti.$timings, "quick") ease,
+            transform map.get(ti.$timings, "quick") ease;
     }
-}
-
-label:active::after {
-    width: map.get(s.$form, "checkbox", "size") * 1.25;
-}
-
-.wrapper {
-    display: flex;
-
-    padding: 0.95ex 0;
 }
 </style>

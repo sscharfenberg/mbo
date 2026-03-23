@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Head, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
-import Checkbox from "Components/Form/Checkbox.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import OTPInput from "Components/Form/OTPInput/OTPInput.vue";
 import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
+import Switch from "Components/Form/Switch.vue";
 import NarrowLayout from "Components/Layout/NarrowLayout.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
@@ -96,7 +96,7 @@ const onCodeTypeChange = (event: Event) => {
         </form-group>
         <form-group v-if="!requiresTwoFactor" for-id="remember" :label="$t('form.fields.remember')">
             <template #addon>
-                <checkbox
+                <Switch
                     :label="$t('form.fields.remember')"
                     ref-id="remember"
                     value="true"
