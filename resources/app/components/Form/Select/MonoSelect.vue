@@ -15,8 +15,9 @@ const props = withDefaults(
         addonIcon?: string;
         sort?: boolean;
         max?: string;
+        clearable?: boolean;
     }>(),
-    { sort: true, max: "100%" }
+    { sort: true, max: "100%", clearable: true }
 );
 // Falls back to the i18n default when no placeholder prop is provided.
 const effectivePlaceholder = computed(() => props.placeholder ?? t("components.select.placeholder"));
@@ -120,9 +121,9 @@ onUnmounted(() => {
             <span class="form-select__caret" aria-hidden="true" />
         </button>
         <button
+            v-if="selectedValue && clearable"
             type="button"
             class="form-select__clear"
-            v-if="selectedValue"
             :style="{ 'position-anchor': anchorName }"
             @click.prevent="select('')"
             :aria-label="$t('components.select.clear')"

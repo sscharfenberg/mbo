@@ -89,6 +89,19 @@ $table: (
     "padding": (
         "th": 0.25rem 0.5rem,
         "td": 0.25rem 0.5rem
+    ),
+    "pagination": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5rem,
+        "margin": 0.5rem 0 0,
+        "gap": 0.5rem,
+        "page": (
+            "border": map.get(s.$border, "base"),
+            "radius": map.get(s.$radius, "featured"),
+            "padding": 0.45rem,
+            "min-width": 39px
+        )
     )
 ) !default;
 
