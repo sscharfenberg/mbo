@@ -22,11 +22,12 @@ const to = computed(() => Math.min(props.page * props.pageSize, props.total));
  * with one neighbor on each side. Ellipsis fills gaps.
  * Example for page 5 of 20: [1, "...", 4, 5, 6, "...", 20]
  */
+const MAX_VISIBLE_PAGES = 5;
 const visiblePages = computed(() => {
     const pages: (number | "...")[] = [];
     const total = totalPages.value;
     const current = props.page;
-    if (total <= 7) {
+    if (total <= MAX_VISIBLE_PAGES) {
         for (let i = 1; i <= total; i++) pages.push(i);
         return pages;
     }
