@@ -77,6 +77,36 @@ $shadows: (
     )
 ) !default;
 
+// color tokens for datatable
+$table: (
+    "border": light-dark(
+            color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+            color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+        ),
+    "th": (
+        "background": light-dark(
+                color.adjust(map.get(c.$grey, "iron"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "asher"), $alpha: -0.25)
+            ),
+        "surface": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
+        "background-stuck": light-dark(map.get(c.$brand, "light2", "color"), map.get(c.$brand, "dark2", "color")),
+        "surface-stuck": light-dark(map.get(c.$brand, "light2", "contrast"), map.get(c.$brand, "dark2", "contrast"))
+    ),
+    "td": (
+        "background": (
+            "odd": light-dark(
+                    color.adjust(map.get(c.$grey, "astral"), $alpha: -0.25),
+                    color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.25)
+                ),
+            "even": light-dark(
+                    color.adjust(map.get(c.$grey, "infra"), $alpha: -0.35),
+                    color.adjust(map.get(c.$grey, "bunker"), $alpha: -0.25)
+                )
+        ),
+        "surface": light-dark(#000, #fff)
+    )
+) !default;
+
 // colors for footer landmark
 $footer: (
     "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "bunker")) h s l / 25%),

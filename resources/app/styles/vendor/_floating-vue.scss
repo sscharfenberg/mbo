@@ -166,14 +166,14 @@
 /* Tooltip */
 
 .v-popper--theme-tooltip .v-popper__inner {
-    background: light-dark(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.7));
+    background: light-dark(rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0.9));
     color: light-dark(#000, #fff);
     border-radius: 6px;
     padding: 7px 12px 6px;
 }
 
 .v-popper--theme-tooltip .v-popper__arrow-outer {
-    border-color: light-dark(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.7));
+    border-color: light-dark(rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0.9));
 }
 
 /* Dropdown */

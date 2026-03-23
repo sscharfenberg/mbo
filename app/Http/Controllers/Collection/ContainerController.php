@@ -219,6 +219,7 @@ class ContainerController extends Controller
                 'default_cards.art_crop',
                 'sets.name as set_name',
                 'sets.code as set_code',
+                'sets.path as set_icon',
             ]);
 
         $table = DataTableService::buildResponse(
@@ -244,6 +245,7 @@ class ContainerController extends Controller
                     'name' => $stack->card_name,
                     'set_name' => $stack->set_name,
                     'set_code' => $stack->set_code,
+                    'set_icon' => $stack->set_icon,
                     'collector_number' => $stack->collector_number,
                     'amount' => $stack->amount,
                     'condition' => $stack->condition?->value,

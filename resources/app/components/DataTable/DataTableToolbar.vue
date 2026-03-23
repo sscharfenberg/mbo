@@ -31,14 +31,21 @@ watch(
 
 <template>
     <div class="dt-toolbar">
-        <div class="dt-toolbar__search">
-            <icon name="search" :size="1" />
+        <div
+            class="form-group"
+            style="
+                display: flex;
+
+                gap: 0;
+            "
+        >
+            <div class="form-group__addon"><icon name="search" /></div>
             <input
                 v-model="query"
                 type="search"
                 :placeholder="$t('components.datatable.search_placeholder')"
                 :aria-label="$t('components.datatable.search')"
-                class="dt-toolbar__input"
+                class="form-input"
             />
         </div>
         <span v-if="selectedCount > 0" class="dt-toolbar__selection">
@@ -54,35 +61,14 @@ watch(
 .dt-toolbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
 
     gap: 1rem;
 
     padding-block: 0.5rem;
 
-    &__search {
-        display: flex;
-        align-items: center;
-
-        gap: 0.5rem;
-    }
-
-    &__input {
-        min-width: 12rem;
-
-        padding: 0.375rem 0.5rem;
-
-        border: 1px solid var(--color-border, #ccc);
-
-        border-radius: 0.25rem;
-    }
-
     &__selection {
-        font-size: 0.875rem;
-        font-weight: 600;
-    }
-
-    &__actions {
         margin-inline-start: auto;
     }
 }

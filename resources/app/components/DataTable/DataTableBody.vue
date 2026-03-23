@@ -40,11 +40,7 @@ function onActionClick(row: T, event: MouseEvent) {
                     :aria-label="$t('components.datatable.select_row')"
                 />
             </td>
-            <td
-                v-for="col in columns"
-                :key="col.key"
-                :style="{ textAlign: col.align ?? 'left' }"
-            >
+            <td v-for="col in columns" :key="col.key" :style="{ textAlign: col.align ?? 'left' }">
                 <slot :name="`cell-${col.key}`" :row="row">
                     {{ row[col.key] }}
                 </slot>
@@ -65,6 +61,10 @@ function onActionClick(row: T, event: MouseEvent) {
 </template>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
 .dt-body {
     &__row--clickable {
         cursor: pointer;
@@ -79,6 +79,38 @@ function onActionClick(row: T, event: MouseEvent) {
 
         button {
             cursor: pointer;
+        }
+    }
+
+    td {
+        padding: map.get(s.$table, "padding", "td");
+
+        color: map.get(c.$table, "td", "surface");
+
+        &:not(:last-child) {
+            border-right: map.get(s.$table, "border") solid map.get(c.$table, "border");
+        }
+    }
+
+    tr:nth-child(odd) td {
+        background-color: map.get(c.$table, "td", "background", "odd");
+    }
+
+    tr:nth-child(even) td {
+        background-color: map.get(c.$table, "td", "background", "even");
+    }
+
+    tr:not(:last-child) td {
+        border-bottom: map.get(s.$table, "border") solid map.get(c.$table, "border");
+    }
+
+    tr:last-child {
+        td:first-child {
+            border-bottom-left-radius: calc(map.get(s.$table, "radius") - map.get(s.$table, "border"));
+        }
+
+        td:last-child {
+            border-bottom-right-radius: calc(map.get(s.$table, "radius") - map.get(s.$table, "border"));
         }
     }
 }

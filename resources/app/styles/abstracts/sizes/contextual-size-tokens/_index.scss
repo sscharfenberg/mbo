@@ -82,6 +82,16 @@ $shadows: (
     )
 ) !default;
 
+// size tokens for datatable component
+$table: (
+    "border": map.get(s.$border, "base"),
+    "radius": map.get(s.$radius, "featured"),
+    "padding": (
+        "th": 0.25rem 0.5rem,
+        "td": 0.25rem 0.5rem
+    )
+) !default;
+
 // size tokens for footer landmark
 $footer: (
     "padding": (

@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends { id: string; href?: string }">
 import { router } from "@inertiajs/vue3";
-import { computed, provide, ref, useSlots, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import DataTableActions from "Components/DataTable/DataTableActions.vue";
 import DataTableBody from "Components/DataTable/DataTableBody.vue";
@@ -21,16 +21,14 @@ const props = withDefaults(
     }>(),
     {
         selectable: false,
-        baseUrl: "",
-    },
+        baseUrl: ""
+    }
 );
 const { t } = useI18n();
 const slots = useSlots();
 
 /** Filter slots to only cell-* and actions slots for forwarding. */
-const cellSlotNames = computed(() =>
-    Object.keys(slots).filter((name) => name.startsWith("cell-")),
-);
+const cellSlotNames = computed(() => Object.keys(slots).filter(name => name.startsWith("cell-")));
 
 // ---------------------------------------------------------------------------
 // Sort normalization: server sends object | null, internal is always array
@@ -55,15 +53,11 @@ function toggleSelection(id: string) {
 }
 
 function togglePageSelection(ids: string[]) {
-    const allSelected = ids.every((id) => selectedIds.value.includes(id));
+    const allSelected = ids.every(id => selectedIds.value.includes(id));
     if (allSelected) {
-        selectedIds.value = selectedIds.value.filter(
-            (id) => !ids.includes(id),
-        );
+        selectedIds.value = selectedIds.value.filter(id => !ids.includes(id));
     } else {
-        const missing = ids.filter(
-            (id) => !selectedIds.value.includes(id),
-        );
+        const missing = ids.filter(id => !selectedIds.value.includes(id));
         selectedIds.value.push(...missing);
     }
 }
@@ -74,19 +68,19 @@ watch(
     () => {
         selectedIds.value = [];
     },
-    { deep: true },
+    { deep: true }
 );
 
 provide(DATA_TABLE_KEY, {
     selectedIds,
     toggleSelection,
-    togglePageSelection,
+    togglePageSelection
 });
 
 // ---------------------------------------------------------------------------
 // Row IDs for header checkbox
 // ---------------------------------------------------------------------------
-const rowIds = computed(() => props.response.rows.map((row) => row.id));
+const rowIds = computed(() => props.response.rows.map(row => row.id));
 
 // ---------------------------------------------------------------------------
 // Loading state — tracks Inertia navigation
@@ -104,10 +98,10 @@ router.on("finish", () => {
 // ---------------------------------------------------------------------------
 const announcement = ref("");
 
-watch(sort, (newSort) => {
+watch(sort, newSort => {
     if (newSort.length === 0) return;
     const entry = newSort[0];
-    const col = props.columns.find((c) => c.key === entry.key);
+    const col = props.columns.find(c => c.key === entry.key);
     const label = col?.label ?? entry.key;
     announcement.value =
         entry.direction === "asc"
@@ -117,17 +111,15 @@ watch(sort, (newSort) => {
 
 watch(
     () => props.response.page,
-    (page) => {
+    page => {
         if (!props.response.pageSize) return;
-        const totalPages = Math.ceil(
-            props.response.total / props.response.pageSize,
-        );
+        const totalPages = Math.ceil(props.response.total / props.response.pageSize);
         announcement.value = t("components.datatable.page_status", {
             page,
             total: totalPages,
-            size: props.response.rows.length,
+            size: props.response.rows.length
         });
-    },
+    }
 );
 
 // ---------------------------------------------------------------------------
@@ -176,50 +168,54 @@ function buildUrl(params: Record<string, string | number | null>) {
 }
 
 function onSort(key: string) {
-    const current = sort.value.find((s) => s.key === key);
+    const current = sort.value.find(s => s.key === key);
     let direction: "asc" | "desc" = "asc";
     if (current) {
         direction = current.direction === "asc" ? "desc" : "asc";
     }
-    router.get(
-        buildUrl({ sort: key, dir: direction, page: 1 }),
-        {},
-        { preserveState: true, preserveScroll: true },
-    );
+    router.get(buildUrl({ sort: key, dir: direction, page: 1 }), {}, { preserveState: true, preserveScroll: true });
 }
 
 function onSearch(query: string) {
-    router.get(
-        buildUrl({ search: query || null, page: 1 }),
-        {},
-        { preserveState: true, preserveScroll: true },
-    );
+    router.get(buildUrl({ search: query || null, page: 1 }), {}, { preserveState: true, preserveScroll: true });
 }
 
 function onNavigate(page: number) {
-    router.get(
-        buildUrl({ page }),
-        {},
-        { preserveState: true, preserveScroll: true },
-    );
+    router.get(buildUrl({ page }), {}, { preserveState: true, preserveScroll: true });
 }
 
 function onPageSizeChange(size: number) {
-    router.get(
-        buildUrl({ pageSize: size, page: 1 }),
-        {},
-        { preserveState: true, preserveScroll: true },
-    );
+    router.get(buildUrl({ pageSize: size, page: 1 }), {}, { preserveState: true, preserveScroll: true });
 }
+
+// ---------------------------------------------------------------------------
+// Sticky header detection via IntersectionObserver
+// ---------------------------------------------------------------------------
+const stickysentinel = ref<HTMLElement | null>(null);
+const isStuck = ref(false);
+let observer: IntersectionObserver | null = null;
+
+onMounted(() => {
+    if (!stickysentinel.value) return;
+    const offset = getComputedStyle(stickysentinel.value.closest(".dt")!).getPropertyValue("--datatable-sticky-offset").trim();
+    const margin = offset ? `-${offset} 0px 0px 0px` : "0px";
+    observer = new IntersectionObserver(
+        ([entry]) => {
+            isStuck.value = !entry.isIntersecting;
+        },
+        { rootMargin: margin }
+    );
+    observer.observe(stickysentinel.value);
+});
+
+onBeforeUnmount(() => {
+    observer?.disconnect();
+});
 </script>
 
 <template>
     <div class="dt" :class="{ 'dt--loading': isLoading }">
-        <data-table-toolbar
-            :search="response.search"
-            :selected-count="selectedIds.length"
-            @search="onSearch"
-        >
+        <data-table-toolbar :search="response.search" :selected-count="selectedIds.length" @search="onSearch">
             <template v-if="$slots['toolbar-actions']" #actions>
                 <slot name="toolbar-actions" :selected-ids="selectedIds" />
             </template>
@@ -230,56 +226,36 @@ function onPageSizeChange(size: number) {
                 <loading-spinner :size="3" />
             </div>
 
+            <!-- Sentinel for sticky header detection -->
+            <div ref="stickysentinel" class="dt__sticky-sentinel" />
+
             <!-- Desktop: table layout -->
-            <table
-                class="dt__table"
-                :aria-busy="isLoading"
-            >
+            <table class="dt__table" :aria-busy="isLoading">
                 <data-table-head
                     :columns="columns"
                     :sort="sort"
                     :selectable="selectable"
                     :row-ids="rowIds"
+                    :stuck="isStuck"
                     @sort="onSort"
                 />
-                <data-table-body
-                    :columns="columns"
-                    :rows="response.rows"
-                    :selectable="selectable"
-                    @action="onAction"
-                >
-                    <template
-                        v-for="name in cellSlotNames"
-                        :key="name"
-                        #[name]="slotProps"
-                    >
+                <data-table-body :columns="columns" :rows="response.rows" :selectable="selectable" @action="onAction">
+                    <template v-for="name in cellSlotNames" :key="name" #[name]="slotProps">
                         <slot :name="name" v-bind="slotProps" />
                     </template>
                 </data-table-body>
             </table>
 
             <!-- Mobile: card layout -->
-            <data-table-cards
-                :columns="columns"
-                :rows="response.rows"
-                :selectable="selectable"
-                @action="onAction"
-            >
-                <template
-                    v-for="name in cellSlotNames"
-                    :key="name"
-                    #[name]="slotProps"
-                >
+            <data-table-cards :columns="columns" :rows="response.rows" :selectable="selectable" @action="onAction">
+                <template v-for="name in cellSlotNames" :key="name" #[name]="slotProps">
                     <slot :name="name" v-bind="slotProps" />
                 </template>
             </data-table-cards>
         </div>
 
         <!-- Empty state -->
-        <div
-            v-if="response.rows.length === 0 && !isLoading"
-            class="dt__empty"
-        >
+        <div v-if="response.rows.length === 0 && !isLoading" class="dt__empty">
             <slot name="empty" />
         </div>
 
@@ -294,11 +270,7 @@ function onPageSizeChange(size: number) {
         />
 
         <!-- Row action popover -->
-        <data-table-actions
-            :row="activeRow"
-            :trigger-el="actionButtonRef"
-            @close="onCloseActions"
-        >
+        <data-table-actions :row="activeRow" :trigger-el="actionButtonRef" @close="onCloseActions">
             <template v-if="activeRow" #default>
                 <slot name="actions" :row="activeRow" />
             </template>
@@ -310,6 +282,10 @@ function onPageSizeChange(size: number) {
 </template>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
 .dt {
     container-type: inline-size;
 
@@ -319,6 +295,10 @@ function onPageSizeChange(size: number) {
 
     &__table-wrap {
         position: relative;
+    }
+
+    &__sticky-sentinel {
+        height: 0;
     }
 
     &__overlay {
@@ -337,8 +317,11 @@ function onPageSizeChange(size: number) {
         display: table;
 
         width: 100%;
+        border: map.get(s.$table, "border") solid map.get(c.$table, "border");
 
-        border-collapse: collapse;
+        border-radius: map.get(s.$table, "radius");
+
+        border-spacing: 0;
     }
 
     &__empty {

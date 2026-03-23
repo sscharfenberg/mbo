@@ -390,7 +390,10 @@
             "sorted_desc": "Sortiert nach {column}, absteigend",
             "page_status": "Seite {page} von {total}, {size} Ergebnisse",
             "loading": "Lade…",
-            "close_actions": "Aktionen schließen"
+            "mass_actions": {
+                "move": "Verschieben",
+                "delete": "Löschen"
+            }
         }
     }
 }
