@@ -293,6 +293,11 @@
             },
             "submit": "Save",
             "submit_and_add_more": "Save and add more"
+        },
+        "edit_card": {
+            "title": "Edit card",
+            "link": "Bearbeiten",
+            "submit": "Save changes"
         }
     },
     "form": {

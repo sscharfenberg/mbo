@@ -293,6 +293,11 @@
             },
             "submit": "Speichern",
             "submit_and_add_more": "Speichern und mehr hinzufügen"
+        },
+        "edit_card": {
+            "title": "Karte bearbeiten",
+            "link": "Bearbeiten",
+            "submit": "Änderungen speichern"
         }
     },
     "form": {

@@ -26,11 +26,14 @@ const props = withDefaults(
         error?: string;
         /** Whether the field is in an invalid state. */
         invalid?: boolean;
+        /** When true, the selected card cannot be changed (edit mode). */
+        locked?: boolean;
     }>(),
     {
         required: false,
         error: "",
-        invalid: false
+        invalid: false,
+        locked: false
     }
 );
 const { searchQuery, results, processing, selectedCard, refValue, onCardSelected, onClearSelection } = useCardSearch<T>(
@@ -56,7 +59,7 @@ function onClearAndFocus() {
         :error="error"
         :invalid="invalid"
     >
-        <current-selection v-if="selectedCard" @clear="onClearAndFocus">
+        <current-selection v-if="selectedCard" :locked="locked" @clear="onClearAndFocus">
             <slot name="selected" :card="selectedCard as T" />
         </current-selection>
         <template v-else>

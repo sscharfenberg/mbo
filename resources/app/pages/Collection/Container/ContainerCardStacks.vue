@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { router } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import DataTable from "Components/DataTable/DataTable.vue";
@@ -136,8 +137,12 @@ const closePopover = () => {
         </template>
         <template #actions="{ row }">
             <li>
-                <button type="button" class="popover-list-item" @click="console.log('edit', row)">
-                    <icon name="edit" :size="1" /> Edit
+                <button
+                    type="button"
+                    class="popover-list-item"
+                    @click="router.visit(`/collection/cardstack/${row.id}/edit`)"
+                >
+                    <icon name="edit" :size="1" /> {{ $t("pages.edit_card.link") }}
                 </button>
             </li>
             <li>

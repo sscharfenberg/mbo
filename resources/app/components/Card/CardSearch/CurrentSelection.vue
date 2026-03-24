@@ -1,4 +1,11 @@
 <script setup lang="ts">
+withDefaults(
+    defineProps<{
+        /** When true, the clear button is hidden (card cannot be changed). */
+        locked?: boolean;
+    }>(),
+    { locked: false }
+);
 defineEmits<{
     clear: [];
 }>();
@@ -7,7 +14,7 @@ defineEmits<{
 <template>
     <div class="current-selection">
         <slot />
-        <button type="button" class="btn-default" @click="$emit('clear')">
+        <button v-if="!locked" type="button" class="btn-default" @click="$emit('clear')">
             {{ $t("card.search.change_selection") }}
         </button>
     </div>

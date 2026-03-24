@@ -16,6 +16,18 @@ import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useAddCardsDefaults } from "Composables/useAddCardsDefaults.ts";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
+import type { DefaultCardImage } from "Types/defaultCardImage";
+/** Shape of the cardStack prop when editing an existing card stack. */
+type CardStackEdit = {
+    id: string;
+    amount: number;
+    language: string;
+    condition: string;
+    foil_type: string;
+    container_id: string | null;
+    default_card: DefaultCardImage;
+};
+
 const props = defineProps<{
     /** Present when adding cards to a specific container; null for unsorted / collection-level. */
     container: Container | null;
@@ -27,7 +39,11 @@ const props = defineProps<{
     foilTypes: string[];
     /** CardLanguage enum values. */
     languages: string[];
+    /** Present when editing an existing card stack; absent for "add" mode. */
+    cardStack?: CardStackEdit;
 }>();
+
+const isEditMode = !!props.cardStack;
 const { t } = useI18n();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
@@ -46,6 +62,15 @@ const {
     clearDefaults,
     resetToDefaults
 } = useAddCardsDefaults();
+
+// In edit mode, override composable defaults with the card stack's current values.
+if (isEditMode) {
+    amount.value = props.cardStack!.amount;
+    selectedLanguage.value = props.cardStack!.language;
+    selectedCondition.value = props.cardStack!.condition;
+    selectedFoilType.value = props.cardStack!.foil_type;
+}
+
 /** Container options formatted for MonoSelect: `{ value, label }` pairs. */
 const containerOptions = computed(() =>
     props.containers.map(container => ({
@@ -53,8 +78,8 @@ const containerOptions = computed(() =>
         label: container.name
     }))
 );
-/** Currently selected container id. Initialized from the container prop when present. */
-const selectedContainer = ref(props.container?.id as string);
+/** Currently selected container id. Initialized from container prop or cardStack in edit mode. */
+const selectedContainer = ref((isEditMode ? props.cardStack!.container_id : props.container?.id) as string);
 /** CardCondition options formatted for MonoSelect with translated labels. */
 const conditionOptions = computed(() =>
     props.conditions.map(condition => ({
@@ -83,35 +108,35 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
     selectRefs[field].value = value;
     nextTick(() => validate(field));
 };
-
 </script>
 
 <template>
     <Head
-        ><title>{{ $t("pages.add_cards.title") }}</title></Head
+        ><title>{{ isEditMode ? $t("pages.edit_card.title") : $t("pages.add_cards.title") }}</title></Head
     >
     <headline>
-        <icon name="add" :size="3" />
-        {{ $t("pages.add_cards.title") }}
+        <icon :name="isEditMode ? 'edit' : 'add'" :size="3" />
+        {{ isEditMode ? $t("pages.edit_card.title") : $t("pages.add_cards.title") }}
         <badge type="info" v-if="container">
             <icon name="storage" />
             {{ container?.type === "other" ? container?.custom_type : $t("enums.binder_type." + container?.type) }}:
             {{ container.name }}
         </badge>
-        <badge v-else>
+        <badge v-else-if="!isEditMode">
             <icon name="collection" />
             {{ $t("pages.add_cards.to_collection") }}
         </badge>
     </headline>
     <Form
         :key="searchKey"
-        action="/collection/add"
-        method="post"
+        :action="isEditMode ? `/collection/cardstack/${cardStack!.id}` : '/collection/add'"
+        :method="isEditMode ? 'patch' : 'post'"
         class="form"
-        @success="resetToDefaults"
+        @success="isEditMode ? undefined : resetToDefaults()"
         #default="{ validate, processing, validating, errors, valid }"
     >
         <add-cards-defaults
+            v-if="!isEditMode"
             :amount="amount"
             :language="selectedLanguage"
             :condition="selectedCondition"
@@ -121,7 +146,12 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             @save="saveDefaults"
             @clear="clearDefaults"
         />
-        <add-cards-search :error="errors.default_card_id ?? ''" :invalid="!!errors?.default_card_id" />
+        <add-cards-search
+            :error="errors.default_card_id ?? ''"
+            :invalid="!!errors?.default_card_id"
+            :card="isEditMode ? cardStack!.default_card : null"
+            :locked="isEditMode"
+        />
         <form-group
             for-id="amount"
             :label="$t('form.fields.amount')"
@@ -204,16 +234,25 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
         </form-group>
         <form-group class="button-group">
             <button-group>
-                <button type="submit" name="redirect" value="back" class="btn-default" :disabled="processing">
-                    <icon name="save" />
-                    {{ $t("pages.add_cards.submit") }}
-                    <loading-spinner v-if="processing" :size="2" />
-                </button>
-                <button type="submit" name="redirect" value="add_more" class="btn-primary" :disabled="processing">
-                    <icon name="add" />
-                    {{ $t("pages.add_cards.submit_and_add_more") }}
-                    <loading-spinner v-if="processing" :size="2" />
-                </button>
+                <template v-if="isEditMode">
+                    <button type="submit" class="btn-primary" :disabled="processing">
+                        <icon name="save" />
+                        {{ $t("pages.edit_card.submit") }}
+                        <loading-spinner v-if="processing" :size="2" />
+                    </button>
+                </template>
+                <template v-else>
+                    <button type="submit" name="redirect" value="back" class="btn-default" :disabled="processing">
+                        <icon name="save" />
+                        {{ $t("pages.add_cards.submit") }}
+                        <loading-spinner v-if="processing" :size="2" />
+                    </button>
+                    <button type="submit" name="redirect" value="add_more" class="btn-primary" :disabled="processing">
+                        <icon name="add" />
+                        {{ $t("pages.add_cards.submit_and_add_more") }}
+                        <loading-spinner v-if="processing" :size="2" />
+                    </button>
+                </template>
             </button-group>
         </form-group>
     </Form>

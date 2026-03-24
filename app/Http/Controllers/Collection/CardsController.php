@@ -6,6 +6,7 @@ use App\Enums\CardCondition;
 use App\Enums\CardLanguage;
 use App\Enums\FoilType;
 use App\Http\Controllers\Controller;
+use App\Models\CardStack;
 use App\Models\Container;
 use App\Models\DefaultCard;
 use App\Services\CardStackService;
@@ -105,6 +106,104 @@ class CardsController extends Controller
 
         if ($request->container_id) {
             return redirect(route('container.show', $request->container_id));
+        }
+
+        return redirect(route('containers'));
+    }
+
+    /**
+     * Display the "edit card stack" page.
+     *
+     * Re-uses the AddCardsPage component with the existing card stack data
+     * pre-populated. The card is locked (not changeable) — only amount,
+     * language, condition, foil_type and container can be edited.
+     */
+    public function edit(Request $request, CardStack $cardStack): Response
+    {
+        abort_if($cardStack->user_id !== $request->user()->id, 403);
+
+        $cardStack->load('defaultCard.set', 'defaultCard.artist', 'container');
+
+        $containers = $request->user()->containers()
+            ->orderBy('sort_order')
+            ->get()
+            ->map(fn ($c) => [
+                'id' => $c->id,
+                'name' => $c->name,
+            ]);
+
+        $defaultCard = $cardStack->defaultCard;
+
+        return Inertia::render('Collection/AddCards/AddCardsPage', [
+            'container' => $cardStack->container
+                ? ContainerService::serializeContainer($cardStack->container->load('defaultCard.set', 'defaultCard.artist'))
+                : null,
+            'containers' => $containers,
+            'conditions' => array_column(CardCondition::cases(), 'value'),
+            'foilTypes' => array_column(FoilType::cases(), 'value'),
+            'languages' => array_column(CardLanguage::cases(), 'value'),
+            'cardStack' => [
+                'id' => $cardStack->id,
+                'amount' => $cardStack->amount,
+                'language' => $cardStack->language->value,
+                'condition' => $cardStack->condition?->value ?? '',
+                'foil_type' => $cardStack->foil_type?->value ?? '',
+                'container_id' => $cardStack->container_id,
+                'default_card' => [
+                    'id' => $defaultCard->id,
+                    'name' => $defaultCard->name,
+                    'card_image_0' => $defaultCard->card_image_0,
+                    'card_image_1' => $defaultCard->card_image_1,
+                    'artist' => $defaultCard->artist?->name,
+                    'cn' => $defaultCard->collector_number,
+                    'set' => [
+                        'name' => $defaultCard->set->name,
+                        'code' => $defaultCard->set->code,
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Validate and update an existing card stack.
+     *
+     * The default_card_id cannot be changed — only amount, language,
+     * condition, foil_type and container_id are editable.
+     */
+    public function update(Request $request, CardStack $cardStack): RedirectResponse
+    {
+        abort_if($cardStack->user_id !== $request->user()->id, 403);
+
+        precognitive(function () use ($request) {
+            $request->validate([
+                'amount' => ['required', 'integer', 'min:1', 'max:65535'],
+                'language' => ['required', Rule::enum(CardLanguage::class)],
+                'container_id' => ['nullable', Rule::exists(Container::class, 'id')],
+                'condition' => ['nullable', Rule::enum(CardCondition::class)],
+                'foil_type' => ['nullable', Rule::enum(FoilType::class)],
+            ]);
+        });
+
+        if ($request->container_id) {
+            $container = Container::findOrFail($request->container_id);
+            abort_if($container->user_id !== $request->user()->id, 403);
+        }
+
+        $cardStack->update([
+            'amount' => $request->amount,
+            'language' => $request->language,
+            'condition' => $request->condition ?: null,
+            'foil_type' => $request->foil_type ?: null,
+            'container_id' => $request->container_id ?: null,
+        ]);
+
+        $cardName = $cardStack->defaultCard->name;
+        $request->session()->flash('message', __('collection.card_updated', ['name' => $cardName]));
+        $request->session()->flash('type', 'success');
+
+        if ($cardStack->container_id) {
+            return redirect(route('container.show', $cardStack->container_id));
         }
 
         return redirect(route('containers'));

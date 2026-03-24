@@ -63,6 +63,11 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::post('collection/add', [CardsController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('cards.store');
+    Route::get('collection/cardstack/{cardStack}/edit', [CardsController::class, 'edit'])
+        ->name('cardstack.edit');
+    Route::patch('collection/cardstack/{cardStack}', [CardsController::class, 'update'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('cardstack.update');
 
     // decks
     Route::get('/decks', [DecksController::class, 'show'])

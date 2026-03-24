@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends { id: string; href?: string }">
 import { router } from "@inertiajs/vue3";
-import { computed, onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from "vue";
+import { type Ref, computed, onBeforeUnmount, onMounted, provide, ref, useSlots, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import DataTableActions from "Components/DataTable/DataTableActions.vue";
 import DataTableBody from "Components/DataTable/DataTableBody.vue";
@@ -125,7 +125,7 @@ watch(
 // ---------------------------------------------------------------------------
 // Row action popover
 // ---------------------------------------------------------------------------
-const activeRow = ref<T | null>(null) as { value: T | null };
+const activeRow = ref<T | null>(null) as Ref<T | null>;
 const actionButtonRef = ref<HTMLElement | null>(null);
 
 function onAction(row: T, el: HTMLElement) {
