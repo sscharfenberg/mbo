@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { default as vitePluginVue } from "@vitejs/plugin-vue";
 import laravelPlugin from "laravel-vite-plugin";
+import { Features } from "lightningcss";
 import { defineConfig, loadEnv } from "vite";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import vitePluginVueDevtools from "vite-plugin-vue-devtools";
@@ -141,6 +142,12 @@ export default defineConfig(({ mode }) => {
         /*
          * https://vite.dev/config/build-options.html
          */
+        css: {
+            lightningcss: {
+                exclude: Features.LightDark
+            }
+        },
+
         build: {
             // outDir: path.resolve(__dirname, "public"),
             emptyOutDir: true
