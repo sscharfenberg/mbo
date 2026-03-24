@@ -272,7 +272,14 @@
                 "language": "Sprache"
             },
             "empty": "Dieser Container enthält noch keine Karten.",
-            "add_cards": "Karten hinzufügen"
+            "add_cards": "Karten hinzufügen",
+            "delete": {
+                "link": "Löschen",
+                "title": "Kartenstapel löschen?",
+                "question": "Bist du sicher das du {description} aus {container} entfernen willst? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "aff": "Ja, Löschen",
+                "neg": "Nein, Abbruch"
+            }
         },
         "decks": {
             "title": "Deine Decks",

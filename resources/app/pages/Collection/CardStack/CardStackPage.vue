@@ -2,9 +2,9 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { type Ref, computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import AddCardsDefaults from "@/pages/Collection/AddCards/AddCardsDefaults.vue";
-import AddCardsLanguage from "@/pages/Collection/AddCards/AddCardsLanguage.vue";
-import AddCardsSearch from "@/pages/Collection/AddCards/AddCardsSearch.vue";
+import CardStackDefaults from "@/pages/Collection/CardStack/CardStackDefaults.vue";
+import CardStackLanguage from "@/pages/Collection/CardStack/CardStackLanguage.vue";
+import CardStackSearch from "@/pages/Collection/CardStack/CardStackSearch.vue";
 import type { Container } from "@/types/container";
 import type { ContainerListItem } from "@/types/containerListItem";
 import ButtonGroup from "Components/Form/ButtonGroup.vue";
@@ -47,8 +47,20 @@ const isEditMode = !!props.cardStack;
 const { t } = useI18n();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
-    { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
-    { labelKey: "pages.add_cards.link", href: "/collection/containers" }
+    { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
+    ...(props.container
+        ? [{ labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" }]
+        : []),
+    ...(props.container
+        ? [
+              {
+                  label: props.container.name,
+                  href: `/collection/containers/${props.container.id}`,
+                  icon: "container-name"
+              }
+          ]
+        : []),
+    { labelKey: isEditMode ? "pages.edit_card.title" : "pages.add_cards.title" }
 ]);
 const {
     savedDefaults,
@@ -135,7 +147,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
         @success="isEditMode ? undefined : resetToDefaults()"
         #default="{ validate, processing, validating, errors, valid }"
     >
-        <add-cards-defaults
+        <card-stack-defaults
             v-if="!isEditMode"
             :amount="amount"
             :language="selectedLanguage"
@@ -146,7 +158,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             @save="saveDefaults"
             @clear="clearDefaults"
         />
-        <add-cards-search
+        <card-stack-search
             :error="errors.default_card_id ?? ''"
             :invalid="!!errors?.default_card_id"
             :card="isEditMode ? cardStack!.default_card : null"
@@ -179,7 +191,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
                 </button>
             </template>
         </form-group>
-        <add-cards-language
+        <card-stack-language
             v-model="selectedLanguage"
             :languages="languages"
             :error="errors.language ?? ''"

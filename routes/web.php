@@ -68,6 +68,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::patch('collection/cardstack/{cardStack}', [CardsController::class, 'update'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('cardstack.update');
+    Route::delete('collection/cardstack/{cardStack}', [CardsController::class, 'destroy'])
+        ->name('cardstack.destroy');
 
     // decks
     Route::get('/decks', [DecksController::class, 'show'])

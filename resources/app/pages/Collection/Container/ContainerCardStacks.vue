@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { router } from "@inertiajs/vue3";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { ColumnDef, TableResponse } from "Types/dataTable";
-
+import DeleteCardStackModal from "./DeleteCardStackModal.vue";
 defineProps<{
     table: TableResponse<CardStackRow>;
     baseUrl: string;
+    containerName: string;
 }>();
-
 const { t } = useI18n();
-
 const columns = computed<ColumnDef<CardStackRow>[]>(() => [
     {
         key: "name",
@@ -67,6 +66,12 @@ const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}
 const closePopover = () => {
     const dialog = document.getElementById("userMenu");
     if (dialog !== null) dialog.hidePopover();
+};
+/** The card stack row currently targeted for deletion, or null when the modal is hidden. */
+const deleteTarget = ref<CardStackRow | null>(null);
+/** Close the row action popover and open the delete confirmation modal for the given row. */
+const openDeleteModal = (row: CardStackRow) => {
+    deleteTarget.value = row;
 };
 </script>
 
@@ -149,10 +154,10 @@ const closePopover = () => {
                 <button
                     type="button"
                     class="popover-list-item popover-list-item--caution"
-                    @click="console.log('del', row)"
+                    @click="openDeleteModal(row)"
                 >
                     <icon name="delete" :size="1" />
-                    Delete
+                    {{ $t("pages.container_page.delete.link") }}
                 </button>
             </li>
         </template>
@@ -160,6 +165,12 @@ const closePopover = () => {
             <p>{{ $t("pages.container_page.empty") }}</p>
         </template>
     </data-table>
+    <delete-card-stack-modal
+        v-if="deleteTarget"
+        :card-stack="deleteTarget"
+        :container-name="containerName"
+        @close="deleteTarget = null"
+    />
 </template>
 
 <style lang="scss" scoped>

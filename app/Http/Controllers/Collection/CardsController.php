@@ -20,12 +20,11 @@ use Inertia\Response;
 class CardsController extends Controller
 {
     /**
-     * Display the "add cards" page.
+     * Display the "CardStack" page.
      *
-     * Serves three use cases:
+     * Serves two use cases:
      * - Add cards to a specific container (when $container is provided via route)
      * - Add cards to the collection unsorted (when no container is specified)
-     * - Edit card stack properties (same page, different context)
      *
      * Aborts with 403 if a container is specified but belongs to another user.
      */
@@ -44,7 +43,7 @@ class CardsController extends Controller
                 'name' => $c->name,
             ]);
 
-        return Inertia::render('Collection/AddCards/AddCardsPage', [
+        return Inertia::render('Collection/CardStack/CardStackPage', [
             'container' => $container ? ContainerService::serializeContainer($container) : null,
             'containers' => $containers,
             'conditions' => array_column(CardCondition::cases(), 'value'),
@@ -114,7 +113,7 @@ class CardsController extends Controller
     /**
      * Display the "edit card stack" page.
      *
-     * Re-uses the AddCardsPage component with the existing card stack data
+     * Re-uses the CardStackPage component with the existing card stack data
      * pre-populated. The card is locked (not changeable) — only amount,
      * language, condition, foil_type and container can be edited.
      */
@@ -134,7 +133,7 @@ class CardsController extends Controller
 
         $defaultCard = $cardStack->defaultCard;
 
-        return Inertia::render('Collection/AddCards/AddCardsPage', [
+        return Inertia::render('Collection/CardStack/CardStackPage', [
             'container' => $cardStack->container
                 ? ContainerService::serializeContainer($cardStack->container->load('defaultCard.set', 'defaultCard.artist'))
                 : null,
@@ -204,6 +203,36 @@ class CardsController extends Controller
 
         if ($cardStack->container_id) {
             return redirect(route('container.show', $cardStack->container_id));
+        }
+
+        return redirect(route('containers'));
+    }
+
+    /**
+     * Delete an existing card stack from the user's collection.
+     *
+     * Aborts with 403 if the card stack belongs to another user.
+     * Redirects to the container page when the card stack belonged to one,
+     * otherwise to the collection page.
+     */
+    public function destroy(Request $request, CardStack $cardStack): RedirectResponse
+    {
+        abort_if($cardStack->user_id !== $request->user()->id, 403);
+
+        $cardName = $cardStack->defaultCard->name;
+        $amount = $cardStack->amount;
+        $containerId = $cardStack->container_id;
+
+        $cardStack->delete();
+
+        $request->session()->flash('message', __('collection.card_deleted', [
+            'amount' => $amount,
+            'name' => $cardName,
+        ]));
+        $request->session()->flash('type', 'success');
+
+        if ($containerId) {
+            return redirect(route('container.show', $containerId));
         }
 
         return redirect(route('containers'));

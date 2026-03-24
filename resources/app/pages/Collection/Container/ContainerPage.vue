@@ -50,7 +50,7 @@ setBreadcrumbs([
         <li><icon name="deck" />{{ table.total }} {{ table.total === 1 ? "Card" : "Cards" }}</li>
     </ul>
 
-    <container-card-stacks :table="table" :base-url="`/collection/containers/${container.id}`" />
+    <container-card-stacks :table="table" :base-url="`/collection/containers/${container.id}`" :container-name="container.name" />
 </template>
 
 <style lang="scss" scoped>
