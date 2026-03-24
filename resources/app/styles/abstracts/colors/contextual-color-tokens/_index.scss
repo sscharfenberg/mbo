@@ -138,6 +138,17 @@ $table: (
             "border": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast")),
             "surface": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast"))
         )
+    ),
+    "cards": (
+        "background": light-dark(
+                color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
+                color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
+            ),
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "iron"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "asher"), $alpha: -0.25)
+            ),
+        "surface": light-dark(map.get(c.$grey, "bunker"), map.get(c.$grey, "mystic"))
     )
 ) !default;
 

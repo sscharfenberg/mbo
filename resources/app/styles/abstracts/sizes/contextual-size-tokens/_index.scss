@@ -102,6 +102,13 @@ $table: (
             "padding": 0.45rem,
             "min-width": 39px
         )
+    ),
+    "cards": (
+        "min-width": 220px,
+        "padding": 0.5rem,
+        "gap": 0.5rem,
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured")
     )
 ) !default;
 

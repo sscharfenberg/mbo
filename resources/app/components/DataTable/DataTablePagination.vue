@@ -152,6 +152,7 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
     &__col {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
 
         gap: 0.5rem;
     }

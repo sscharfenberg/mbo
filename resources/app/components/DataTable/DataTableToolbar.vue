@@ -31,14 +31,7 @@ watch(
 
 <template>
     <div class="dt-toolbar">
-        <div
-            class="form-group"
-            style="
-                display: flex;
-
-                gap: 0;
-            "
-        >
+        <div class="form-group">
             <div class="form-group__addon"><icon name="search" /></div>
             <input
                 v-model="query"
@@ -58,6 +51,8 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use "Abstracts/mixins" as m;
+
 .dt-toolbar {
     display: flex;
     align-items: center;
@@ -70,6 +65,23 @@ watch(
 
     &__selection {
         margin-inline-start: auto;
+    }
+
+    .form-group {
+        display: flex;
+        flex-wrap: nowrap;
+
+        min-width: 0;
+        max-width: 12rem;
+        gap: 0;
+
+        @include m.mq("portrait") {
+            max-width: 18rem;
+        }
+
+        @include m.mq("landscape") {
+            max-width: 24rem;
+        }
     }
 }
 </style>

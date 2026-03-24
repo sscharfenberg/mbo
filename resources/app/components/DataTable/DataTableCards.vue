@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends { id: string; href?: string }">
 import { router } from "@inertiajs/vue3";
 import { computed, inject } from "vue";
+import Checkbox from "Components/Form/Checkbox.vue";
 import Icon from "Components/UI/Icon.vue";
 import type { ColumnDef } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
@@ -17,16 +18,10 @@ const emit = defineEmits<{
 const provided = inject(DATA_TABLE_KEY)!;
 
 /** The primary column shown at the top of each card. First match wins. */
-const primaryCol = computed(() =>
-    props.columns.find((c) => c.cardPrimary) ?? null,
-);
+const primaryCol = computed(() => props.columns.find(c => c.cardPrimary) ?? null);
 
 /** Columns visible in card mode, excluding the primary. */
-const cardColumns = computed(() =>
-    props.columns.filter(
-        (c) => c.visibleInCard && c.key !== primaryCol.value?.key,
-    ),
-);
+const cardColumns = computed(() => props.columns.filter(c => c.visibleInCard && c.key !== primaryCol.value?.key));
 
 function onCardClick(row: T) {
     if (row.href) router.visit(row.href);
@@ -47,12 +42,12 @@ function onActionClick(row: T, event: MouseEvent) {
             @click="row.href && onCardClick(row)"
         >
             <div class="dt-cards__header">
-                <div v-if="selectable" class="dt-cards__check">
-                    <input
-                        type="checkbox"
-                        :checked="provided.selectedIds.value.includes(row.id)"
-                        @click.stop="provided.toggleSelection(row.id)"
-                        :aria-label="$t('components.datatable.select_row')"
+                <div v-if="selectable" class="dt-cards__check" @click.stop>
+                    <checkbox
+                        :ref-id="`dt-card-select-${row.id}`"
+                        :checked-initially="provided.selectedIds.value.includes(row.id)"
+                        :label="$t('components.datatable.select_row')"
+                        @change="provided.toggleSelection(row.id)"
                     />
                 </div>
                 <div v-if="primaryCol" class="dt-cards__primary">
@@ -85,6 +80,10 @@ function onActionClick(row: T, event: MouseEvent) {
 </template>
 
 <style lang="scss" scoped>
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
 /* Only visible in narrow containers — hidden by DataTable.vue's container query at >= 640px */
 .dt-cards {
     display: none;
@@ -92,18 +91,19 @@ function onActionClick(row: T, event: MouseEvent) {
 
 @container (max-width: 639px) {
     .dt-cards {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(map.get(s.$table, "cards", "min-width"), 1fr));
 
-        gap: 0.75rem;
+        gap: map.get(s.$table, "cards", "gap");
     }
 
     .dt-cards__card {
-        padding: 0.75rem;
+        padding: map.get(s.$table, "cards", "padding");
+        border: map.get(s.$table, "cards", "border") solid map.get(c.$table, "cards", "border");
 
-        border: 1px solid var(--color-border, #ccc);
-
-        border-radius: 0.5rem;
+        background-color: map.get(c.$table, "cards", "background");
+        color: map.get(c.$table, "cards", "surface");
+        border-radius: map.get(s.$table, "cards", "radius");
 
         &--clickable {
             cursor: pointer;
@@ -114,9 +114,9 @@ function onActionClick(row: T, event: MouseEvent) {
         display: flex;
         align-items: center;
 
-        margin-block-end: 0.5rem;
+        margin-bottom: 0.5rem;
 
-        gap: 0.5rem;
+        gap: 1ch;
     }
 
     .dt-cards__primary {
@@ -131,16 +131,15 @@ function onActionClick(row: T, event: MouseEvent) {
 
     .dt-cards__fields {
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: minmax(30%, auto) 1fr;
 
-        gap: 0.25rem 0.75rem;
+        margin: 0;
+        gap: 0.25rem 0.5rem;
     }
 
     .dt-cards__label {
-        color: var(--color-muted, #666);
-
-        font-size: 0.75rem;
-        font-weight: 600;
+        display: flex;
+        align-items: center;
     }
 
     .dt-cards__value {
