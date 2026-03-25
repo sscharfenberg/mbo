@@ -256,9 +256,16 @@ class ContainerController extends Controller
             },
         );
 
+        $containers = Container::query()
+            ->where('user_id', $request->user()->id)
+            ->where('id', '!=', $container->id)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
         return Inertia::render('Collection/Container/ContainerPage', [
             'container' => ContainerService::serializeContainer($container),
             'table' => $table,
+            'containers' => $containers,
         ]);
     }
 }

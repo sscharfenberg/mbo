@@ -9,11 +9,13 @@ import Icon from "Components/UI/Icon.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { Container } from "Types/container";
+import type { ContainerListItem } from "Types/containerListItem";
 import type { TableResponse } from "Types/dataTable";
 
 const props = defineProps<{
     container: Container;
     table: TableResponse<CardStackRow>;
+    containers: ContainerListItem[];
 }>();
 
 const { setBreadcrumbs } = useBreadcrumbs();
@@ -49,8 +51,12 @@ setBreadcrumbs([
         </li>
         <li><icon name="deck" />{{ table.total }} {{ table.total === 1 ? "Card" : "Cards" }}</li>
     </ul>
-
-    <container-card-stacks :table="table" :base-url="`/collection/containers/${container.id}`" :container-name="container.name" />
+    <container-card-stacks
+        :table="table"
+        :base-url="`/collection/containers/${container.id}`"
+        :container-name="container.name"
+        :containers="containers"
+    />
 </template>
 
 <style lang="scss" scoped>

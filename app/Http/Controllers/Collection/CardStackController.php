@@ -17,7 +17,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class CardsController extends Controller
+class CardStackController extends Controller
 {
     /**
      * Display the "CardStack" page.
@@ -72,10 +72,7 @@ class CardsController extends Controller
             ]);
         });
 
-        if ($request->container_id) {
-            $container = Container::findOrFail($request->container_id);
-            abort_if($container->user_id !== $request->user()->id, 403);
-        }
+        CardStackService::resolveOwnedContainer($request->user(), $request->container_id);
 
         $result = CardStackService::addToCollection($request->user(), $request->only([
             'default_card_id', 'amount', 'language', 'container_id', 'condition', 'foil_type',
@@ -172,8 +169,6 @@ class CardsController extends Controller
      */
     public function update(Request $request, CardStack $cardStack): RedirectResponse
     {
-        abort_if($cardStack->user_id !== $request->user()->id, 403);
-
         precognitive(function () use ($request) {
             $request->validate([
                 'amount' => ['required', 'integer', 'min:1', 'max:65535'],
@@ -184,18 +179,10 @@ class CardsController extends Controller
             ]);
         });
 
-        if ($request->container_id) {
-            $container = Container::findOrFail($request->container_id);
-            abort_if($container->user_id !== $request->user()->id, 403);
-        }
-
-        $cardStack->update([
-            'amount' => $request->amount,
-            'language' => $request->language,
-            'condition' => $request->condition ?: null,
-            'foil_type' => $request->foil_type ?: null,
-            'container_id' => $request->container_id ?: null,
-        ]);
+        CardStackService::resolveOwnedContainer($request->user(), $request->container_id);
+        CardStackService::updateStack($request->user(), $cardStack, $request->only([
+            'amount', 'language', 'condition', 'foil_type', 'container_id',
+        ]));
 
         $cardName = $cardStack->defaultCard->name;
         $request->session()->flash('message', __('collection.card_updated', ['name' => $cardName]));
@@ -209,30 +196,66 @@ class CardsController extends Controller
     }
 
     /**
-     * Delete an existing card stack from the user's collection.
+     * Move multiple card stacks to a different container.
      *
-     * Aborts with 403 if the card stack belongs to another user.
-     * Redirects to the container page when the card stack belonged to one,
-     * otherwise to the collection page.
+     * A null/empty container_id moves the stacks to "unsorted" (no container).
+     * Ownership of both the stacks and the target container is verified before
+     * the update — the service layer aborts with 403/404 on violations.
      */
-    public function destroy(Request $request, CardStack $cardStack): RedirectResponse
+    public function moveSelected(Request $request): RedirectResponse
     {
-        abort_if($cardStack->user_id !== $request->user()->id, 403);
+        $request->validate([
+            'card_stack_ids' => ['required', 'array', 'min:1'],
+            'card_stack_ids.*' => ['required', 'uuid'],
+            'container_id' => ['nullable', Rule::exists(Container::class, 'id')],
+        ]);
 
-        $cardName = $cardStack->defaultCard->name;
-        $amount = $cardStack->amount;
-        $containerId = $cardStack->container_id;
+        $targetContainer = CardStackService::resolveOwnedContainer(
+            $request->user(),
+            $request->container_id,
+        );
 
-        $cardStack->delete();
+        $stacks = CardStackService::moveToContainer(
+            $request->user(),
+            $request->card_stack_ids,
+            $request->container_id ?: null,
+        );
 
-        $request->session()->flash('message', __('collection.card_deleted', [
-            'amount' => $amount,
-            'name' => $cardName,
+        $containerName = $targetContainer
+            ? $targetContainer->name
+            : __('collection.unsorted');
+
+        $request->session()->flash('message', __('collection.cards_moved', [
+            'number' => $stacks->count(),
+            'container' => $containerName,
         ]));
         $request->session()->flash('type', 'success');
 
-        if ($containerId) {
-            return redirect(route('container.show', $containerId));
+        if ($targetContainer) {
+            return redirect(route('container.show', $targetContainer->id));
+        }
+
+        return redirect(route('containers'));
+    }
+
+    /**
+     * Delete an existing card stack from the user's collection.
+     *
+     * Redirects to the container page when the card stack belonged to one,
+     * otherwise to the containers list.
+     */
+    public function destroy(Request $request, CardStack $cardStack): RedirectResponse
+    {
+        $meta = CardStackService::deleteStack($request->user(), $cardStack);
+
+        $request->session()->flash('message', __('collection.card_deleted', [
+            'amount' => $meta['amount'],
+            'name' => $meta['name'],
+        ]));
+        $request->session()->flash('type', 'success');
+
+        if ($meta['container_id']) {
+            return redirect(route('container.show', $meta['container_id']));
         }
 
         return redirect(route('containers'));

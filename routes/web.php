@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Collection\CardsController;
+use App\Http\Controllers\Collection\CardStackController;
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Collection\ContainerController;
 use App\Http\Controllers\Decks\DecksController;
@@ -56,19 +56,21 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('container.destroy');
 
     // add cards
-    Route::get('collection/add', [CardsController::class, 'add'])
+    Route::get('collection/add', [CardStackController::class, 'add'])
         ->name('cards.add');
-    Route::get('collection/containers/{container}/add', [CardsController::class, 'add'])
+    Route::get('collection/containers/{container}/add', [CardStackController::class, 'add'])
         ->name('container.cards.add');
-    Route::post('collection/add', [CardsController::class, 'store'])
+    Route::post('collection/add', [CardStackController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('cards.store');
-    Route::get('collection/cardstack/{cardStack}/edit', [CardsController::class, 'edit'])
+    Route::patch('collection/cardstack/move', [CardStackController::class, 'moveSelected'])
+        ->name('cardstack.moveSelected');
+    Route::get('collection/cardstack/{cardStack}/edit', [CardStackController::class, 'edit'])
         ->name('cardstack.edit');
-    Route::patch('collection/cardstack/{cardStack}', [CardsController::class, 'update'])
+    Route::patch('collection/cardstack/{cardStack}', [CardStackController::class, 'update'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('cardstack.update');
-    Route::delete('collection/cardstack/{cardStack}', [CardsController::class, 'destroy'])
+    Route::delete('collection/cardstack/{cardStack}', [CardStackController::class, 'destroy'])
         ->name('cardstack.destroy');
 
     // decks

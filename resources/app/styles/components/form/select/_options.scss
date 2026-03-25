@@ -4,14 +4,13 @@
 @use "Abstracts/z-indexes" as z;
 
 .form-select__options {
-    position: absolute;
+    position: fixed;
     top: anchor(bottom);
     right: anchor(right);
-    left: 0;
+    left: anchor(left);
     z-index: map.get(z.$index, "select");
 
     overflow: hidden;
-    width: 100%;
 
     padding: 1ex 0;
     border: map.get(s.$form, "select", "border") solid map.get(c.$form, "select", "border");

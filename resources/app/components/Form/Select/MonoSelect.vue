@@ -40,6 +40,7 @@ const emit = defineEmits(["change"]);
 // Unique IDs tie the trigger button, clear button, and listbox together for ARIA.
 const uid = useId();
 const anchorName = `--select-${uid}`;
+const buttonAnchorName = `--select-button-${uid}`;
 const buttonId = `select-button-${uid}`;
 const listboxId = `select-listbox-${uid}`;
 const menuOpen = ref(false);
@@ -103,14 +104,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="form-select" ref="dropdown" :style="{ 'max-width': max }">
+    <div class="form-select" ref="dropdown" :style="{ 'max-width': max, 'anchor-name': anchorName }">
         <span v-if="addonIcon" class="form-select__addon"><icon :name="addonIcon" /></span>
         <button
             type="button"
             :id="buttonId"
             class="form-select__button"
             :class="{ open: menuOpen }"
-            :style="{ 'anchor-name': anchorName }"
+            :style="{ 'anchor-name': buttonAnchorName }"
             :aria-expanded="menuOpen"
             :aria-controls="listboxId"
             aria-haspopup="listbox"
@@ -124,7 +125,7 @@ onUnmounted(() => {
             v-if="selectedValue && clearable"
             type="button"
             class="form-select__clear"
-            :style="{ 'position-anchor': anchorName }"
+            :style="{ 'position-anchor': buttonAnchorName }"
             @click.prevent="select('')"
             :aria-label="$t('components.select.clear')"
         >

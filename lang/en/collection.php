@@ -6,5 +6,7 @@ return [
     'amount_changed' => ':name amount has been updated to :amount.',
     'card_updated' => ':name has been updated.',
     'card_deleted' => ':amount× :name has been removed from your collection.',
+    'cards_moved' => ':number card stacks successfully moved to :container.',
+    'unsorted' => 'Unsorted',
 
 ];

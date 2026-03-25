@@ -279,6 +279,12 @@
                 "question": "Are you sure you want to remove {description} from {container}? This action can not be undone.",
                 "aff": "Yes, delete",
                 "neg": "No, cancel"
+            },
+            "move": {
+                "title": "Move cards?",
+                "question": "You have selected {amount} card stacks from {container} - where do you want to move them?",
+                "unsorted": "No choice = unsorted, no container.",
+                "submit": "Move {number}"
             }
         },
         "decks": {

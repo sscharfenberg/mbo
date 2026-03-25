@@ -6,12 +6,15 @@ import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import type { CardStackRow } from "Types/cardStackRow";
+import type { ContainerListItem } from "Types/containerListItem";
 import type { ColumnDef, TableResponse } from "Types/dataTable";
-import DeleteCardStackModal from "./DeleteCardStackModal.vue";
+import DeleteCardStackModal from "../shared/DeleteCardStackModal.vue";
+import MoveSelectedCardStacksModal from "../shared/MoveSelectedCardStacksModal.vue";
 defineProps<{
     table: TableResponse<CardStackRow>;
     baseUrl: string;
     containerName: string;
+    containers: ContainerListItem[];
 }>();
 const { t } = useI18n();
 const columns = computed<ColumnDef<CardStackRow>[]>(() => [
@@ -73,6 +76,13 @@ const deleteTarget = ref<CardStackRow | null>(null);
 const openDeleteModal = (row: CardStackRow) => {
     deleteTarget.value = row;
 };
+/** Selected IDs for the move-selected modal, or null when the modal is hidden. */
+const moveSelectedIds = ref<string[] | null>(null);
+/** Close the mass-actions popover and open the move-selected modal. */
+const openMoveModal = (selectedIds: string[]) => {
+    document.getElementById("massActions")?.hidePopover();
+    moveSelectedIds.value = [...selectedIds];
+};
 </script>
 
 <template>
@@ -91,10 +101,7 @@ const openDeleteModal = (row: CardStackRow) => {
                         <button
                             type="button"
                             class="popover-list-item"
-                            @click="
-                                console.log('move', selectedIds);
-                                closePopover;
-                            "
+                            @click="openMoveModal(selectedIds)"
                         >
                             <icon name="move" :size="1" />
                             {{ $t("components.datatable.mass_actions.move") }}
@@ -170,6 +177,13 @@ const openDeleteModal = (row: CardStackRow) => {
         :card-stack="deleteTarget"
         :container-name="containerName"
         @close="deleteTarget = null"
+    />
+    <move-selected-card-stacks-modal
+        v-if="moveSelectedIds"
+        :containers="containers"
+        :selected-ids="moveSelectedIds"
+        :container-name="containerName"
+        @close="moveSelectedIds = null"
     />
 </template>
 
