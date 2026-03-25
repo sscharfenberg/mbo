@@ -13,4 +13,6 @@ export interface Container {
     sort: number;
     /** Default card art crop data, or null if no default card is set. */
     defaultCard: DefaultCardArtCrop | null;
+    /** Sum of all card stack amounts in this container. */
+    totalCards: number;
 }

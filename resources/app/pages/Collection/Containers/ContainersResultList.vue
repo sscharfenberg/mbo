@@ -51,7 +51,7 @@ watch(
                         container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
                     }}</span
                 >
-                <span class="clist__count"><icon name="deck" />0</span>
+                <span class="clist__count"><icon name="deck" />{{ $t("pages.container_page.cards_count", { count: container.totalCards }) }}</span>
                 <span class="clist__price"><icon name="wallet" />125,56€</span>
             </Link>
             <ContainerMenu :container="container" />

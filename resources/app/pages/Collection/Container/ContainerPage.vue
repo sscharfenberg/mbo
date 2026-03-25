@@ -6,6 +6,7 @@ import ArtCropImage from "Components/Card/ArtCropImage.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import Paragraph from "Components/UI/Paragraph.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { Container } from "Types/container";
@@ -49,14 +50,16 @@ setBreadcrumbs([
                 container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
             }}
         </li>
-        <li><icon name="deck" />{{ table.total }} {{ table.total === 1 ? "Card" : "Cards" }}</li>
+        <li><icon name="deck" />{{ $t("pages.container_page.cards_count", { count: container.totalCards }) }}</li>
     </ul>
     <container-card-stacks
+        v-if="table.total > 0"
         :table="table"
         :base-url="`/collection/containers/${container.id}`"
         :container-name="container.name"
         :containers="containers"
     />
+    <paragraph v-else>{{ $t("pages.container_page.empty") }}</paragraph>
 </template>
 
 <style lang="scss" scoped>

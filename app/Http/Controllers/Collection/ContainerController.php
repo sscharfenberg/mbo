@@ -27,6 +27,7 @@ class ContainerController extends Controller
     {
         $containers = $request->user()->containers()
             ->with('defaultCard.set', 'defaultCard.artist')
+            ->withSum('cardStacks', 'amount')
             ->orderBy('sort_order')
             ->get();
 
@@ -74,21 +75,9 @@ class ContainerController extends Controller
             ]);
         });
 
-        if ($request->user()->containers()->count() >= Container::MAX_CONTAINERS) {
-            abort(422);
-        }
-
-        $nextSort = ($request->user()->containers()->max('sort_order') ?? 0) + 1;
-
-        $container = Container::create([
-            'user_id' => $request->user()->id,
-            'name' => $request->container_name,
-            'description' => $request->container_description,
-            'type' => $request->container_type,
-            'custom_type' => $request->container_type === 'other' ? $request->container_type_other : null,
-            'default_card_id' => $request->container_image ?: null,
-            'sort_order' => $nextSort,
-        ]);
+        $container = ContainerService::createContainer($request->user(), $request->only([
+            'container_name', 'container_description', 'container_type', 'container_type_other', 'container_image',
+        ]));
 
         $request->session()->flash('message', __('auth.container_created', ['name' => $container->name]));
         $request->session()->flash('type', 'success');
@@ -126,8 +115,6 @@ class ContainerController extends Controller
      */
     public function update(Request $request, Container $container): RedirectResponse
     {
-        abort_if($container->user_id !== $request->user()->id, 403);
-
         precognitive(function () use ($request) {
             $request->validate([
                 'container_name' => ['required', 'string', 'max:'.Container::NAME_MAX],
@@ -138,13 +125,9 @@ class ContainerController extends Controller
             ]);
         });
 
-        $container->update([
-            'name' => $request->container_name,
-            'description' => $request->container_description,
-            'type' => $request->container_type,
-            'custom_type' => $request->container_type === 'other' ? $request->container_type_other : null,
-            'default_card_id' => $request->container_image ?: null,
-        ]);
+        ContainerService::updateContainer($request->user(), $container, $request->only([
+            'container_name', 'container_description', 'container_type', 'container_type_other', 'container_image',
+        ]));
 
         $request->session()->flash('message', __('auth.container_updated', ['name' => $container->name]));
         $request->session()->flash('type', 'success');
@@ -166,14 +149,7 @@ class ContainerController extends Controller
             'order.*' => ['uuid'],
         ]);
 
-        $userContainerIds = $request->user()->containers()->pluck('id')->flip();
-
-        foreach ($request->order as $index => $id) {
-            if (! $userContainerIds->has($id)) {
-                continue;
-            }
-            Container::where('id', $id)->update(['sort_order' => $index + 1]);
-        }
+        ContainerService::reorder($request->user(), $request->order);
 
         return response()->json(['ok' => true]);
     }
@@ -181,15 +157,11 @@ class ContainerController extends Controller
     /**
      * Delete a container.
      *
-     * Aborts with 403 if the container belongs to another user.
      * Redirects back to the containers list with a success flash message.
      */
     public function destroy(Request $request, Container $container): RedirectResponse
     {
-        abort_if($container->user_id !== $request->user()->id, 403);
-
-        $name = $container->name;
-        $container->delete();
+        $name = ContainerService::deleteContainer($request->user(), $container);
 
         $request->session()->flash('message', __('auth.container_deleted', ['name' => $name]));
         $request->session()->flash('type', 'success');
@@ -208,6 +180,7 @@ class ContainerController extends Controller
         abort_if($container->user_id !== $request->user()->id, 403);
 
         $container->load('defaultCard.set', 'defaultCard.artist');
+        $container->loadSum('cardStacks', 'amount');
 
         $query = $container->cardStacks()
             ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')

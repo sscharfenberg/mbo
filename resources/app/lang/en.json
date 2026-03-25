@@ -271,6 +271,7 @@
                 "foil_type": "Foil",
                 "language": "Language"
             },
+            "cards_count": "{count} card | {count} cards",
             "empty": "This container has no cards yet.",
             "add_cards": "Add cards",
             "delete": {

@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
+import Paragraph from "Components/UI/Paragraph.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { ContainerListItem } from "Types/containerListItem";
@@ -98,11 +99,7 @@ const openMoveModal = (selectedIds: string[]) => {
             >
                 <ul class="popover-list popover-list--short">
                     <li>
-                        <button
-                            type="button"
-                            class="popover-list-item"
-                            @click="openMoveModal(selectedIds)"
-                        >
+                        <button type="button" class="popover-list-item" @click="openMoveModal(selectedIds)">
                             <icon name="move" :size="1" />
                             {{ $t("components.datatable.mass_actions.move") }}
                         </button>
@@ -169,7 +166,7 @@ const openMoveModal = (selectedIds: string[]) => {
             </li>
         </template>
         <template #empty>
-            <p>{{ $t("pages.container_page.empty") }}</p>
+            <paragraph>{{ $t("pages.container_page.empty") }}</paragraph>
         </template>
     </data-table>
     <delete-card-stack-modal
