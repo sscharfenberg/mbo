@@ -30,6 +30,22 @@ Then create the storage symlinks so that public disks (set icons, symbols, art c
 php artisan storage:link
 ```
 
+## Database seeding
+
+Seeding requires Scryfall data to be present in the database (the `default_cards` table). Run the full Scryfall sync first:
+
+```bash
+php artisan scryfall:update
+```
+
+Then seed containers and card stacks:
+
+```bash
+php artisan db:seed
+```
+
+The seeder creates the test user, wipes existing containers and card stacks for the first user, creates 10 sample containers, and distributes 60 random cards across them.
+
 ## Setup IDE for development
 
 I am using IntelliJ, other IDEs probably work as well; I just don't know them.
