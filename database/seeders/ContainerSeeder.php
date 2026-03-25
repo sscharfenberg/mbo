@@ -54,7 +54,7 @@ class ContainerSeeder extends Seeder
         }
 
         // Distribute 60 random cards across the containers.
-        $randomCards = DefaultCard::inRandomOrder()->limit(60)->pluck('id');
+        $randomCards = DefaultCard::inRandomOrder()->limit(200)->pluck('id');
         $languages = [CardLanguage::En, CardLanguage::De];
 
         foreach ($randomCards as $cardId) {
