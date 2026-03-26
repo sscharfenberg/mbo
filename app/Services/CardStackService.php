@@ -108,6 +108,32 @@ class CardStackService
     }
 
     /**
+     * Delete multiple card stacks belonging to the given user.
+     *
+     * Aborts with 403 if any stack does not belong to the user,
+     * or 404 if any requested ID does not exist.
+     *
+     * @param  string[]  $cardStackIds
+     * @return array{stacks: int, cards: int, container_id: string|null} Metadata for the flash message.
+     */
+    public static function deleteSelected(User $user, array $cardStackIds): array
+    {
+        $stacks = CardStack::whereIn('id', $cardStackIds)->get();
+        abort_if($stacks->contains(fn (CardStack $s) => $s->user_id !== $user->id), 403);
+        abort_if($stacks->count() !== count($cardStackIds), 404);
+
+        $meta = [
+            'stacks' => $stacks->count(),
+            'cards' => $stacks->sum('amount'),
+            'container_id' => $stacks->first()?->container_id,
+        ];
+
+        CardStack::whereIn('id', $cardStackIds)->delete();
+
+        return $meta;
+    }
+
+    /**
      * Verify ownership and move card stacks to a different container.
      *
      * Aborts with 403 if any stack does not belong to the user,

@@ -7,6 +7,7 @@ return [
     'card_updated' => ':name has been updated.',
     'card_deleted' => ':amount× :name has been removed from your collection.',
     'cards_moved' => ':number card stacks successfully moved to :container.',
+    'cards_deleted' => 'Deleted :stacks card stacks with :cards cards total.',
     'unsorted' => 'Unsorted',
 
 ];

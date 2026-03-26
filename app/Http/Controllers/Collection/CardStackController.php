@@ -260,4 +260,35 @@ class CardStackController extends Controller
 
         return redirect(route('containers'));
     }
+
+    /**
+     * Delete multiple selected card stacks from the user's collection.
+     *
+     * Redirects back to the container page when the stacks belonged to one,
+     * otherwise to the containers list.
+     */
+    public function destroySelected(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'card_stack_ids' => ['required', 'array', 'min:1'],
+            'card_stack_ids.*' => ['required', 'uuid'],
+        ]);
+
+        $meta = CardStackService::deleteSelected(
+            $request->user(),
+            $request->card_stack_ids,
+        );
+
+        $request->session()->flash('message', __('collection.cards_deleted', [
+            'stacks' => $meta['stacks'],
+            'cards' => $meta['cards'],
+        ]));
+        $request->session()->flash('type', 'success');
+
+        if ($meta['container_id']) {
+            return redirect(route('container.show', $meta['container_id']));
+        }
+
+        return redirect(route('containers'));
+    }
 }

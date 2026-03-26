@@ -65,6 +65,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('cards.store');
     Route::patch('collection/cardstack/move', [CardStackController::class, 'moveSelected'])
         ->name('cardstack.moveSelected');
+    Route::delete('collection/cardstack/delete-selected', [CardStackController::class, 'destroySelected'])
+        ->name('cardstack.destroySelected');
     Route::get('collection/cardstack/{cardStack}/edit', [CardStackController::class, 'edit'])
         ->name('cardstack.edit');
     Route::patch('collection/cardstack/{cardStack}', [CardStackController::class, 'update'])

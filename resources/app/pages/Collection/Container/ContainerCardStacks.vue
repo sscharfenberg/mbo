@@ -10,6 +10,7 @@ import type { CardStackRow } from "Types/cardStackRow";
 import type { ContainerListItem } from "Types/containerListItem";
 import type { ColumnDef, TableResponse } from "Types/dataTable";
 import DeleteCardStackModal from "../shared/DeleteCardStackModal.vue";
+import DeleteSelectedCardStacksModal from "../shared/DeleteSelectedCardStacksModal.vue";
 import MoveSelectedCardStacksModal from "../shared/MoveSelectedCardStacksModal.vue";
 defineProps<{
     table: TableResponse<CardStackRow>;
@@ -66,11 +67,6 @@ const columns = computed<ColumnDef<CardStackRow>[]>(() => [
 ]);
 /** Resolve the flag image URL for a given language code. */
 const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}.svg`, import.meta.url).href;
-/** Programmatically hides the user menu popover by its DOM id. */
-const closePopover = () => {
-    const dialog = document.getElementById("userMenu");
-    if (dialog !== null) dialog.hidePopover();
-};
 /** The card stack row currently targeted for deletion, or null when the modal is hidden. */
 const deleteTarget = ref<CardStackRow | null>(null);
 /** Close the row action popover and open the delete confirmation modal for the given row. */
@@ -83,6 +79,13 @@ const moveSelectedIds = ref<string[] | null>(null);
 const openMoveModal = (selectedIds: string[]) => {
     document.getElementById("massActions")?.hidePopover();
     moveSelectedIds.value = [...selectedIds];
+};
+/** Selected IDs for the delete-selected modal, or null when the modal is hidden. */
+const deleteSelectedIds = ref<string[] | null>(null);
+/** Close the mass-actions popover and open the delete-selected modal. */
+const openDeleteSelectedModal = (selectedIds: string[]) => {
+    document.getElementById("massActions")?.hidePopover();
+    deleteSelectedIds.value = [...selectedIds];
 };
 </script>
 
@@ -108,10 +111,7 @@ const openMoveModal = (selectedIds: string[]) => {
                         <button
                             type="button"
                             class="popover-list-item"
-                            @click="
-                                console.log('delete', selectedIds);
-                                closePopover;
-                            "
+                            @click="openDeleteSelectedModal(selectedIds)"
                         >
                             <icon name="delete" :size="1" />
                             {{ $t("components.datatable.mass_actions.delete") }}
@@ -181,6 +181,12 @@ const openMoveModal = (selectedIds: string[]) => {
         :selected-ids="moveSelectedIds"
         :container-name="containerName"
         @close="moveSelectedIds = null"
+    />
+    <delete-selected-card-stacks-modal
+        v-if="deleteSelectedIds"
+        :selected-ids="deleteSelectedIds"
+        :container-name="containerName"
+        @close="deleteSelectedIds = null"
     />
 </template>
 

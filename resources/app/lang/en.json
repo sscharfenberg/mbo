@@ -286,6 +286,12 @@
                 "question": "You have selected {amount} card stacks from {container} - where do you want to move them?",
                 "unsorted": "No choice = unsorted, no container.",
                 "submit": "Move {number}"
+            },
+            "delete_selected": {
+                "title": "Delete selected card stacks?",
+                "question": "Are you sure you want to delete {amount} card stacks from {container}? This action can not be undone.",
+                "aff": "Yes, delete",
+                "neg": "No, cancel"
             }
         },
         "decks": {

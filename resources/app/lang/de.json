@@ -286,6 +286,12 @@
                 "question": "Du hast {amount} Kartenstapel von {container} ausgewählt - in welchen Container sollen sie verschoben werden?",
                 "unsorted": "Keine Angabe = Unsortiert, ohne Container.",
                 "submit": "{number} verschieben"
+            },
+            "delete_selected": {
+                "title": "Ausgewählte Kartenstapel löschen?",
+                "question": "Bist du sicher das du {amount} Kartenstapel aus {container} löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "aff": "Ja, Löschen",
+                "neg": "Nein, Abbruch"
             }
         },
         "decks": {
