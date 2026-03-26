@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Finish;
 use App\Http\Controllers\Controller;
 use App\Models\DefaultCard;
 use App\Services\CardSearchParser;
@@ -96,7 +97,7 @@ class DefaultCardsController extends Controller
             return response()->json([]);
         }
 
-        $cards = $query->select('id', 'name', 'card_image_0', 'card_image_1', 'set_id', 'artist_id', 'collector_number')
+        $cards = $query->select('id', 'name', 'card_image_0', 'card_image_1', 'set_id', 'artist_id', 'collector_number', 'finishes')
             ->with('set:id,name,code', 'artist:id,name')
             ->orderBy('name')
             ->get()
@@ -107,6 +108,7 @@ class DefaultCardsController extends Controller
                 'card_image_1' => $card->card_image_1,
                 'artist' => $card->artist?->name,
                 'cn' => $card->collector_number,
+                'finishes' => Finish::labelsFromMask($card->finishes),
                 'set' => $card->set ? [
                     'name' => $card->set->name,
                     'code' => $card->set->code,

@@ -3,6 +3,7 @@ import { Form, Head } from "@inertiajs/vue3";
 import { type Ref, computed, nextTick, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import CardStackDefaults from "@/pages/Collection/CardStack/CardStackDefaults.vue";
+import CardStackFinish from "@/pages/Collection/CardStack/CardStackFinish.vue";
 import CardStackLanguage from "@/pages/Collection/CardStack/CardStackLanguage.vue";
 import CardStackSearch from "@/pages/Collection/CardStack/CardStackSearch.vue";
 import type { Container } from "@/types/container";
@@ -99,18 +100,10 @@ const conditionOptions = computed(() =>
         label: t("enums.conditions." + condition)
     }))
 );
-/** Finish options formatted for MonoSelect with translated labels. */
-const finishOptions = computed(() =>
-    props.finishes.map(finish => ({
-        value: finish,
-        label: t("enums.finishes." + finish)
-    }))
-);
 /** Maps form field names to their corresponding refs for generic select handling. */
 const selectRefs: Record<string, Ref<string>> = {
     container_id: selectedContainer,
-    condition: selectedCondition,
-    finish: selectedFinish
+    condition: selectedCondition
 };
 /**
  * Generic change handler for MonoSelect fields. Updates the ref and
@@ -120,6 +113,24 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
     selectRefs[field].value = value;
     nextTick(() => validate(field));
 };
+
+/** Available finishes for the currently selected card. All finishes when no card is selected. */
+const availableFinishes = ref<string[]>(
+    isEditMode ? props.cardStack!.default_card.finishes : [...props.finishes]
+);
+
+/** Called when the user selects a card from search results. */
+function onCardSelected(card: DefaultCardImage) {
+    availableFinishes.value = card.finishes;
+    if (!card.finishes.includes(selectedFinish.value)) {
+        selectedFinish.value = card.finishes[0];
+    }
+}
+
+/** Called when the user clears the card selection. */
+function onCardCleared() {
+    availableFinishes.value = [...props.finishes];
+}
 </script>
 
 <template>
@@ -163,6 +174,8 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             :invalid="!!errors?.default_card_id"
             :card="isEditMode ? cardStack!.default_card : null"
             :locked="isEditMode"
+            @selected="onCardSelected"
+            @cleared="onCardCleared"
         />
         <form-group
             for-id="amount"
@@ -228,24 +241,12 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             />
             <input type="hidden" name="condition" :value="selectedCondition" />
         </form-group>
-        <form-group
-            :label="$t('form.fields.finish')"
+        <card-stack-finish
+            v-model="selectedFinish"
+            :finishes="availableFinishes"
             :error="errors.finish ?? ''"
             :invalid="!!errors?.finish"
-            :validated="valid('finish')"
-            :validating="validating"
-            :required="true"
-        >
-            <mono-select
-                :options="finishOptions"
-                :selected="selectedFinish"
-                @change="onSelectChange('finish', $event, validate)"
-                :sort="false"
-                :clearable="false"
-                addon-icon="star"
-            />
-            <input type="hidden" name="finish" :value="selectedFinish" />
-        </form-group>
+        />
         <form-group class="button-group">
             <button-group>
                 <template v-if="isEditMode">

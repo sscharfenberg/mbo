@@ -72,7 +72,7 @@ class CardStackController extends Controller
             ]);
         });
 
-        CardStackService::resolveOwnedContainer($request->user(), $request->container_id);
+        $container = CardStackService::resolveOwnedContainer($request->user(), $request->container_id);
 
         $result = CardStackService::addToCollection($request->user(), $request->only([
             'default_card_id', 'amount', 'language', 'container_id', 'condition', 'finish',
@@ -84,6 +84,11 @@ class CardStackController extends Controller
             $message = __('collection.amount_changed', [
                 'name' => $cardName,
                 'amount' => $result['stack']->amount,
+            ]);
+        } elseif ($container) {
+            $message = __('collection.card_added_to_container', [
+                'name' => $cardName,
+                'container' => $container->name,
             ]);
         } else {
             $message = __('collection.card_added', ['name' => $cardName]);
@@ -152,6 +157,7 @@ class CardStackController extends Controller
                     'card_image_1' => $defaultCard->card_image_1,
                     'artist' => $defaultCard->artist?->name,
                     'cn' => $defaultCard->collector_number,
+                    'finishes' => Finish::labelsFromMask($defaultCard->finishes),
                     'set' => [
                         'name' => $defaultCard->set->name,
                         'code' => $defaultCard->set->code,

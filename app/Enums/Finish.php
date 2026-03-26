@@ -69,6 +69,24 @@ enum Finish: int
     }
 
     /**
+     * Decode a bitmask into an array of lowercase label strings.
+     *
+     * @return array<string>
+     */
+    public static function labelsFromMask(int $mask): array
+    {
+        $labels = [];
+
+        foreach (self::cases() as $case) {
+            if ($case->isPresentIn($mask)) {
+                $labels[] = $case->label();
+            }
+        }
+
+        return $labels;
+    }
+
+    /**
      * Map a Scryfall finish string to the corresponding enum integer value.
      */
     private static function scryfallNameToValue(string $name): int

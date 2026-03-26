@@ -55,5 +55,11 @@ $form: (
         "radius": map.get(s.$radius, "featured"),
         "padding": 0.5625rem 1ch,
         "img-radius": map.get(s.$radius, "base")
+    ),
+    "finish": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.425rem 1ch,
+        "img-radius": map.get(s.$radius, "base")
     )
 ) !default;

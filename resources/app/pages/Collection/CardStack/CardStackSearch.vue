@@ -12,6 +12,12 @@ const props = defineProps<{
     /** When true, the card cannot be changed (edit mode). */
     locked?: boolean;
 }>();
+const emit = defineEmits<{
+    /** Emitted when the user selects a card from the search results. */
+    selected: [card: DefaultCardImage];
+    /** Emitted when the user clears the current selection. */
+    cleared: [];
+}>();
 const initialCard: DefaultCardImage | null = props.card ?? null;
 </script>
 
@@ -28,6 +34,8 @@ const initialCard: DefaultCardImage | null = props.card ?? null;
         :required="true"
         :error="error"
         :invalid="invalid"
+        @selected="emit('selected', $event)"
+        @cleared="emit('cleared')"
     >
         <template #result="{ card }">
             <card-face-image :card="card as DefaultCardImage" interactive />

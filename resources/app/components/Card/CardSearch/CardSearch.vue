@@ -36,9 +36,20 @@ const props = withDefaults(
         locked: false
     }
 );
-const { searchQuery, results, processing, selectedCard, refValue, onCardSelected, onClearSelection } = useCardSearch<T>(
+const emit = defineEmits<{
+    /** Emitted when the user selects a card from the search results. */
+    selected: [card: T];
+    /** Emitted when the user clears the current selection. */
+    cleared: [];
+}>();
+const { searchQuery, results, processing, selectedCard, refValue, onCardSelected: selectCard, onClearSelection } = useCardSearch<T>(
     props.endpoint
 );
+/** Wraps composable selection to also emit the event to the parent. */
+function onCardSelected(card: T) {
+    selectCard(card);
+    emit("selected", card);
+}
 if (props.initialCard) {
     selectedCard.value = props.initialCard;
     refValue.value = props.initialCard.id;
@@ -46,6 +57,7 @@ if (props.initialCard) {
 const searchInput = useTemplateRef<HTMLInputElement>("searchInput");
 function onClearAndFocus() {
     onClearSelection();
+    emit("cleared");
     nextTick(() => searchInput.value?.focus());
 }
 </script>
