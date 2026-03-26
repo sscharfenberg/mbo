@@ -19,14 +19,10 @@
             "played": "Bespielt",
             "poor": "Schlecht"
         },
-        "foil_types": {
+        "finishes": {
+            "nonfoil": "Normal",
             "foil": "Foil",
-            "etched": "Geätzt",
-            "surge": "Surge",
-            "galaxy": "Galaxie",
-            "gilded": "Vergoldet",
-            "textured": "Texturiert",
-            "serialized": "Serialisiert"
+            "etched": "Geätzt"
         },
         "card_languages": {
             "en": "Englisch",
@@ -268,7 +264,7 @@
                 "collector_number": "Nr.",
                 "amount": "Anzahl",
                 "condition": "Zustand",
-                "foil_type": "Foil",
+                "finish": "Finish",
                 "language": "Sprache"
             },
             "cards_count": "{count} Karte | {count} Karten",
@@ -345,7 +341,7 @@
             "card": "Karte",
             "condition": "Zustand",
             "amount": "Anzahl",
-            "foil_type": "Foil",
+            "finish": "Finish",
             "language": "Sprache"
         }
     },

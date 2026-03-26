@@ -27,8 +27,8 @@ const description = computed(() => {
     if (props.cardStack.condition) {
         parts.push(t("enums.conditions." + props.cardStack.condition));
     }
-    if (props.cardStack.foil_type) {
-        parts.push(t("enums.foil_types." + props.cardStack.foil_type));
+    if (props.cardStack.finish) {
+        parts.push(t("enums.finishes." + props.cardStack.finish));
     }
     return parts.join(" ");
 });

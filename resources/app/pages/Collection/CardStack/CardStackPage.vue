@@ -23,7 +23,7 @@ type CardStackEdit = {
     amount: number;
     language: string;
     condition: string;
-    foil_type: string;
+    finish: string;
     container_id: string | null;
     default_card: DefaultCardImage;
 };
@@ -35,8 +35,8 @@ const props = defineProps<{
     containers: ContainerListItem[];
     /** CardCondition enum values. */
     conditions: string[];
-    /** FoilType enum values. */
-    foilTypes: string[];
+    /** Finish enum labels. */
+    finishes: string[];
     /** CardLanguage enum values. */
     languages: string[];
     /** Present when editing an existing card stack; absent for "add" mode. */
@@ -68,7 +68,7 @@ const {
     amount,
     language: selectedLanguage,
     condition: selectedCondition,
-    foilType: selectedFoilType,
+    finish: selectedFinish,
     resetKey: searchKey,
     saveDefaults,
     clearDefaults,
@@ -80,7 +80,7 @@ if (isEditMode) {
     amount.value = props.cardStack!.amount;
     selectedLanguage.value = props.cardStack!.language;
     selectedCondition.value = props.cardStack!.condition;
-    selectedFoilType.value = props.cardStack!.foil_type;
+    selectedFinish.value = props.cardStack!.finish;
 }
 
 /** Container options formatted for MonoSelect: `{ value, label }` pairs. */
@@ -99,18 +99,18 @@ const conditionOptions = computed(() =>
         label: t("enums.conditions." + condition)
     }))
 );
-/** FoilType options formatted for MonoSelect with translated labels. */
-const foilOptions = computed(() =>
-    props.foilTypes.map(type => ({
-        value: type,
-        label: t("enums.foil_types." + type)
+/** Finish options formatted for MonoSelect with translated labels. */
+const finishOptions = computed(() =>
+    props.finishes.map(finish => ({
+        value: finish,
+        label: t("enums.finishes." + finish)
     }))
 );
 /** Maps form field names to their corresponding refs for generic select handling. */
 const selectRefs: Record<string, Ref<string>> = {
     container_id: selectedContainer,
     condition: selectedCondition,
-    foil_type: selectedFoilType
+    finish: selectedFinish
 };
 /**
  * Generic change handler for MonoSelect fields. Updates the ref and
@@ -152,7 +152,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             :amount="amount"
             :language="selectedLanguage"
             :condition="selectedCondition"
-            :foil-type="selectedFoilType"
+            :finish="selectedFinish"
             :saved-defaults="savedDefaults"
             :has-saved-defaults="hasSavedDefaults"
             @save="saveDefaults"
@@ -229,20 +229,22 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
             <input type="hidden" name="condition" :value="selectedCondition" />
         </form-group>
         <form-group
-            :label="$t('form.fields.foil_type')"
-            :error="errors.foil_type ?? ''"
-            :invalid="!!errors?.foil_type"
-            :validated="valid('foil_type')"
+            :label="$t('form.fields.finish')"
+            :error="errors.finish ?? ''"
+            :invalid="!!errors?.finish"
+            :validated="valid('finish')"
             :validating="validating"
+            :required="true"
         >
             <mono-select
-                :options="foilOptions"
-                :selected="selectedFoilType"
-                @change="onSelectChange('foil_type', $event, validate)"
+                :options="finishOptions"
+                :selected="selectedFinish"
+                @change="onSelectChange('finish', $event, validate)"
                 :sort="false"
+                :clearable="false"
                 addon-icon="star"
             />
-            <input type="hidden" name="foil_type" :value="selectedFoilType" />
+            <input type="hidden" name="finish" :value="selectedFinish" />
         </form-group>
         <form-group class="button-group">
             <button-group>

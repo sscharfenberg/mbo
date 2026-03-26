@@ -2,6 +2,7 @@
 
 namespace App\Services\Scryfall;
 
+use App\Enums\Finish;
 use App\Models\DefaultCard;
 use App\Services\FormatService;
 use Cerbero\JsonParser\JsonParser;
@@ -23,33 +24,33 @@ use Illuminate\Support\Facades\Storage;
  */
 class DefaultCardsService
 {
-
     private ScryfallImageService $imageService;
+
     private ArtistsService $artistsService;
+
     private FormatService $formatService;
+
     private BulkdataService $bulkdataService;
 
     public function __construct()
     {
-        $this->imageService = new ScryfallImageService();
-        $this->artistsService = new ArtistsService();
-        $this->formatService = new FormatService();
-        $this->bulkdataService = new BulkdataService();
+        $this->imageService = new ScryfallImageService;
+        $this->artistsService = new ArtistsService;
+        $this->formatService = new FormatService;
+        $this->bulkdataService = new BulkdataService;
     }
 
     /**
      * Truncate the default_cards and artists tables before a fresh import.
      *
      * Temporarily disables foreign key checks to allow truncation.
-     *
-     * @return void
      */
     private function preRunCleanup(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DefaultCard::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        Log::channel('scryfall')->notice("truncated default_cards table.");
+        Log::channel('scryfall')->notice('truncated default_cards table.');
         $this->artistsService->truncate();
     }
 
@@ -62,7 +63,6 @@ class DefaultCardsService
      * happens later via ResolveImagePathsService.
      *
      * @param  array  $card  A single card object from the default_cards bulk JSON.
-     * @return void
      */
     private function insertCard(array $card): void
     {
@@ -76,7 +76,7 @@ class DefaultCardsService
             'card_image_0' => $cardImages['card_image_0'],
             'card_image_1' => $cardImages['card_image_1'],
             'art_crop' => $this->imageService->getArtCrop($card),
-            'finishes' => $card['finishes'],
+            'finishes' => Finish::fromScryfallArray($card['finishes']),
             'games' => $card['games'],
             'prices' => $card['prices'],
             'digital' => $card['digital'],
@@ -85,13 +85,17 @@ class DefaultCardsService
             'artist_id' => $this->artistsService->resolveArtistId($card['artist'] ?? null),
         ];
         // nullable values
-        if (array_key_exists('oracle_id', $card)) { $arr['oracle_id'] = $card['oracle_id']; }
-        if (array_key_exists('layout', $card)) { $arr['layout'] = $card['layout']; }
+        if (array_key_exists('oracle_id', $card)) {
+            $arr['oracle_id'] = $card['oracle_id'];
+        }
+        if (array_key_exists('layout', $card)) {
+            $arr['layout'] = $card['layout'];
+        }
         // insert into db
         try {
             DefaultCard::create($arr);
         } catch (\Exception $e) {
-            Log::channel('scryfall')->error("error inserting DefaultCard [".strtoupper($card['set'])."] ".$card['name'].": ".$e->getMessage());
+            Log::channel('scryfall')->error('error inserting DefaultCard ['.strtoupper($card['set']).'] '.$card['name'].': '.$e->getMessage());
             Log::channel('scryfall')->error($e->getTraceAsString());
         }
     }
@@ -103,7 +107,6 @@ class DefaultCardsService
      * which is critical for the large Scryfall bulk exports.
      *
      * @param  string  $fileName  The filename on the "scryfall-bulk" disk.
-     * @return void
      */
     private function traverseJson($fileName): void
     {
@@ -115,8 +118,8 @@ class DefaultCardsService
             $count++;
         });
         $ms = $start->diffInMilliseconds(now());
-        $numCards = number_format($count, 0, ",", ".");
-        Log::channel('scryfall')->notice("finished inserting $numCards cards into database in ".$this->formatService->formatMs($ms).".");
+        $numCards = number_format($count, 0, ',', '.');
+        Log::channel('scryfall')->notice("finished inserting $numCards cards into database in ".$this->formatService->formatMs($ms).'.');
     }
 
     /**
@@ -125,19 +128,17 @@ class DefaultCardsService
      * Downloads the "default_cards" bulk JSON (if not already cached),
      * truncates the existing data, streams through every card to insert
      * it, and cleans up the downloaded file afterwards.
-     *
-     * @return void
      */
     public function updateAllCards(): void
     {
-        $type = "default_cards";
-        if (!$this->bulkdataService->prepareJson($type)) {
+        $type = 'default_cards';
+        if (! $this->bulkdataService->prepareJson($type)) {
             Log::channel('scryfall')->error("error preparing '$type.json', aborting.");
+
             return; // error downloading file, abort
         }
         $this->preRunCleanup();
-        $this->traverseJson($type.".json");
-        $this->bulkdataService->postRunCleanup($type.".json");
+        $this->traverseJson($type.'.json');
+        $this->bulkdataService->postRunCleanup($type.'.json');
     }
-
 }

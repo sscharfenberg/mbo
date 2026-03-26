@@ -12,8 +12,8 @@ defineProps<{
     language: string;
     /** Current form value: selected condition. */
     condition: string;
-    /** Current form value: selected foil type. */
-    foilType: string;
+    /** Current form value: selected finish. */
+    finish: string;
     /** The raw saved defaults object from localStorage. */
     savedDefaults: AddCardsDefaults;
     /** Whether any user defaults are currently saved. */
@@ -56,8 +56,8 @@ function displayValue(value: string | number | undefined, translationPrefix?: st
                         <span>{{ displayValue(savedDefaults.condition, "enums.conditions.") }}</span>
                     </li>
                     <li>
-                        {{ $t("form.fields.foil_type") }}
-                        <span>{{ displayValue(savedDefaults.foilType, "enums.foil_types.") }}</span>
+                        {{ $t("form.fields.finish") }}
+                        <span>{{ displayValue(savedDefaults.finish, "enums.finishes.") }}</span>
                     </li>
                 </ul>
                 <ul>
@@ -74,8 +74,8 @@ function displayValue(value: string | number | undefined, translationPrefix?: st
                         <span>{{ displayValue(condition, "enums.conditions.") }}</span>
                     </li>
                     <li>
-                        {{ $t("form.fields.foil_type") }}
-                        <span>{{ displayValue(foilType, "enums.foil_types.") }}</span>
+                        {{ $t("form.fields.finish") }}
+                        <span>{{ displayValue(finish, "enums.finishes.") }}</span>
                     </li>
                 </ul>
             </div>

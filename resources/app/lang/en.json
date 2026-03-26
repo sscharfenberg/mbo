@@ -19,14 +19,10 @@
             "played": "Played",
             "poor": "Poor"
         },
-        "foil_types": {
+        "finishes": {
+            "nonfoil": "Nonfoil",
             "foil": "Foil",
-            "etched": "Etched",
-            "surge": "Surge",
-            "galaxy": "Galaxy",
-            "gilded": "Gilded",
-            "textured": "Textured",
-            "serialized": "Serialized"
+            "etched": "Etched"
         },
         "card_languages": {
             "en": "English",
@@ -268,7 +264,7 @@
                 "collector_number": "No.",
                 "amount": "Qty",
                 "condition": "Condition",
-                "foil_type": "Foil",
+                "finish": "Finish",
                 "language": "Language"
             },
             "cards_count": "{count} card | {count} cards",
@@ -345,7 +341,7 @@
             "card": "Card",
             "condition": "Condition",
             "amount": "Amount",
-            "foil_type": "Foil",
+            "finish": "Finish",
             "language": "Language"
         }
     },

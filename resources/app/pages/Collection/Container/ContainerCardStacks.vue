@@ -60,8 +60,8 @@ const columns = computed<ColumnDef<CardStackRow>[]>(() => [
         visibleInCard: true
     },
     {
-        key: "foil_type",
-        label: t("pages.container_page.columns.foil_type"),
+        key: "finish",
+        label: t("pages.container_page.columns.finish"),
         sortable: true
     }
 ]);
@@ -132,8 +132,8 @@ const openDeleteSelectedModal = (selectedIds: string[]) => {
         <template #cell-condition="{ row }">
             <template v-if="row.condition">{{ $t("enums.conditions." + row.condition) }}</template>
         </template>
-        <template #cell-foil_type="{ row }">
-            <template v-if="row.foil_type">{{ $t("enums.foil_types." + row.foil_type) }}</template>
+        <template #cell-finish="{ row }">
+            <template v-if="row.finish">{{ $t("enums.finishes." + row.finish) }}</template>
         </template>
         <template #cell-language="{ row }">
             <img

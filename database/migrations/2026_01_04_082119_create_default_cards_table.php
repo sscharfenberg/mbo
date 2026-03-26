@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('card_image_0')->nullable();
             $table->string('card_image_1')->nullable();
             $table->string('art_crop')->nullable();
-            $table->json('finishes');
+            $table->unsignedTinyInteger('finishes');
             $table->json('games');
             $table->json('prices');
             $table->boolean('digital')->default(false);

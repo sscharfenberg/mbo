@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DefaultCard extends Model
 {
-
     use HasUuids;
 
     /**
@@ -71,7 +70,7 @@ class DefaultCard extends Model
         'rarity',
         'artist_id',
         'set_id',
-        'oracle_id'
+        'oracle_id',
     ];
 
     /**
@@ -80,14 +79,14 @@ class DefaultCard extends Model
      * @var array
      */
     protected $casts = [
-        'layout'     => ScryfallCardLayout::class,
-        'lang'       => ScryfallLang::class,
-        'rarity'     => ScryfallRarity::class,
-        'art_crop'   => 'string',
-        'finishes'   => AsCollection::class,
-        'games'      => AsCollection::class,
-        'prices'     => AsCollection::class,
-        'digital'    => 'boolean',
+        'layout' => ScryfallCardLayout::class,
+        'lang' => ScryfallLang::class,
+        'rarity' => ScryfallRarity::class,
+        'art_crop' => 'string',
+        'finishes' => 'integer',
+        'games' => AsCollection::class,
+        'prices' => AsCollection::class,
+        'digital' => 'boolean',
     ];
 
     /**
@@ -119,5 +118,4 @@ class DefaultCard extends Model
     {
         return $this->belongsTo(Artist::class, 'artist_id', 'id');
     }
-
 }

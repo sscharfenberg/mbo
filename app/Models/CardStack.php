@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\CardCondition;
 use App\Enums\CardLanguage;
-use App\Enums\FoilType;
+use App\Enums\Finish;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,7 +42,7 @@ class CardStack extends Model
         'container_id',
         'amount',
         'condition',
-        'foil_type',
+        'finish',
         'language',
     ];
 
@@ -53,9 +53,9 @@ class CardStack extends Model
      */
     protected $casts = [
         'condition' => CardCondition::class,
-        'foil_type' => FoilType::class,
-        'language'  => CardLanguage::class,
-        'amount'    => 'integer',
+        'finish' => Finish::class,
+        'language' => CardLanguage::class,
+        'amount' => 'integer',
     ];
 
     /**

@@ -7,7 +7,7 @@ export type AddCardsDefaults = {
     amount?: number;
     language?: string;
     condition?: string;
-    foilType?: string;
+    finish?: string;
 };
 
 /** App-wide fallback values used when no user defaults are saved. */
@@ -15,7 +15,7 @@ const APP_DEFAULTS: Required<AddCardsDefaults> = {
     amount: 1,
     language: "en",
     condition: "",
-    foilType: ""
+    finish: "nonfoil"
 };
 
 /** Reactive state holding the currently saved defaults. Shared across all consumers. */
@@ -67,7 +67,7 @@ export function useAddCardsDefaults() {
     const amount = ref(defaults.value.amount);
     const language = ref(defaults.value.language);
     const condition = ref(defaults.value.condition);
-    const foilType = ref(defaults.value.foilType);
+    const finish = ref(defaults.value.finish);
 
     /** Incremented on reset to force keyed child components to remount. */
     const resetKey = ref(0);
@@ -78,7 +78,7 @@ export function useAddCardsDefaults() {
             amount: amount.value,
             language: language.value,
             condition: condition.value,
-            foilType: foilType.value
+            finish: finish.value
         });
     }
 
@@ -93,7 +93,7 @@ export function useAddCardsDefaults() {
         amount.value = defaults.value.amount;
         language.value = defaults.value.language;
         condition.value = defaults.value.condition;
-        foilType.value = defaults.value.foilType;
+        finish.value = defaults.value.finish;
         resetKey.value++;
     }
 
@@ -104,7 +104,7 @@ export function useAddCardsDefaults() {
         amount,
         language,
         condition,
-        foilType,
+        finish,
         resetKey,
         saveDefaults,
         clearDefaults,

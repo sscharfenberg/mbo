@@ -199,7 +199,7 @@ class ContainerController extends Controller
         $table = DataTableService::buildResponse(
             query: $query,
             request: $request,
-            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'foil_type'],
+            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish'],
             sortColumnMap: [
                 'name' => 'default_cards.name',
                 'set_name' => 'sets.name',
@@ -238,7 +238,7 @@ class ContainerController extends Controller
                     'collector_number' => $stack->collector_number,
                     'amount' => $stack->amount,
                     'condition' => $stack->condition?->value,
-                    'foil_type' => $stack->foil_type?->value,
+                    'finish' => $stack->finish?->label(),
                     'language' => $stack->language?->value ?? 'en',
                     'art_crop' => $stack->art_crop,
                 ];

@@ -8,7 +8,7 @@ export interface CardStackRow {
     collector_number: string;
     amount: number;
     condition: string | null;
-    foil_type: string | null;
+    finish: string | null;
     language: string;
     art_crop: string | null;
 }

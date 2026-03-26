@@ -26,7 +26,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->unsignedSmallInteger('amount')->default(1);
             $table->string('condition', 16)->nullable();
-            $table->string('foil_type', 16)->nullable();
+            $table->unsignedTinyInteger('finish')->default(1);
             $table->string('language', 3)->default(CardLanguage::En->value);
             $table->timestamps();
             $table->index(['user_id', 'container_id']);

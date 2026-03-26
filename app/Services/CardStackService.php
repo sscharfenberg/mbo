@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Finish;
 use App\Models\CardStack;
 use App\Models\Container;
 use App\Models\User;
@@ -32,9 +33,9 @@ class CardStackService
      * one already exists with the same identifying attributes.
      *
      * A stack is uniquely identified by user_id + default_card_id + language +
-     * condition + foil_type + container_id (including null matches).
+     * condition + finish + container_id (including null matches).
      *
-     * @param  array{default_card_id: string, amount: int, language: string, container_id?: string|null, condition?: string|null, foil_type?: string|null}  $data
+     * @param  array{default_card_id: string, amount: int, language: string, container_id?: string|null, condition?: string|null, finish: string}  $data  finish is a Finish label string.
      * @return array{stack: CardStack, merged: bool}
      */
     public static function addToCollection(User $user, array $data): array
@@ -44,7 +45,7 @@ class CardStackService
             'default_card_id' => $data['default_card_id'],
             'language' => $data['language'],
             'condition' => $data['condition'] ?: null,
-            'foil_type' => $data['foil_type'] ?: null,
+            'finish' => Finish::fromLabel($data['finish']),
             'container_id' => $data['container_id'] ?: null,
         ];
 
@@ -70,7 +71,7 @@ class CardStackService
      *
      * Aborts with 403 if the stack does not belong to the user.
      *
-     * @param  array{amount: int, language: string, condition?: string|null, foil_type?: string|null, container_id?: string|null}  $data
+     * @param  array{amount: int, language: string, condition?: string|null, finish: string, container_id?: string|null}  $data
      */
     public static function updateStack(User $user, CardStack $cardStack, array $data): void
     {
@@ -80,7 +81,7 @@ class CardStackService
             'amount' => $data['amount'],
             'language' => $data['language'],
             'condition' => $data['condition'] ?: null,
-            'foil_type' => $data['foil_type'] ?: null,
+            'finish' => Finish::fromLabel($data['finish']),
             'container_id' => $data['container_id'] ?: null,
         ]);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Collection;
 
 use App\Enums\CardCondition;
 use App\Enums\CardLanguage;
-use App\Enums\FoilType;
+use App\Enums\Finish;
 use App\Http\Controllers\Controller;
 use App\Models\CardStack;
 use App\Models\Container;
@@ -47,7 +47,7 @@ class CardStackController extends Controller
             'container' => $container ? ContainerService::serializeContainer($container) : null,
             'containers' => $containers,
             'conditions' => array_column(CardCondition::cases(), 'value'),
-            'foilTypes' => array_column(FoilType::cases(), 'value'),
+            'finishes' => Finish::labels(),
             'languages' => array_column(CardLanguage::cases(), 'value'),
         ]);
     }
@@ -68,14 +68,14 @@ class CardStackController extends Controller
                 'language' => ['required', Rule::enum(CardLanguage::class)],
                 'container_id' => ['nullable', Rule::exists(Container::class, 'id')],
                 'condition' => ['nullable', Rule::enum(CardCondition::class)],
-                'foil_type' => ['nullable', Rule::enum(FoilType::class)],
+                'finish' => ['required', Rule::in(Finish::labels())],
             ]);
         });
 
         CardStackService::resolveOwnedContainer($request->user(), $request->container_id);
 
         $result = CardStackService::addToCollection($request->user(), $request->only([
-            'default_card_id', 'amount', 'language', 'container_id', 'condition', 'foil_type',
+            'default_card_id', 'amount', 'language', 'container_id', 'condition', 'finish',
         ]));
 
         $cardName = DefaultCard::find($request->default_card_id)->name;
@@ -112,7 +112,7 @@ class CardStackController extends Controller
      *
      * Re-uses the CardStackPage component with the existing card stack data
      * pre-populated. The card is locked (not changeable) — only amount,
-     * language, condition, foil_type and container can be edited.
+     * language, condition, finish and container can be edited.
      */
     public function edit(Request $request, CardStack $cardStack): Response
     {
@@ -136,14 +136,14 @@ class CardStackController extends Controller
                 : null,
             'containers' => $containers,
             'conditions' => array_column(CardCondition::cases(), 'value'),
-            'foilTypes' => array_column(FoilType::cases(), 'value'),
+            'finishes' => Finish::labels(),
             'languages' => array_column(CardLanguage::cases(), 'value'),
             'cardStack' => [
                 'id' => $cardStack->id,
                 'amount' => $cardStack->amount,
                 'language' => $cardStack->language->value,
                 'condition' => $cardStack->condition?->value ?? '',
-                'foil_type' => $cardStack->foil_type?->value ?? '',
+                'finish' => $cardStack->finish?->label() ?? '',
                 'container_id' => $cardStack->container_id,
                 'default_card' => [
                     'id' => $defaultCard->id,
@@ -165,7 +165,7 @@ class CardStackController extends Controller
      * Validate and update an existing card stack.
      *
      * The default_card_id cannot be changed — only amount, language,
-     * condition, foil_type and container_id are editable.
+     * condition, finish and container_id are editable.
      */
     public function update(Request $request, CardStack $cardStack): RedirectResponse
     {
@@ -175,13 +175,13 @@ class CardStackController extends Controller
                 'language' => ['required', Rule::enum(CardLanguage::class)],
                 'container_id' => ['nullable', Rule::exists(Container::class, 'id')],
                 'condition' => ['nullable', Rule::enum(CardCondition::class)],
-                'foil_type' => ['nullable', Rule::enum(FoilType::class)],
+                'finish' => ['required', Rule::in(Finish::labels())],
             ]);
         });
 
         CardStackService::resolveOwnedContainer($request->user(), $request->container_id);
         CardStackService::updateStack($request->user(), $cardStack, $request->only([
-            'amount', 'language', 'condition', 'foil_type', 'container_id',
+            'amount', 'language', 'condition', 'finish', 'container_id',
         ]));
 
         $cardName = $cardStack->defaultCard->name;
