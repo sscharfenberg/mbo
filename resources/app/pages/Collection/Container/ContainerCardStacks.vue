@@ -166,7 +166,7 @@ const openDeleteSelectedModal = (selectedIds: string[]) => {
             </li>
         </template>
         <template #empty>
-            <paragraph>{{ $t("pages.container_page.empty") }}</paragraph>
+            <paragraph>{{ $t("components.datatable.no_results") }}</paragraph>
         </template>
     </data-table>
     <delete-card-stack-modal

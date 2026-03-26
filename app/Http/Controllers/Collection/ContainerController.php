@@ -6,6 +6,7 @@ use App\Enums\BinderType;
 use App\Http\Controllers\Controller;
 use App\Models\Container;
 use App\Models\DefaultCard;
+use App\Services\CardSearchParser;
 use App\Services\ContainerService;
 use App\Services\DataTableService;
 use Illuminate\Http\JsonResponse;
@@ -206,11 +207,26 @@ class ContainerController extends Controller
             ],
             defaultSort: 'name',
             searchCallback: function ($q, $search) {
-                $q->where(function ($q) use ($search) {
-                    $q->where('default_cards.name', 'like', "%{$search}%")
-                        ->orWhere('sets.name', 'like', "%{$search}%")
-                        ->orWhere('sets.code', 'like', "%{$search}%");
-                });
+                $parsed = CardSearchParser::parse($search);
+
+                if (! $parsed) {
+                    return;
+                }
+
+                if ($parsed['set_code']) {
+                    $q->where('sets.code', $parsed['set_code']);
+                }
+
+                if ($parsed['collector_number']) {
+                    $q->where('default_cards.collector_number', $parsed['collector_number']);
+                }
+
+                foreach ($parsed['name_segments'] as $segment) {
+                    $q->where(function ($q) use ($segment) {
+                        $q->where('default_cards.name', 'like', "%{$segment}%")
+                            ->orWhere('sets.name', 'like', "%{$segment}%");
+                    });
+                }
             },
             rowMapper: function ($stack) {
                 return [

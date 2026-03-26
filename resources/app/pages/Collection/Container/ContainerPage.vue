@@ -53,7 +53,7 @@ setBreadcrumbs([
         <li><icon name="deck" />{{ $t("pages.container_page.cards_count", { count: container.totalCards }) }}</li>
     </ul>
     <container-card-stacks
-        v-if="table.total > 0"
+        v-if="container.totalCards > 0"
         :table="table"
         :base-url="`/collection/containers/${container.id}`"
         :container-name="container.name"

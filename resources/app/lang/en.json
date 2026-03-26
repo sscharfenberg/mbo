@@ -408,6 +408,7 @@
             "sorted_desc": "Sorted by {column}, descending",
             "page_status": "Page {page} of {total}, {size} results",
             "loading": "Loading…",
+            "no_results": "No results found.",
             "mass_actions": {
                 "move": "Move",
                 "delete": "Delete"
