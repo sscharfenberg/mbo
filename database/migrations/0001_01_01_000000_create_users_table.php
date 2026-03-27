@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name', User::NAME_MAX)->unique();
             $table->string('email')->unique();
             $table->string('locale', 8)->default(config('app.locale'));
+            $table->string('currency', 3)->default('eur');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('two_factor_secret')->nullable();

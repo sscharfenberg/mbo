@@ -3,6 +3,7 @@
 use App\Http\Controllers\Collection\CardStackController;
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Collection\ContainerController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Decks\DecksController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LocaleController;
@@ -31,6 +32,8 @@ Route::get('/imprint', [GuestController::class, 'imprint'])
 Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerification()) ? 'verified' : null]))->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
+    Route::post('/currency/{currency}', [CurrencyController::class, 'update'])
+        ->name('currency');
 
     // collection
     Route::get('/collection', [CollectionController::class, 'list'])

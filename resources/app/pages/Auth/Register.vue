@@ -120,7 +120,7 @@ const showPasswordConfirmation = ref(false);
             addon-icon="key"
         >
             <input
-                :type="showPassword ? 'text' : 'password'"
+                :type="showPasswordConfirmation ? 'text' : 'password'"
                 name="password_confirmation"
                 id="password_confirmation"
                 @change="validate('password_confirmation')"

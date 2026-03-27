@@ -3,6 +3,7 @@ import { Link, router, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
+import CurrencySwitch from "./CurrencySwitch/CurrencySwitch.vue";
 import ThemeSwitch from "./ThemeSwitch/ThemeSwitch.vue";
 const page = usePage();
 /** The authenticated user object, or `null`/`undefined` when logged out — controls which menu items are visible. */
@@ -66,6 +67,7 @@ const buttonClassList = computed(() => {
                 </Link>
             </li>
             <li><theme-switch /></li>
+            <li v-if="user"><currency-switch @close="closePopover" /></li>
         </ul>
     </pop-over>
 </template>

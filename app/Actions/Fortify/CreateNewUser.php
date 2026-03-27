@@ -12,7 +12,6 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
 {
-
     use PasswordValidationRules;
 
     public function __construct(
@@ -33,14 +32,14 @@ class CreateNewUser implements CreatesNewUsers
                     'string',
                     'max:'.User::NAME_MAX,
                     'min:'.User::NAME_MIN,
-                    'unique:users'
+                    'unique:users',
                 ],
                 'email' => [
                     'required',
                     'string',
                     'email:rfc,dns',
                     'max:255',
-                    'unique:users'
+                    'unique:users',
                 ],
                 'password' => $this->passwordRules(),
                 'password_confirmation' => ['same:password'],
@@ -48,11 +47,14 @@ class CreateNewUser implements CreatesNewUsers
             ]);
         });
 
+        $locale = Locale::from($input['locale']);
+
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'locale' => $input['locale'],
+            'locale' => $locale,
+            'currency' => User::currencyFromLocale($locale),
         ]);
     }
 }

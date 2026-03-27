@@ -25,7 +25,12 @@ return new class extends Migration
             $table->string('art_crop')->nullable();
             $table->unsignedTinyInteger('finishes')->default(1); // = "nonfoil"
             $table->unsignedTinyInteger('games');
-            $table->json('prices');
+            $table->decimal('price_usd', 8, 2)->nullable();
+            $table->decimal('price_usd_foil', 8, 2)->nullable();
+            $table->decimal('price_usd_etched', 8, 2)->nullable();
+            $table->decimal('price_eur', 8, 2)->nullable();
+            $table->decimal('price_eur_foil', 8, 2)->nullable();
+            $table->decimal('price_eur_etched', 8, 2)->nullable();
             $table->boolean('digital')->default(false);
             $table->string('rarity', 32);
             $table->foreignUuid('artist_id')

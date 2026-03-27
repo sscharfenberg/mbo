@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
@@ -21,9 +21,10 @@ class UserSeeder extends Seeder
             'email' => '5430451+sscharfenberg@users.noreply.github.com',
             'email_verified_at' => Carbon::now(),
             'locale' => 'de',
+            'currency' => 'eur',
             'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'updated_at' => Carbon::now(),
         ]);
     }
 }

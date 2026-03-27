@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Currency;
 use App\Enums\Locale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -44,10 +45,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => fn () => $request->user()
                     ? $request->user()->only('id', 'name', 'email')
-                    : null
+                    : null,
             ],
             'locale' => app()->getLocale(),
             'supportedLocales' => array_column(Locale::cases(), 'value'),
+            'currency' => fn () => $request->user()?->currency?->value ?? Currency::Eur->value,
+            'supportedCurrencies' => array_column(Currency::cases(), 'value'),
             'features' => [
                 'registration' => Features::enabled(Features::registration()),
                 'resetPasswords' => Features::enabled(Features::resetPasswords()),

@@ -55,6 +55,10 @@
             "light": "Hell",
             "dark": "Dunkel",
             "system": "System"
+        },
+        "currency": {
+            "eur": "EUR (€)",
+            "usd": "USD ($)"
         }
     },
     "footer": {

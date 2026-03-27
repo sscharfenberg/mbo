@@ -55,6 +55,10 @@
             "light": "Light",
             "dark": "Dark",
             "system": "System"
+        },
+        "currency": {
+            "eur": "EUR (€)",
+            "usd": "USD ($)"
         }
     },
     "footer": {

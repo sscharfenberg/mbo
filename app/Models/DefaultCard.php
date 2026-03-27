@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\Scryfall\ScryfallCardLayout;
 use App\Enums\Scryfall\ScryfallLang;
 use App\Enums\Scryfall\ScryfallRarity;
-use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -65,7 +64,12 @@ class DefaultCard extends Model
         'art_crop',
         'finishes',
         'games',
-        'prices',
+        'price_usd',
+        'price_usd_foil',
+        'price_usd_etched',
+        'price_eur',
+        'price_eur_foil',
+        'price_eur_etched',
         'digital',
         'rarity',
         'artist_id',
@@ -85,7 +89,12 @@ class DefaultCard extends Model
         'art_crop' => 'string',
         'finishes' => 'integer',
         'games' => 'integer',
-        'prices' => AsCollection::class,
+        'price_usd' => 'decimal:2',
+        'price_usd_foil' => 'decimal:2',
+        'price_usd_etched' => 'decimal:2',
+        'price_eur' => 'decimal:2',
+        'price_eur_foil' => 'decimal:2',
+        'price_eur_etched' => 'decimal:2',
         'digital' => 'boolean',
     ];
 
