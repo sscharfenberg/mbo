@@ -20,9 +20,6 @@ class LogoutResponse implements LogoutResponseContract
             return new JsonResponse('', 204);
         }
 
-        $request->session()->flash('message', __('auth.logged_out'));
-        $request->session()->flash('type', 'success');
-
         return redirect(Fortify::redirects('logout', '/'));
     }
 }

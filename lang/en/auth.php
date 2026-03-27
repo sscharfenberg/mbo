@@ -24,8 +24,6 @@ return [
     'profile_updated_email' => 'Profile updated successfully. Please check your email for a verification link.',
     'two_factor_code_invalid' => 'The provided two factor authentication code was invalid.',
     'two_factor_recovery_code_invalid' => 'The provided two factor recovery code was invalid.',
-    'logged_in' => 'You successfully logged in.',
-    'logged_out' => 'You have logged out.',
     'two_factor_activated' => 'Two-factor authentication has been activated.',
     'two_factor_deactivated' => 'Two-factor authentication has been deactivated.',
     'account_deleted' => 'Your account has been deleted - you\'re welcome back any time.',

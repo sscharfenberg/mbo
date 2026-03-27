@@ -36,9 +36,6 @@ class LoginResponse implements LoginResponseContract
             app()->setLocale($user->locale->value);
         }
 
-        $request->session()->flash('message', __('auth.logged_in'));
-        $request->session()->flash('type', 'success');
-
         if ($request->wantsJson()) {
             return response()->json(['two_factor' => false]);
         }
