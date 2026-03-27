@@ -3,6 +3,7 @@
 namespace App\Services\Scryfall;
 
 use App\Enums\Finish;
+use App\Enums\Game;
 use App\Models\DefaultCard;
 use App\Services\FormatService;
 use Cerbero\JsonParser\JsonParser;
@@ -77,7 +78,7 @@ class DefaultCardsService
             'card_image_1' => $cardImages['card_image_1'],
             'art_crop' => $this->imageService->getArtCrop($card),
             'finishes' => Finish::fromScryfallArray($card['finishes']),
-            'games' => $card['games'],
+            'games' => Game::fromScryfallArray($card['games']),
             'prices' => $card['prices'],
             'digital' => $card['digital'],
             'rarity' => $card['rarity'],

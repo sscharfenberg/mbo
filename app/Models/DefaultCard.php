@@ -84,7 +84,7 @@ class DefaultCard extends Model
         'rarity' => ScryfallRarity::class,
         'art_crop' => 'string',
         'finishes' => 'integer',
-        'games' => AsCollection::class,
+        'games' => 'integer',
         'prices' => AsCollection::class,
         'digital' => 'boolean',
     ];
