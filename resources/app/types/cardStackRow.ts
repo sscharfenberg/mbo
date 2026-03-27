@@ -11,4 +11,8 @@ export interface CardStackRow {
     finish: string | null;
     language: string;
     art_crop: string | null;
+    /** Unit price of one card in the user's selected currency. */
+    price: number;
+    /** Total price of the stack (unit price × amount). */
+    total_price: number;
 }

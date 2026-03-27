@@ -270,7 +270,9 @@
                 "amount": "Qty",
                 "condition": "Condition",
                 "finish": "Finish",
-                "language": "Language"
+                "language": "Language",
+                "price": "Price",
+                "total_price": "Total"
             },
             "cards_count": "{count} card | {count} cards",
             "empty": "This container has no cards yet.",

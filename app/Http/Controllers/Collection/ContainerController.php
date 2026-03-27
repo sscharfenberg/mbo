@@ -183,10 +183,14 @@ class ContainerController extends Controller
     {
         abort_if($container->user_id !== $request->user()->id, 403);
 
+        $currency = $request->user()->currency;
+
         $container->load('defaultCard.set', 'defaultCard.artist');
         $container->loadSum('cardStacks', 'amount');
 
-        $container->total_price = ContainerService::totalPrice($container, $request->user()->currency);
+        $container->total_price = ContainerService::totalPrice($container, $currency);
+
+        $unitPriceSql = ContainerService::unitPriceSql($currency);
 
         $query = $container->cardStacks()
             ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')
@@ -199,16 +203,20 @@ class ContainerController extends Controller
                 'sets.name as set_name',
                 'sets.code as set_code',
                 'sets.path as set_icon',
-            ]);
+            ])
+            ->selectRaw("COALESCE({$unitPriceSql}, 0) as unit_price")
+            ->selectRaw("COALESCE(card_stacks.amount * ({$unitPriceSql}), 0) as stack_price");
 
         $table = DataTableService::buildResponse(
             query: $query,
             request: $request,
-            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish'],
+            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish', 'price', 'total_price'],
             sortColumnMap: [
                 'name' => 'default_cards.name',
                 'set_name' => 'sets.name',
                 'collector_number' => 'default_cards.collector_number',
+                'price' => 'unit_price',
+                'total_price' => 'stack_price',
             ],
             defaultSort: 'name',
             searchCallback: function ($q, $search) {
@@ -246,6 +254,8 @@ class ContainerController extends Controller
                     'finish' => $stack->finish?->label(),
                     'language' => $stack->language?->value ?? 'en',
                     'art_crop' => $stack->art_crop,
+                    'price' => (float) ($stack->unit_price ?? 0),
+                    'total_price' => (float) ($stack->stack_price ?? 0),
                 ];
             },
         );

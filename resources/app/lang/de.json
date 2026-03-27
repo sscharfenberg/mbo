@@ -270,7 +270,9 @@
                 "amount": "Anzahl",
                 "condition": "Zustand",
                 "finish": "Finish",
-                "language": "Sprache"
+                "language": "Sprache",
+                "price": "Preis",
+                "total_price": "Gesamt"
             },
             "cards_count": "{count} Karte | {count} Karten",
             "empty": "Dieser Container enthält noch keine Karten.",

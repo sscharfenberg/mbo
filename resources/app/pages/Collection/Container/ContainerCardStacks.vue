@@ -6,6 +6,7 @@ import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import PopOver from "Components/UI/PopOver.vue";
+import { useFormatting } from "Composables/useFormatting";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { ContainerListItem } from "Types/containerListItem";
 import type { ColumnDef, TableResponse } from "Types/dataTable";
@@ -19,6 +20,7 @@ defineProps<{
     containers: ContainerListItem[];
 }>();
 const { t } = useI18n();
+const { formatPrice } = useFormatting();
 const columns = computed<ColumnDef<CardStackRow>[]>(() => [
     {
         key: "name",
@@ -63,6 +65,19 @@ const columns = computed<ColumnDef<CardStackRow>[]>(() => [
         key: "finish",
         label: t("pages.container_page.columns.finish"),
         sortable: true
+    },
+    {
+        key: "price",
+        label: t("pages.container_page.columns.price"),
+        sortable: true,
+        align: "right"
+    },
+    {
+        key: "total_price",
+        label: t("pages.container_page.columns.total_price"),
+        sortable: true,
+        align: "right",
+        visibleInCard: true
     }
 ]);
 /** Resolve the flag image URL for a given language code. */
@@ -144,6 +159,8 @@ const openDeleteSelectedModal = (selectedIds: string[]) => {
                 v-tooltip="t('enums.card_languages.' + row.language)"
             />
         </template>
+        <template #cell-price="{ row }">{{ row.price ? formatPrice(row.price) : "" }}</template>
+        <template #cell-total_price="{ row }">{{ row.total_price ? formatPrice(row.total_price) : "" }}</template>
         <template #actions="{ row }">
             <li>
                 <button

@@ -130,21 +130,30 @@ class ContainerService
     }
 
     /**
-     * Raw SQL expression that sums (amount × price) for each card stack,
-     * choosing the correct price column based on finish and currency.
+     * SQL CASE expression that resolves the unit price for a card stack row
+     * based on its finish and the given currency.
      */
-    private static function totalPriceSql(Currency $currency): string
+    public static function unitPriceSql(Currency $currency): string
     {
         $c = $currency->value;
         $nonfoil = Finish::Nonfoil->value;
         $foil = Finish::Foil->value;
         $etched = Finish::Etched->value;
 
-        return "COALESCE(SUM(card_stacks.amount * CASE card_stacks.finish
+        return "CASE card_stacks.finish
             WHEN {$nonfoil} THEN default_cards.price_{$c}
             WHEN {$foil} THEN default_cards.price_{$c}_foil
             WHEN {$etched} THEN default_cards.price_{$c}_etched
-            ELSE 0 END), 0)";
+            ELSE 0 END";
+    }
+
+    /**
+     * Raw SQL expression that sums (amount × price) for each card stack,
+     * choosing the correct price column based on finish and currency.
+     */
+    private static function totalPriceSql(Currency $currency): string
+    {
+        return 'COALESCE(SUM(card_stacks.amount * '.self::unitPriceSql($currency).'), 0)';
     }
 
     /**
