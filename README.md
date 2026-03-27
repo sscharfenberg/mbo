@@ -146,7 +146,7 @@ This is potentially a long-running command:
 * ~8 hours on a cold cache (initial download of all images)
 * ~20 seconds on a hot cache (no images need downloading)
 
-Hot cache currently takes about `25 Gb` of image files.
+Total image cache currently needs about `25 Gb` of image files.
 
 ### `php artisan scryfall:resolve-paths`
 

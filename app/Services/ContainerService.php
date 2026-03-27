@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Enums\Currency;
+use App\Enums\Finish;
+use App\Models\CardStack;
 use App\Models\Container;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class ContainerService
 {
@@ -17,7 +21,7 @@ class ContainerService
      * When the `card_stacks_sum_amount` aggregate is loaded on the model
      * (via `withSum('cardStacks', 'amount')`), it is included as `totalCards`.
      *
-     * @return array{id: string, name: string, description: string|null, type: string, custom_type: string|null, sort: int, defaultCard: array|null, totalCards: int}
+     * @return array{id: string, name: string, description: string|null, type: string, custom_type: string|null, sort: int, defaultCard: array|null, totalCards: int, totalPrice: float}
      */
     public static function serializeContainer(Container $container): array
     {
@@ -39,6 +43,7 @@ class ContainerService
                 ],
             ] : null,
             'totalCards' => (int) ($container->card_stacks_sum_amount ?? 0),
+            'totalPrice' => (float) ($container->total_price ?? 0),
         ];
     }
 
@@ -122,5 +127,49 @@ class ContainerService
         $container->delete();
 
         return $name;
+    }
+
+    /**
+     * Raw SQL expression that sums (amount × price) for each card stack,
+     * choosing the correct price column based on finish and currency.
+     */
+    private static function totalPriceSql(Currency $currency): string
+    {
+        $c = $currency->value;
+        $nonfoil = Finish::Nonfoil->value;
+        $foil = Finish::Foil->value;
+        $etched = Finish::Etched->value;
+
+        return "COALESCE(SUM(card_stacks.amount * CASE card_stacks.finish
+            WHEN {$nonfoil} THEN default_cards.price_{$c}
+            WHEN {$foil} THEN default_cards.price_{$c}_foil
+            WHEN {$etched} THEN default_cards.price_{$c}_etched
+            ELSE 0 END), 0)";
+    }
+
+    /**
+     * Build a correlated subquery that sums the total price for a container's
+     * card stacks. Intended for use with `addSelect()` on a containers query.
+     *
+     * @return Builder<CardStack>
+     */
+    public static function totalPriceSubquery(Currency $currency): Builder
+    {
+        return CardStack::query()
+            ->selectRaw(self::totalPriceSql($currency))
+            ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')
+            ->whereColumn('card_stacks.container_id', 'containers.id');
+    }
+
+    /**
+     * Calculate the total price for a single container.
+     */
+    public static function totalPrice(Container $container, Currency $currency): float
+    {
+        return (float) CardStack::query()
+            ->selectRaw(self::totalPriceSql($currency).' as total')
+            ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')
+            ->where('card_stacks.container_id', $container->id)
+            ->value('total');
     }
 }

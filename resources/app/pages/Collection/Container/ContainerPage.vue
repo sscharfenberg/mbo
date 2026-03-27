@@ -8,6 +8,7 @@ import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs";
+import { useFormatting } from "Composables/useFormatting";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { Container } from "Types/container";
 import type { ContainerListItem } from "Types/containerListItem";
@@ -19,6 +20,7 @@ const props = defineProps<{
     containers: ContainerListItem[];
 }>();
 
+const { formatPrice } = useFormatting();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
@@ -51,6 +53,7 @@ setBreadcrumbs([
             }}
         </li>
         <li><icon name="deck" />{{ $t("pages.container_page.cards_count", { count: container.totalCards }) }}</li>
+        <li><icon name="money" />{{ formatPrice(container.totalPrice) }}</li>
     </ul>
     <container-card-stacks
         v-if="container.totalCards > 0"

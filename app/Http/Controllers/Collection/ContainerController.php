@@ -29,6 +29,9 @@ class ContainerController extends Controller
         $containers = $request->user()->containers()
             ->with('defaultCard.set', 'defaultCard.artist')
             ->withSum('cardStacks', 'amount')
+            ->addSelect([
+                'total_price' => ContainerService::totalPriceSubquery($request->user()->currency),
+            ])
             ->orderBy('sort_order')
             ->get();
 
@@ -182,6 +185,8 @@ class ContainerController extends Controller
 
         $container->load('defaultCard.set', 'defaultCard.artist');
         $container->loadSum('cardStacks', 'amount');
+
+        $container->total_price = ContainerService::totalPrice($container, $request->user()->currency);
 
         $query = $container->cardStacks()
             ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')

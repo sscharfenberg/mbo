@@ -15,4 +15,6 @@ export interface Container {
     defaultCard: DefaultCardArtCrop | null;
     /** Sum of all card stack amounts in this container. */
     totalCards: number;
+    /** Total price of all card stacks in the user's selected currency. */
+    totalPrice: number;
 }

@@ -57,6 +57,7 @@
             "system": "System"
         },
         "currency": {
+            "label": "Change currency of scryfall prices",
             "eur": "EUR (€)",
             "usd": "USD ($)"
         }

@@ -4,7 +4,9 @@ import { ref, watch } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
+import { useFormatting } from "Composables/useFormatting";
 import type { Container } from "Types/container";
+const { formatPrice } = useFormatting();
 const props = defineProps<{ containers: Container[] }>();
 /** Emitted after a successful drag-drop; carries the visible rows in their new order. */
 const emit = defineEmits<{ reorder: [containers: Container[]] }>();
@@ -56,7 +58,7 @@ watch(
                     v-tooltip="$t('pages.container_page.cards_count', { count: container.totalCards })"
                     ><icon name="deck" />{{ container.totalCards }}</span
                 >
-                <span class="clist__price"><icon name="wallet" />125,56€</span>
+                <span class="clist__price"><icon name="money" />{{ formatPrice(container.totalPrice) }}</span>
             </Link>
             <ContainerMenu :container="container" />
         </li>

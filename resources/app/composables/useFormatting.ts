@@ -1,8 +1,10 @@
+import { usePage } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 
 export type UseFormattingReturn = {
     formatDecimals: (num: number) => string;
     formatBytes: (bytes: number, si?: boolean, dp?: number) => string;
+    formatPrice: (amount: number) => string;
 };
 
 /**
@@ -54,5 +56,20 @@ export const useFormatting = (): UseFormattingReturn => {
         return bytes.toFixed(dp) + " " + units[u];
     };
 
-    return { formatDecimals, formatBytes };
+    /**
+     * Format a monetary amount using the user's selected currency and locale.
+     *
+     * @param amount - The numeric amount to format.
+     * @return Formatted currency string (e.g. "125,56 €" or "$125.56").
+     */
+    const formatPrice = (amount: number): string => {
+        const currency = (usePage().props.currency as string) ?? "eur";
+
+        return amount.toLocaleString(locale.value, {
+            style: "currency",
+            currency: currency.toUpperCase(),
+        });
+    };
+
+    return { formatDecimals, formatBytes, formatPrice };
 };
