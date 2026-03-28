@@ -232,7 +232,41 @@
         },
         "collection": {
             "title": "Deine Sammlung",
-            "link": "Sammlung"
+            "link": "Sammlung",
+            "stats": {
+                "totalCards": {
+                    "title": "Karten gesamt",
+                    "explanation": "Die Gesamtzahl einzelner Karten in allen deinen Containern."
+                },
+                "totalStacks": {
+                    "title": "Einzigartige Stapel",
+                    "explanation": "Die Anzahl unterschiedlicher Kartenstapel in deiner Sammlung."
+                },
+                "totalPrice": {
+                    "title": "Gesamtwert",
+                    "explanation": "Der geschätzte Gesamtwert deiner Sammlung basierend auf aktuellen Marktpreisen."
+                },
+                "containers": {
+                    "title": "Container",
+                    "explanation": "Die Anzahl der Container, die du zur Organisation deiner Sammlung nutzt."
+                },
+                "commons": {
+                    "title": "Commons",
+                    "explanation": "Karten mit der Seltenheit Common in deiner Sammlung."
+                },
+                "uncommons": {
+                    "title": "Uncommons",
+                    "explanation": "Karten mit der Seltenheit Uncommon in deiner Sammlung."
+                },
+                "rares": {
+                    "title": "Rares",
+                    "explanation": "Karten mit der Seltenheit Rare in deiner Sammlung."
+                },
+                "mythics": {
+                    "title": "Mythics",
+                    "explanation": "Karten mit der Seltenheit Mythic in deiner Sammlung."
+                }
+            }
         },
         "containers": {
             "title": "Meine Container",

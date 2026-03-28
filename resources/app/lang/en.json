@@ -232,7 +232,41 @@
         },
         "collection": {
             "title": "Your Collection",
-            "link": "Collection"
+            "link": "Collection",
+            "stats": {
+                "totalCards": {
+                    "title": "Total Cards",
+                    "explanation": "The total number of individual cards across all your containers."
+                },
+                "totalStacks": {
+                    "title": "Unique Stacks",
+                    "explanation": "The number of distinct card stacks in your collection."
+                },
+                "totalPrice": {
+                    "title": "Total Value",
+                    "explanation": "The estimated total value of your collection based on current market prices."
+                },
+                "containers": {
+                    "title": "Containers",
+                    "explanation": "The number of containers you use to organize your collection."
+                },
+                "commons": {
+                    "title": "Commons",
+                    "explanation": "Cards with common rarity in your collection."
+                },
+                "uncommons": {
+                    "title": "Uncommons",
+                    "explanation": "Cards with uncommon rarity in your collection."
+                },
+                "rares": {
+                    "title": "Rares",
+                    "explanation": "Cards with rare rarity in your collection."
+                },
+                "mythics": {
+                    "title": "Mythics",
+                    "explanation": "Cards with mythic rarity in your collection."
+                }
+            }
         },
         "containers": {
             "title": "My Containers",
