@@ -236,7 +236,7 @@
             "stats": {
                 "totalCards": {
                     "title": "Total Cards",
-                    "explanation": "The total number of individual cards across all your containers."
+                    "explanation": "The total number of cards in your collection."
                 },
                 "totalStacks": {
                     "title": "Unique Stacks",
@@ -252,20 +252,23 @@
                 },
                 "commons": {
                     "title": "Commons",
-                    "explanation": "Cards with common rarity in your collection."
+                    "explanation": "The number of common cards in your collection."
                 },
                 "uncommons": {
                     "title": "Uncommons",
-                    "explanation": "Cards with uncommon rarity in your collection."
+                    "explanation": "The number of uncommon cards in your collection."
                 },
                 "rares": {
                     "title": "Rares",
-                    "explanation": "Cards with rare rarity in your collection."
+                    "explanation": "The number of rare cards in your collection."
                 },
                 "mythics": {
                     "title": "Mythics",
-                    "explanation": "Cards with mythic rarity in your collection."
+                    "explanation": "The number of mythic rare cards in your collection."
                 }
+            },
+            "nav": {
+                "label": "Collection navigation"
             }
         },
         "containers": {

@@ -25,8 +25,7 @@ class CollectionController extends Controller
 
         $baseQuery = CardStack::query()
             ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')
-            ->join('containers', 'card_stacks.container_id', '=', 'containers.id')
-            ->where('containers.user_id', $user->id);
+            ->where('card_stacks.user_id', $user->id);
 
         $stats = (clone $baseQuery)
             ->selectRaw('COALESCE(SUM(card_stacks.amount), 0) as total_cards')
