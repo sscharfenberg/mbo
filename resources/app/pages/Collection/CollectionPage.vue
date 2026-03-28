@@ -36,6 +36,11 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
     </headline>
     <stats>
         <stats-item>
+            <template #title>{{ $t("pages.collection.stats.totalPrice.title") }}</template>
+            <template #value>{{ formatPrice(stats.totalPrice) }}</template>
+            <template #explanation>{{ $t("pages.collection.stats.totalPrice.explanation") }}</template>
+        </stats-item>
+        <stats-item>
             <template #title>{{ $t("pages.collection.stats.totalCards.title") }}</template>
             <template #value>{{ formatDecimals(stats.totalCards) }}</template>
             <template #explanation>{{ $t("pages.collection.stats.totalCards.explanation") }}</template>
@@ -44,11 +49,6 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
             <template #title>{{ $t("pages.collection.stats.totalStacks.title") }}</template>
             <template #value>{{ formatDecimals(stats.totalStacks) }}</template>
             <template #explanation>{{ $t("pages.collection.stats.totalStacks.explanation") }}</template>
-        </stats-item>
-        <stats-item>
-            <template #title>{{ $t("pages.collection.stats.totalPrice.title") }}</template>
-            <template #value>{{ formatPrice(stats.totalPrice) }}</template>
-            <template #explanation>{{ $t("pages.collection.stats.totalPrice.explanation") }}</template>
         </stats-item>
         <stats-item>
             <template #title>{{ $t("pages.collection.stats.containers.title") }}</template>
@@ -91,6 +91,7 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
 <style lang="scss" scoped>
 .links {
     display: flex;
+    flex-wrap: wrap;
 
     margin: 1rem 0;
     gap: 1rem;

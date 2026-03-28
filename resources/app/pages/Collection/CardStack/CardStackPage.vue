@@ -115,9 +115,7 @@ const onSelectChange = (field: string, value: string, validate: (field: string) 
 };
 
 /** Available finishes for the currently selected card. All finishes when no card is selected. */
-const availableFinishes = ref<string[]>(
-    isEditMode ? props.cardStack!.default_card.finishes : [...props.finishes]
-);
+const availableFinishes = ref<string[]>(isEditMode ? props.cardStack!.default_card.finishes : [...props.finishes]);
 
 /** Called when the user selects a card from search results. */
 function onCardSelected(card: DefaultCardImage) {
@@ -210,6 +208,12 @@ function onCardCleared() {
             :error="errors.language ?? ''"
             :invalid="!!errors?.language"
         />
+        <card-stack-finish
+            v-model="selectedFinish"
+            :finishes="availableFinishes"
+            :error="errors.finish ?? ''"
+            :invalid="!!errors?.finish"
+        />
         <form-group
             :label="$t('form.fields.container.id')"
             :error="errors.container_id ?? ''"
@@ -241,12 +245,6 @@ function onCardCleared() {
             />
             <input type="hidden" name="condition" :value="selectedCondition" />
         </form-group>
-        <card-stack-finish
-            v-model="selectedFinish"
-            :finishes="availableFinishes"
-            :error="errors.finish ?? ''"
-            :invalid="!!errors?.finish"
-        />
         <form-group class="button-group">
             <button-group>
                 <template v-if="isEditMode">
