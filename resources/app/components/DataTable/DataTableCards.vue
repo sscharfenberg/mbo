@@ -23,6 +23,14 @@ const primaryCol = computed(() => props.columns.find(c => c.cardPrimary) ?? null
 /** Columns visible in card mode, excluding the primary. */
 const cardColumns = computed(() => props.columns.filter(c => c.visibleInCard && c.key !== primaryCol.value?.key));
 
+/** Return card columns that have a non-empty value for the given row. */
+function visibleCardColumns(row: T) {
+    return cardColumns.value.filter(col => {
+        const val = row[col.key as keyof T];
+        return val !== null && val !== undefined && val !== "" && val !== 0;
+    });
+}
+
 function onCardClick(row: T) {
     if (row.href) router.visit(row.href);
 }
@@ -66,7 +74,7 @@ function onActionClick(row: T, event: MouseEvent) {
                 </button>
             </div>
             <dl class="dt-cards__fields">
-                <template v-for="col in cardColumns" :key="col.key">
+                <template v-for="col in visibleCardColumns(row)" :key="col.key">
                     <dt class="dt-cards__label">{{ col.label }}</dt>
                     <dd class="dt-cards__value">
                         <slot :name="`cell-${col.key}`" :row="row">
@@ -84,12 +92,12 @@ function onActionClick(row: T, event: MouseEvent) {
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
 
-/* Only visible in narrow containers — hidden by DataTable.vue's container query at >= 640px */
+/* Only visible in narrow containers — hidden by DataTable.vue's container query at >= breakpoint */
 .dt-cards {
     display: none;
 }
 
-@container (max-width: 639px) {
+@container (max-width: #{map.get(s.$table, "breakpoint") - 1px}) {
     .dt-cards {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(map.get(s.$table, "cards", "min-width"), 1fr));

@@ -334,13 +334,13 @@ onBeforeUnmount(() => {
 }
 
 /* Show table on wide containers, cards on narrow */
-@container (min-width: 640px) {
+@container (min-width: #{map.get(s.$table, "breakpoint")}) {
     .dt__table {
         display: table;
     }
 }
 
-@container (max-width: 639px) {
+@container (max-width: #{map.get(s.$table, "breakpoint") - 1px}) {
     .dt__table {
         display: none;
     }

@@ -18,26 +18,22 @@ const to = computed(() => Math.min(props.page * props.pageSize, props.total));
 
 /**
  * Visible page numbers with ellipsis truncation.
- * Always shows first + last page. Current page sits in the middle
- * with one neighbor on each side. Ellipsis fills gaps.
- * Example for page 5 of 20: [1, "...", 4, 5, 6, "...", 20]
+ * Shows a sliding window around the current page. First/last page
+ * buttons already exist as dedicated icons, so they are not repeated here.
+ * Ellipsis indicates more pages exist in that direction.
+ * Example for page 5 of 20: ["...", 4, 5, 6, "..."]
  */
-const MAX_VISIBLE_PAGES = 5;
+const NEIGHBORS = 2;
 const visiblePages = computed(() => {
     const pages: (number | "...")[] = [];
     const total = totalPages.value;
     const current = props.page;
-    if (total <= MAX_VISIBLE_PAGES) {
-        for (let i = 1; i <= total; i++) pages.push(i);
-        return pages;
-    }
-    pages.push(1);
-    if (current > 3) pages.push("...");
-    const start = Math.max(2, current - 1);
-    const end = Math.min(total - 1, current + 1);
+    if (total <= 1) return pages;
+    const start = Math.max(1, current - NEIGHBORS);
+    const end = Math.min(total, current + NEIGHBORS);
+    if (start > 1) pages.push("...");
     for (let i = start; i <= end; i++) pages.push(i);
-    if (current < total - 2) pages.push("...");
-    pages.push(total);
+    if (end < total) pages.push("...");
     return pages;
 });
 

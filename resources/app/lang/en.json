@@ -269,7 +269,19 @@
             },
             "nav": {
                 "label": "Collection navigation"
-            }
+            },
+            "columns": {
+                "name": "Card name",
+                "set_name": "Set",
+                "container_name": "Container",
+                "amount": "Qty",
+                "condition": "Condition",
+                "finish": "Finish",
+                "language": "Language",
+                "price": "Price",
+                "total_price": "Total"
+            },
+            "unsorted": "Unsorted"
         },
         "containers": {
             "title": "My Containers",

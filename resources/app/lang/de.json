@@ -236,7 +236,7 @@
             "stats": {
                 "totalCards": {
                     "title": "Karten gesamt",
-                    "explanation": "Die Gesamtzahl an Karten in allen deinen Containern."
+                    "explanation": "Die Gesamtzahl an Karten in deiner Sammlung."
                 },
                 "totalStacks": {
                     "title": "Einzigartige Stapel",
@@ -269,7 +269,19 @@
             },
             "nav": {
                 "label": "Navigation deiner Sammlung"
-            }
+            },
+            "columns": {
+                "name": "Kartenname",
+                "set_name": "Set",
+                "container_name": "Container",
+                "amount": "Anzahl",
+                "condition": "Zustand",
+                "finish": "Finish",
+                "language": "Sprache",
+                "price": "Preis",
+                "total_price": "Gesamt"
+            },
+            "unsorted": "Unsortiert"
         },
         "containers": {
             "title": "Meine Container",

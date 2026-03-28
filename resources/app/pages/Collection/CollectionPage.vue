@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from "@inertiajs/vue3";
+import CollectionCardStacks from "@/pages/Collection/CollectionCardStacks.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import Stats from "Components/UI/Stats/Stats.vue";
@@ -8,6 +9,9 @@ import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import { useFormatting } from "Composables/useFormatting.ts";
 
 const { formatDecimals, formatPrice } = useFormatting();
+
+import type { CollectionCardStackRow } from "Types/collectionCardStackRow";
+import type { TableResponse } from "Types/dataTable";
 
 defineProps<{
     stats: {
@@ -20,6 +24,7 @@ defineProps<{
         rares: number;
         mythics: number;
     };
+    table: TableResponse<CollectionCardStackRow>;
 }>();
 
 const { setBreadcrumbs } = useBreadcrumbs();
@@ -86,6 +91,7 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
             {{ $t("pages.add_cards.link") }}
         </Link>
     </nav>
+    <collection-card-stacks :table="table" />
 </template>
 
 <style lang="scss" scoped>

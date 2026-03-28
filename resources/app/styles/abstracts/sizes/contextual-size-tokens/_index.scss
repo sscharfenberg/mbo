@@ -84,6 +84,7 @@ $shadows: (
 
 // size tokens for datatable component
 $table: (
+    "breakpoint": map.get(s.$breakpoints, "desktop"),
     "border": map.get(s.$border, "base"),
     "radius": map.get(s.$radius, "featured"),
     "padding": (
