@@ -16,6 +16,7 @@ defineProps<{
     /** Alt text for the card image. */
     alt: string;
 }>();
+const emit = defineEmits<{ preview: [] }>();
 const visible = ref(false);
 const x = ref(0);
 const y = ref(0);
@@ -61,10 +62,11 @@ function positionTooltip(e: MouseEvent) {
         @mouseenter="onMouseEnter"
         @mousemove="onMouseMove"
         @mouseleave="onMouseLeave"
+        @click="emit('preview')"
     >
         <slot />
     </span>
-    <span v-else>
+    <span v-else class="card-preview__trigger" @click="emit('preview')">
         <slot />
     </span>
     <Teleport to="body">
@@ -77,6 +79,15 @@ function positionTooltip(e: MouseEvent) {
 <style lang="scss" scoped>
 @use "sass:map";
 @use "Abstracts/shadows" as sh;
+@use "Abstracts/sizes" as s;
+
+.card-preview__trigger {
+    display: block;
+
+    padding: map.get(s.$components, "datatable", "padding", "td");
+
+    cursor: pointer;
+}
 
 .card-preview {
     position: fixed;

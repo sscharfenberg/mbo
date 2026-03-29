@@ -270,17 +270,6 @@
             "nav": {
                 "label": "Collection navigation"
             },
-            "columns": {
-                "name": "Card name",
-                "set_name": "Set",
-                "container_name": "Container",
-                "amount": "Qty",
-                "condition": "Condition",
-                "finish": "Finish",
-                "language": "Language",
-                "price": "Price",
-                "total_price": "Total"
-            },
             "unsorted": "Unsorted"
         },
         "containers": {
@@ -312,17 +301,6 @@
             "submit": "Save changes"
         },
         "container_page": {
-            "columns": {
-                "name": "Card name",
-                "set_name": "Set",
-                "collector_number": "No.",
-                "amount": "Qty",
-                "condition": "Condition",
-                "finish": "Finish",
-                "language": "Language",
-                "price": "Price",
-                "total_price": "Total"
-            },
             "cards_count": "{count} card | {count} cards",
             "empty": "This container has no cards yet.",
             "add_cards": "Add cards",
@@ -395,10 +373,18 @@
                 "id": "Container"
             },
             "card": "Card",
+            "name": "Card name",
+            "set_name": "Set",
+            "collector_number": "No.",
+            "container_name": "Container",
             "condition": "Condition",
             "amount": "Amount",
+            "qty": "Qty",
             "finish": "Finish",
-            "language": "Language"
+            "language": "Language",
+            "price": "Price",
+            "total_price": "Total",
+            "artist": "Artist"
         }
     },
     "state": {
@@ -476,6 +462,13 @@
         "password": {
             "show": "Show",
             "hide": "Hide"
+        },
+        "card_preview": {
+            "title": "Card Details",
+            "total_price": "Total ({amount}×)",
+            "scryfall": "View on Scryfall",
+            "loading": "Loading card details…",
+            "error": "Could not load card details."
         }
     }
 }

@@ -3,6 +3,7 @@ import { router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import CardImagePreview from "Components/Card/CardImagePreview.vue";
+import CardPreviewModal from "Components/Card/CardPreviewModal.vue";
 import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
@@ -18,31 +19,32 @@ const { formatPrice } = useFormatting();
 const columns = computed<ColumnDef<CollectionCardStackRow>[]>(() => [
     {
         key: "name",
-        label: t("pages.collection.columns.name"),
+        label: t("form.fields.name"),
         sortable: true,
         visibleInCard: true,
-        cardPrimary: true
+        cardPrimary: true,
+        cellClass: "no-padding"
     },
     {
         key: "set_name",
-        label: t("pages.collection.columns.set_name"),
+        label: t("form.fields.set_name"),
         sortable: true,
         visibleInCard: true
     },
     {
         key: "container_name",
-        label: t("pages.collection.columns.container_name"),
+        label: t("form.fields.container_name"),
         sortable: true,
         visibleInCard: true
     },
     {
         key: "language",
-        label: t("pages.collection.columns.language"),
+        label: t("form.fields.language"),
         visibleInCard: true
     },
     {
         key: "amount",
-        label: t("pages.collection.columns.amount"),
+        label: t("form.fields.qty"),
         sortable: true,
         width: "5rem",
         align: "right",
@@ -50,24 +52,24 @@ const columns = computed<ColumnDef<CollectionCardStackRow>[]>(() => [
     },
     {
         key: "condition",
-        label: t("pages.collection.columns.condition"),
+        label: t("form.fields.condition"),
         sortable: true,
         visibleInCard: true
     },
     {
         key: "finish",
-        label: t("pages.collection.columns.finish"),
+        label: t("form.fields.finish"),
         sortable: true
     },
     {
         key: "price",
-        label: t("pages.collection.columns.price"),
+        label: t("form.fields.price"),
         sortable: true,
         align: "right"
     },
     {
         key: "total_price",
-        label: t("pages.collection.columns.total_price"),
+        label: t("form.fields.total_price"),
         sortable: true,
         align: "right",
         visibleInCard: true
@@ -81,12 +83,16 @@ const deleteTarget = ref<CollectionCardStackRow | null>(null);
 const openDeleteModal = (row: CollectionCardStackRow) => {
     deleteTarget.value = row;
 };
+/** The card stack ID currently shown in the preview modal, or null when hidden. */
+const previewId = ref<string | null>(null);
 </script>
 
 <template>
     <data-table :columns="columns" :response="table" :selectable="false" base-url="/collection">
         <template #cell-name="{ row }">
-            <card-image-preview :src="row.card_image_0" :alt="row.name"> {{ row.name }} </card-image-preview>
+            <card-image-preview :src="row.card_image_0" :alt="row.name" @preview="previewId = row.id">
+                {{ row.name }}
+            </card-image-preview>
         </template>
         <template #cell-set_name="{ row }">
             <img
@@ -145,6 +151,7 @@ const openDeleteModal = (row: CollectionCardStackRow) => {
             <paragraph>{{ $t("components.datatable.no_results") }}</paragraph>
         </template>
     </data-table>
+    <card-preview-modal v-if="previewId" :card-stack-id="previewId" @close="previewId = null" />
     <delete-card-stack-modal
         v-if="deleteTarget"
         :card-stack="deleteTarget"

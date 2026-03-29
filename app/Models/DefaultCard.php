@@ -105,7 +105,7 @@ class DefaultCard extends Model
      */
     public function oracle(): BelongsTo
     {
-        return $this->belongsTo(OracleCard::class, 'oracle_id', 'oracle_id');
+        return $this->belongsTo(OracleCard::class, 'oracle_id', 'id');
     }
 
     /**

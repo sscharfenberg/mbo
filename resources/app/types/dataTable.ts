@@ -14,6 +14,8 @@ export interface ColumnDef<T extends { id: string }> {
     cardPrimary?: boolean;
     /** Text alignment. Default 'left'. */
     align?: "left" | "center" | "right";
+    /** Extra CSS class(es) applied to the <td> for this column. */
+    cellClass?: string;
 }
 
 /** Server response shape for paginated, sortable table data. */

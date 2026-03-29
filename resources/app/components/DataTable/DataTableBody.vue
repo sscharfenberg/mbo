@@ -41,7 +41,7 @@ function onActionClick(row: T, event: MouseEvent) {
                     @change="provided.toggleSelection(row.id)"
                 />
             </td>
-            <td v-for="col in columns" :key="col.key" :style="{ textAlign: col.align ?? 'left' }">
+            <td v-for="col in columns" :key="col.key" :class="col.cellClass" :style="{ textAlign: col.align ?? 'left' }">
                 <slot :name="`cell-${col.key}`" :row="row">
                     {{ row[col.key] }}
                 </slot>
@@ -89,6 +89,10 @@ function onActionClick(row: T, event: MouseEvent) {
         padding: map.get(s.$components, "datatable", "padding", "td");
 
         color: map.get(c.$components, "datatable", "td", "surface");
+
+        &.no-padding {
+            padding: 0;
+        }
 
         &:not(:last-child) {
             border-right: map.get(s.$components, "datatable", "border") solid

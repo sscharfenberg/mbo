@@ -270,17 +270,6 @@
             "nav": {
                 "label": "Navigation deiner Sammlung"
             },
-            "columns": {
-                "name": "Kartenname",
-                "set_name": "Set",
-                "container_name": "Container",
-                "amount": "Anzahl",
-                "condition": "Zustand",
-                "finish": "Finish",
-                "language": "Sprache",
-                "price": "Preis",
-                "total_price": "Gesamt"
-            },
             "unsorted": "Unsortiert"
         },
         "containers": {
@@ -312,17 +301,6 @@
             "submit": "Änderungen speichern"
         },
         "container_page": {
-            "columns": {
-                "name": "Kartenname",
-                "set_name": "Set",
-                "collector_number": "Nr.",
-                "amount": "Anzahl",
-                "condition": "Zustand",
-                "finish": "Finish",
-                "language": "Sprache",
-                "price": "Preis",
-                "total_price": "Gesamt"
-            },
             "cards_count": "{count} Karte | {count} Karten",
             "empty": "Dieser Container enthält noch keine Karten.",
             "add_cards": "Karten hinzufügen",
@@ -395,10 +373,18 @@
                 "id": "Container"
             },
             "card": "Karte",
+            "name": "Kartenname",
+            "set_name": "Set",
+            "collector_number": "Nr.",
+            "container_name": "Container",
             "condition": "Zustand",
             "amount": "Anzahl",
+            "qty": "Anzahl",
             "finish": "Finish",
-            "language": "Sprache"
+            "language": "Sprache",
+            "price": "Preis",
+            "total_price": "Gesamt",
+            "artist": "Künstler"
         }
     },
     "state": {
@@ -476,6 +462,13 @@
         "password": {
             "show": "Zeigen",
             "hide": "Verbergen"
+        },
+        "card_preview": {
+            "title": "Kartendetails",
+            "total_price": "Gesamt ({amount}×)",
+            "scryfall": "Auf Scryfall ansehen",
+            "loading": "Lade Kartendetails…",
+            "error": "Kartendetails konnten nicht geladen werden."
         }
     }
 }

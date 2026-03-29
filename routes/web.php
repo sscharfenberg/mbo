@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CardStackPreviewController;
 use App\Http\Controllers\Collection\CardStackController;
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Collection\ContainerController;
@@ -77,6 +78,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('cardstack.update');
     Route::delete('collection/cardstack/{cardStack}', [CardStackController::class, 'destroy'])
         ->name('cardstack.destroy');
+    Route::get('collection/cardstack/{cardStack}/preview', [CardStackPreviewController::class, 'show'])
+        ->name('cardstack.preview');
 
     // decks
     Route::get('/decks', [DecksController::class, 'show'])

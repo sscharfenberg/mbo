@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\CardStack;
+use App\Services\ContainerService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class CardStackPreviewController extends Controller
+{
+    /**
+     * Return card preview data for a single card stack.
+     *
+     * Loads the related default card (with set, artist, oracle) and resolves
+     * the unit price based on the user's currency preference.
+     */
+    public function show(Request $request, CardStack $cardStack): JsonResponse
+    {
+        if ($cardStack->user_id !== $request->user()->id) {
+            abort(403);
+        }
+
+        $cardStack->load('defaultCard.set', 'defaultCard.artist', 'defaultCard.oracle');
+
+        $card = $cardStack->defaultCard;
+        $currency = $request->user()->currency;
+        $unitPriceSql = ContainerService::unitPriceSql($currency);
+
+        $priceRow = CardStack::query()
+            ->where('card_stacks.id', $cardStack->id)
+            ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')
+            ->selectRaw("COALESCE({$unitPriceSql}, 0) as unit_price")
+            ->selectRaw("COALESCE(card_stacks.amount * ({$unitPriceSql}), 0) as stack_price")
+            ->first();
+
+        return response()->json([
+            'name' => $card->name,
+            'card_image_0' => $card->card_image_0,
+            'card_image_1' => $card->card_image_1,
+            'set_code' => $card->set?->code,
+            'set_name' => $card->set?->name,
+            'set_icon' => $card->set?->path,
+            'collector_number' => $card->collector_number,
+            'artist' => $card->artist?->name,
+            'amount' => $cardStack->amount,
+            'condition' => $cardStack->condition?->value,
+            'finish' => $cardStack->finish?->label(),
+            'price' => (float) ($priceRow->unit_price ?? 0),
+            'total_price' => (float) ($priceRow->stack_price ?? 0),
+            'scryfall_uri' => $card->oracle?->scryfall_uri,
+        ]);
+    }
+}
