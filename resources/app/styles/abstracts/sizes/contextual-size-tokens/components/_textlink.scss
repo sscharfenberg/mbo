@@ -1,0 +1,8 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$textlink: (
+    "underline-thickness": #{map.get(s.$border, "base") * 1.5},
+    "underline-offset": #{map.get(s.$border, "base") * 2.5}
+);

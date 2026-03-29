@@ -136,14 +136,15 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
     justify-content: space-between;
     flex-wrap: wrap;
 
-    padding: map.get(s.$table, "pagination", "padding");
-    border: map.get(s.$table, "pagination", "border") solid map.get(c.$components, "datatable", "pagination", "border");
-    margin: map.get(s.$table, "pagination", "margin");
-    gap: map.get(s.$table, "pagination", "gap");
+    padding: map.get(s.$components, "datatable", "pagination", "padding");
+    border: map.get(s.$components, "datatable", "pagination", "border") solid
+        map.get(c.$components, "datatable", "pagination", "border");
+    margin: map.get(s.$components, "datatable", "pagination", "margin");
+    gap: map.get(s.$components, "datatable", "pagination", "gap");
 
     background-color: map.get(c.$components, "datatable", "pagination", "background");
     color: map.get(c.$components, "datatable", "pagination", "surface");
-    border-radius: map.get(s.$table, "pagination", "radius");
+    border-radius: map.get(s.$components, "datatable", "pagination", "radius");
 
     &__col {
         display: flex;
@@ -163,14 +164,14 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
         align-items: center;
         justify-content: center;
 
-        min-width: map.get(s.$table, "pagination", "page", "min-width");
-        padding: map.get(s.$table, "pagination", "page", "padding");
-        border: map.get(s.$table, "pagination", "page", "border") solid
+        min-width: map.get(s.$components, "datatable", "pagination", "page", "min-width");
+        padding: map.get(s.$components, "datatable", "pagination", "page", "padding");
+        border: map.get(s.$components, "datatable", "pagination", "page", "border") solid
             map.get(c.$components, "datatable", "pagination", "page", "border");
 
         background-color: map.get(c.$components, "datatable", "pagination", "page", "background");
         color: map.get(c.$components, "datatable", "pagination", "page", "surface");
-        border-radius: map.get(s.$table, "pagination", "page", "radius");
+        border-radius: map.get(s.$components, "datatable", "pagination", "page", "radius");
 
         transition:
             background-color map.get(ti.$timings, "fast") linear,

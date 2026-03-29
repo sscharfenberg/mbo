@@ -13,12 +13,12 @@
         gap: 1ch;
 
         > span:first-of-type {
-            line-height: map.get(s.$form, "input", "line-height");
+            line-height: map.get(s.$components, "input", "line-height");
 
             @include m.mq("landscape") {
                 flex-grow: 1;
 
-                border: map.get(s.$form, "input", "border") solid transparent;
+                border: map.get(s.$components, "input", "border") solid transparent;
 
                 text-align: right;
             }

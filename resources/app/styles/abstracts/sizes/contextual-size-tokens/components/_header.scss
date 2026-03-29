@@ -1,0 +1,22 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$header: (
+    "padding": (
+        "base": 0 map.get(s.$padding, "base") map.get(s.$padding, "base"),
+        "portrait": 0 map.get(s.$padding, "portrait") map.get(s.$padding, "portrait"),
+        "landscape": 0 map.get(s.$padding, "landscape") map.get(s.$padding, "landscape"),
+        "desktop": 0 map.get(s.$padding, "desktop") map.get(s.$padding, "desktop")
+    ),
+    "step-margin": map.get(s.$border, "base") * 4,
+    "border": map.get(s.$border, "base"),
+    "radius": (
+        "base": map.get(s.$radius, "featured"),
+        "portrait": map.get(s.$radius, "featured") * 1.5,
+        "landscape": map.get(s.$radius, "featured") * 2,
+        "desktop": map.get(s.$radius, "featured") * 4
+    ),
+    "sitelink-divider": math.round(map.get(s.$border, "base") * 1.5),
+    "sitelink-divider-radius": math.round(map.get(s.$radius, "base") * 0.5)
+);

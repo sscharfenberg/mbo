@@ -9,7 +9,7 @@
     align-items: center;
 
     width: 100%;
-    padding: map.get(s.$form, "select", "option");
+    padding: map.get(s.$components, "select", "option");
     border: 0;
 
     color: map.get(c.$components, "select", "option-surface");
@@ -23,7 +23,7 @@
         color map.get(ti.$timings, "fast") linear;
 
     &:not(:first-child) {
-        border-top: map.get(s.$form, "select", "border") solid map.get(c.$components, "select", "border");
+        border-top: map.get(s.$components, "select", "border") solid map.get(c.$components, "select", "border");
     }
 
     &:not(.form-select__option--selected, :hover):nth-child(odd) {
@@ -46,7 +46,7 @@
 
     // subtract the padding of __options from the border radius so it doesn't look weird.
     &:last-child {
-        border-bottom-right-radius: calc(map.get(s.$form, "select", "radius") - 1ch);
-        border-bottom-left-radius: calc(map.get(s.$form, "select", "radius") - 1ch);
+        border-bottom-right-radius: calc(map.get(s.$components, "select", "radius") - 1ch);
+        border-bottom-left-radius: calc(map.get(s.$components, "select", "radius") - 1ch);
     }
 }

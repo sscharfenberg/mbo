@@ -9,29 +9,9 @@
 @use "sass:math"; // https://sass-lang.com/documentation/modules/math/
 @use "sass:map"; // https://sass-lang.com/documentation/modules/map
 @use "../global-size-tokens" as s;
+@use "components" as co;
+@use "pages" as pa;
 @forward "app";
-@forward "form";
-@forward "main";
-
-// size tokens for header landmark
-$header: (
-    "padding": (
-        "base": 0 map.get(s.$padding, "base") map.get(s.$padding, "base"),
-        "portrait": 0 map.get(s.$padding, "portrait") map.get(s.$padding, "portrait"),
-        "landscape": 0 map.get(s.$padding, "landscape") map.get(s.$padding, "landscape"),
-        "desktop": 0 map.get(s.$padding, "desktop") map.get(s.$padding, "desktop")
-    ),
-    "step-margin": map.get(s.$border, "base") * 4,
-    "border": map.get(s.$border, "base"),
-    "radius": (
-        "base": map.get(s.$radius, "featured"),
-        "portrait": map.get(s.$radius, "featured") * 1.5,
-        "landscape": map.get(s.$radius, "featured") * 2,
-        "desktop": map.get(s.$radius, "featured") * 4
-    ),
-    "sitelink-divider": math.round(map.get(s.$border, "base") * 1.5),
-    "sitelink-divider-radius": math.round(map.get(s.$radius, "base") * 0.5)
-) !default;
 
 // size tokens for frosted glass
 $glass: (
@@ -50,30 +30,6 @@ $glass: (
     "border": map.get(s.$border, "base")
 ) !default;
 
-// .btn component
-$button: (
-    "padding": 0.2rem 1.5rem,
-    "border": map.get(s.$border, "featured"),
-    "min-height": map.get(s.$icons, "medium"),
-    "close": (
-        "padding": map.get(s.$border, "base") 0.5rem,
-        "padding-no-text": map.get(s.$border, "base")
-    )
-) !default;
-
-// popover component
-$popover: (
-    "radius": map.get(s.$radius, "base"),
-    "padding": math.round(s.$base * 0.5),
-    "border": map.get(s.$border, "base")
-) !default;
-
-// theme switch component
-$theme: (
-    "radius": map.get(s.$radius, "featured"),
-    "padding": math.round(s.$base * 0.2) math.round(s.$base * 0.5)
-) !default;
-
 // size tokens for shadows
 $shadows: (
     "outline": (
@@ -82,44 +38,42 @@ $shadows: (
     )
 ) !default;
 
-// size tokens for datatable component
-$table: (
-    "breakpoint": map.get(s.$breakpoints, "desktop"),
-    "border": map.get(s.$border, "base"),
-    "radius": map.get(s.$radius, "featured"),
-    "padding": (
-        "th": 0.25rem 0.5rem,
-        "td": 0.25rem 0.5rem
-    ),
-    "pagination": (
-        "border": map.get(s.$border, "base"),
-        "radius": map.get(s.$radius, "featured"),
-        "padding": 0.5rem,
-        "margin": 0.5rem 0 0,
-        "gap": 0.5rem,
-        "page": (
-            "border": map.get(s.$border, "base"),
-            "radius": map.get(s.$radius, "featured"),
-            "padding": 0.45rem,
-            "min-width": 39px
-        )
-    ),
-    "cards": (
-        "min-width": 220px,
-        "padding": 0.5rem,
-        "gap": 0.5rem,
-        "border": map.get(s.$border, "base"),
-        "radius": map.get(s.$radius, "featured")
-    )
+// size tokens for pages
+$pages: (
+    "container": pa.$container,
+    "containers": pa.$containers,
+    "defaults": pa.$defaults
 ) !default;
 
-// size tokens for footer landmark
-$footer: (
-    "padding": (
-        "base": map.get(s.$padding, "base"),
-        "portrait": map.get(s.$padding, "portrait"),
-        "landscape": map.get(s.$padding, "landscape"),
-        "desktop": map.get(s.$padding, "desktop")
-    ),
-    "border": map.get(s.$border, "base")
+// size tokens for components
+$components: (
+    "accordion": co.$accordion,
+    "art-crop": co.$art-crop,
+    "badge": co.$badge,
+    "breadcrumb": co.$breadcrumb,
+    "button": co.$button,
+    "checkbox": co.$checkbox,
+    "datatable": co.$datatable,
+    "error": co.$error,
+    "face-image": co.$face-image,
+    "finish": co.$finish,
+    "footer": co.$footer,
+    "header": co.$header,
+    "headline": co.$headline,
+    "input": co.$input,
+    "language": co.$language,
+    "legend": co.$legend,
+    "modal": co.$modal,
+    "otp": co.$otp,
+    "paragraph": co.$paragraph,
+    "password-strength": co.$password-strength,
+    "popover": co.$popover,
+    "progress": co.$progress,
+    "select": co.$select,
+    "stats": co.$stats,
+    "sticky-nav": co.$sticky-nav,
+    "switch": co.$switch,
+    "theme": co.$theme,
+    "textlink": co.$textlink,
+    "toast": co.$toast
 ) !default;

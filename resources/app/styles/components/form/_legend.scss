@@ -6,8 +6,8 @@
     display: flex;
     flex-direction: column;
 
-    padding: map.get(s.$form, "legend", "padding");
-    border: map.get(s.$form, "legend", "border") solid map.get(c.$components, "legend", "border");
+    padding: map.get(s.$components, "legend", "padding");
+    border: map.get(s.$components, "legend", "border") solid map.get(c.$components, "legend", "border");
     margin: 0;
     gap: 1ex;
 
@@ -15,7 +15,7 @@
     color: map.get(c.$components, "legend", "surface");
 
     list-style: none;
-    border-radius: map.get(s.$form, "legend", "radius");
+    border-radius: map.get(s.$components, "legend", "radius");
 
     > li {
         display: flex;

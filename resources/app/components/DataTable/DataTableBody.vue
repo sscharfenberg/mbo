@@ -86,12 +86,13 @@ function onActionClick(row: T, event: MouseEvent) {
     }
 
     td {
-        padding: map.get(s.$table, "padding", "td");
+        padding: map.get(s.$components, "datatable", "padding", "td");
 
         color: map.get(c.$components, "datatable", "td", "surface");
 
         &:not(:last-child) {
-            border-right: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
+            border-right: map.get(s.$components, "datatable", "border") solid
+                map.get(c.$components, "datatable", "border");
         }
     }
 
@@ -104,16 +105,20 @@ function onActionClick(row: T, event: MouseEvent) {
     }
 
     tr:not(:last-child) td {
-        border-bottom: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
+        border-bottom: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
     }
 
     tr:last-child {
         td:first-child {
-            border-bottom-left-radius: calc(map.get(s.$table, "radius") - map.get(s.$table, "border"));
+            border-bottom-left-radius: calc(
+                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
+            );
         }
 
         td:last-child {
-            border-bottom-right-radius: calc(map.get(s.$table, "radius") - map.get(s.$table, "border"));
+            border-bottom-right-radius: calc(
+                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
+            );
         }
     }
 }

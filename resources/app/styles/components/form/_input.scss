@@ -6,14 +6,14 @@
 .form-input {
     width: 100%;
     padding: 0.75ex 4ch 0.75ex 2ch;
-    border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
+    border: map.get(s.$components, "input", "border") solid map.get(c.$components, "input", "border");
 
     background-color: map.get(c.$components, "input", "background");
     color: map.get(c.$components, "input", "surface");
     outline: 0;
-    border-radius: map.get(s.$form, "input", "radius");
+    border-radius: map.get(s.$components, "input", "radius");
 
-    line-height: map.get(s.$form, "input", "line-height");
+    line-height: map.get(s.$components, "input", "line-height");
     caret-shape: block;
 
     transition:

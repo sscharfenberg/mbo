@@ -1,0 +1,13 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$footer: (
+    "padding": (
+        "base": map.get(s.$padding, "base"),
+        "portrait": map.get(s.$padding, "portrait"),
+        "landscape": map.get(s.$padding, "landscape"),
+        "desktop": map.get(s.$padding, "desktop")
+    ),
+    "border": map.get(s.$border, "base")
+);

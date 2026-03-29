@@ -1,0 +1,12 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$select: (
+    "radius": 20px,
+    "border": map.get(s.$border, "base"),
+    "height": map.get(s.$icons, "medium"),
+    "caret": math.round(s.$base * 0.4),
+    "option": 1ex 1ch,
+    "clear": map.get(s.$icons, "medium") * 2
+);

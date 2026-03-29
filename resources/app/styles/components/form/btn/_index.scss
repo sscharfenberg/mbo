@@ -17,8 +17,8 @@
     align-items: center;
     justify-content: center;
 
-    padding: map.get(s.$button, "padding");
-    border: map.get(s.$button, "border") solid transparent;
+    padding: map.get(s.$components, "button", "padding");
+    border: map.get(s.$components, "button", "border") solid transparent;
     gap: 0.25rem;
 
     background:
@@ -41,7 +41,7 @@
 
     font-family: map.get(t.$app, "button");
     font-size: 1rem;
-    line-height: map.get(s.$button, "min-height");
+    line-height: map.get(s.$components, "button", "min-height");
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.1ch;
@@ -99,9 +99,9 @@
 
 // close button specials
 .btn-close {
-    padding: map.get(s.$button, "close", "padding");
+    padding: map.get(s.$components, "button", "close", "padding");
 
     &:not(:has(span)) {
-        padding: map.get(s.$button, "close", "padding-no-text");
+        padding: map.get(s.$components, "button", "close", "padding-no-text");
     }
 }

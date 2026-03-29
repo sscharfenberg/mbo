@@ -1,0 +1,18 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$headline: (
+    "h2": (
+        "font": 2rem,
+        "border": map.get(s.$border, "base")
+    ),
+    "h3": (
+        "font": 1.6rem,
+        "border": map.get(s.$border, "base")
+    ),
+    "h4": (
+        "font": 1.3rem,
+        "border": map.get(s.$border, "base")
+    )
+);

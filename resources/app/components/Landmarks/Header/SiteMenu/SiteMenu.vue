@@ -48,12 +48,12 @@ import LabelledLink from "Components/UI/LabelledLink.vue";
             &:nth-child(2n)::before {
                 display: inline-block;
 
-                width: map.get(s.$header, "sitelink-divider");
+                width: map.get(s.$components, "header", "sitelink-divider");
                 height: 60%;
                 margin-right: 1ch;
 
                 background-color: currentcolor;
-                border-radius: map.get(s.$header, "sitelink-divider-radius");
+                border-radius: map.get(s.$components, "header", "sitelink-divider-radius");
 
                 content: "";
             }

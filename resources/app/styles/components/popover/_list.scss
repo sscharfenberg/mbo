@@ -19,7 +19,8 @@
 
     > li:not(:last-child) {
         padding-bottom: 0.25rem;
-        border-bottom: map.get(s.$popover, "border") solid map.get(c.$components, "popover", "border-from");
+        border-bottom: map.get(s.$components, "popover", "border") solid
+            map.get(c.$components, "popover", "border-from");
     }
 
     &-item {

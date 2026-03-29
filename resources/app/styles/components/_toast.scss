@@ -13,7 +13,7 @@
     z-index: map.get(z.$index, "modal");
     flex-direction: column;
 
-    width: min(map.get(s.$app, "toast", "max"), calc(100vw - 4ch));
+    width: min(map.get(s.$components, "toast", "max"), calc(100vw - 4ch));
     gap: 1lh;
 
     pointer-events: none;
@@ -24,12 +24,12 @@
         position: relative;
         align-items: center;
 
-        padding: map.get(s.$app, "toast", "padding");
-        border: map.get(s.$app, "toast", "border") solid transparent;
+        padding: map.get(s.$components, "toast", "padding");
+        border: map.get(s.$components, "toast", "border") solid transparent;
         gap: 1ch;
 
         backdrop-filter: blur(12px);
-        border-radius: map.get(s.$app, "toast", "radius");
+        border-radius: map.get(s.$components, "toast", "radius");
 
         pointer-events: all;
 
@@ -73,12 +73,12 @@
         opacity: 0.35;
 
         width: 100%;
-        height: map.get(s.$app, "toast", "progress");
+        height: map.get(s.$components, "toast", "progress");
         transform-origin: left center;
 
         background: currentcolor;
-        border-bottom-right-radius: map.get(s.$app, "toast", "radius");
-        border-bottom-left-radius: map.get(s.$app, "toast", "radius");
+        border-bottom-right-radius: map.get(s.$components, "toast", "radius");
+        border-bottom-left-radius: map.get(s.$components, "toast", "radius");
 
         animation: toast-progress var(--toast-duration) linear forwards;
     }

@@ -1,0 +1,33 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$datatable: (
+    "breakpoint": map.get(s.$breakpoints, "desktop"),
+    "border": map.get(s.$border, "base"),
+    "radius": map.get(s.$radius, "featured"),
+    "padding": (
+        "th": 0.25rem 0.5rem,
+        "td": 0.25rem 0.5rem
+    ),
+    "pagination": (
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured"),
+        "padding": 0.5rem,
+        "margin": 0.5rem 0 0,
+        "gap": 0.5rem,
+        "page": (
+            "border": map.get(s.$border, "base"),
+            "radius": map.get(s.$radius, "featured"),
+            "padding": 0.45rem,
+            "min-width": 39px
+        )
+    ),
+    "cards": (
+        "min-width": 220px,
+        "padding": 0.5rem,
+        "gap": 0.5rem,
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured")
+    )
+);

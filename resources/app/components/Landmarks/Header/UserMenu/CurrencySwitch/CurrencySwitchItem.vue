@@ -40,7 +40,7 @@ defineProps<{
 
     background-color: map.get(c.$components, "currency", "item-background");
     color: map.get(c.$components, "currency", "item-surface");
-    border-radius: map.get(s.$theme, "radius");
+    border-radius: map.get(s.$components, "theme", "radius");
 
     font-size: 1rem;
     font-weight: normal;

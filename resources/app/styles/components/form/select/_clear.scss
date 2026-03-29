@@ -5,11 +5,11 @@
 
 .form-select__clear {
     position: absolute;
-    top: calc(anchor(top) + map.get(s.$form, "select", "border"));
-    right: calc(anchor(right) + 3ch + #{map.get(s.$form, "select", "caret") * 2});
-    bottom: calc(anchor(bottom) + map.get(s.$form, "select", "border"));
+    top: calc(anchor(top) + map.get(s.$components, "select", "border"));
+    right: calc(anchor(right) + 3ch + #{map.get(s.$components, "select", "caret") * 2});
+    bottom: calc(anchor(bottom) + map.get(s.$components, "select", "border"));
 
-    width: map.get(s.$form, "select", "clear");
+    width: map.get(s.$components, "select", "clear");
     border: 0;
 
     background: transparent;

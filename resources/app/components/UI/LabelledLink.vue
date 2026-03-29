@@ -38,8 +38,8 @@ withDefaults(
 
     text-decoration-color: map.get(c.$components, "textlink", "decoration");
     text-decoration-style: solid;
-    text-decoration-thickness: map.get(s.$app, "textlink-underline-thickness");
-    text-underline-offset: map.get(s.$app, "textlink-underline-offset");
+    text-decoration-thickness: map.get(s.$components, "textlink", "underline-thickness");
+    text-underline-offset: map.get(s.$components, "textlink", "underline-offset");
 
     transition:
         color map.get(ti.$timings, "fast") linear,

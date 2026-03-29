@@ -1,0 +1,10 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$otp: (
+    "padding": 0,
+    "radius": map.get(s.$radius, "base"),
+    "border": map.get(s.$border, "base"),
+    "line-height": map.get(s.$icons, "medium")
+);

@@ -1,0 +1,9 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$defaults: (
+    "border": map.get(s.$border, "base"),
+    "padding": 0.5rem,
+    "radius": map.get(s.$radius, "base")
+);

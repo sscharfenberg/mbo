@@ -34,7 +34,7 @@ h1 {
     }
 
     .line {
-        margin-left: calc((sibling-count() - sibling-index()) * map.get(s.$header, "step-margin"));
+        margin-left: calc((sibling-count() - sibling-index()) * map.get(s.$components, "header", "step-margin"));
         transform: skew(-15deg);
 
         text-transform: capitalize;

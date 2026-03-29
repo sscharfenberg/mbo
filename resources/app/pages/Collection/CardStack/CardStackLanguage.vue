@@ -64,12 +64,12 @@ const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}
         display: flex;
         align-items: center;
 
-        padding: map.get(s.$form, "language", "padding");
-        border: map.get(s.$form, "language", "border") solid map.get(c.$components, "language", "border");
+        padding: map.get(s.$components, "language", "padding");
+        border: map.get(s.$components, "language", "border") solid map.get(c.$components, "language", "border");
         gap: 0.5rem;
 
         background-color: map.get(c.$components, "language", "background");
-        border-radius: map.get(s.$form, "language", "radius");
+        border-radius: map.get(s.$components, "language", "radius");
 
         cursor: pointer;
 

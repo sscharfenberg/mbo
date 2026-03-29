@@ -28,7 +28,7 @@ const { navigating } = useNavigation();
 @use "Abstracts/sizes" as s;
 
 main {
-    max-width: map.get(s.$main, "max-narrow");
+    max-width: map.get(s.$app, "max-narrow");
     margin: 0 auto;
 }
 </style>

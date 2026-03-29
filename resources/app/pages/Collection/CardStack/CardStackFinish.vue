@@ -54,11 +54,11 @@ const emit = defineEmits<{
         display: flex;
         align-items: center;
 
-        padding: map.get(s.$form, "finish", "padding");
-        border: map.get(s.$form, "finish", "border") solid map.get(c.$components, "finish", "border");
+        padding: map.get(s.$components, "finish", "padding");
+        border: map.get(s.$components, "finish", "border") solid map.get(c.$components, "finish", "border");
 
         background-color: map.get(c.$components, "finish", "background");
-        border-radius: map.get(s.$form, "finish", "radius");
+        border-radius: map.get(s.$components, "finish", "radius");
 
         cursor: pointer;
 

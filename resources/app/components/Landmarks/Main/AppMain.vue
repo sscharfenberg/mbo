@@ -40,7 +40,7 @@ main {
     );
 
     .inner {
-        max-width: map.get(s.$app, "cage");
+        max-width: map.get(s.$app, "max");
         margin: 0 auto 2lh;
     }
 }

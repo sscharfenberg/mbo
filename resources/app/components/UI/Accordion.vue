@@ -121,11 +121,11 @@ function collapse() {
 @use "Abstracts/timings" as ti;
 
 .collapsible {
-    border: map.get(s.$main, "accordion", "border") solid map.get(c.$components, "accordion", "border");
+    border: map.get(s.$components, "accordion", "border") solid map.get(c.$components, "accordion", "border");
 
     background-color: map.get(c.$components, "accordion", "background");
     color: map.get(c.$components, "accordion", "surface");
-    border-radius: map.get(s.$main, "accordion", "radius");
+    border-radius: map.get(s.$components, "accordion", "radius");
 
     &__head {
         display: flex;
@@ -133,7 +133,7 @@ function collapse() {
         justify-content: space-between;
 
         width: 100%;
-        padding: map.get(s.$main, "accordion", "padding");
+        padding: map.get(s.$components, "accordion", "padding");
         border: 0;
 
         background-color: transparent;
@@ -172,7 +172,7 @@ function collapse() {
     }
 
     &__body-inner {
-        padding: map.get(s.$main, "accordion", "padding");
+        padding: map.get(s.$components, "accordion", "padding");
     }
 }
 </style>

@@ -9,11 +9,9 @@
     &__button {
         display: flex;
 
-        border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
+        border: map.get(s.$components, "input", "border") solid map.get(c.$components, "input", "border");
 
-        border-radius: map.get(s.$form, "input", "radius");
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        border-radius: 0 map.get(s.$components, "input", "radius") map.get(s.$components, "input", "radius") 0;
 
         button {
             display: flex;
@@ -27,7 +25,7 @@
             color: map.get(c.$components, "input", "surface");
             outline: 0;
 
-            line-height: map.get(s.$form, "input", "line-height");
+            line-height: map.get(s.$components, "input", "line-height");
 
             cursor: pointer;
 
@@ -51,8 +49,8 @@
             }
 
             &:last-child {
-                border-top-right-radius: map.get(s.$form, "input", "radius");
-                border-bottom-right-radius: map.get(s.$form, "input", "radius");
+                border-top-right-radius: map.get(s.$components, "input", "radius");
+                border-bottom-right-radius: map.get(s.$components, "input", "radius");
             }
 
             &[disabled] {

@@ -93,11 +93,11 @@ watch(
         grid-column: 1 / -1;
 
         padding-right: 1ch;
-        border: map.get(s.$main, "containers", "border") solid map.get(c.$pages, "containers", "border");
+        border: map.get(s.$pages, "containers", "border") solid map.get(c.$pages, "containers", "border");
 
         background: map.get(c.$pages, "containers", "background", "odd");
         color: map.get(c.$pages, "containers", "surface");
-        border-radius: map.get(s.$main, "containers", "radius");
+        border-radius: map.get(s.$pages, "containers", "radius");
 
         transition: background-color map.get(ti.$timings, "fast") linear;
         row-gap: 0.5rem;
@@ -131,10 +131,10 @@ watch(
         padding: 1ex 1ch;
 
         border-top-left-radius: calc(
-            map.get(s.$main, "containers", "radius") - map.get(s.$main, "containers", "border")
+            map.get(s.$pages, "containers", "radius") - map.get(s.$pages, "containers", "border")
         );
         border-bottom-left-radius: calc(
-            map.get(s.$main, "containers", "radius") - map.get(s.$main, "containers", "border")
+            map.get(s.$pages, "containers", "radius") - map.get(s.$pages, "containers", "border")
         );
 
         cursor: grab;

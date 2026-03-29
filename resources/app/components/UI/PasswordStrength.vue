@@ -52,14 +52,15 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
 
     // Right padding reserves space for the valid/invalid icon (always shown).
     // The icon is 20px wide; 1ch gap between meter and icon.
-    padding: map.get(s.$form, "password-strength", "padding");
-    padding-right: calc(20px + 1.5ch);
-    border: map.get(s.$form, "password-strength", "border") solid map.get(c.$components, "password-strength", "border");
+    padding: map.get(s.$components, "password-strength", "padding") calc(20px + 1.5ch)
+        map.get(s.$components, "password-strength", "padding") map.get(s.$components, "password-strength", "padding");
+    border: map.get(s.$components, "password-strength", "border") solid
+        map.get(c.$components, "password-strength", "border");
     margin-top: 1ex;
     gap: 1ch;
 
     background-color: map.get(c.$components, "password-strength", "background");
-    border-radius: map.get(s.$form, "password-strength", "radius");
+    border-radius: map.get(s.$components, "password-strength", "radius");
 
     &__meter {
         --bar-width: v-bind(barWidth);
@@ -68,11 +69,11 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
         flex-grow: 1;
 
         height: 2ex;
-        border: map.get(s.$form, "password-strength", "meter-border") solid
+        border: map.get(s.$components, "password-strength", "meter-border") solid
             map.get(c.$components, "password-strength", "border");
 
         background: map.get(c.$components, "password-strength", "meter-bar");
-        border-radius: map.get(s.$form, "password-strength", "meter-radius");
+        border-radius: map.get(s.$components, "password-strength", "meter-radius");
     }
 
     &__bar {
@@ -83,8 +84,8 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
         height: 100%;
 
         background: #444;
-        border-top-right-radius: map.get(s.$form, "password-strength", "meter-radius");
-        border-bottom-right-radius: map.get(s.$form, "password-strength", "meter-radius");
+        border-top-right-radius: map.get(s.$components, "password-strength", "meter-radius");
+        border-bottom-right-radius: map.get(s.$components, "password-strength", "meter-radius");
 
         transition: width 500ms linear;
     }

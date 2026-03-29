@@ -80,7 +80,10 @@ onUnmounted(() => observer?.disconnect());
 
 .results {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(#{map.get(s.$main, "art-crop", "min-width")}, 100%), 1fr));
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(#{map.get(s.$components, "face-image", "min-width")}, 100%), 1fr)
+    );
 
     padding: 0;
     margin: 0;

@@ -31,18 +31,18 @@ import Headline from "Components/UI/Headline.vue";
     display: flex;
     flex-direction: column;
 
-    padding: map.get(s.$main, "stats", "padding");
-    border: map.get(s.$main, "stats", "border") solid map.get(c.$components, "stats", "border");
+    padding: map.get(s.$components, "stats", "padding");
+    border: map.get(s.$components, "stats", "border") solid map.get(c.$components, "stats", "border");
 
     background-color: map.get(c.$components, "stats", "background");
     color: map.get(c.$components, "stats", "surface");
-    border-radius: map.get(s.$main, "stats", "radius");
+    border-radius: map.get(s.$components, "stats", "radius");
 
     &__value {
-        $os: map.get(s.$main, "stats", "num", "outline");
+        $os: map.get(s.$components, "stats", "num", "outline");
         $oc: map.get(c.$components, "stats", "num", "outline");
 
-        margin-bottom: map.get(s.$main, "stats", "num", "gap");
+        margin-bottom: map.get(s.$components, "stats", "num", "gap");
 
         color: map.get(c.$components, "stats", "num", "surface");
 
@@ -64,12 +64,12 @@ import Headline from "Components/UI/Headline.vue";
         display: flex;
         align-items: center;
 
-        margin-bottom: map.get(s.$main, "stats", "num", "gap");
+        margin-bottom: map.get(s.$components, "stats", "num", "gap");
         gap: 0.5ch;
     }
 
     &__explanation {
-        padding: map.get(s.$main, "stats", "explanation-padding");
+        padding: map.get(s.$components, "stats", "explanation-padding");
         margin-top: auto;
 
         background-color: map.get(c.$components, "stats", "explanation-background");

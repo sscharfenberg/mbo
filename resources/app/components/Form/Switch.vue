@@ -67,7 +67,7 @@ input {
     }
 
     &:checked + label::after {
-        left: calc(100% - #{map.get(s.$form, "switch", "border")});
+        left: calc(100% - #{map.get(s.$components, "switch", "border")});
 
         transform: translateX(-100%);
     }
@@ -77,8 +77,8 @@ label {
     display: block;
     position: relative;
 
-    width: map.get(s.$form, "switch", "size") * 2;
-    height: map.get(s.$form, "switch", "size");
+    width: map.get(s.$components, "switch", "size") * 2;
+    height: map.get(s.$components, "switch", "size");
 
     background-color: map.get(c.$components, "switch", "background");
     border-radius: 90dvh;
@@ -91,11 +91,11 @@ label {
 
     &::after {
         position: absolute;
-        top: #{map.get(s.$form, "switch", "border")};
-        left: #{map.get(s.$form, "switch", "border")};
+        top: #{map.get(s.$components, "switch", "border")};
+        left: #{map.get(s.$components, "switch", "border")};
 
-        width: map.get(s.$form, "switch", "size") - 2 * map.get(s.$form, "switch", "border");
-        height: map.get(s.$form, "switch", "size") - 2 * map.get(s.$form, "switch", "border");
+        width: map.get(s.$components, "switch", "size") - 2 * map.get(s.$components, "switch", "border");
+        height: map.get(s.$components, "switch", "size") - 2 * map.get(s.$components, "switch", "border");
 
         background: map.get(c.$components, "switch", "surface");
         border-radius: 90dvh;
@@ -107,7 +107,7 @@ label {
 }
 
 label:active::after {
-    width: map.get(s.$form, "switch", "size") * 1.25;
+    width: map.get(s.$components, "switch", "size") * 1.25;
 }
 
 .wrapper {

@@ -6,13 +6,13 @@
 .form-radio {
     display: flex;
 
-    border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
+    border: map.get(s.$components, "input", "border") solid map.get(c.$components, "input", "border");
 
     background-color: map.get(c.$components, "input", "background");
     color: map.get(c.$components, "input", "surface");
-    border-radius: map.get(s.$form, "input", "radius");
+    border-radius: map.get(s.$components, "input", "radius");
 
-    line-height: map.get(s.$form, "input", "line-height");
+    line-height: map.get(s.$components, "input", "line-height");
 
     cursor: pointer;
 
@@ -27,18 +27,18 @@
         align-items: center;
 
         padding: 0.75ex 1ch 0.75ex 1.5ch;
-        border-right: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
+        border-right: map.get(s.$components, "input", "border") solid map.get(c.$components, "input", "border");
 
         &::before {
             display: block;
 
             width: 24px;
             height: 24px;
-            border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
+            border: map.get(s.$components, "input", "border") solid map.get(c.$components, "input", "border");
 
             background: transparent;
 
-            border-radius: map.get(s.$form, "input", "radius");
+            border-radius: map.get(s.$components, "input", "radius");
 
             content: "";
         }
@@ -53,7 +53,7 @@
     }
 
     input[type="radio"] {
-        $inset: #{map.get(s.$form, "input", "border") * 2};
+        $inset: #{map.get(s.$components, "input", "border") * 2};
         visibility: hidden;
 
         width: 0;

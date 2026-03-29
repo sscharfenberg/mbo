@@ -21,7 +21,7 @@
             height: 100%;
 
             background-color: map.get(c.$components, "theme", "background-selected");
-            border-radius: map.get(s.$theme, "radius");
+            border-radius: map.get(s.$components, "theme", "radius");
 
             content: "";
 
@@ -53,7 +53,7 @@
         justify-content: center;
         flex-grow: 1;
 
-        padding: map.get(s.$theme, "padding");
+        padding: map.get(s.$components, "theme", "padding");
         gap: 4px;
 
         color: map.get(c.$components, "theme", "surface");

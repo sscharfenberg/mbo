@@ -9,16 +9,17 @@
     align-items: center;
 
     width: 100%;
-    padding: 0.75ex calc(3ch + #{map.get(s.$form, "select", "caret") * 2} + map.get(s.$form, "select", "clear")) 0.75ex
+    padding: 0.75ex
+        calc(3ch + #{map.get(s.$components, "select", "caret") * 2} + map.get(s.$components, "select", "clear")) 0.75ex
         2ch;
-    border: map.get(s.$form, "select", "border") solid map.get(c.$components, "select", "border");
+    border: map.get(s.$components, "select", "border") solid map.get(c.$components, "select", "border");
 
     background-color: map.get(c.$components, "select", "background");
     color: map.get(c.$components, "select", "surface");
     outline: 0;
-    border-radius: map.get(s.$form, "select", "radius");
+    border-radius: map.get(s.$components, "select", "radius");
 
-    line-height: map.get(s.$form, "select", "height");
+    line-height: map.get(s.$components, "select", "height");
 
     transition:
         background-color map.get(ti.$timings, "fast") ease,
@@ -52,7 +53,7 @@
 
     width: 0;
     height: 0;
-    border-width: map.get(s.$form, "select", "caret") map.get(s.$form, "select", "caret") 0;
+    border-width: map.get(s.$components, "select", "caret") map.get(s.$components, "select", "caret") 0;
 
     transform: translateY(-50%);
 

@@ -23,10 +23,10 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 .app-header {
     @include m.mqset(
         "padding",
-        map.get(s.$header, "padding", "base"),
-        map.get(s.$header, "padding", "portrait"),
-        map.get(s.$header, "padding", "landscape"),
-        map.get(s.$header, "padding", "desktop")
+        map.get(s.$components, "header", "padding", "base"),
+        map.get(s.$components, "header", "padding", "portrait"),
+        map.get(s.$components, "header", "padding", "landscape"),
+        map.get(s.$components, "header", "padding", "desktop")
     );
 
     .inner {
@@ -35,7 +35,7 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
         align-items: center;
         justify-content: flex-start;
 
-        max-width: map.get(s.$app, "cage");
+        max-width: map.get(s.$app, "max");
         padding: 0.5ex 2ch;
         margin: 0 auto;
         gap: 1ch;
@@ -53,10 +53,13 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 
         @include m.mqset(
             "border-radius",
-            #{0 0 map.get(s.$header, "radius", "base") map.get(s.$header, "radius", "base")},
-            #{0 0 map.get(s.$header, "radius", "portrait") map.get(s.$header, "radius", "portrait")},
-            #{0 0 map.get(s.$header, "radius", "landscape") map.get(s.$header, "radius", "landscape")},
-            #{0 0 map.get(s.$header, "radius", "desktop") map.get(s.$header, "radius", "desktop")}
+            #{0 0 map.get(s.$components, "header", "radius", "base") map.get(s.$components, "header", "radius", "base")},
+            #{0 0 map.get(s.$components, "header", "radius", "portrait")
+                map.get(s.$components, "header", "radius", "portrait")},
+            #{0 0 map.get(s.$components, "header", "radius", "landscape")
+                map.get(s.$components, "header", "radius", "landscape")},
+            #{0 0 map.get(s.$components, "header", "radius", "desktop")
+                map.get(s.$components, "header", "radius", "desktop")}
         );
 
         &::before {
@@ -64,7 +67,7 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
             inset: 0;
             z-index: -1;
 
-            border: map.get(s.$header, "border") solid transparent;
+            border: map.get(s.$components, "header", "border") solid transparent;
             border-top-width: 0;
 
             background: linear-gradient(

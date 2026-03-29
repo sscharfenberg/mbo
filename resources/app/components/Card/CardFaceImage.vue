@@ -66,9 +66,9 @@ function onFlip() {
     position: relative;
 
     width: 100%;
-    max-width: map.get(s.$main, "face-image", "card-image-max");
+    max-width: map.get(s.$components, "face-image", "card-image-max");
 
-    border-radius: map.get(s.$main, "face-image", "radius");
+    border-radius: map.get(s.$components, "face-image", "radius");
     perspective: 800px; // gives the 3D depth effect
 
     &__front,
@@ -128,8 +128,8 @@ function onFlip() {
         }
 
         .icon {
-            width: map.get(s.$main, "face-image", "flip-size");
-            height: map.get(s.$main, "face-image", "flip-size");
+            width: map.get(s.$components, "face-image", "flip-size");
+            height: map.get(s.$components, "face-image", "flip-size");
         }
     }
 
@@ -138,7 +138,7 @@ function onFlip() {
         inset: auto 0 0;
         z-index: map.get(z.$index, "main");
 
-        padding: map.get(s.$main, "face-image", "panel-padding");
+        padding: map.get(s.$components, "face-image", "panel-padding");
 
         background-color: map.get(c.$components, "face-image", "meta", "background");
         color: map.get(c.$components, "face-image", "meta", "surface");
@@ -163,8 +163,8 @@ function onFlip() {
     }
 
     &__set {
-        width: map.get(s.$main, "art-crop", "set");
-        height: map.get(s.$main, "art-crop", "set");
+        width: map.get(s.$components, "face-image", "set");
+        height: map.get(s.$components, "face-image", "set");
         margin-left: auto;
 
         filter: invert(1);

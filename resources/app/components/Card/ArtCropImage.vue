@@ -41,10 +41,10 @@ defineProps<{
 
     overflow: hidden;
     width: 100%;
-    max-width: map.get(s.$main, "art-crop", "card-image-max");
+    max-width: map.get(s.$components, "art-crop", "card-image-max");
     aspect-ratio: 626 / 457;
 
-    border-radius: map.get(s.$main, "art-crop", "radius");
+    border-radius: map.get(s.$components, "art-crop", "radius");
 
     &__image {
         position: absolute;
@@ -71,13 +71,13 @@ defineProps<{
         left: 0;
         align-items: center;
 
-        padding: map.get(s.$main, "art-crop", "panel-padding");
+        padding: map.get(s.$components, "art-crop", "panel-padding");
         gap: 0.5ch;
 
         background: map.get(c.$components, "art-crop", "panel-background");
         color: map.get(c.$components, "art-crop", "panel-surface");
-        border-bottom-right-radius: map.get(s.$main, "art-crop", "radius");
-        border-bottom-left-radius: map.get(s.$main, "art-crop", "radius");
+        border-bottom-right-radius: map.get(s.$components, "art-crop", "radius");
+        border-bottom-left-radius: map.get(s.$components, "art-crop", "radius");
     }
 
     &__info {
@@ -106,8 +106,8 @@ defineProps<{
     }
 
     &__set {
-        width: map.get(s.$main, "art-crop", "set");
-        height: map.get(s.$main, "art-crop", "set");
+        width: map.get(s.$components, "art-crop", "set");
+        height: map.get(s.$components, "art-crop", "set");
         margin-left: auto;
 
         filter: invert(1);

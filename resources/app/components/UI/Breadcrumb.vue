@@ -70,8 +70,10 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
 
             width: 100%;
             height: 50%;
-            border-right: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
-            border-left: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
+            border-right: map.get(s.$components, "breadcrumb", "border") solid
+                map.get(c.$components, "breadcrumb", "border");
+            border-left: map.get(s.$components, "breadcrumb", "border") solid
+                map.get(c.$components, "breadcrumb", "border");
 
             background-color: map.get(c.$components, "breadcrumb", "background");
 
@@ -83,14 +85,16 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
         &::before {
             top: 0;
 
-            border-top: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
+            border-top: map.get(s.$components, "breadcrumb", "border") solid
+                map.get(c.$components, "breadcrumb", "border");
             transform: skew(30deg);
         }
 
         &::after {
             bottom: 0;
 
-            border-bottom: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
+            border-bottom: map.get(s.$components, "breadcrumb", "border") solid
+                map.get(c.$components, "breadcrumb", "border");
             transform: skew(-30deg);
         }
 
@@ -98,10 +102,10 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
             display: flex;
             align-items: center;
 
-            padding: map.get(s.$app, "breadcrumb", "padding");
+            padding: map.get(s.$components, "breadcrumb", "padding");
             gap: 1ch;
 
-            line-height: map.get(s.$app, "breadcrumb", "line-height");
+            line-height: map.get(s.$components, "breadcrumb", "line-height");
         }
 
         &:first-child {
@@ -113,7 +117,7 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
             }
 
             > span {
-                $border: map.get(s.$app, "breadcrumb", "border");
+                $border: map.get(s.$components, "breadcrumb", "border");
                 $outline: map.get(c.$components, "breadcrumb", "border");
 
                 width: calc(100% - $border);

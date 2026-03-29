@@ -97,21 +97,25 @@ function onActionClick(row: T, event: MouseEvent) {
     display: none;
 }
 
-@container (max-width: #{map.get(s.$table, "breakpoint") - 1px}) {
+@container (max-width: #{map.get(s.$components, "datatable", "breakpoint") - 1px}) {
     .dt-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(map.get(s.$table, "cards", "min-width"), 1fr));
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(map.get(s.$components, "datatable", "cards", "min-width"), 1fr)
+        );
 
-        gap: map.get(s.$table, "cards", "gap");
+        gap: map.get(s.$components, "datatable", "cards", "gap");
     }
 
     .dt-cards__card {
-        padding: map.get(s.$table, "cards", "padding");
-        border: map.get(s.$table, "cards", "border") solid map.get(c.$components, "datatable", "cards", "border");
+        padding: map.get(s.$components, "datatable", "cards", "padding");
+        border: map.get(s.$components, "datatable", "cards", "border") solid
+            map.get(c.$components, "datatable", "cards", "border");
 
         background-color: map.get(c.$components, "datatable", "cards", "background");
         color: map.get(c.$components, "datatable", "cards", "surface");
-        border-radius: map.get(s.$table, "cards", "radius");
+        border-radius: map.get(s.$components, "datatable", "cards", "radius");
 
         &--clickable {
             cursor: pointer;

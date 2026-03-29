@@ -113,14 +113,14 @@ setBreadcrumbs([
     display: flex;
     flex-wrap: wrap;
 
-    padding: map.get(s.$main, "containers", "types-padding");
-    border: map.get(s.$main, "containers", "types-border") solid map.get(c.$pages, "containers", "types-border");
+    padding: map.get(s.$pages, "containers", "types-padding");
+    border: map.get(s.$pages, "containers", "types-border") solid map.get(c.$pages, "containers", "types-border");
     margin: 0;
     gap: 1ch;
 
     background-color: map.get(c.$pages, "containers", "types-background");
     list-style: none;
-    border-radius: map.get(s.$main, "containers", "types-radius");
+    border-radius: map.get(s.$pages, "containers", "types-radius");
 
     &__label {
         display: block;
@@ -128,7 +128,7 @@ setBreadcrumbs([
         padding: 0.5ex 1ch;
 
         background-color: map.get(c.$pages, "containers", "type-background");
-        border-radius: map.get(s.$main, "containers", "types-radius");
+        border-radius: map.get(s.$pages, "containers", "types-radius");
 
         cursor: pointer;
     }

@@ -111,12 +111,12 @@ label {
     align-items: center;
     justify-content: center;
 
-    width: map.get(s.$form, "checkbox", "size");
-    height: map.get(s.$form, "checkbox", "size");
-    border: map.get(s.$form, "checkbox", "border") solid map.get(c.$components, "checkbox", "border");
+    width: map.get(s.$components, "checkbox", "size");
+    height: map.get(s.$components, "checkbox", "size");
+    border: map.get(s.$components, "checkbox", "border") solid map.get(c.$components, "checkbox", "border");
 
     background-color: map.get(c.$components, "checkbox", "background");
-    border-radius: map.get(s.$form, "checkbox", "radius");
+    border-radius: map.get(s.$components, "checkbox", "radius");
 
     text-indent: -9999px;
 

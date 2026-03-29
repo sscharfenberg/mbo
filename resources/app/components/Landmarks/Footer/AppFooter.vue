@@ -57,7 +57,7 @@ footer {
         inset: 0;
         z-index: map.get(z.$index, "background");
 
-        border-top: map.get(s.$footer, "border") solid transparent;
+        border-top: map.get(s.$components, "footer", "border") solid transparent;
 
         background: linear-gradient(
                 to right,
@@ -76,17 +76,17 @@ footer {
 
     @include m.mqset(
         "padding",
-        map.get(s.$footer, "padding", "base"),
-        map.get(s.$footer, "padding", "portrait"),
-        map.get(s.$footer, "padding", "landscape"),
-        map.get(s.$footer, "padding", "desktop")
+        map.get(s.$components, "footer", "padding", "base"),
+        map.get(s.$components, "footer", "padding", "portrait"),
+        map.get(s.$components, "footer", "padding", "landscape"),
+        map.get(s.$components, "footer", "padding", "desktop")
     );
 
     .inner {
         display: flex;
         flex-direction: column;
 
-        max-width: map.get(s.$app, "cage");
+        max-width: map.get(s.$app, "max");
         margin: 0 auto;
         gap: 2ch;
 

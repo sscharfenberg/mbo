@@ -22,12 +22,12 @@ withDefaults(
     display: inline-flex;
     align-items: center;
 
-    padding: map.get(s.$main, "badge", "padding");
-    border: map.get(s.$main, "badge", "border") solid transparent;
+    padding: map.get(s.$components, "badge", "padding");
+    border: map.get(s.$components, "badge", "border") solid transparent;
     gap: 0.5ch;
 
     backdrop-filter: blur(12px);
-    border-radius: map.get(s.$main, "badge", "radius");
+    border-radius: map.get(s.$components, "badge", "radius");
 
     font-size: 1rem;
     font-weight: 700;

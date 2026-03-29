@@ -20,11 +20,11 @@
  * @usage
  * @include m.mqset(
  *    "margin-bottom",
- *    map.get(s.$header, "unauthed-margin-bottom", "base"),
- *    map.get(s.$header, "unauthed-margin-bottom", "portrait"),
- *    map.get(s.$header, "unauthed-margin-bottom", "landscape"),
- *    map.get(s.$header, "unauthed-margin-bottom", "desktop"),
- *    map.get(s.$header, "unauthed-margin-bottom", "full")
+ *    map.get(s.$components, "header", "unauthed-margin-bottom", "base"),
+ *    map.get(s.$components, "header", "unauthed-margin-bottom", "portrait"),
+ *    map.get(s.$components, "header", "unauthed-margin-bottom", "landscape"),
+ *    map.get(s.$components, "header", "unauthed-margin-bottom", "desktop"),
+ *    map.get(s.$components, "header", "unauthed-margin-bottom", "full")
  * );
  *
  */

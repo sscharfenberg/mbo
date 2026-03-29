@@ -6,9 +6,9 @@
     &__icon {
         justify-self: flex-start;
 
-        width: map.get(s.$form, "icon");
-        height: map.get(s.$form, "icon");
-        margin: map.get(s.$form, "input", "border") 0;
+        width: map.get(s.$components, "input", "icon");
+        height: map.get(s.$components, "input", "icon");
+        margin: map.get(s.$components, "input", "border") 0;
 
         @include m.mq("landscape") {
             text-align: right;

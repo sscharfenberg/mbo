@@ -147,32 +147,37 @@ function onHeaderCheckbox() {
     }
 
     th {
-        border-bottom: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
+        border-bottom: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
 
         background-color: map.get(c.$components, "datatable", "th", "background");
 
         text-align: left;
 
         &:not(:last-child) {
-            border-right: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
+            border-right: map.get(s.$components, "datatable", "border") solid
+                map.get(c.$components, "datatable", "border");
         }
 
         &:first-child {
-            border-top-left-radius: calc(map.get(s.$table, "radius") - map.get(s.$table, "border"));
+            border-top-left-radius: calc(
+                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
+            );
         }
 
         &:last-child {
-            border-top-right-radius: calc(map.get(s.$table, "radius") - map.get(s.$table, "border"));
+            border-top-right-radius: calc(
+                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
+            );
         }
 
         &:not(:has(button)) {
-            padding: map.get(s.$table, "padding", "th");
+            padding: map.get(s.$components, "datatable", "padding", "th");
         }
 
         button {
             width: 100%;
             height: 100%;
-            padding: map.get(s.$table, "padding", "th");
+            padding: map.get(s.$components, "datatable", "padding", "th");
             border: 0;
             gap: 0.25rem;
 

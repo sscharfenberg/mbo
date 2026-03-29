@@ -130,15 +130,13 @@ onMounted(() => {
         flex-direction: column;
 
         width: 100%;
-        max-width: map.get(s.$main, "modal", "max-width");
-
-        // padding: map.get(s.$main, "modal", "padding");
-        border: map.get(s.$main, "modal", "border") solid map.get(c.$components, "modal", "border");
+        max-width: map.get(s.$components, "modal", "max-width");
+        border: map.get(s.$components, "modal", "border") solid map.get(c.$components, "modal", "border");
         margin: 1rem 0;
 
         background-color: map.get(c.$components, "modal", "background");
         color: map.get(c.$components, "modal", "surface");
-        border-radius: map.get(s.$main, "modal", "radius");
+        border-radius: map.get(s.$components, "modal", "radius");
 
         // reset modal styles, since we might open the modal from within an
         // element with different values, and we don't want to inherit them.

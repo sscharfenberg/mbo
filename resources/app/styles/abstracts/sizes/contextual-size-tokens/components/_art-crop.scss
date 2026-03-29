@@ -1,0 +1,12 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$art-crop: (
+    "min-width": math.round(s.$base * 12),
+    "panel-padding": 1ex 1ch,
+    "set": map.get(s.$icons, "medium"),
+    "radius": math.round(map.get(s.$radius, "featured") * 1.45),
+    "border-active": math.round(map.get(s.$border, "featured") * 1.5),
+    "card-image-max": 24rem
+);

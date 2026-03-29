@@ -11,7 +11,7 @@
     display: inline-flex;
     align-items: center;
 
-    padding: map.get(s.$app, "popover-font-size");
+    padding: map.get(s.$components, "popover", "button-padding");
     border: 0;
     gap: 0.5ch;
 

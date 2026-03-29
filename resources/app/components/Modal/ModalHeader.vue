@@ -25,16 +25,18 @@ import Icon from "Components/UI/Icon.vue";
         position: relative;
         align-items: flex-start;
 
-        padding: map.get(s.$main, "modal", "padding");
+        padding: map.get(s.$components, "modal", "padding");
         gap: 1rem;
 
         background-color: map.get(c.$components, "modal", "title-background");
 
         color: map.get(c.$components, "modal", "title-surface");
         border-start-start-radius: calc(
-            #{map.get(s.$main, "modal", "radius")} - #{map.get(s.$main, "modal", "border")}
+            #{map.get(s.$components, "modal", "radius")} - #{map.get(s.$components, "modal", "border")}
         );
-        border-start-end-radius: calc(#{map.get(s.$main, "modal", "radius")} - #{map.get(s.$main, "modal", "border")});
+        border-start-end-radius: calc(
+            #{map.get(s.$components, "modal", "radius")} - #{map.get(s.$components, "modal", "border")}
+        );
     }
 
     &__title {

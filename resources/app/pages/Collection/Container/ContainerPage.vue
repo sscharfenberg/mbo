@@ -78,21 +78,21 @@ setBreadcrumbs([
     position: relative;
     flex-direction: column;
 
-    padding: map.get(s.$main, "container", "meta", "padding");
+    padding: map.get(s.$pages, "container", "meta", "padding");
     margin: 0;
     gap: 1ch;
 
     background-color: map.get(c.$pages, "container", "meta", "background");
     color: map.get(c.$pages, "container", "meta", "surface");
     list-style: none;
-    border-radius: map.get(s.$main, "container", "meta", "radius");
+    border-radius: map.get(s.$pages, "container", "meta", "radius");
 
     &::before {
         position: absolute;
         inset: 0;
         z-index: map.get(z.$index, "background");
 
-        border: map.get(s.$main, "container", "meta", "border") solid transparent;
+        border: map.get(s.$pages, "container", "meta", "border") solid transparent;
 
         background: linear-gradient(
                 to bottom right,
@@ -112,7 +112,7 @@ setBreadcrumbs([
 
     @include m.mq("desktop") {
         display: grid;
-        grid-template-columns: 1fr minmax(auto, map.get(s.$main, "art-crop", "card-image-max"));
+        grid-template-columns: 1fr minmax(auto, map.get(s.$components, "art-crop", "card-image-max"));
 
         li:has(.art-crop) {
             display: flex;

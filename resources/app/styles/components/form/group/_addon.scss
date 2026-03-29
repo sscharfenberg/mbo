@@ -6,15 +6,13 @@
 .form-group {
     &__addon {
         padding: 0.75ex 1ch 0.75ex 1.5ch;
-        border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
+        border: map.get(s.$components, "input", "border") solid map.get(c.$components, "input", "border");
 
         background-color: map.get(c.$components, "input", "background");
         color: map.get(c.$components, "input", "surface");
 
         outline: 0;
-        border-radius: map.get(s.$form, "input", "radius-px");
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-radius: map.get(s.$components, "input", "radius-px") 0 0 map.get(s.$components, "input", "radius-px");
     }
 
     &:has(input:not([readonly])):focus .form-group__addon,

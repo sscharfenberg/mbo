@@ -319,9 +319,9 @@ onBeforeUnmount(() => {
         display: table;
 
         width: 100%;
-        border: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
+        border: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
 
-        border-radius: map.get(s.$table, "radius");
+        border-radius: map.get(s.$components, "datatable", "radius");
 
         border-spacing: 0;
     }
@@ -334,13 +334,13 @@ onBeforeUnmount(() => {
 }
 
 /* Show table on wide containers, cards on narrow */
-@container (min-width: #{map.get(s.$table, "breakpoint")}) {
+@container (min-width: #{map.get(s.$components, "datatable", "breakpoint")}) {
     .dt__table {
         display: table;
     }
 }
 
-@container (max-width: #{map.get(s.$table, "breakpoint") - 1px}) {
+@container (max-width: #{map.get(s.$components, "datatable", "breakpoint") - 1px}) {
     .dt__table {
         display: none;
     }

@@ -10,31 +10,13 @@ $app: (
         "landscape": map.get(s.$font, "landscape"),
         "desktop": map.get(s.$font, "desktop")
     ),
-    "popover-font-size": math.round(map.get(s.$border, "base") * 2),
-    "cage": map.get(s.$max, "cage"),
-    "progress-bar-height": math.round(s.$base * 1),
-    "progress-bar-padding": math.round(s.$base * 0.125),
-    "progress-radius": map.get(s.$radius, "base"),
-    "textlink-underline-thickness": #{map.get(s.$border, "base") * 1.5},
-    "textlink-underline-offset": #{map.get(s.$border, "base") * 2.5},
+    "max": map.get(s.$max, "cage"),
+    "max-narrow": map.get(s.$breakpoints, "landscape"),
     "icon": s.$icons,
     "padding": (
         "base": map.get(s.$padding, "base"),
         "portrait": map.get(s.$padding, "portrait"),
         "landscape": map.get(s.$padding, "landscape"),
         "desktop": map.get(s.$padding, "desktop")
-    ),
-    "toast": (
-        "max": map.get(s.$max, "toast"),
-        "border": map.get(s.$border, "base"),
-        "radius": map.get(s.$radius, "featured"),
-        "padding": 0.5lh 2ch 0.5lh 1ch,
-        "progress": math.round(map.get(s.$border, "base") * 1.5)
-    ),
-    "breadcrumb": (
-        "padding": 0.5rem 1rem,
-        "border": map.get(s.$border, "base"),
-        "radius": map.get(s.$radius, "featured"),
-        "line-height": map.get(s.$icons, "medium")
     )
 ) !default;

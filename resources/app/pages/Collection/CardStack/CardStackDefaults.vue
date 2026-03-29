@@ -113,18 +113,18 @@ ul {
 
     overflow: hidden;
 
-    padding: map.get(s.$main, "defaults", "border");
+    padding: map.get(s.$pages, "defaults", "border");
     border: 0;
     margin: 0;
-    gap: map.get(s.$main, "defaults", "border");
+    gap: map.get(s.$pages, "defaults", "border");
 
     background-color: map.get(c.$pages, "defaults", "border");
 
     list-style: none;
-    border-radius: map.get(s.$main, "defaults", "radius");
+    border-radius: map.get(s.$pages, "defaults", "radius");
 
     li {
-        padding: map.get(s.$main, "defaults", "padding");
+        padding: map.get(s.$pages, "defaults", "padding");
 
         background-color: map.get(c.$components, "accordion", "background");
 

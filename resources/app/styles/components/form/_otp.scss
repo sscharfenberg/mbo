@@ -26,15 +26,15 @@
         justify-content: center;
 
         width: 4ch;
-        min-height: calc(map.get(s.$form, "otp", "line-height") + 2 * map.get(s.$form, "otp", "border"));
-        padding: map.get(s.$form, "otp", "padding");
-        border: map.get(s.$form, "otp", "border") solid map.get(c.$components, "otp", "border");
+        min-height: calc(map.get(s.$components, "otp", "line-height") + 2 * map.get(s.$components, "otp", "border"));
+        padding: map.get(s.$components, "otp", "padding");
+        border: map.get(s.$components, "otp", "border") solid map.get(c.$components, "otp", "border");
 
         background-color: map.get(c.$components, "otp", "background");
         color: map.get(c.$components, "otp", "surface");
-        border-radius: map.get(s.$form, "otp", "radius");
+        border-radius: map.get(s.$components, "otp", "radius");
 
-        line-height: map.get(s.$form, "otp", "line-height");
+        line-height: map.get(s.$components, "otp", "line-height");
 
         &--active {
             background-color: map.get(c.$components, "otp", "background-active");

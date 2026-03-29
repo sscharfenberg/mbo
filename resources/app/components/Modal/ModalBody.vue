@@ -21,10 +21,12 @@ withDefaults(
     overflow-y: auto;
     max-height: 75dvh;
 
-    padding: map.get(s.$main, "modal", "padding");
+    padding: map.get(s.$components, "modal", "padding");
 
     &--no-footer {
-        margin-bottom: calc(#{map.get(s.$main, "modal", "radius")} - #{map.get(s.$main, "modal", "border")});
+        margin-bottom: calc(
+            #{map.get(s.$components, "modal", "radius")} - #{map.get(s.$components, "modal", "border")}
+        );
     }
 }
 </style>
