@@ -18,7 +18,7 @@
     border: 0;
     margin-block-start: 4px;
 
-    background-color: map.get(c.$popover, "background");
+    background-color: map.get(c.$components, "popover", "background");
 
     backdrop-filter: blur(12px);
     border-radius: map.get(s.$popover, "radius");
@@ -73,8 +73,8 @@
 
         background: linear-gradient(
                 to bottom right,
-                map.get(c.$popover, "border-from"),
-                map.get(c.$popover, "border-to")
+                map.get(c.$components, "popover", "border-from"),
+                map.get(c.$components, "popover", "border-to")
             )
             border-box;
 

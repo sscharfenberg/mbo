@@ -48,9 +48,9 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
     margin-bottom: 1lh;
     gap: 1ch;
 
-    background-color: map.get(c.$main, "sticky-nav", "background");
+    background-color: map.get(c.$components, "sticky-nav", "background");
     backdrop-filter: blur(12px);
-    color: map.get(c.$main, "sticky-nav", "surface");
+    color: map.get(c.$components, "sticky-nav", "surface");
     border-radius: map.get(s.$main, "sticky-nav", "radius");
 
     &::before {
@@ -62,8 +62,8 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
 
         background: linear-gradient(
                 to bottom right,
-                map.get(c.$main, "sticky-nav", "border-from"),
-                map.get(c.$main, "sticky-nav", "border-to")
+                map.get(c.$components, "sticky-nav", "border-from"),
+                map.get(c.$components, "sticky-nav", "border-to")
             )
             border-box;
 
@@ -77,7 +77,7 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
     }
 
     &--sticky {
-        background-color: map.get(c.$main, "sticky-nav", "background-sticky");
+        background-color: map.get(c.$components, "sticky-nav", "background-sticky");
 
         border-top-left-radius: 0;
         border-top-right-radius: 0;
@@ -85,15 +85,15 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
         &::before {
             border-top-width: 0;
 
-            background: map.get(c.$main, "sticky-nav", "border-sticky");
+            background: map.get(c.$components, "sticky-nav", "border-sticky");
         }
     }
 
     > a {
         padding: map.get(s.$main, "sticky-nav", "link-padding");
 
-        background-color: map.get(c.$main, "sticky-nav", "link-background");
-        color: map.get(c.$main, "sticky-nav", "link-surface");
+        background-color: map.get(c.$components, "sticky-nav", "link-background");
+        color: map.get(c.$components, "sticky-nav", "link-surface");
         border-radius: map.get(s.$main, "sticky-nav", "link-radius");
 
         text-decoration: none;
@@ -103,13 +103,13 @@ const { sentinel, isStuck, activeSection } = useStickyNav(props.items.map(i => i
             color map.get(ti.$timings, "fast") linear;
 
         &:hover {
-            background-color: map.get(c.$main, "sticky-nav", "link-background-hover");
-            color: map.get(c.$main, "sticky-nav", "link-surface-hover");
+            background-color: map.get(c.$components, "sticky-nav", "link-background-hover");
+            color: map.get(c.$components, "sticky-nav", "link-surface-hover");
         }
 
         &.active {
-            background-color: map.get(c.$main, "sticky-nav", "link-background-active");
-            color: map.get(c.$main, "sticky-nav", "link-surface-active");
+            background-color: map.get(c.$components, "sticky-nav", "link-background-active");
+            color: map.get(c.$components, "sticky-nav", "link-surface-active");
         }
     }
 }

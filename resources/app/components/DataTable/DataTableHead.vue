@@ -147,14 +147,14 @@ function onHeaderCheckbox() {
     }
 
     th {
-        border-bottom: map.get(s.$table, "border") solid map.get(c.$table, "border");
+        border-bottom: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
 
-        background-color: map.get(c.$table, "th", "background");
+        background-color: map.get(c.$components, "datatable", "th", "background");
 
         text-align: left;
 
         &:not(:last-child) {
-            border-right: map.get(s.$table, "border") solid map.get(c.$table, "border");
+            border-right: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
         }
 
         &:first-child {
@@ -183,7 +183,7 @@ function onHeaderCheckbox() {
 
         button,
         span {
-            color: map.get(c.$table, "th", "surface");
+            color: map.get(c.$components, "datatable", "th", "surface");
 
             font-weight: normal;
         }
@@ -201,8 +201,8 @@ function onHeaderCheckbox() {
         th {
             z-index: 2;
 
-            background-color: map.get(c.$table, "th", "background-stuck");
-            color: map.get(c.$table, "th", "surface-stuck");
+            background-color: map.get(c.$components, "datatable", "th", "background-stuck");
+            color: map.get(c.$components, "datatable", "th", "surface-stuck");
         }
     }
 }

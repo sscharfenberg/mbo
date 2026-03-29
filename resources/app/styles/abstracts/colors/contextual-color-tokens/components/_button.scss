@@ -1,0 +1,12 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+// styles for app-button
+$button: (
+    "background": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
+    "surface": light-dark(#000, #fff),
+    "background-disabled": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "abbey")),
+    "surface-disabled": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "border-disabled": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "asher"))
+) !default;

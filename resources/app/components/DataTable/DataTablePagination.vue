@@ -137,12 +137,12 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
     flex-wrap: wrap;
 
     padding: map.get(s.$table, "pagination", "padding");
-    border: map.get(s.$table, "pagination", "border") solid map.get(c.$table, "pagination", "border");
+    border: map.get(s.$table, "pagination", "border") solid map.get(c.$components, "datatable", "pagination", "border");
     margin: map.get(s.$table, "pagination", "margin");
     gap: map.get(s.$table, "pagination", "gap");
 
-    background-color: map.get(c.$table, "pagination", "background");
-    color: map.get(c.$table, "pagination", "surface");
+    background-color: map.get(c.$components, "datatable", "pagination", "background");
+    color: map.get(c.$components, "datatable", "pagination", "surface");
     border-radius: map.get(s.$table, "pagination", "radius");
 
     &__col {
@@ -166,10 +166,10 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
         min-width: map.get(s.$table, "pagination", "page", "min-width");
         padding: map.get(s.$table, "pagination", "page", "padding");
         border: map.get(s.$table, "pagination", "page", "border") solid
-            map.get(c.$table, "pagination", "page", "border");
+            map.get(c.$components, "datatable", "pagination", "page", "border");
 
-        background-color: map.get(c.$table, "pagination", "page", "background");
-        color: map.get(c.$table, "pagination", "page", "surface");
+        background-color: map.get(c.$components, "datatable", "pagination", "page", "background");
+        color: map.get(c.$components, "datatable", "pagination", "page", "surface");
         border-radius: map.get(s.$table, "pagination", "page", "radius");
 
         transition:
@@ -177,8 +177,8 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
             color map.get(ti.$timings, "fast") linear;
 
         &:not([disabled], .dt-pagination__current):hover {
-            background-color: map.get(c.$table, "pagination", "page-hover", "background");
-            color: map.get(c.$table, "pagination", "page-hover", "surface");
+            background-color: map.get(c.$components, "datatable", "pagination", "page-hover", "background");
+            color: map.get(c.$components, "datatable", "pagination", "page-hover", "surface");
 
             cursor: pointer;
         }
@@ -191,9 +191,9 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
     }
 
     &__current {
-        background-color: map.get(c.$table, "pagination", "page-current", "background");
-        color: map.get(c.$table, "pagination", "page-current", "surface");
-        border-color: map.get(c.$table, "pagination", "page-current", "surface");
+        background-color: map.get(c.$components, "datatable", "pagination", "page-current", "background");
+        color: map.get(c.$components, "datatable", "pagination", "page-current", "surface");
+        border-color: map.get(c.$components, "datatable", "pagination", "page-current", "surface");
     }
 }
 </style>

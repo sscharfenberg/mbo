@@ -32,19 +32,19 @@ import Headline from "Components/UI/Headline.vue";
     flex-direction: column;
 
     padding: map.get(s.$main, "stats", "padding");
-    border: map.get(s.$main, "stats", "border") solid map.get(c.$main, "stats", "border");
+    border: map.get(s.$main, "stats", "border") solid map.get(c.$components, "stats", "border");
 
-    background-color: map.get(c.$main, "stats", "background");
-    color: map.get(c.$main, "stats", "surface");
+    background-color: map.get(c.$components, "stats", "background");
+    color: map.get(c.$components, "stats", "surface");
     border-radius: map.get(s.$main, "stats", "radius");
 
     &__value {
         $os: map.get(s.$main, "stats", "num", "outline");
-        $oc: map.get(c.$main, "stats", "num", "outline");
+        $oc: map.get(c.$components, "stats", "num", "outline");
 
         margin-bottom: map.get(s.$main, "stats", "num", "gap");
 
-        color: map.get(c.$main, "stats", "num", "surface");
+        color: map.get(c.$components, "stats", "num", "surface");
 
         font-size: 2rem;
         font-weight: 900;
@@ -72,7 +72,7 @@ import Headline from "Components/UI/Headline.vue";
         padding: map.get(s.$main, "stats", "explanation-padding");
         margin-top: auto;
 
-        background-color: map.get(c.$main, "stats", "explanation-background");
+        background-color: map.get(c.$components, "stats", "explanation-background");
 
         font-size: 0.85em;
     }

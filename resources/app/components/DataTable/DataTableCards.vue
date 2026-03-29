@@ -107,10 +107,10 @@ function onActionClick(row: T, event: MouseEvent) {
 
     .dt-cards__card {
         padding: map.get(s.$table, "cards", "padding");
-        border: map.get(s.$table, "cards", "border") solid map.get(c.$table, "cards", "border");
+        border: map.get(s.$table, "cards", "border") solid map.get(c.$components, "datatable", "cards", "border");
 
-        background-color: map.get(c.$table, "cards", "background");
-        color: map.get(c.$table, "cards", "surface");
+        background-color: map.get(c.$components, "datatable", "cards", "background");
+        color: map.get(c.$components, "datatable", "cards", "surface");
         border-radius: map.get(s.$table, "cards", "radius");
 
         &--clickable {

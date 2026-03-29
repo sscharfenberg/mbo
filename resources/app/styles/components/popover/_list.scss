@@ -19,7 +19,7 @@
 
     > li:not(:last-child) {
         padding-bottom: 0.25rem;
-        border-bottom: map.get(s.$popover, "border") solid map.get(c.$popover, "border-from");
+        border-bottom: map.get(s.$popover, "border") solid map.get(c.$components, "popover", "border-from");
     }
 
     &-item {
@@ -31,8 +31,8 @@
         border: 0;
         gap: 0.5rem;
 
-        background-color: map.get(c.$popover, "item-background");
-        color: map.get(c.$popover, "item-surface");
+        background-color: map.get(c.$components, "popover", "item-background");
+        color: map.get(c.$components, "popover", "item-surface");
 
         font-size: 1rem;
         font-weight: normal;
@@ -48,13 +48,13 @@
             color map.get(ti.$timings, "fast") linear;
 
         &:hover {
-            background-color: map.get(c.$popover, "item-background-hover");
-            color: map.get(c.$popover, "item-surface-hover");
+            background-color: map.get(c.$components, "popover", "item-background-hover");
+            color: map.get(c.$components, "popover", "item-surface-hover");
         }
 
         &--selected {
-            background-color: map.get(c.$popover, "item-background-selected");
-            color: map.get(c.$popover, "item-surface-selected");
+            background-color: map.get(c.$components, "popover", "item-background-selected");
+            color: map.get(c.$components, "popover", "item-surface-selected");
         }
 
         &--caution {

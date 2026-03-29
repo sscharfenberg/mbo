@@ -319,7 +319,7 @@ onBeforeUnmount(() => {
         display: table;
 
         width: 100%;
-        border: map.get(s.$table, "border") solid map.get(c.$table, "border");
+        border: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
 
         border-radius: map.get(s.$table, "radius");
 

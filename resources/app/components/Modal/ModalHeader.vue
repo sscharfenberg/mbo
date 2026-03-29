@@ -28,9 +28,9 @@ import Icon from "Components/UI/Icon.vue";
         padding: map.get(s.$main, "modal", "padding");
         gap: 1rem;
 
-        background-color: map.get(c.$main, "modal", "title-background");
+        background-color: map.get(c.$components, "modal", "title-background");
 
-        color: map.get(c.$main, "modal", "title-surface");
+        color: map.get(c.$components, "modal", "title-surface");
         border-start-start-radius: calc(
             #{map.get(s.$main, "modal", "radius")} - #{map.get(s.$main, "modal", "border")}
         );

@@ -121,7 +121,7 @@ onMounted(() => {
     &::backdrop {
         opacity: 0;
 
-        background: map.get(c.$main, "modal", "backdrop");
+        background: map.get(c.$components, "modal", "backdrop");
         backdrop-filter: blur(10px);
     }
 
@@ -133,11 +133,11 @@ onMounted(() => {
         max-width: map.get(s.$main, "modal", "max-width");
 
         // padding: map.get(s.$main, "modal", "padding");
-        border: map.get(s.$main, "modal", "border") solid map.get(c.$main, "modal", "border");
+        border: map.get(s.$main, "modal", "border") solid map.get(c.$components, "modal", "border");
         margin: 1rem 0;
 
-        background-color: map.get(c.$main, "modal", "background");
-        color: map.get(c.$main, "modal", "surface");
+        background-color: map.get(c.$components, "modal", "background");
+        color: map.get(c.$components, "modal", "surface");
         border-radius: map.get(s.$main, "modal", "radius");
 
         // reset modal styles, since we might open the modal from within an

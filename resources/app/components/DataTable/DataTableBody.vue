@@ -88,23 +88,23 @@ function onActionClick(row: T, event: MouseEvent) {
     td {
         padding: map.get(s.$table, "padding", "td");
 
-        color: map.get(c.$table, "td", "surface");
+        color: map.get(c.$components, "datatable", "td", "surface");
 
         &:not(:last-child) {
-            border-right: map.get(s.$table, "border") solid map.get(c.$table, "border");
+            border-right: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
         }
     }
 
     tr:nth-child(odd) td {
-        background-color: map.get(c.$table, "td", "background", "odd");
+        background-color: map.get(c.$components, "datatable", "td", "background", "odd");
     }
 
     tr:nth-child(even) td {
-        background-color: map.get(c.$table, "td", "background", "even");
+        background-color: map.get(c.$components, "datatable", "td", "background", "even");
     }
 
     tr:not(:last-child) td {
-        border-bottom: map.get(s.$table, "border") solid map.get(c.$table, "border");
+        border-bottom: map.get(s.$table, "border") solid map.get(c.$components, "datatable", "border");
     }
 
     tr:last-child {

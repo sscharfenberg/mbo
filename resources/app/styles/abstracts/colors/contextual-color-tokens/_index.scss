@@ -14,6 +14,7 @@
 @forward "main";
 @forward "rainbow";
 @forward "state";
+@use "components" as co;
 
 // header colors
 $header: (
@@ -27,28 +28,6 @@ $header: (
 $glass: (
     "background": hsl(from light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "black")) h s l / 25%),
     "surface": light-dark(#000, #fff),
-    "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
-    "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
-) !default;
-
-// popover component
-$popover: (
-    "background": light-dark(
-            color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
-            color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
-        ),
-    "item-background": light-dark(
-            color.adjust(map.get(c.$grey, "infra"), $alpha: -0.5),
-            color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.5)
-        ),
-    "item-background-hover": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
-    "item-background-selected": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
-    "item-surfcace-selected": light-dark(
-            map.get(c.$brand, "light1", "contrast"),
-            map.get(c.$brand, "dark1", "contrast")
-        ),
-    "item-surface": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
-    "item-surface-hover": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral")),
     "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "asher")),
     "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "abbey"))
 ) !default;
@@ -77,15 +56,6 @@ $currency: (
     "item-surface-hover": light-dark(map.get(c.$grey, "ebony"), map.get(c.$grey, "astral"))
 ) !default;
 
-// styles for app-button
-$button: (
-    "background": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black")),
-    "surface": light-dark(#000, #fff),
-    "background-disabled": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "abbey")),
-    "surface-disabled": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
-    "border-disabled": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "asher"))
-) !default;
-
 // colors for shadows
 $shadows: (
     "outline": (
@@ -93,79 +63,16 @@ $shadows: (
     )
 ) !default;
 
-// color tokens for datatable
-$table: (
-    "border": light-dark(
-            color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
-            color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-        ),
-    "th": (
-        "background": light-dark(
-                color.adjust(map.get(c.$grey, "iron"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "asher"), $alpha: -0.25)
-            ),
-        "surface": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
-        "background-stuck": light-dark(map.get(c.$brand, "light2", "color"), map.get(c.$brand, "dark2", "color")),
-        "surface-stuck": light-dark(map.get(c.$brand, "light2", "contrast"), map.get(c.$brand, "dark2", "contrast"))
-    ),
-    "td": (
-        "background": (
-            "odd": light-dark(
-                    color.adjust(map.get(c.$grey, "astral"), $alpha: -0.25),
-                    color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.25)
-                ),
-            "even": light-dark(
-                    color.adjust(map.get(c.$grey, "infra"), $alpha: -0.35),
-                    color.adjust(map.get(c.$grey, "bunker"), $alpha: -0.25)
-                )
-        ),
-        "surface": light-dark(#000, #fff)
-    ),
-    "pagination": (
-        "border": light-dark(
-                color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-            ),
-        "background": light-dark(
-                color.adjust(map.get(c.$grey, "astral"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.25)
-            ),
-        "surface": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white")),
-        "page": (
-            "border": light-dark(
-                    color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
-                    color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
-                ),
-            "background": light-dark(
-                    color.adjust(map.get(c.$grey, "infra"), $alpha: -0.25),
-                    color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.25)
-                ),
-            "surface": light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "white"))
-        ),
-        "page-hover": (
-            "background": light-dark(
-                    color.adjust(map.get(c.$grey, "abbey"), $alpha: -0.25),
-                    color.adjust(map.get(c.$grey, "infra"), $alpha: -0.25)
-                ),
-            "surface": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black"))
-        ),
-        "page-current": (
-            "background": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
-            "border": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast")),
-            "surface": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast"))
-        )
-    ),
-    "cards": (
-        "background": light-dark(
-                color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
-                color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
-            ),
-        "border": light-dark(
-                color.adjust(map.get(c.$grey, "iron"), $alpha: -0.25),
-                color.adjust(map.get(c.$grey, "asher"), $alpha: -0.25)
-            ),
-        "surface": light-dark(map.get(c.$grey, "bunker"), map.get(c.$grey, "mystic"))
-    )
+// color tokens for components
+$components: (
+    "button": co.$button,
+    "datatable": co.$datatable,
+    "headline": co.$headline,
+    "modal": co.$modal,
+    "paragraph": co.$paragraph,
+    "popover": co.$popover,
+    "stats": co.$stats,
+    "sticky-nav": co.$sticky-nav
 ) !default;
 
 // colors for footer landmark

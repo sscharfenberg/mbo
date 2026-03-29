@@ -43,9 +43,9 @@ h4 {
 }
 
 h2 {
-    border-bottom: map.get(s.$main, "h2", "border") solid map.get(c.$main, "h2", "border");
+    border-bottom: map.get(s.$main, "h2", "border") solid map.get(c.$components, "headline", "h2", "border");
 
-    color: map.get(c.$main, "h2", "surface");
+    color: map.get(c.$components, "headline", "h2", "surface");
 
     font-family: map.get(t.$main, "h2");
     font-size: map.get(s.$main, "h2", "font");
@@ -53,9 +53,9 @@ h2 {
 }
 
 h3 {
-    border-bottom: map.get(s.$main, "h3", "border") solid map.get(c.$main, "h3", "border");
+    border-bottom: map.get(s.$main, "h3", "border") solid map.get(c.$components, "headline", "h3", "border");
 
-    color: map.get(c.$main, "h3", "surface");
+    color: map.get(c.$components, "headline", "h3", "surface");
 
     font-family: map.get(t.$main, "h3");
     font-size: map.get(s.$main, "h3", "font");
@@ -63,9 +63,9 @@ h3 {
 }
 
 h4 {
-    border-bottom: map.get(s.$main, "h4", "border") solid map.get(c.$main, "h4", "border");
+    border-bottom: map.get(s.$main, "h4", "border") solid map.get(c.$components, "headline", "h4", "border");
 
-    color: map.get(c.$main, "h4", "surface");
+    color: map.get(c.$components, "headline", "h4", "surface");
 
     font-family: map.get(t.$main, "h4");
     font-size: map.get(s.$main, "h4", "font");

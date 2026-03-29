@@ -35,7 +35,7 @@
         top left,
         top right,
         bottom left;
-    color: map.get(c.$button, "surface");
+    color: map.get(c.$components, "button", "surface");
     outline: 0;
     border-radius: 100vw;
 
@@ -63,20 +63,20 @@
     &:hover,
     &:focus-visible {
         --button-fill-stop: 100%;
-        --button-fill: #{map.get(c.$button, "background")};
+        --button-fill: #{map.get(c.$components, "button", "background")};
     }
 
     &[disabled] {
-        background: map.get(c.$button, "background-disabled");
-        color: map.get(c.$button, "surface-disabled");
-        border-color: map.get(c.$button, "border-disabled");
+        background: map.get(c.$components, "button", "background-disabled");
+        color: map.get(c.$components, "button", "surface-disabled");
+        border-color: map.get(c.$components, "button", "border-disabled");
 
         font-style: italic;
 
         cursor: not-allowed;
 
         --button-fill-stop: 100%;
-        --button-fill: #{map.get(c.$button, "background-disabled")};
+        --button-fill: #{map.get(c.$components, "button", "background-disabled")};
     }
 
     @include m.mq("landscape") {
@@ -88,7 +88,7 @@
 .btn-default,
 .btn-close {
     --button-fill-stop: 100%;
-    --button-fill: #{map.get(c.$button, "background")};
+    --button-fill: #{map.get(c.$components, "button", "background")};
 
     &:hover,
     &:focus-visible {
