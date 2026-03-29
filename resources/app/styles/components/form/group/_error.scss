@@ -9,12 +9,12 @@
         align-items: flex-start;
 
         padding: 1ex 1.5ch;
-        border: map.get(s.$form, "error", "border") solid map.get(c.$form, "error", "border");
+        border: map.get(s.$form, "error", "border") solid map.get(c.$components, "error", "border");
         margin-top: 1ex;
         gap: 1ch;
 
-        background-color: map.get(c.$form, "error", "background");
-        color: map.get(c.$form, "error", "surface");
+        background-color: map.get(c.$components, "error", "background");
+        color: map.get(c.$components, "error", "surface");
         border-radius: map.get(s.$form, "error", "radius");
     }
 }

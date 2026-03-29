@@ -18,8 +18,8 @@
         width: 20px;
         height: 20px;
 
-        background-color: map.get(c.$form, "input", "valid", "background");
-        color: map.get(c.$form, "input", "valid", "surface");
+        background-color: map.get(c.$components, "input", "valid", "background");
+        color: map.get(c.$components, "input", "valid", "surface");
         border-radius: 100dvw;
         translate: 0 -50%;
     }
@@ -32,7 +32,7 @@
     }
 
     &--invalid {
-        background-color: map.get(c.$form, "input", "invalid", "background");
-        color: map.get(c.$form, "input", "invalid", "surface");
+        background-color: map.get(c.$components, "input", "invalid", "background");
+        color: map.get(c.$components, "input", "invalid", "surface");
     }
 }

@@ -93,24 +93,24 @@ watch(
         grid-column: 1 / -1;
 
         padding-right: 1ch;
-        border: map.get(s.$main, "containers", "border") solid map.get(c.$main, "containers", "border");
+        border: map.get(s.$main, "containers", "border") solid map.get(c.$pages, "containers", "border");
 
-        background: map.get(c.$main, "containers", "background", "odd");
-        color: map.get(c.$main, "containers", "surface");
+        background: map.get(c.$pages, "containers", "background", "odd");
+        color: map.get(c.$pages, "containers", "surface");
         border-radius: map.get(s.$main, "containers", "radius");
 
         transition: background-color map.get(ti.$timings, "fast") linear;
         row-gap: 0.5rem;
 
         &:hover {
-            background: map.get(c.$main, "containers", "background-hover", "odd");
+            background: map.get(c.$pages, "containers", "background-hover", "odd");
         }
 
         &:nth-of-type(even) {
-            background: map.get(c.$main, "containers", "background", "even");
+            background: map.get(c.$pages, "containers", "background", "even");
 
             &:hover {
-                background: map.get(c.$main, "containers", "background-hover", "even");
+                background: map.get(c.$pages, "containers", "background-hover", "even");
             }
         }
 
@@ -175,7 +175,7 @@ watch(
         min-width: 0;
         padding: 0 0 0.5ex;
 
-        color: map.get(c.$main, "containers", "surface-description");
+        color: map.get(c.$pages, "containers", "surface-description");
 
         font-size: 0.8rem;
         white-space: nowrap;

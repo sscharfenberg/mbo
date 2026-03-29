@@ -9,7 +9,7 @@
     &__button {
         display: flex;
 
-        border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
+        border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
 
         border-radius: map.get(s.$form, "input", "radius");
         border-top-left-radius: 0;
@@ -23,8 +23,8 @@
             border: 0;
             gap: 1ch;
 
-            background-color: map.get(c.$form, "input", "background");
-            color: map.get(c.$form, "input", "surface");
+            background-color: map.get(c.$components, "input", "background");
+            color: map.get(c.$components, "input", "surface");
             outline: 0;
 
             line-height: map.get(s.$form, "input", "line-height");
@@ -38,8 +38,8 @@
             &:not([disabled]):hover,
             &:not([disabled]):focus,
             &:not([disabled]):active {
-                background-color: map.get(c.$form, "input", "button", "background-hover");
-                color: map.get(c.$form, "input", "button", "surface-hover");
+                background-color: map.get(c.$components, "input", "button", "background-hover");
+                color: map.get(c.$components, "input", "button", "surface-hover");
             }
 
             > span {
@@ -56,7 +56,7 @@
             }
 
             &[disabled] {
-                color: map.get(c.$form, "input", "surface");
+                color: map.get(c.$components, "input", "surface");
 
                 cursor: not-allowed;
             }
@@ -75,8 +75,8 @@
     &:has(input:not([readonly])):focus .form-group__button,
     &:has(input:not([readonly])):focus-visible .form-group__button,
     &:has(input:not([readonly])):focus-within .form-group__button {
-        background-color: map.get(c.$form, "input", "background-focus");
-        color: map.get(c.$form, "input", "surface-focus");
-        border-color: map.get(c.$form, "input", "border-focus");
+        background-color: map.get(c.$components, "input", "background-focus");
+        color: map.get(c.$components, "input", "surface-focus");
+        border-color: map.get(c.$components, "input", "border-focus");
     }
 }

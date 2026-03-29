@@ -1,0 +1,8 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$spinner: (
+    "before": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "contrast")),
+    "after": light-dark(map.get(c.$brand, "light2", "color"), map.get(c.$brand, "dark2", "contrast"))
+);

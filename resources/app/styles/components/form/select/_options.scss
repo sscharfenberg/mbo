@@ -13,10 +13,10 @@
     overflow: hidden;
 
     padding: 1ex 0;
-    border: map.get(s.$form, "select", "border") solid map.get(c.$form, "select", "border");
+    border: map.get(s.$form, "select", "border") solid map.get(c.$components, "select", "border");
     border-top-width: 0;
 
-    background-color: map.get(c.$form, "select", "options-background");
+    background-color: map.get(c.$components, "select", "options-background");
     border-bottom-right-radius: map.get(s.$form, "select", "radius");
     border-bottom-left-radius: map.get(s.$form, "select", "radius");
 }

@@ -39,16 +39,16 @@
     }
 
     &.colored {
-        color: map.get(c.$form, "input", "validating");
+        color: map.get(c.$components, "input", "validating");
     }
 
     &.branded {
         &::before {
-            color: map.get(c.$app, "spinner", "before");
+            color: map.get(c.$components, "spinner", "before");
         }
 
         &::after {
-            color: map.get(c.$app, "spinner", "after");
+            color: map.get(c.$components, "spinner", "after");
         }
     }
 }

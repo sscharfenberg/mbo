@@ -70,4 +70,4 @@ $outline: (
     -#{$-s2} 0 $-oc,
     #{$-s2} 0 $-oc}
 );
-$inset: inset 0 0 0 map.get(s.$main, "art-crop", "border-active") map.get(c.$main, "art-crop", "border-active");
+$inset: inset 0 0 0 map.get(s.$main, "art-crop", "border-active") map.get(c.$components, "art-crop", "border-active");

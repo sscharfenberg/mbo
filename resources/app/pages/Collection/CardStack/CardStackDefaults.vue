@@ -118,7 +118,7 @@ ul {
     margin: 0;
     gap: map.get(s.$main, "defaults", "border");
 
-    background-color: map.get(c.$main, "defaults", "border");
+    background-color: map.get(c.$pages, "defaults", "border");
 
     list-style: none;
     border-radius: map.get(s.$main, "defaults", "radius");
@@ -126,7 +126,7 @@ ul {
     li {
         padding: map.get(s.$main, "defaults", "padding");
 
-        background-color: map.get(c.$main, "accordion", "background");
+        background-color: map.get(c.$components, "accordion", "background");
 
         span {
             font-weight: bold;

@@ -55,9 +55,9 @@ const emit = defineEmits<{
         align-items: center;
 
         padding: map.get(s.$form, "finish", "padding");
-        border: map.get(s.$form, "finish", "border") solid map.get(c.$form, "finish", "border");
+        border: map.get(s.$form, "finish", "border") solid map.get(c.$components, "finish", "border");
 
-        background-color: map.get(c.$form, "finish", "background");
+        background-color: map.get(c.$components, "finish", "background");
         border-radius: map.get(s.$form, "finish", "radius");
 
         cursor: pointer;
@@ -68,13 +68,13 @@ const emit = defineEmits<{
             border-color map.get(ti.$timings, "fast") linear;
 
         &:hover {
-            background-color: map.get(c.$form, "finish", "background-hover");
+            background-color: map.get(c.$components, "finish", "background-hover");
         }
     }
 }
 
 input:checked + label {
-    background-color: map.get(c.$form, "finish", "background-checked");
-    border-color: map.get(c.$form, "finish", "border-checked");
+    background-color: map.get(c.$components, "finish", "background-checked");
+    border-color: map.get(c.$components, "finish", "border-checked");
 }
 </style>

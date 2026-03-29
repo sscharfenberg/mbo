@@ -59,8 +59,8 @@
     }
 
     &.required {
-        background-color: map.get(c.$form, "required", "background");
-        color: map.get(c.$form, "required", "surface");
+        background-color: map.get(c.$components, "required", "background");
+        color: map.get(c.$components, "required", "surface");
         border-radius: 100vw;
     }
 

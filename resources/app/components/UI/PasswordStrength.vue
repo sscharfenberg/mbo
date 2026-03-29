@@ -54,11 +54,11 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
     // The icon is 20px wide; 1ch gap between meter and icon.
     padding: map.get(s.$form, "password-strength", "padding");
     padding-right: calc(20px + 1.5ch);
-    border: map.get(s.$form, "password-strength", "border") solid map.get(c.$form, "password-strength", "border");
+    border: map.get(s.$form, "password-strength", "border") solid map.get(c.$components, "password-strength", "border");
     margin-top: 1ex;
     gap: 1ch;
 
-    background-color: map.get(c.$form, "password-strength", "background");
+    background-color: map.get(c.$components, "password-strength", "background");
     border-radius: map.get(s.$form, "password-strength", "radius");
 
     &__meter {
@@ -69,9 +69,9 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
 
         height: 2ex;
         border: map.get(s.$form, "password-strength", "meter-border") solid
-            map.get(c.$form, "password-strength", "border");
+            map.get(c.$components, "password-strength", "border");
 
-        background: map.get(c.$form, "password-strength", "meter-bar");
+        background: map.get(c.$components, "password-strength", "meter-bar");
         border-radius: map.get(s.$form, "password-strength", "meter-radius");
     }
 
@@ -104,13 +104,13 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
         border-radius: 90dvh;
 
         &.check {
-            background-color: map.get(c.$form, "password-strength", "pass", "background");
-            color: map.get(c.$form, "password-strength", "pass", "surface");
+            background-color: map.get(c.$components, "password-strength", "pass", "background");
+            color: map.get(c.$components, "password-strength", "pass", "surface");
         }
 
         &.warning {
-            background-color: map.get(c.$form, "password-strength", "fail", "background");
-            color: map.get(c.$form, "password-strength", "fail", "surface");
+            background-color: map.get(c.$components, "password-strength", "fail", "background");
+            color: map.get(c.$components, "password-strength", "fail", "surface");
         }
     }
 }

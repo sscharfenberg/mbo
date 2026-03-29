@@ -1,0 +1,20 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$finish: (
+    "border": light-dark(
+            color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+            color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+        ),
+    "background": light-dark(
+            color.adjust(map.get(c.$grey, "white"), $alpha: -0.5),
+            color.adjust(map.get(c.$grey, "black"), $alpha: -0.5)
+        ),
+    "background-hover": light-dark(
+            color.adjust(map.get(c.$grey, "black"), $alpha: -0.5),
+            color.adjust(map.get(c.$grey, "white"), $alpha: -0.85)
+        ),
+    "background-checked": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "border-checked": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast"))
+);

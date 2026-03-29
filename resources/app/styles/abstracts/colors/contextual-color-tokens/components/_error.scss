@@ -1,0 +1,12 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$error: (
+    "background": light-dark(map.get(c.$state, "light", "error", "color"), map.get(c.$state, "dark", "error", "color")),
+    "surface": light-dark(
+            map.get(c.$state, "light", "error", "contrast"),
+            map.get(c.$state, "dark", "error", "contrast")
+        ),
+    "border": light-dark(map.get(c.$state, "light", "warning", "color"), map.get(c.$state, "dark", "warning", "color"))
+);

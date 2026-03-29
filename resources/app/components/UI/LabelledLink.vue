@@ -34,9 +34,9 @@ withDefaults(
 @use "Abstracts/timings" as ti;
 
 .text-link {
-    color: map.get(c.$app, "textlink-surface");
+    color: map.get(c.$components, "textlink", "surface");
 
-    text-decoration-color: map.get(c.$app, "textlink-decoration");
+    text-decoration-color: map.get(c.$components, "textlink", "decoration");
     text-decoration-style: solid;
     text-decoration-thickness: map.get(s.$app, "textlink-underline-thickness");
     text-underline-offset: map.get(s.$app, "textlink-underline-offset");
@@ -46,9 +46,9 @@ withDefaults(
         text-decoration-color map.get(ti.$timings, "fast") linear;
 
     &:hover {
-        color: map.get(c.$app, "textlink-surface-hover");
+        color: map.get(c.$components, "textlink", "surface-hover");
 
-        text-decoration-color: map.get(c.$app, "textlink-decoration-hover");
+        text-decoration-color: map.get(c.$components, "textlink", "decoration-hover");
     }
 
     > .icon {

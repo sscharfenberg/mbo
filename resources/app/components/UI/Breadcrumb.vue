@@ -53,7 +53,7 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
 
         gap: 1ch;
 
-        color: map.get(c.$app, "breadcrumb", "surface");
+        color: map.get(c.$components, "breadcrumb", "surface");
 
         text-decoration: none;
 
@@ -70,10 +70,10 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
 
             width: 100%;
             height: 50%;
-            border-right: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$app, "breadcrumb", "border");
-            border-left: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$app, "breadcrumb", "border");
+            border-right: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
+            border-left: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
 
-            background-color: map.get(c.$app, "breadcrumb", "background");
+            background-color: map.get(c.$components, "breadcrumb", "background");
 
             content: "";
 
@@ -83,14 +83,14 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
         &::before {
             top: 0;
 
-            border-top: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$app, "breadcrumb", "border");
+            border-top: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
             transform: skew(30deg);
         }
 
         &::after {
             bottom: 0;
 
-            border-bottom: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$app, "breadcrumb", "border");
+            border-bottom: map.get(s.$app, "breadcrumb", "border") solid map.get(c.$components, "breadcrumb", "border");
             transform: skew(-30deg);
         }
 
@@ -114,13 +114,13 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
 
             > span {
                 $border: map.get(s.$app, "breadcrumb", "border");
-                $outline: map.get(c.$app, "breadcrumb", "border");
+                $outline: map.get(c.$components, "breadcrumb", "border");
 
                 width: calc(100% - $border);
 
                 margin-left: -6px; // magic number because of skew(30deg).
 
-                background-color: map.get(c.$app, "breadcrumb", "background");
+                background-color: map.get(c.$components, "breadcrumb", "background");
                 box-shadow:
                     inset #{$border} 0 0 0 $outline,
                     inset 0 #{$border} 0 0 $outline,
@@ -129,26 +129,26 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
         }
 
         &:not(:last-child):hover {
-            color: map.get(c.$app, "breadcrumb", "surface-hover");
+            color: map.get(c.$components, "breadcrumb", "surface-hover");
 
             &::before,
             &::after {
-                background-color: map.get(c.$app, "breadcrumb", "background-hover");
+                background-color: map.get(c.$components, "breadcrumb", "background-hover");
             }
         }
 
         &:first-child:hover > span {
-            background-color: map.get(c.$app, "breadcrumb", "background-hover");
+            background-color: map.get(c.$components, "breadcrumb", "background-hover");
         }
 
         &:last-child {
             margin-left: 1px;
 
-            color: map.get(c.$app, "breadcrumb", "surface-current");
+            color: map.get(c.$components, "breadcrumb", "surface-current");
 
             &::before,
             &::after {
-                background-color: map.get(c.$app, "breadcrumb", "background-current");
+                background-color: map.get(c.$components, "breadcrumb", "background-current");
             }
         }
 

@@ -121,10 +121,10 @@ function collapse() {
 @use "Abstracts/timings" as ti;
 
 .collapsible {
-    border: map.get(s.$main, "accordion", "border") solid map.get(c.$main, "accordion", "border");
+    border: map.get(s.$main, "accordion", "border") solid map.get(c.$components, "accordion", "border");
 
-    background-color: map.get(c.$main, "accordion", "background");
-    color: map.get(c.$main, "accordion", "surface");
+    background-color: map.get(c.$components, "accordion", "background");
+    color: map.get(c.$components, "accordion", "surface");
     border-radius: map.get(s.$main, "accordion", "radius");
 
     &__head {
@@ -159,13 +159,13 @@ function collapse() {
         }
 
         &:hover {
-            background-color: map.get(c.$main, "accordion", "background-hover");
+            background-color: map.get(c.$components, "accordion", "background-hover");
         }
     }
 
     &__body {
-        // background-color: map.get(c.$main, "accordion", "background");
-        color: map.get(c.$main, "accordion", "surface");
+        // background-color: map.get(c.$components, "accordion", "background");
+        color: map.get(c.$components, "accordion", "surface");
         border-radius: inherit;
 
         transition: height map.get(ti.$timings, "quick") ease-in-out;

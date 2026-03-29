@@ -1,0 +1,10 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$nav-overlay: (
+    "background": light-dark(
+            color.adjust(map.get(c.$grey, "white"), $alpha: -0.05),
+            color.adjust(map.get(c.$grey, "bunker"), $alpha: -0.05)
+        )
+);

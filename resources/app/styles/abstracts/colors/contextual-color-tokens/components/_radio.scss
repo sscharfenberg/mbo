@@ -1,0 +1,9 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$radio: (
+    "inner": map.get(c.$brand, "light1", "color"),
+    "outer": map.get(c.$brand, "light1", "contrast"),
+    "surface-checked": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color"))
+);

@@ -42,7 +42,7 @@ h1 {
         &::first-letter {
             margin-right: 0.15ch;
 
-            color: map.get(c.$header, "title-first-letter");
+            color: map.get(c.$components, "header", "title-first-letter");
 
             font-weight: 900;
             text-shadow: map.get(sh.$header, "title-first-letter");

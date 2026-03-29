@@ -38,8 +38,8 @@ defineProps<{
     padding: 0.4rem 0.6rem;
     border: 0;
 
-    background-color: map.get(c.$currency, "item-background");
-    color: map.get(c.$currency, "item-surface");
+    background-color: map.get(c.$components, "currency", "item-background");
+    color: map.get(c.$components, "currency", "item-surface");
     border-radius: map.get(s.$theme, "radius");
 
     font-size: 1rem;
@@ -56,13 +56,13 @@ defineProps<{
         color map.get(ti.$timings, "fast") linear;
 
     &:hover {
-        background-color: map.get(c.$currency, "item-background-hover");
-        color: map.get(c.$currency, "item-surface-hover");
+        background-color: map.get(c.$components, "currency", "item-background-hover");
+        color: map.get(c.$components, "currency", "item-surface-hover");
     }
 
     &--selected {
-        background-color: map.get(c.$currency, "item-background-selected");
-        color: map.get(c.$currency, "item-surface-selected");
+        background-color: map.get(c.$components, "currency", "item-background-selected");
+        color: map.get(c.$components, "currency", "item-surface-selected");
     }
 }
 </style>

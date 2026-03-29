@@ -112,8 +112,8 @@ function onFlip() {
 
         // transform: translateY(-50%);
 
-        background-color: map.get(c.$main, "face-image", "flip", "background");
-        color: map.get(c.$main, "face-image", "flip", "surface");
+        background-color: map.get(c.$components, "face-image", "flip", "background");
+        color: map.get(c.$components, "face-image", "flip", "surface");
         border-radius: 100dvh;
 
         cursor: pointer;
@@ -123,8 +123,8 @@ function onFlip() {
             color map.get(ti.$timings, "fast") linear;
 
         &:hover {
-            background-color: map.get(c.$main, "face-image", "flip", "background-hover");
-            color: map.get(c.$main, "face-image", "flip", "surface-hover");
+            background-color: map.get(c.$components, "face-image", "flip", "background-hover");
+            color: map.get(c.$components, "face-image", "flip", "surface-hover");
         }
 
         .icon {
@@ -140,8 +140,8 @@ function onFlip() {
 
         padding: map.get(s.$main, "face-image", "panel-padding");
 
-        background-color: map.get(c.$main, "face-image", "meta", "background");
-        color: map.get(c.$main, "face-image", "meta", "surface");
+        background-color: map.get(c.$components, "face-image", "meta", "background");
+        color: map.get(c.$components, "face-image", "meta", "surface");
         border-bottom-right-radius: inherit;
         border-bottom-left-radius: inherit;
 

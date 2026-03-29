@@ -21,7 +21,7 @@
         color map.get(ti.$timings, "fast") linear;
 
     &:hover {
-        background: map.get(c.$form, "select", "clear-background");
-        color: map.get(c.$form, "select", "clear-surface");
+        background: map.get(c.$components, "select", "clear-background");
+        color: map.get(c.$components, "select", "clear-surface");
     }
 }

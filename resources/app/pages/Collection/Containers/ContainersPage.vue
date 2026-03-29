@@ -114,11 +114,11 @@ setBreadcrumbs([
     flex-wrap: wrap;
 
     padding: map.get(s.$main, "containers", "types-padding");
-    border: map.get(s.$main, "containers", "types-border") solid map.get(c.$main, "containers", "types-border");
+    border: map.get(s.$main, "containers", "types-border") solid map.get(c.$pages, "containers", "types-border");
     margin: 0;
     gap: 1ch;
 
-    background-color: map.get(c.$main, "containers", "types-background");
+    background-color: map.get(c.$pages, "containers", "types-background");
     list-style: none;
     border-radius: map.get(s.$main, "containers", "types-radius");
 
@@ -127,15 +127,15 @@ setBreadcrumbs([
 
         padding: 0.5ex 1ch;
 
-        background-color: map.get(c.$main, "containers", "type-background");
+        background-color: map.get(c.$pages, "containers", "type-background");
         border-radius: map.get(s.$main, "containers", "types-radius");
 
         cursor: pointer;
     }
 
     &__item:has(&__checkbox:checked) &__label {
-        background-color: map.get(c.$main, "containers", "type-background-active");
-        color: map.get(c.$main, "containers", "type-surface-active");
+        background-color: map.get(c.$pages, "containers", "type-background-active");
+        color: map.get(c.$pages, "containers", "type-surface-active");
     }
 }
 </style>

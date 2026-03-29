@@ -1,0 +1,13 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$container: (
+    "meta": (
+        "background": light-dark(color.adjust(#fff, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),
+        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
+        "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker")),
+        "surface-name": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "bunker"))
+    )
+);

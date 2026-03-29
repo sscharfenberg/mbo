@@ -40,7 +40,7 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
         margin: 0 auto;
         gap: 1ch;
 
-        background-color: map.get(c.$header, "background");
+        background-color: map.get(c.$components, "header", "background");
         backdrop-filter: blur(12px);
 
         @include m.mq("portrait") {
@@ -69,8 +69,8 @@ import AppHeaderTitle from "./AppHeaderTitle.vue";
 
             background: linear-gradient(
                     to bottom right,
-                    map.get(c.$header, "border-from"),
-                    map.get(c.$header, "border-to")
+                    map.get(c.$components, "header", "border-from"),
+                    map.get(c.$components, "header", "border-to")
                 )
                 border-box;
 

@@ -48,9 +48,9 @@ footer {
 
     margin-top: auto;
 
-    background-color: map.get(c.$footer, "background");
+    background-color: map.get(c.$components, "footer", "background");
     backdrop-filter: blur(12px);
-    color: map.get(c.$footer, "surface");
+    color: map.get(c.$components, "footer", "surface");
 
     &::before {
         position: absolute;
@@ -59,7 +59,11 @@ footer {
 
         border-top: map.get(s.$footer, "border") solid transparent;
 
-        background: linear-gradient(to right, map.get(c.$footer, "border-from"), map.get(c.$footer, "border-to"))
+        background: linear-gradient(
+                to right,
+                map.get(c.$components, "footer", "border-from"),
+                map.get(c.$components, "footer", "border-to")
+            )
             border-box;
 
         mask:

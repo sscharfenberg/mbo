@@ -168,8 +168,8 @@ button.form-group__addon {
 
     &:hover,
     &:active {
-        background-color: map.get(c.$form, "input", "background-focus");
-        color: map.get(c.$form, "input", "surface-focus");
+        background-color: map.get(c.$components, "input", "background-focus");
+        color: map.get(c.$components, "input", "surface-focus");
     }
 }
 </style>

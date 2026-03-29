@@ -15,9 +15,9 @@
         border-color map.get(ti.$timings, "fast");
 
     &:focus-within {
-        background-color: map.get(c.$form, "input", "background-focus");
-        color: map.get(c.$form, "input", "surface-focus");
-        border-color: map.get(c.$form, "input", "border-focus");
+        background-color: map.get(c.$components, "input", "background-focus");
+        color: map.get(c.$components, "input", "surface-focus");
+        border-color: map.get(c.$components, "input", "border-focus");
     }
 
     &__char {
@@ -28,18 +28,18 @@
         width: 4ch;
         min-height: calc(map.get(s.$form, "otp", "line-height") + 2 * map.get(s.$form, "otp", "border"));
         padding: map.get(s.$form, "otp", "padding");
-        border: map.get(s.$form, "otp", "border") solid map.get(c.$form, "otp", "border");
+        border: map.get(s.$form, "otp", "border") solid map.get(c.$components, "otp", "border");
 
-        background-color: map.get(c.$form, "otp", "background");
-        color: map.get(c.$form, "otp", "surface");
+        background-color: map.get(c.$components, "otp", "background");
+        color: map.get(c.$components, "otp", "surface");
         border-radius: map.get(s.$form, "otp", "radius");
 
         line-height: map.get(s.$form, "otp", "line-height");
 
         &--active {
-            background-color: map.get(c.$form, "otp", "background-active");
-            color: map.get(c.$form, "otp", "surface-active");
-            border-color: map.get(c.$form, "otp", "border-active");
+            background-color: map.get(c.$components, "otp", "background-active");
+            color: map.get(c.$components, "otp", "surface-active");
+            border-color: map.get(c.$components, "otp", "border-active");
         }
     }
 

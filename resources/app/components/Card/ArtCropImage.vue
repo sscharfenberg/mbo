@@ -74,8 +74,8 @@ defineProps<{
         padding: map.get(s.$main, "art-crop", "panel-padding");
         gap: 0.5ch;
 
-        background: map.get(c.$main, "art-crop", "panel-background");
-        color: map.get(c.$main, "art-crop", "panel-surface");
+        background: map.get(c.$components, "art-crop", "panel-background");
+        color: map.get(c.$components, "art-crop", "panel-surface");
         border-bottom-right-radius: map.get(s.$main, "art-crop", "radius");
         border-bottom-left-radius: map.get(s.$main, "art-crop", "radius");
     }

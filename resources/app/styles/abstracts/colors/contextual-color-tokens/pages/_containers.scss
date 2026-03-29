@@ -1,0 +1,28 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$containers: (
+    "background": (
+        "odd": light-dark(color.adjust(#fff, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),
+        "even": light-dark(color.adjust(#fff, $alpha: -0.2), color.adjust(#000, $alpha: -0.3))
+    ),
+    "background-hover": (
+        "odd": light-dark(color.adjust(#fff, $alpha: -0.2), color.adjust(#000, $alpha: -0.2)),
+        "even": light-dark(#fff, #000)
+    ),
+    "surface": light-dark(map.get(c.$grey, "bunker"), map.get(c.$grey, "infra")),
+    "surface-description": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "iron")),
+    "border": light-dark(
+            color.adjust(map.get(c.$grey, "slate"), $alpha: -0.25),
+            color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+        ),
+    "types-background": hsl(from light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "ebony")) h s l / 25%),
+    "types-border": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
+    "type-background": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "bunker")),
+    "type-background-active": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "type-surface-active": light-dark(
+            map.get(c.$brand, "light1", "contrast"),
+            map.get(c.$brand, "dark1", "contrast")
+        )
+);

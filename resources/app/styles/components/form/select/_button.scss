@@ -11,10 +11,10 @@
     width: 100%;
     padding: 0.75ex calc(3ch + #{map.get(s.$form, "select", "caret") * 2} + map.get(s.$form, "select", "clear")) 0.75ex
         2ch;
-    border: map.get(s.$form, "select", "border") solid map.get(c.$form, "select", "border");
+    border: map.get(s.$form, "select", "border") solid map.get(c.$components, "select", "border");
 
-    background-color: map.get(c.$form, "select", "background");
-    color: map.get(c.$form, "select", "surface");
+    background-color: map.get(c.$components, "select", "background");
+    color: map.get(c.$components, "select", "surface");
     outline: 0;
     border-radius: map.get(s.$form, "select", "radius");
 
@@ -32,11 +32,11 @@
     }
 
     &.open {
-        background-color: map.get(c.$form, "select", "background-open");
-        color: map.get(c.$form, "select", "surface-open");
+        background-color: map.get(c.$components, "select", "background-open");
+        color: map.get(c.$components, "select", "surface-open");
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
-        border-color: map.get(c.$form, "select", "border-open");
+        border-color: map.get(c.$components, "select", "border-open");
 
         .form-select__caret {
             transform: translateY(-50%) rotate(180deg);
@@ -57,7 +57,7 @@
     transform: translateY(-50%);
 
     border-style: solid;
-    border-color: map.get(c.$form, "select", "caret") transparent transparent;
+    border-color: map.get(c.$components, "select", "caret") transparent transparent;
 
     @media (prefers-reduced-motion: no-preference) {
         transition: transform map.get(ti.$timings, "fast") linear;

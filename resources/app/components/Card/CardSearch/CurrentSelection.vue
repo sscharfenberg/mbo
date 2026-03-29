@@ -32,12 +32,12 @@ defineEmits<{
     flex-direction: column;
 
     padding: 0.75ex 1.5ch 1.25ex;
-    border: map.get(s.$form, "input", "border") solid map.get(c.$form, "input", "border");
+    border: map.get(s.$form, "input", "border") solid map.get(c.$components, "input", "border");
     border-left-width: 0;
     gap: 1lh;
 
-    background-color: map.get(c.$form, "input", "background");
-    color: map.get(c.$form, "input", "surface");
+    background-color: map.get(c.$components, "input", "background");
+    color: map.get(c.$components, "input", "surface");
     border-top-right-radius: map.get(s.$form, "input", "radius-px");
     border-bottom-right-radius: map.get(s.$form, "input", "radius-px");
 

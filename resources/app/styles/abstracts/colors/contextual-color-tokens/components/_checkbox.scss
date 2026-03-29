@@ -1,0 +1,11 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$checkbox: (
+    "border": light-dark(map.get(c.$grey, "slate"), map.get(c.$grey, "charcoal")),
+    "background": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "ebony")),
+    "border-checked": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast")),
+    "background-checked": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
+    "checkmark": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast"))
+);

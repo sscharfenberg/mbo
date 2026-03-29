@@ -20,7 +20,7 @@
             width: calc(100% / 3);
             height: 100%;
 
-            background-color: map.get(c.$theme, "background-selected");
+            background-color: map.get(c.$components, "theme", "background-selected");
             border-radius: map.get(s.$theme, "radius");
 
             content: "";
@@ -56,7 +56,7 @@
         padding: map.get(s.$theme, "padding");
         gap: 4px;
 
-        color: map.get(c.$theme, "surface");
+        color: map.get(c.$components, "theme", "surface");
 
         line-height: 1;
 
@@ -65,7 +65,7 @@
         transition: color map.get(ti.$timings, "fast") linear;
 
         input:checked + & {
-            color: map.get(c.$theme, "surface-selected");
+            color: map.get(c.$components, "theme", "surface-selected");
         }
     }
 }

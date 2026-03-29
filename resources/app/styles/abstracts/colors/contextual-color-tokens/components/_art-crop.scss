@@ -1,0 +1,9 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$art-crop: (
+    "panel-background": hsl(from light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "infra")) h s l / 50%),
+    "panel-surface": light-dark(#fff, #000),
+    "border-active": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color"))
+);

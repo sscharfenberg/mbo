@@ -77,8 +77,8 @@ input {
     height: 0;
 
     &:checked + label {
-        background-color: map.get(c.$form, "checkbox", "background-checked");
-        border-color: map.get(c.$form, "checkbox", "border-checked");
+        background-color: map.get(c.$components, "checkbox", "background-checked");
+        border-color: map.get(c.$components, "checkbox", "border-checked");
 
         &::after {
             opacity: 1;
@@ -88,8 +88,8 @@ input {
     }
 
     &:indeterminate + label {
-        background-color: map.get(c.$form, "checkbox", "background-checked");
-        border-color: map.get(c.$form, "checkbox", "border-checked");
+        background-color: map.get(c.$components, "checkbox", "background-checked");
+        border-color: map.get(c.$components, "checkbox", "border-checked");
 
         &::after {
             opacity: 1;
@@ -97,7 +97,7 @@ input {
             width: 50%;
             height: 0;
             border-right: 0;
-            border-bottom: 2px solid map.get(c.$form, "checkbox", "checkmark");
+            border-bottom: 2px solid map.get(c.$components, "checkbox", "checkmark");
             margin-bottom: 0;
 
             transform: rotate(0deg) scale(1);
@@ -113,9 +113,9 @@ label {
 
     width: map.get(s.$form, "checkbox", "size");
     height: map.get(s.$form, "checkbox", "size");
-    border: map.get(s.$form, "checkbox", "border") solid map.get(c.$form, "checkbox", "border");
+    border: map.get(s.$form, "checkbox", "border") solid map.get(c.$components, "checkbox", "border");
 
-    background-color: map.get(c.$form, "checkbox", "background");
+    background-color: map.get(c.$components, "checkbox", "background");
     border-radius: map.get(s.$form, "checkbox", "radius");
 
     text-indent: -9999px;
@@ -133,8 +133,8 @@ label {
 
         width: 30%;
         height: 55%;
-        border-right: 2px solid map.get(c.$form, "checkbox", "checkmark");
-        border-bottom: 2px solid map.get(c.$form, "checkbox", "checkmark");
+        border-right: 2px solid map.get(c.$components, "checkbox", "checkmark");
+        border-bottom: 2px solid map.get(c.$components, "checkbox", "checkmark");
         margin-bottom: 10%;
 
         transform: rotate(45deg) scale(0.5);

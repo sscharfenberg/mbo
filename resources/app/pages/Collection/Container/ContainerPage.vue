@@ -82,8 +82,8 @@ setBreadcrumbs([
     margin: 0;
     gap: 1ch;
 
-    background-color: map.get(c.$main, "container", "meta", "background");
-    color: map.get(c.$main, "container", "meta", "surface");
+    background-color: map.get(c.$pages, "container", "meta", "background");
+    color: map.get(c.$pages, "container", "meta", "surface");
     list-style: none;
     border-radius: map.get(s.$main, "container", "meta", "radius");
 
@@ -96,8 +96,8 @@ setBreadcrumbs([
 
         background: linear-gradient(
                 to bottom right,
-                map.get(c.$main, "container", "meta", "border-from"),
-                map.get(c.$main, "container", "meta", "border-to")
+                map.get(c.$pages, "container", "meta", "border-from"),
+                map.get(c.$pages, "container", "meta", "border-to")
             )
             border-box;
 
@@ -141,7 +141,7 @@ setBreadcrumbs([
 
         gap: 1rem;
 
-        color: map.get(c.$main, "container", "meta", "surface-name");
+        color: map.get(c.$pages, "container", "meta", "surface-name");
 
         font-size: 2rem;
         font-weight: 300;

@@ -1,0 +1,10 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$textlink: (
+    "surface": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog")),
+    "surface-hover": light-dark(#000, #fff),
+    "decoration": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "infra")),
+    "decoration-hover": light-dark(map.get(c.$grey, "charcoal"), map.get(c.$grey, "iron"))
+);

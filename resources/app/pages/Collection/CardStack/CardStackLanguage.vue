@@ -65,10 +65,10 @@ const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}
         align-items: center;
 
         padding: map.get(s.$form, "language", "padding");
-        border: map.get(s.$form, "language", "border") solid map.get(c.$form, "language", "border");
+        border: map.get(s.$form, "language", "border") solid map.get(c.$components, "language", "border");
         gap: 0.5rem;
 
-        background-color: map.get(c.$form, "language", "background");
+        background-color: map.get(c.$components, "language", "background");
         border-radius: map.get(s.$form, "language", "radius");
 
         cursor: pointer;
@@ -84,13 +84,13 @@ const flagSrc = (lang: string): string => new URL(`../../../assets/flags/${lang}
         }
 
         &:hover {
-            background-color: map.get(c.$form, "language", "background-hover");
+            background-color: map.get(c.$components, "language", "background-hover");
         }
     }
 }
 
 input:checked + label {
-    background-color: map.get(c.$form, "language", "background-checked");
-    border-color: map.get(c.$form, "language", "border-checked");
+    background-color: map.get(c.$components, "language", "background-checked");
+    border-color: map.get(c.$components, "language", "border-checked");
 }
 </style>

@@ -59,10 +59,10 @@ input {
     height: 0;
 
     &:checked + label {
-        background: map.get(c.$form, "switch", "background-checked");
+        background: map.get(c.$components, "switch", "background-checked");
 
         &::after {
-            background: map.get(c.$form, "switch", "surface-checked");
+            background: map.get(c.$components, "switch", "surface-checked");
         }
     }
 
@@ -80,7 +80,7 @@ label {
     width: map.get(s.$form, "switch", "size") * 2;
     height: map.get(s.$form, "switch", "size");
 
-    background-color: map.get(c.$form, "switch", "background");
+    background-color: map.get(c.$components, "switch", "background");
     border-radius: 90dvh;
 
     text-indent: -9999px;
@@ -97,7 +97,7 @@ label {
         width: map.get(s.$form, "switch", "size") - 2 * map.get(s.$form, "switch", "border");
         height: map.get(s.$form, "switch", "size") - 2 * map.get(s.$form, "switch", "border");
 
-        background: map.get(c.$form, "switch", "surface");
+        background: map.get(c.$components, "switch", "surface");
         border-radius: 90dvh;
 
         content: "";
