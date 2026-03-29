@@ -75,7 +75,7 @@
         </div>
         <div class="box2">
             <h2>Scheduled maintenance</h2>
-            <p>Every Sunday 02:00 - 03:00<br />(updating data from scryfall)</p>
+            <p>Every Sunday 02:00 - 03:00 UTC<br />(updating data from scryfall)</p>
         </div>
     </body>
 </html>

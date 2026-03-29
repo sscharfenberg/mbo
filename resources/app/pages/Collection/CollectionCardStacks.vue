@@ -2,6 +2,7 @@
 import { router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import CardImagePreview from "Components/Card/CardImagePreview.vue";
 import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
@@ -20,24 +21,24 @@ const columns = computed<ColumnDef<CollectionCardStackRow>[]>(() => [
         label: t("pages.collection.columns.name"),
         sortable: true,
         visibleInCard: true,
-        cardPrimary: true,
+        cardPrimary: true
     },
     {
         key: "set_name",
         label: t("pages.collection.columns.set_name"),
         sortable: true,
-        visibleInCard: true,
+        visibleInCard: true
     },
     {
         key: "container_name",
         label: t("pages.collection.columns.container_name"),
         sortable: true,
-        visibleInCard: true,
+        visibleInCard: true
     },
     {
         key: "language",
         label: t("pages.collection.columns.language"),
-        visibleInCard: true,
+        visibleInCard: true
     },
     {
         key: "amount",
@@ -45,32 +46,32 @@ const columns = computed<ColumnDef<CollectionCardStackRow>[]>(() => [
         sortable: true,
         width: "5rem",
         align: "right",
-        visibleInCard: true,
+        visibleInCard: true
     },
     {
         key: "condition",
         label: t("pages.collection.columns.condition"),
         sortable: true,
-        visibleInCard: true,
+        visibleInCard: true
     },
     {
         key: "finish",
         label: t("pages.collection.columns.finish"),
-        sortable: true,
+        sortable: true
     },
     {
         key: "price",
         label: t("pages.collection.columns.price"),
         sortable: true,
-        align: "right",
+        align: "right"
     },
     {
         key: "total_price",
         label: t("pages.collection.columns.total_price"),
         sortable: true,
         align: "right",
-        visibleInCard: true,
-    },
+        visibleInCard: true
+    }
 ]);
 /** Resolve the flag image URL for a given language code. */
 const flagSrc = (lang: string): string => new URL(`../../assets/flags/${lang}.svg`, import.meta.url).href;
@@ -84,6 +85,9 @@ const openDeleteModal = (row: CollectionCardStackRow) => {
 
 <template>
     <data-table :columns="columns" :response="table" :selectable="false" base-url="/collection">
+        <template #cell-name="{ row }">
+            <card-image-preview :src="row.card_image_0" :alt="row.name"> {{ row.name }} </card-image-preview>
+        </template>
         <template #cell-set_name="{ row }">
             <img
                 v-if="row.set_icon"

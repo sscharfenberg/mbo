@@ -200,6 +200,7 @@ class ContainerController extends Controller
                 'default_cards.name as card_name',
                 'default_cards.collector_number',
                 'default_cards.art_crop',
+                'default_cards.card_image_0',
                 'sets.name as set_name',
                 'sets.code as set_code',
                 'sets.path as set_icon',
@@ -254,6 +255,7 @@ class ContainerController extends Controller
                     'finish' => $stack->finish?->label(),
                     'language' => $stack->language?->value ?? 'en',
                     'art_crop' => $stack->art_crop,
+                    'card_image_0' => $stack->card_image_0,
                     'price' => (float) ($stack->unit_price ?? 0),
                     'total_price' => (float) ($stack->stack_price ?? 0),
                 ];

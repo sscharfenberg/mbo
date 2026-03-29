@@ -2,6 +2,7 @@
 import { router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import CardImagePreview from "Components/Card/CardImagePreview.vue";
 import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
@@ -123,17 +124,18 @@ const openDeleteSelectedModal = (selectedIds: string[]) => {
                         </button>
                     </li>
                     <li>
-                        <button
-                            type="button"
-                            class="popover-list-item"
-                            @click="openDeleteSelectedModal(selectedIds)"
-                        >
+                        <button type="button" class="popover-list-item" @click="openDeleteSelectedModal(selectedIds)">
                             <icon name="delete" :size="1" />
                             {{ $t("components.datatable.mass_actions.delete") }}
                         </button>
                     </li>
                 </ul>
             </pop-over>
+        </template>
+        <template #cell-name="{ row }">
+            <card-image-preview :src="row.card_image_0" :alt="row.name">
+                {{ row.name }}
+            </card-image-preview>
         </template>
         <template #cell-set_name="{ row }">
             <img

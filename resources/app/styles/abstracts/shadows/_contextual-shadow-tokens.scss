@@ -19,7 +19,8 @@ $header: (
 $main: (
     "stats_num": map.get(shg.$text, "0dp"),
     "card-image-active": shg.$inset,
-    "container-name": map.get(shg.$outline, "2dp")
+    "container-name": map.get(shg.$outline, "2dp"),
+    "card-preview": map.get(shg.$box, "2dp")
 ) !default;
 $footer: () !default;
 
