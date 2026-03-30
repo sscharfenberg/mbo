@@ -39,6 +39,7 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     // collection
     Route::get('/collection', [CollectionController::class, 'list'])
         ->name('collection');
+
     // Containers
     Route::get('collection/containers', [ContainerController::class, 'list'])
         ->name('containers');
@@ -49,6 +50,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('container.store');
     Route::patch('collection/containers/sort', [ContainerController::class, 'reorder'])
         ->name('container.reorder');
+    Route::get('collection/containers/qr', [ContainerController::class, 'generateQr'])
+        ->name('containers.qr');
     Route::get('collection/containers/{container}/edit', [ContainerController::class, 'edit'])
         ->name('container.edit');
     Route::get('collection/containers/{container}', [ContainerController::class, 'show'])
@@ -58,8 +61,12 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('container.update');
     Route::delete('collection/containers/{container}', [ContainerController::class, 'destroy'])
         ->name('container.destroy');
+    Route::get('collection/containers/{container}/qr', [ContainerController::class, 'generateQr'])
+        ->name('container.qr');
+    Route::post('collection/containers/{container}/qr', [ContainerController::class, 'qrSvg'])
+        ->name('container.qr.svg');
 
-    // add cards
+    // cardstacks
     Route::get('collection/add', [CardStackController::class, 'add'])
         ->name('cards.add');
     Route::get('collection/containers/{container}/add', [CardStackController::class, 'add'])

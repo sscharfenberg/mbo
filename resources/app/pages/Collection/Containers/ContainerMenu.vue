@@ -51,6 +51,16 @@ const showDeleteModal = ref(false);
                 </Link>
             </li>
             <li>
+                <Link
+                    class="popover-list-item"
+                    :href="`/collection/containers/${container.id}/qr`"
+                    @click="closePopover"
+                >
+                    <icon name="qr-code" :size="1" />
+                    {{ $t("pages.container_qr.link") }}
+                </Link>
+            </li>
+            <li>
                 <button
                     class="popover-list-item popover-list-item--caution"
                     @click="

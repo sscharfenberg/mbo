@@ -5,6 +5,7 @@ import { useI18n } from "vue-i18n";
 import ContainersResultList from "@/pages/Collection/Containers/ContainersResultList.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import LinkGroup from "Components/UI/LinkGroup.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
@@ -67,10 +68,15 @@ setBreadcrumbs([
             </ul>
         </li>
         <li>
-            <Link v-if="canCreateNewContainer" href="/collection/containers/new" class="btn-default">
-                <icon name="add" />
-                {{ $t("pages.new_container.link") }}
-            </Link>
+            <link-group label="..">
+                <Link v-if="canCreateNewContainer" href="/collection/containers/new" class="btn-default">
+                    <icon name="add" />
+                    {{ $t("pages.new_container.link") }}
+                </Link>
+                <Link v-if="containersAmount > 0" class="btn-default" href="/collection/containers/qr">
+                    {{ $t("pages.container_qr.link") }}
+                </Link>
+            </link-group>
         </li>
         <li v-if="isSaving" class="meta__saving" aria-live="polite">
             <loading-spinner :size="1.5" />

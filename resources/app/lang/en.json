@@ -324,6 +324,17 @@
                 "neg": "No, cancel"
             }
         },
+        "container_qr": {
+            "link": "Create QR code",
+            "title": "Create QR code for {name}",
+            "any": "one of your containers",
+            "explanation": "Generate a QR Code for {name}. The QR code points to the detail page of the container - print the QR code on a sticker and place it on a container.",
+            "select_placeholder": "Select a container",
+            "download_svg": ".svg",
+            "download_png": ".png",
+            "loading": "Generating QR code...",
+            "no_selection": "Please select a container."
+        },
         "decks": {
             "title": "Your Decks",
             "link": "Decks"

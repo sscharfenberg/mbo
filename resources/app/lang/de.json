@@ -324,6 +324,17 @@
                 "neg": "Nein, Abbruch"
             }
         },
+        "container_qr": {
+            "link": "QR code generieren",
+            "title": "QR code für {name} generieren",
+            "any": "einen deiner Container",
+            "explanation": "Erzeuge einen QR Code für {name}. Der QR Code verlinkt auf die Detailseite des Containers - drucke den QR Code auf einen Aufkleber aus und platziere ihn auf dem Container.",
+            "select_placeholder": "Container auswählen",
+            "download_svg": ".svg",
+            "download_png": ".png",
+            "loading": "QR Code wird generiert...",
+            "no_selection": "Bitte wähle einen Container."
+        },
         "decks": {
             "title": "Deine Decks",
             "link": "Decks"

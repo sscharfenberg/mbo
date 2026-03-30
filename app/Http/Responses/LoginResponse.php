@@ -4,6 +4,7 @@ namespace App\Http\Responses;
 
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Fortify;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginResponse implements LoginResponseContract
 {
@@ -25,7 +26,7 @@ class LoginResponse implements LoginResponseContract
      * session when the subsequent Inertia page request is made.
      *
      * @param  mixed  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function toResponse($request)
     {
@@ -37,7 +38,10 @@ class LoginResponse implements LoginResponseContract
         }
 
         if ($request->wantsJson()) {
-            return response()->json(['two_factor' => false]);
+            return response()->json([
+                'two_factor' => false,
+                'redirect' => redirect()->intended(Fortify::redirects('login'))->getTargetUrl(),
+            ]);
         }
 
         return redirect()->intended(Fortify::redirects('login'));

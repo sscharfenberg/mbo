@@ -27,6 +27,8 @@ class CardStackController extends Controller
      * - Add cards to the collection unsorted (when no container is specified)
      *
      * Aborts with 403 if a container is specified but belongs to another user.
+     *
+     * @param  Container|null  $container  Pre-selected container, or null for unsorted.
      */
     public function add(Request $request, ?Container $container = null): Response
     {

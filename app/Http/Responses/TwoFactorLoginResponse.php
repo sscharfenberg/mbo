@@ -5,6 +5,7 @@ namespace App\Http\Responses;
 use Illuminate\Http\JsonResponse;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
 use Laravel\Fortify\Fortify;
+use Symfony\Component\HttpFoundation\Response;
 
 class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
 {
@@ -23,7 +24,7 @@ class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
      * flash when that Inertia request arrives.
      *
      * @param  mixed  $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function toResponse($request)
     {
@@ -38,7 +39,9 @@ class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
         $request->session()->flash('type', 'success');
 
         if ($request->wantsJson()) {
-            return new JsonResponse('', 204);
+            return new JsonResponse([
+                'redirect' => redirect()->intended(Fortify::redirects('login'))->getTargetUrl(),
+            ]);
         }
 
         return redirect()->intended(Fortify::redirects('login'));

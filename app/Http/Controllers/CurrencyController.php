@@ -9,6 +9,8 @@ class CurrencyController extends Controller
 {
     /**
      * Switch the authenticated user's currency preference.
+     *
+     * @param  string  $currency  The currency code to switch to (e.g. "eur", "usd").
      */
     public function update(string $currency): RedirectResponse
     {

@@ -2,7 +2,7 @@ import { router, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import type { Ref } from "vue";
 
-type TwoFactorLoginResponse = { two_factor?: boolean };
+type TwoFactorLoginResponse = { two_factor?: boolean; redirect?: string };
 
 export type UseLoginWithTwoFactorReturn = {
     errors: Ref<Record<string, string>>;
@@ -99,7 +99,7 @@ export const useLogin = (): UseLoginWithTwoFactorReturn => {
             return;
         }
 
-        router.visit("/dashboard");
+        router.visit(data.redirect ?? "/dashboard");
     };
 
     /**
@@ -133,7 +133,8 @@ export const useLogin = (): UseLoginWithTwoFactorReturn => {
         }
 
         if (response.ok) {
-            router.visit("/dashboard");
+            const data = (await response.json().catch(() => ({}))) as { redirect?: string };
+            router.visit(data.redirect ?? "/dashboard");
             return;
         }
 

@@ -9,6 +9,7 @@ use App\Models\DefaultCard;
 use App\Services\CardSearchParser;
 use App\Services\ContainerService;
 use App\Services\DataTableService;
+use App\Services\QrCodeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -273,5 +274,46 @@ class ContainerController extends Controller
             'table' => $table,
             'containers' => $containers,
         ]);
+    }
+
+    /**
+     * Display the QR code generation page.
+     *
+     * When a container is provided via route model binding, it is pre-selected
+     * and ownership is verified. Otherwise the user can pick from all their
+     * containers. Aborts with 403 if the container belongs to another user.
+     *
+     * @param  Container|null  $container  Pre-selected container, or null when accessed without an ID.
+     */
+    public function generateQr(Request $request, ?Container $container = null): Response
+    {
+        if ($container) {
+            abort_if($container->user_id !== $request->user()->id, 403);
+        }
+
+        $containers = Container::query()
+            ->where('user_id', $request->user()->id)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        return Inertia::render('Collection/Container/ContainerQrCode', [
+            'container' => $container ? ContainerService::serializeContainer($container) : null,
+            'containers' => $containers,
+        ]);
+    }
+
+    /**
+     * Generate a QR code SVG for a container's detail page.
+     *
+     * Returns the SVG markup as JSON so the frontend can embed it inline.
+     */
+    public function qrSvg(Request $request, Container $container): JsonResponse
+    {
+        abort_if($container->user_id !== $request->user()->id, 403);
+
+        $url = route('container.show', $container);
+        $svg = QrCodeService::generateSvg($url);
+
+        return response()->json(['svg' => $svg]);
     }
 }
