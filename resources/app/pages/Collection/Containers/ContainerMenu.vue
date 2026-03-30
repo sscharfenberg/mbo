@@ -61,6 +61,16 @@ const showDeleteModal = ref(false);
                 </Link>
             </li>
             <li>
+                <a
+                    class="popover-list-item"
+                    :href="`/collection/containers/${container.id}/export`"
+                    @click="closePopover"
+                >
+                    <icon name="download" :size="1" />
+                    {{ $t("pages.containers.export_csv") }}
+                </a>
+            </li>
+            <li>
                 <button
                     class="popover-list-item popover-list-item--caution"
                     @click="

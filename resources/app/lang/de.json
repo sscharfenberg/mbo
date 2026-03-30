@@ -270,7 +270,8 @@
             "nav": {
                 "label": "Navigation deiner Sammlung"
             },
-            "unsorted": "Unsortiert"
+            "unsorted": "Unsortiert",
+            "export_csv": "CSV exportieren"
         },
         "containers": {
             "title": "Meine Container",
@@ -282,6 +283,7 @@
             "filter_by_type": "Nach Typ filtern",
             "sort_saving": "Reihenfolge wird gespeichert…",
             "sort_error": "Die Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut.",
+            "export_csv": "CSV exportieren",
             "delete": {
                 "link": "Löschen",
                 "title": "Container {name} löschen?",

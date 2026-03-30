@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { Head, Link } from "@inertiajs/vue3";
+import { useId } from "vue";
 import CollectionCardStacks from "@/pages/Collection/CollectionCardStacks.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import PopOver from "Components/UI/PopOver.vue";
 import Stats from "Components/UI/Stats/Stats.vue";
 import StatsItem from "Components/UI/Stats/StatsItem.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import { useFormatting } from "Composables/useFormatting.ts";
-
 const { formatDecimals, formatPrice } = useFormatting();
-
 import type { CollectionCardStackRow } from "Types/collectionCardStackRow";
 import type { TableResponse } from "Types/dataTable";
-
 defineProps<{
     stats: {
         totalCards: number;
@@ -26,7 +25,11 @@ defineProps<{
     };
     table: TableResponse<CollectionCardStackRow>;
 }>();
-
+const closePopover = () => {
+    const dialog = document.getElementById(refId);
+    if (dialog !== null) dialog.hidePopover();
+};
+const refId = useId();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
 </script>
@@ -38,6 +41,36 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
     <headline>
         <icon name="collection" :size="3" />
         {{ $t("pages.collection.title") }}
+        <template #right>
+            <pop-over
+                icon="more"
+                :aria-label="$t('pages.collection.nav.label')"
+                class-string="popover-button--rounded"
+                reference="collection-menu"
+                width="12rem"
+            >
+                <ul class="popover-list">
+                    <li>
+                        <Link href="/collection/containers" class="popover-list-item" @click="closePopover">
+                            <icon name="storage" :size="1" />
+                            {{ $t("pages.containers.link") }}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="popover-list-item" href="/collection/add" @click="closePopover">
+                            <icon name="add" :size="1" />
+                            {{ $t("pages.add_cards.link") }}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="popover-list-item" href="/collection/export" @click="closePopover">
+                            <icon name="download" :size="1" />
+                            {{ $t("pages.collection.export_csv") }}
+                        </Link>
+                    </li>
+                </ul>
+            </pop-over>
+        </template>
     </headline>
     <stats>
         <stats-item>
@@ -85,10 +118,6 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
         <Link href="/collection/containers" class="btn-primary">
             <icon name="storage" />
             {{ $t("pages.containers.link") }}
-        </Link>
-        <Link href="/collection/add" class="btn-default">
-            <icon name="add" />
-            {{ $t("pages.add_cards.link") }}
         </Link>
     </nav>
     <collection-card-stacks :table="table" />

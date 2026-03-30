@@ -270,7 +270,8 @@
             "nav": {
                 "label": "Collection navigation"
             },
-            "unsorted": "Unsorted"
+            "unsorted": "Unsorted",
+            "export_csv": "Export CSV"
         },
         "containers": {
             "title": "My Containers",
@@ -282,6 +283,7 @@
             "filter_by_type": "Filter by type",
             "sort_saving": "Saving order…",
             "sort_error": "The sort order could not be saved. Please try again.",
+            "export_csv": "Export CSV",
             "delete": {
                 "link": "Delete",
                 "title": "Delete Container {name}?",
