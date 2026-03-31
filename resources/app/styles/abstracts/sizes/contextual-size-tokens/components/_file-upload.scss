@@ -1,0 +1,13 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$file-upload: (
+    "requirements": (
+        "margin": 1ex 0 0,
+        "border": map.get(s.$border, "base"),
+        "padding": 0.5lh 1ch,
+        "radius": map.get(s.$radius, "featured"),
+        "gap": 1.5rem
+    )
+);

@@ -1,0 +1,11 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$file-upload: (
+    "requirements": (
+        "background": hsl(from light-dark(map.get(c.$grey, "astral"), map.get(c.$grey, "ebony")) h s l / 50%),
+        "surface": light-dark(#000, #fff),
+        "border": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey"))
+    )
+);

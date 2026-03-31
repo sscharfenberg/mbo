@@ -61,6 +61,10 @@ return [
         'language' => [
             'required' => 'Bitte wähle eine Sprache aus.',
         ],
+        'file' => [
+            'max' => 'Die Datei darf nicht größer als :max MB sein.',
+            'csv_not_parseable' => 'Die Datei scheint keine gültige CSV-Datei zu sein.',
+        ],
     ],
 
     /*

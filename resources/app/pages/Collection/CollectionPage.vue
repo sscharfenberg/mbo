@@ -68,6 +68,12 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
                             {{ $t("pages.collection.export_csv") }}
                         </a>
                     </li>
+                    <li>
+                        <Link href="/collection/import" class="popover-list-item" @click="closePopover">
+                            <icon name="upload" :size="1" />
+                            {{ $t("pages.import.link") }}
+                        </Link>
+                    </li>
                 </ul>
             </pop-over>
         </template>

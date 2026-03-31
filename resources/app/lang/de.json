@@ -337,6 +337,12 @@
             "loading": "QR Code wird generiert...",
             "no_selection": "Bitte wähle einen Container."
         },
+        "import": {
+            "title": "CSV importieren",
+            "link": "CSV importieren",
+            "target": "Importieren nach",
+            "file": "CSV-Datei"
+        },
         "decks": {
             "title": "Deine Decks",
             "link": "Decks"
@@ -475,6 +481,14 @@
         "password": {
             "show": "Zeigen",
             "hide": "Verbergen"
+        },
+        "file_upload": {
+            "choose": "Datei auswählen",
+            "clear": "Datei entfernen",
+            "uploaded": "Hochgeladen",
+            "requirements": "Datei-Upload Voraussetzungen",
+            "allowed_type": "Erlaubter Dateityp: {type}",
+            "max_size": "Maximale Dateigröße: {size}"
         },
         "card_preview": {
             "title": "Kartendetails",

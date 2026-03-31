@@ -71,6 +71,16 @@ const showDeleteModal = ref(false);
                 </a>
             </li>
             <li>
+                <Link
+                    class="popover-list-item"
+                    :href="`/collection/containers/${container.id}/import`"
+                    @click="closePopover"
+                >
+                    <icon name="upload" :size="1" />
+                    {{ $t("pages.import.link") }}
+                </Link>
+            </li>
+            <li>
                 <button
                     class="popover-list-item popover-list-item--caution"
                     @click="

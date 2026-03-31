@@ -337,6 +337,12 @@
             "loading": "Generating QR code...",
             "no_selection": "Please select a container."
         },
+        "import": {
+            "title": "Import CSV",
+            "link": "Import CSV",
+            "target": "Import to",
+            "file": "CSV file"
+        },
         "decks": {
             "title": "Your Decks",
             "link": "Decks"
@@ -475,6 +481,14 @@
         "password": {
             "show": "Show",
             "hide": "Hide"
+        },
+        "file_upload": {
+            "choose": "Choose file",
+            "clear": "Remove file",
+            "uploaded": "Uploaded",
+            "requirements": "File upload requirements",
+            "allowed_type": "Allowed file type: {type}",
+            "max_size": "Maximum file size: {size}"
         },
         "card_preview": {
             "title": "Card Details",

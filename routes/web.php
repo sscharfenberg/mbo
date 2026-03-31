@@ -5,6 +5,7 @@ use App\Http\Controllers\Collection\CardStackController;
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Collection\ContainerController;
 use App\Http\Controllers\Collection\ExportController;
+use App\Http\Controllers\Collection\ImportController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Decks\DecksController;
 use App\Http\Controllers\GuestController;
@@ -42,6 +43,10 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('collection');
     Route::get('collection/export', [ExportController::class, 'collection'])
         ->name('collection.export');
+    Route::get('collection/import', [ImportController::class, 'show'])
+        ->name('collection.import');
+    Route::post('collection/import/upload', [ImportController::class, 'upload'])
+        ->name('collection.import.upload');
 
     // Containers
     Route::get('collection/containers', [ContainerController::class, 'list'])
@@ -57,6 +62,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('containers.qr');
     Route::get('collection/containers/{container}/export', [ExportController::class, 'container'])
         ->name('container.export');
+    Route::get('collection/containers/{container}/import', [ImportController::class, 'show'])
+        ->name('container.import');
     Route::get('collection/containers/{container}/edit', [ContainerController::class, 'edit'])
         ->name('container.edit');
     Route::get('collection/containers/{container}', [ContainerController::class, 'show'])
