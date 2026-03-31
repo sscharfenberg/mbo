@@ -13,6 +13,7 @@ class CsvExportService
 {
     /** @var array<string> */
     private const HEADERS = [
+        'Scryfall ID',
         'Count',
         'Name',
         'Edition',
@@ -39,6 +40,7 @@ class CsvExportService
                 'card_stacks.finish',
                 'card_stacks.language',
                 'card_stacks.updated_at',
+                'default_cards.id as scryfall_id',
                 'default_cards.name as card_name',
                 'default_cards.collector_number',
                 'sets.code as set_code',
@@ -66,6 +68,7 @@ class CsvExportService
                 'card_stacks.finish',
                 'card_stacks.language',
                 'card_stacks.updated_at',
+                'default_cards.id as scryfall_id',
                 'default_cards.name as card_name',
                 'default_cards.collector_number',
                 'sets.code as set_code',
@@ -104,6 +107,7 @@ class CsvExportService
             $query->orderBy('card_stacks.id')->chunk(1000, function ($rows) use ($handle, $containerName) {
                 foreach ($rows as $row) {
                     fputcsv($handle, [
+                        $row->scryfall_id ?? '',
                         $row->amount,
                         $row->card_name,
                         strtoupper($row->set_code ?? ''),

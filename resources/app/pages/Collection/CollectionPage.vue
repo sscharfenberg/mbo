@@ -63,10 +63,10 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
                         </Link>
                     </li>
                     <li>
-                        <Link class="popover-list-item" href="/collection/export" @click="closePopover">
+                        <a class="popover-list-item" href="/collection/export" @click="closePopover">
                             <icon name="download" :size="1" />
                             {{ $t("pages.collection.export_csv") }}
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </pop-over>
