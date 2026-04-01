@@ -342,7 +342,34 @@
             "link": "CSV importieren",
             "target": "Importieren nach",
             "file": "CSV-Datei",
-            "submit": "Import starten"
+            "submit": "Import starten",
+            "source": "Quellformat",
+            "sources": {
+                "mbo": "MBO",
+                "moxfield": "Moxfield",
+                "archidekt": "Archidekt"
+            },
+            "results": {
+                "title": "Import-Ergebnis",
+                "imported": "{count} Karte(n) importiert",
+                "merged": "{count} in bestehende Stapel zusammengeführt",
+                "skipped": "{count} übersprungen",
+                "skipped_table": {
+                    "row": "Zeile",
+                    "name": "Karte",
+                    "reason": "Grund"
+                },
+                "reasons": {
+                    "card_not_found": "Karte nicht in der Datenbank gefunden",
+                    "set_not_found": "Set nicht gefunden",
+                    "invalid_language": "Ungültige Sprache",
+                    "invalid_condition": "Ungültiger Zustand",
+                    "invalid_finish": "Ungültiges Finish",
+                    "invalid_amount": "Ungültige Anzahl",
+                    "unmappable": "Zeile konnte nicht verarbeitet werden"
+                },
+                "import_another": "Weitere Datei importieren"
+            }
         },
         "decks": {
             "title": "Deine Decks",

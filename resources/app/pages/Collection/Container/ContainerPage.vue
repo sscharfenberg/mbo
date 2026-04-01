@@ -111,22 +111,24 @@ setBreadcrumbs([
     }
 
     @include m.mq("desktop") {
-        display: grid;
-        grid-template-columns: 1fr minmax(auto, map.get(s.$components, "art-crop", "card-image-max"));
+        &:has(.art-crop) {
+            display: grid;
+            grid-template-columns: 1fr minmax(auto, map.get(s.$components, "art-crop", "card-image-max"));
 
-        li:has(.art-crop) {
-            display: flex;
-            justify-content: flex-end;
-            grid-column: 2;
-            grid-row: 1 / span 10;
-        }
+            li:has(.art-crop) {
+                display: flex;
+                justify-content: flex-end;
+                grid-column: 2;
+                grid-row: 1 / span 10;
+            }
 
-        li:not(:has(.art-crop)) {
-            display: flex;
-            align-items: center;
-            grid-column: 1;
+            li:not(:has(.art-crop)) {
+                display: flex;
+                align-items: center;
+                grid-column: 1;
 
-            gap: 1ch;
+                gap: 1ch;
+            }
         }
     }
 

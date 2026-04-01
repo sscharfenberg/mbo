@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Collection;
 
+use App\Enums\ImportSource;
 use App\Http\Controllers\Controller;
 use App\Models\Container;
+use App\Services\CardStackService;
 use App\Services\ContainerService;
+use App\Services\CsvImportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -39,6 +44,54 @@ class ImportController extends Controller
             'containers' => $containers,
             'maxUploadBytes' => (int) config('mbo.csv_upload.max_bytes'),
             'allowedTypes' => config('mbo.csv_upload.allowed_types'),
+            'sources' => array_column(ImportSource::cases(), 'value'),
+            'results' => null,
+        ]);
+    }
+
+    /**
+     * Process the uploaded CSV and import cards into the collection.
+     *
+     * Validates source, container ownership, and file existence on the tmp disk,
+     * then delegates to CsvImportService. Re-renders the import page with results.
+     */
+    public function store(Request $request): Response
+    {
+        $request->validate([
+            'source' => ['required', Rule::enum(ImportSource::class)],
+            'container' => ['nullable', Rule::exists(Container::class, 'id')],
+            'filename' => ['required', 'string', 'regex:/^[a-f0-9\-]{36}\.csv$/'],
+        ]);
+
+        if ($request->container) {
+            CardStackService::resolveOwnedContainer($request->user(), $request->container);
+        }
+
+        if (! Storage::disk('tmp')->exists($request->filename)) {
+            throw ValidationException::withMessages([
+                'filename' => [__('validation.custom.file.not_found')],
+            ]);
+        }
+
+        $results = CsvImportService::import(
+            $request->user(),
+            $request->filename,
+            ImportSource::from($request->source),
+            $request->container ?: null,
+        );
+
+        $containers = Container::query()
+            ->where('user_id', $request->user()->id)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        return Inertia::render('Collection/Import/CsvImportPage', [
+            'container' => null,
+            'containers' => $containers,
+            'maxUploadBytes' => (int) config('mbo.csv_upload.max_bytes'),
+            'allowedTypes' => config('mbo.csv_upload.allowed_types'),
+            'sources' => array_column(ImportSource::cases(), 'value'),
+            'results' => $results,
         ]);
     }
 
@@ -124,11 +177,13 @@ class ImportController extends Controller
                 $headerColumnCount = count($row);
                 if ($headerColumnCount < 2) {
                     fclose($stream);
+
                     return __('validation.custom.file.csv_not_parseable');
                 }
             } else {
                 if (count($row) !== $headerColumnCount) {
                     fclose($stream);
+
                     return __('validation.custom.file.csv_not_parseable');
                 }
             }

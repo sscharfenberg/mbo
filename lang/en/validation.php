@@ -64,6 +64,8 @@ return [
         'file' => [
             'max' => 'The file must not be larger than :max MB.',
             'csv_not_parseable' => 'The file does not appear to be a valid CSV file.',
+            'missing_headers' => 'The CSV file is missing required columns: :headers',
+            'not_found' => 'The uploaded file could not be found. Please upload again.',
         ],
 
     ],

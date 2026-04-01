@@ -342,7 +342,34 @@
             "link": "Import CSV",
             "target": "Import to",
             "file": "CSV file",
-            "submit": "Start import"
+            "submit": "Start import",
+            "source": "Source format",
+            "sources": {
+                "mbo": "MBO",
+                "moxfield": "Moxfield",
+                "archidekt": "Archidekt"
+            },
+            "results": {
+                "title": "Import results",
+                "imported": "{count} card(s) imported",
+                "merged": "{count} merged into existing stacks",
+                "skipped": "{count} skipped",
+                "skipped_table": {
+                    "row": "Row",
+                    "name": "Card",
+                    "reason": "Reason"
+                },
+                "reasons": {
+                    "card_not_found": "Card not found in database",
+                    "set_not_found": "Set not found",
+                    "invalid_language": "Invalid language",
+                    "invalid_condition": "Invalid condition",
+                    "invalid_finish": "Invalid finish",
+                    "invalid_amount": "Invalid quantity",
+                    "unmappable": "Row could not be parsed"
+                },
+                "import_another": "Import another file"
+            }
         },
         "decks": {
             "title": "Your Decks",

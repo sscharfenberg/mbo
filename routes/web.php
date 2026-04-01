@@ -47,6 +47,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('collection.import');
     Route::post('collection/import/upload', [ImportController::class, 'upload'])
         ->name('collection.import.upload');
+    Route::post('collection/import', [ImportController::class, 'store'])
+        ->name('collection.import.store');
 
     // Containers
     Route::get('collection/containers', [ContainerController::class, 'list'])

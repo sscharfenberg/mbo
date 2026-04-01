@@ -6,7 +6,7 @@ import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
 import { useFormatting } from "Composables/useFormatting";
 import type { Container } from "Types/container";
-const { formatPrice } = useFormatting();
+const { formatPrice, formatDecimals } = useFormatting();
 const props = defineProps<{ containers: Container[] }>();
 /** Emitted after a successful drag-drop; carries the visible rows in their new order. */
 const emit = defineEmits<{ reorder: [containers: Container[]] }>();
@@ -56,7 +56,7 @@ watch(
                 <span
                     class="clist__count"
                     v-tooltip="$t('pages.container_page.cards_count', { count: container.totalCards })"
-                    ><icon name="deck" />{{ container.totalCards }}</span
+                    ><icon name="deck" />{{ formatDecimals(container.totalCards) }}</span
                 >
                 <span class="clist__price"><icon name="money" />{{ formatPrice(container.totalPrice) }}</span>
             </Link>

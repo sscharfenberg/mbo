@@ -103,6 +103,14 @@ return [
             'root' => storage_path('app/tmp'),
             'visibility' => 'private',
             'throw' => true,
+            'permissions' => [
+                'file' => [
+                    'private' => 0660,
+                ],
+                'dir' => [
+                    'private' => 0770,
+                ],
+            ],
         ],
 
     ],

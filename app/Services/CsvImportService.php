@@ -1,0 +1,404 @@
+<?php
+
+namespace App\Services;
+
+use App\Contracts\CsvRowMapper;
+use App\Enums\CardCondition;
+use App\Enums\CardLanguage;
+use App\Enums\Finish;
+use App\Enums\ImportSource;
+use App\Models\CardStack;
+use App\Models\DefaultCard;
+use App\Models\Set;
+use App\Models\User;
+use App\Services\CsvMappers\ArchidektMapper;
+use App\Services\CsvMappers\MboMapper;
+use App\Services\CsvMappers\MoxfieldMapper;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+
+class CsvImportService
+{
+    /**
+     * Process a CSV import from the tmp disk.
+     *
+     * Uses bulk queries to avoid per-row DB overhead:
+     * 1. Parse all rows and normalize via mapper
+     * 2. Bulk-resolve cards (Scryfall IDs + set/collector# fallback)
+     * 3. Bulk-fetch existing stacks to detect merges
+     * 4. Batch insert new stacks, batch update merged stacks
+     *
+     * @return array{imported: int, merged: int, skipped: int, skipped_rows: array<array{row: int, name: string, reason: string}>}
+     */
+    public static function import(User $user, string $filename, ImportSource $source, ?string $containerId): array
+    {
+        $mapper = match ($source) {
+            ImportSource::Mbo => new MboMapper,
+            ImportSource::Moxfield => new MoxfieldMapper,
+            ImportSource::Archidekt => new ArchidektMapper,
+        };
+
+        $path = Storage::disk('tmp')->path($filename);
+        $handle = fopen($path, 'r');
+
+        $headerRow = fgetcsv($handle);
+        if (! $headerRow) {
+            fclose($handle);
+            throw ValidationException::withMessages([
+                'filename' => [__('validation.custom.file.csv_not_parseable')],
+            ]);
+        }
+
+        $headerMap = self::buildHeaderMap($headerRow);
+        self::validateRequiredHeaders($mapper, $headerMap, $handle);
+
+        // Phase 1: Parse all rows.
+        $parsedRows = self::parseAllRows($handle, $mapper, $headerMap);
+        fclose($handle);
+
+        // Phase 2: Bulk-resolve cards.
+        $cardMap = self::bulkResolveCards($parsedRows['rows']);
+
+        // Phase 3: Match cards to rows, separate valid from skipped.
+        $validRows = [];
+        $skipped = $parsedRows['skipped'];
+        $skippedRows = $parsedRows['skipped_rows'];
+
+        foreach ($parsedRows['rows'] as $row) {
+            $lookupKey = self::cardLookupKey($row['mapped']);
+            $cardId = $cardMap[$lookupKey] ?? null;
+
+            if (! $cardId) {
+                $skipped++;
+                $skippedRows[] = [
+                    'row' => $row['line'],
+                    'name' => $row['mapped']['name'] ?: '?',
+                    'reason' => 'card_not_found',
+                ];
+
+                continue;
+            }
+
+            $row['card_id'] = $cardId;
+            $validRows[] = $row;
+        }
+
+        // Phase 4: Bulk upsert stacks.
+        $result = self::bulkUpsertStacks($user, $containerId, $validRows);
+
+        Storage::disk('tmp')->delete($filename);
+
+        return [
+            'imported' => $result['imported'],
+            'merged' => $result['merged'],
+            'skipped' => $skipped,
+            'skipped_rows' => $skippedRows,
+        ];
+    }
+
+    /**
+     * Parse all CSV rows via the mapper, collecting valid and skipped rows.
+     *
+     * @param  resource  $handle
+     * @param  array<string, int>  $headerMap
+     * @return array{rows: array<array{line: int, mapped: array}>, skipped: int, skipped_rows: array<array{row: int, name: string, reason: string}>}
+     */
+    private static function parseAllRows($handle, CsvRowMapper $mapper, array $headerMap): array
+    {
+        $rows = [];
+        $skipped = 0;
+        $skippedRows = [];
+        $lineNumber = 1;
+
+        while (($rawRow = fgetcsv($handle)) !== false) {
+            $lineNumber++;
+
+            if ($rawRow === [null]) {
+                continue;
+            }
+
+            $row = self::buildAssociativeRow($rawRow, $headerMap);
+            $mapped = $mapper->mapRow($row);
+
+            if ($mapped === null) {
+                $skipped++;
+                $skippedRows[] = ['row' => $lineNumber, 'name' => trim($row['name'] ?? '?'), 'reason' => 'unmappable'];
+
+                continue;
+            }
+
+            $skipReason = self::validateMappedRow($mapped);
+            if ($skipReason) {
+                $skipped++;
+                $skippedRows[] = ['row' => $lineNumber, 'name' => $mapped['name'] ?: '?', 'reason' => $skipReason];
+
+                continue;
+            }
+
+            $rows[] = ['line' => $lineNumber, 'mapped' => $mapped];
+        }
+
+        return ['rows' => $rows, 'skipped' => $skipped, 'skipped_rows' => $skippedRows];
+    }
+
+    /**
+     * Bulk-resolve DefaultCard IDs from Scryfall IDs and set+collector# fallback.
+     *
+     * Returns a map of lookup key → default_card_id.
+     *
+     * @param  array<array{mapped: array}>  $rows
+     * @return array<string, string>
+     */
+    private static function bulkResolveCards(array $rows): array
+    {
+        $cardMap = [];
+
+        // Collect Scryfall IDs for direct lookup.
+        $scryfallIds = [];
+        $fallbackRows = [];
+
+        foreach ($rows as $row) {
+            $mapped = $row['mapped'];
+            if ($mapped['scryfall_id']) {
+                $scryfallIds[] = $mapped['scryfall_id'];
+            } else {
+                $fallbackRows[] = $mapped;
+            }
+        }
+
+        // Bulk fetch by Scryfall ID.
+        if ($scryfallIds) {
+            $found = DefaultCard::whereIn('id', array_unique($scryfallIds))
+                ->pluck('id')
+                ->flip()
+                ->all();
+
+            foreach ($found as $id => $ignored) {
+                $cardMap["scryfall:{$id}"] = $id;
+            }
+        }
+
+        // Bulk fetch by set code + collector number.
+        if ($fallbackRows) {
+            // Resolve all needed set codes → IDs in one query.
+            $setCodes = array_unique(array_column($fallbackRows, 'set_code'));
+            $setMap = Set::whereIn('code', $setCodes)->pluck('id', 'code')->all();
+
+            // Group by set_id to batch card lookups.
+            $bySet = [];
+            foreach ($fallbackRows as $mapped) {
+                $setId = $setMap[$mapped['set_code']] ?? null;
+                if ($setId) {
+                    $bySet[$setId][] = $mapped['collector_number'];
+                }
+            }
+
+            foreach ($bySet as $setId => $collectorNumbers) {
+                $cards = DefaultCard::where('set_id', $setId)
+                    ->whereIn('collector_number', array_unique($collectorNumbers))
+                    ->get(['id', 'collector_number']);
+
+                foreach ($cards as $card) {
+                    $cardMap["set:{$setId}:{$card->collector_number}"] = $card->id;
+                }
+            }
+
+            // Build reverse map from set_code to set_id for key generation.
+            foreach ($fallbackRows as $mapped) {
+                $setId = $setMap[$mapped['set_code']] ?? null;
+                if ($setId) {
+                    $key = "set:{$setId}:{$mapped['collector_number']}";
+                    // Already populated above, just ensure the alias key works.
+                    if (isset($cardMap[$key])) {
+                        $cardMap["fallback:{$mapped['set_code']}:{$mapped['collector_number']}"] = $cardMap[$key];
+                    }
+                }
+            }
+        }
+
+        return $cardMap;
+    }
+
+    /**
+     * Build the lookup key for a mapped row matching the cardMap keys.
+     *
+     * @param  array{scryfall_id: ?string, set_code: string, collector_number: string}  $mapped
+     */
+    private static function cardLookupKey(array $mapped): string
+    {
+        if ($mapped['scryfall_id']) {
+            return "scryfall:{$mapped['scryfall_id']}";
+        }
+
+        return "fallback:{$mapped['set_code']}:{$mapped['collector_number']}";
+    }
+
+    /**
+     * Bulk upsert card stacks: insert new stacks and increment existing ones.
+     *
+     * @param  array<array{card_id: string, mapped: array}>  $validRows
+     * @return array{imported: int, merged: int}
+     */
+    private static function bulkUpsertStacks(User $user, ?string $containerId, array $validRows): array
+    {
+        if (empty($validRows)) {
+            return ['imported' => 0, 'merged' => 0];
+        }
+
+        // Fetch all existing stacks for this user + container in one query.
+        $existingStacks = CardStack::where('user_id', $user->id)
+            ->where('container_id', $containerId)
+            ->get()
+            ->keyBy(fn (CardStack $s) => self::stackKey(
+                $s->default_card_id,
+                $s->language->value,
+                $s->condition?->value,
+                $s->finish->value,
+            ));
+
+        $inserts = [];
+        $merges = []; // stack_id => amount to add
+        $imported = 0;
+        $merged = 0;
+        $now = now();
+
+        foreach ($validRows as $row) {
+            $mapped = $row['mapped'];
+            $cardId = $row['card_id'];
+            $finish = Finish::fromLabel($mapped['finish']);
+
+            $key = self::stackKey($cardId, $mapped['language'], $mapped['condition'], $finish->value);
+            $existing = $existingStacks->get($key);
+
+            if ($existing) {
+                $merges[$existing->id] = ($merges[$existing->id] ?? 0) + $mapped['amount'];
+                $merged++;
+            } else {
+                // Check if a previous row in this batch already created this stack.
+                if (isset($inserts[$key])) {
+                    $inserts[$key]['amount'] += $mapped['amount'];
+                    $merged++;
+                } else {
+                    $inserts[$key] = [
+                        'id' => Str::uuid()->toString(),
+                        'user_id' => $user->id,
+                        'default_card_id' => $cardId,
+                        'container_id' => $containerId,
+                        'amount' => $mapped['amount'],
+                        'language' => $mapped['language'],
+                        'condition' => $mapped['condition'],
+                        'finish' => $finish->value,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                    $imported++;
+                }
+            }
+        }
+
+        DB::transaction(function () use ($inserts, $merges) {
+            // Batch insert new stacks.
+            if ($inserts) {
+                foreach (array_chunk(array_values($inserts), 500) as $chunk) {
+                    CardStack::insert($chunk);
+                }
+            }
+
+            // Batch update merged stacks.
+            foreach ($merges as $stackId => $amount) {
+                CardStack::where('id', $stackId)->increment('amount', $amount);
+            }
+        });
+
+        return ['imported' => $imported, 'merged' => $merged];
+    }
+
+    /**
+     * Build a composite key for stack deduplication.
+     */
+    private static function stackKey(string $cardId, string $language, ?string $condition, int $finish): string
+    {
+        return "{$cardId}|{$language}|{$condition}|{$finish}";
+    }
+
+    /**
+     * Build a lowercase header name → column index map.
+     *
+     * @param  array<string>  $headerRow
+     * @return array<string, int>
+     */
+    private static function buildHeaderMap(array $headerRow): array
+    {
+        $map = [];
+        foreach ($headerRow as $index => $header) {
+            $map[strtolower(trim($header))] = $index;
+        }
+
+        return $map;
+    }
+
+    /**
+     * Validate that all required headers are present.
+     *
+     * @param  array<string, int>  $headerMap
+     * @param  resource  $handle  Closed on failure before throwing.
+     */
+    private static function validateRequiredHeaders(CsvRowMapper $mapper, array $headerMap, $handle): void
+    {
+        $missing = array_diff($mapper->requiredHeaders(), array_keys($headerMap));
+
+        if ($missing) {
+            fclose($handle);
+            throw ValidationException::withMessages([
+                'filename' => [__('validation.custom.file.missing_headers', [
+                    'headers' => implode(', ', $missing),
+                ])],
+            ]);
+        }
+    }
+
+    /**
+     * Build an associative row keyed by lowercase header names.
+     *
+     * @param  array<string>  $rawRow
+     * @param  array<string, int>  $headerMap
+     * @return array<string, string>
+     */
+    private static function buildAssociativeRow(array $rawRow, array $headerMap): array
+    {
+        $row = [];
+        foreach ($headerMap as $name => $index) {
+            $row[$name] = $rawRow[$index] ?? '';
+        }
+
+        return $row;
+    }
+
+    /**
+     * Validate a mapped row's values. Returns a skip reason or null if valid.
+     *
+     * @param  array{amount: int, language: string, condition: ?string, finish: string}  $mapped
+     */
+    private static function validateMappedRow(array $mapped): ?string
+    {
+        if ($mapped['amount'] < 1) {
+            return 'invalid_amount';
+        }
+
+        if (! CardLanguage::tryFrom($mapped['language'])) {
+            return 'invalid_language';
+        }
+
+        if ($mapped['condition'] !== null && ! CardCondition::tryFrom($mapped['condition'])) {
+            return 'invalid_condition';
+        }
+
+        if (! Finish::fromLabel($mapped['finish'])) {
+            return 'invalid_finish';
+        }
+
+        return null;
+    }
+}
