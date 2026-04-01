@@ -288,6 +288,7 @@
                 "link": "Löschen",
                 "title": "Container {name} löschen?",
                 "question": "Bist du sicher das du diesen Container löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "warning": "Dieser Container enthält {amount} Karten mit einem Gesamtwert von {worth}.",
                 "aff": "Ja, Löschen",
                 "neg": "Nein, Abbruch"
             }

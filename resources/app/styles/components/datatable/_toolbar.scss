@@ -6,9 +6,9 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    gap: 1rem;
+    padding: 0 0 1rem;
 
-    padding-block: 0.5rem;
+    gap: 1rem;
 
     &__selection {
         margin-inline-start: auto;
@@ -19,7 +19,7 @@
         flex-wrap: nowrap;
 
         min-width: 0;
-        max-width: 12rem;
+        max-width: 50%;
         gap: 0;
 
         @include m.mq("portrait") {
@@ -27,7 +27,7 @@
         }
 
         @include m.mq("landscape") {
-            max-width: 24rem;
+            max-width: 36rem;
         }
     }
 }

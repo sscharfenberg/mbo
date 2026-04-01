@@ -2,7 +2,7 @@
 import { Link } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
-import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
+import ContainerMenu from "@/pages/Collection/common/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
 import { useFormatting } from "Composables/useFormatting";
 import type { Container } from "Types/container";

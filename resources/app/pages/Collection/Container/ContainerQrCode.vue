@@ -12,17 +12,14 @@ import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import type { BreadcrumbItem } from "Composables/useBreadcrumbs.ts";
 import type { Container } from "Types/container.ts";
-
 const props = defineProps<{
     container: Container | null;
     containers: ContainerListItem[];
 }>();
-
 const { t } = useI18n();
 const page = usePage();
 const csrfToken = computed(() => page.props.csrfToken as string);
 const { setBreadcrumbs } = useBreadcrumbs();
-
 const crumbs: BreadcrumbItem[] = [
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
     { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" }
@@ -36,7 +33,6 @@ if (props.container) {
 }
 crumbs.push({ label: t("pages.container_qr.link") });
 setBreadcrumbs(crumbs);
-
 const containerOptions = computed(() =>
     props.containers.map(container => ({
         value: container.id,
@@ -46,7 +42,6 @@ const containerOptions = computed(() =>
 const selectedContainer = ref(props.container?.id ?? "");
 const qrSvg = ref("");
 const loading = ref(false);
-
 /**
  * Navigate to the QR page for the selected container (or the generic page if cleared).
  * Inertia replaces props reactively, triggering the watcher below.
@@ -59,7 +54,6 @@ function onContainerChange(id: string) {
     }
     router.get(`/collection/containers/${id}/qr`, {}, { preserveState: true });
 }
-
 /**
  * Fetch the QR code SVG from the server for the given container ID.
  */
@@ -84,12 +78,10 @@ async function fetchQr(containerId: string) {
         loading.value = false;
     }
 }
-
 /** Helper to derive the download filename from the selected container. */
 function filename(ext: string): string {
     return `qr-${props.container?.name ?? "container"}.${ext}`;
 }
-
 /** Download the QR code as an SVG file with XML declaration. */
 function downloadSvg() {
     const xmlDeclaration = '<?xml version="1.0" encoding="UTF-8"?>\n';
@@ -101,7 +93,6 @@ function downloadSvg() {
     a.click();
     URL.revokeObjectURL(url);
 }
-
 /** Rasterize the QR SVG to a 1024×1024 PNG via canvas and trigger a download. */
 function downloadPng() {
     const size = 1024;
@@ -122,7 +113,6 @@ function downloadPng() {
     };
     img.src = svgUrl;
 }
-
 /** When Inertia delivers a new container prop after navigation, fetch the QR code. */
 watch(
     () => props.container,

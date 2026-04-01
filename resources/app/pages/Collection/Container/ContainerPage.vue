@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
+import ContainerMenu from "@/pages/Collection/common/ContainerMenu.vue";
 import ContainerCardStacks from "@/pages/Collection/Container/ContainerCardStacks.vue";
-import ContainerMenu from "@/pages/Collection/Containers/ContainerMenu.vue";
 import ArtCropImage from "Components/Card/ArtCropImage.vue";
 import Badge from "Components/UI/Badge.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -79,7 +79,7 @@ setBreadcrumbs([
     flex-direction: column;
 
     padding: map.get(s.$pages, "container", "meta", "padding");
-    margin: 0;
+    margin: 0 0 1rem;
     gap: 1ch;
 
     background-color: map.get(c.$pages, "container", "meta", "background");

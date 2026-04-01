@@ -145,14 +145,14 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
             </span>
         </paragraph>
         <table v-if="results.skipped_rows.length > 0" class="dt__table">
-            <thead>
+            <thead class="dt-head">
                 <tr>
                     <th>{{ $t("pages.import.results.skipped_table.row") }}</th>
                     <th>{{ $t("pages.import.results.skipped_table.name") }}</th>
                     <th>{{ $t("pages.import.results.skipped_table.reason") }}</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="dt-body">
                 <tr v-for="row in results.skipped_rows" :key="row.row">
                     <td>{{ row.row }}</td>
                     <td>{{ row.name }}</td>
@@ -172,35 +172,7 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
 @use "Abstracts/sizes" as s;
 @use "Abstracts/colors" as c;
 
-.import-results {
-    &__summary {
-        padding: 0;
-        margin: map.get(s.$components, "form-group", "margin");
-
-        list-style: none;
-
-        > li {
-            padding: 0.25rem 0;
-        }
-    }
-
-    &__table {
-        width: 100%;
-        margin: map.get(s.$components, "form-group", "margin");
-
-        border-collapse: collapse;
-
-        th,
-        td {
-            padding: 0.5rem;
-            border-bottom: 1px solid map.get(c.$components, "datatable", "border");
-
-            text-align: left;
-        }
-
-        th {
-            font-weight: 600;
-        }
-    }
+.dt__table {
+    margin: 1lh 0;
 }
 </style>

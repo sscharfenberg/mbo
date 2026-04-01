@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import { ref, useId } from "vue";
-import ContainersDeleteModal from "@/pages/Collection/Containers/ContainersDeleteModal.vue";
+import DeleteContainerModal from "@/pages/Collection/common/DeleteContainerModal.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
-import type { Container } from "Types/container";
+import type { Container } from "Types/container.ts";
 const closePopover = () => {
     const dialog = document.getElementById(refId);
     if (dialog !== null) dialog.hidePopover();
@@ -94,5 +94,5 @@ const showDeleteModal = ref(false);
             </li>
         </ul>
     </pop-over>
-    <containers-delete-modal v-if="showDeleteModal" @close="showDeleteModal = false" :container="container" />
+    <delete-container-modal v-if="showDeleteModal" @close="showDeleteModal = false" :container="container" />
 </template>

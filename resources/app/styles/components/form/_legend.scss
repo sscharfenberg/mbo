@@ -6,10 +6,9 @@
     display: flex;
     flex-direction: column;
 
-    padding: map.get(s.$components, "legend", "padding");
+    padding: 0;
     border: map.get(s.$components, "legend", "border") solid map.get(c.$components, "legend", "border");
     margin: 0;
-    gap: 1ex;
 
     background-color: map.get(c.$components, "legend", "background");
     color: map.get(c.$components, "legend", "surface");
@@ -20,7 +19,30 @@
     > li {
         display: flex;
 
+        padding: map.get(s.$components, "legend", "padding");
         gap: 1ch;
+
+        &:first-child {
+            padding-top: map.get(s.$components, "legend", "padding-block-start");
+
+            border-top-left-radius: calc(
+                map.get(s.$components, "legend", "radius") - map.get(s.$components, "legend", "border")
+            );
+            border-top-right-radius: calc(
+                map.get(s.$components, "legend", "radius") - map.get(s.$components, "legend", "border")
+            );
+        }
+
+        &:last-child {
+            padding-bottom: map.get(s.$components, "legend", "padding-block-start");
+
+            border-bottom-right-radius: calc(
+                map.get(s.$components, "legend", "radius") - map.get(s.$components, "legend", "border")
+            );
+            border-bottom-left-radius: calc(
+                map.get(s.$components, "legend", "radius") - map.get(s.$components, "legend", "border")
+            );
+        }
 
         > span {
             flex-grow: 1;
@@ -28,6 +50,16 @@
             .icon {
                 margin: 0 0.5ch;
             }
+        }
+
+        &.warning {
+            background-color: map.get(c.$state, "warning", "background");
+            color: map.get(c.$state, "warning", "surface");
+        }
+
+        &.error {
+            background-color: map.get(c.$state, "error", "background");
+            color: map.get(c.$state, "error", "surface");
         }
     }
 }

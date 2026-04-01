@@ -22,6 +22,28 @@ class ArchidektMapper implements CsvRowMapper
         'D' => 'poor',
     ];
 
+    /**
+     * Maps Archidekt's uppercase language codes to CardLanguage enum values.
+     * Archidekt uses ISO 3166 country codes for some languages (JP, KR, CT, CS)
+     * while CardLanguage uses Scryfall's ISO 639-based codes.
+     *
+     * @var array<string, string>
+     */
+    private const LANGUAGE_MAP = [
+        'EN' => 'en',
+        'DE' => 'de',
+        'FR' => 'fr',
+        'IT' => 'it',
+        'ES' => 'es',
+        'PT' => 'pt',
+        'JP' => 'ja',
+        'KR' => 'ko',
+        'CS' => 'zhs',
+        'CT' => 'zht',
+        'RU' => 'ru',
+        'PH' => 'ph',
+    ];
+
     /** @var array<string, string> */
     private const FINISH_MAP = [
         'Normal' => 'nonfoil',
@@ -31,7 +53,7 @@ class ArchidektMapper implements CsvRowMapper
 
     public function requiredHeaders(): array
     {
-        return ['quantity', 'name', 'edition', 'condition', 'language', 'finish', 'collector number'];
+        return ['quantity', 'name', 'edition code', 'condition', 'language', 'finish', 'collector number'];
     }
 
     public function mapRow(array $row): ?array
@@ -46,11 +68,11 @@ class ArchidektMapper implements CsvRowMapper
 
         return [
             'scryfall_id' => trim($row['scryfall id'] ?? '') ?: null,
-            'set_code' => strtolower(trim($row['edition'] ?? '')),
+            'set_code' => strtolower(trim($row['edition code'] ?? '')),
             'collector_number' => trim($row['collector number'] ?? ''),
             'amount' => $amount,
             'name' => trim($row['name'] ?? ''),
-            'language' => strtolower(trim($row['language'] ?? 'en')),
+            'language' => self::LANGUAGE_MAP[strtoupper(trim($row['language'] ?? 'EN'))] ?? null,
             'condition' => self::CONDITION_MAP[$condition] ?? null,
             'finish' => self::FINISH_MAP[$finish] ?? 'nonfoil',
         ];

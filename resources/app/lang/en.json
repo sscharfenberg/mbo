@@ -288,6 +288,7 @@
                 "link": "Delete",
                 "title": "Delete Container {name}?",
                 "question": "Are you sure you want to delete this container? This action can not be undone.",
+                "warning": "This container has {amount} cards worth a total of {worth}.",
                 "aff": "Yes, delete",
                 "neg": "No, cancel"
             }

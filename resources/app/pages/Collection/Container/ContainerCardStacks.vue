@@ -2,6 +2,9 @@
 import { router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import DeleteCardStackModal from "@/pages/Collection/common/DeleteCardStackModal.vue";
+import DeleteSelectedCardStacksModal from "@/pages/Collection/common/DeleteSelectedCardStacksModal.vue";
+import MoveSelectedCardStacksModal from "@/pages/Collection/common/MoveSelectedCardStacksModal.vue";
 import CardImagePreview from "Components/Card/CardImagePreview.vue";
 import CardPreviewModal from "Components/Card/CardPreviewModal.vue";
 import DataTable from "Components/DataTable/DataTable.vue";
@@ -12,9 +15,6 @@ import { useFormatting } from "Composables/useFormatting";
 import type { CardStackRow } from "Types/cardStackRow";
 import type { ContainerListItem } from "Types/containerListItem";
 import type { ColumnDef, TableResponse } from "Types/dataTable";
-import DeleteCardStackModal from "../shared/DeleteCardStackModal.vue";
-import DeleteSelectedCardStacksModal from "../shared/DeleteSelectedCardStacksModal.vue";
-import MoveSelectedCardStacksModal from "../shared/MoveSelectedCardStacksModal.vue";
 defineProps<{
     table: TableResponse<CardStackRow>;
     baseUrl: string;

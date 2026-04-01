@@ -5,7 +5,10 @@ import FormLegend from "Components/Form/FormLegend.vue";
 import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-import type { Container } from "Types/container";
+import { useFormatting } from "Composables/useFormatting.ts";
+import type { Container } from "Types/container.ts";
+
+const { formatDecimals, formatPrice } = useFormatting();
 /** @emits close — Fired after successful deletion or when the user cancels. */
 const emit = defineEmits<{ close: [] }>();
 /** @props container — The container to be deleted; its name is shown in the confirmation prompt. */
@@ -40,7 +43,22 @@ const onDelete = () => {
                 >
             </i18n-t>
         </template>
-        <form-legend :items="[{ slot: 'question', icon: 'question' }]">
+        <form-legend
+            :items="[
+                { slot: 'warning', icon: 'warning', modifier: 'warning' },
+                { slot: 'question', icon: 'question' }
+            ]"
+        >
+            <template #warning>
+                <i18n-t keypath="pages.containers.delete.warning" scope="global">
+                    <template #amount
+                        ><strong>{{ formatDecimals(container.totalCards) }}</strong></template
+                    >
+                    <template #worth
+                        ><strong>{{ formatPrice(container.totalPrice) }}</strong></template
+                    >
+                </i18n-t>
+            </template>
             <template #question>{{ $t("pages.containers.delete.question") }} </template>
         </form-legend>
         <template #footer>
