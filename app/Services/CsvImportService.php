@@ -19,6 +19,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Orchestrates CSV import processing.
+ *
+ * Parses an uploaded CSV file using a source-specific mapper, bulk-resolves
+ * cards against the database, and upserts card stacks. Designed for files
+ * up to 2 MB (~10k rows) processed synchronously.
+ */
 class CsvImportService
 {
     /**
@@ -31,6 +38,8 @@ class CsvImportService
      * 4. Batch insert new stacks, batch update merged stacks
      *
      * @return array{imported: int, merged: int, skipped: int, skipped_rows: array<array{row: int, name: string, reason: string}>}
+     *
+     * @throws ValidationException When the file is unparseable or missing required headers.
      */
     public static function import(User $user, string $filename, ImportSource $source, ?string $containerId): array
     {
@@ -344,6 +353,8 @@ class CsvImportService
      *
      * @param  array<string, int>  $headerMap
      * @param  resource  $handle  Closed on failure before throwing.
+     *
+     * @throws ValidationException When required headers are missing.
      */
     private static function validateRequiredHeaders(CsvRowMapper $mapper, array $headerMap, $handle): void
     {

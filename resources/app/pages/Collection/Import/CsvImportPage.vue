@@ -12,11 +12,17 @@ import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import type { Container } from "Types/container";
 import type { ContainerListItem } from "Types/containerListItem";
 const props = defineProps<{
+    /** Pre-selected container from route model binding, or null when accessed without an ID. */
     container: Container | null;
+    /** All containers belonging to the user, for the target dropdown. */
     containers: ContainerListItem[];
+    /** Maximum upload size in bytes, from config('mbo.csv_upload.max_bytes'). */
     maxUploadBytes: number;
+    /** Allowed file extensions for the upload input (e.g. [".csv"]). */
     allowedTypes: string[];
+    /** Available import source format identifiers (e.g. ["mbo", "moxfield", "archidekt"]). */
     sources: string[];
+    /** Import results returned by ImportController::store(), null on initial GET. */
     results?: {
         imported: number;
         merged: number;
@@ -36,12 +42,14 @@ if (props.container) {
 }
 crumbs.push({ labelKey: "pages.import.link" });
 setBreadcrumbs(crumbs);
+/** Container options formatted for MonoSelect. */
 const containerOptions = computed(() =>
     props.containers.map(c => ({
         value: c.id,
         label: c.name
     }))
 );
+/** Source format options with translated labels for MonoSelect. */
 const sourceOptions = computed(() =>
     props.sources.map(s => ({
         value: s,
@@ -50,21 +58,27 @@ const sourceOptions = computed(() =>
 );
 const selectedContainer = ref(props.container?.id ?? "");
 const selectedSource = ref("mbo");
+/** Server-generated filename on the tmp disk, set after successful XHR upload. */
 const uploadedFilename = ref("");
+/** Error message from the XHR upload (file too large, not parseable, etc.). */
 const uploadError = ref("");
+/** Stores the tmp filename and clears any previous upload error. */
 const onUploadSuccess = (filename: string) => {
     uploadedFilename.value = filename;
     uploadError.value = "";
 };
+/** Stores the error message and clears any previous filename. */
 const onUploadError = (message: string) => {
     uploadError.value = message;
     uploadedFilename.value = "";
 };
+/** Resets both filename and error when the user clears the file input. */
 const onUploadClear = () => {
     uploadedFilename.value = "";
     uploadError.value = "";
 };
 const isUploading = ref(false);
+/** Submit is enabled only when a file has been uploaded and no upload is in progress. */
 const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
 </script>
 

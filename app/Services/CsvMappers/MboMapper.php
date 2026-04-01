@@ -4,6 +4,12 @@ namespace App\Services\CsvMappers;
 
 use App\Contracts\CsvRowMapper;
 
+/**
+ * CSV row mapper for MBO's own export format.
+ *
+ * Minimal normalization — values are already in canonical format.
+ * Uses Scryfall ID as primary card lookup, with set code + collector number as fallback.
+ */
 class MboMapper implements CsvRowMapper
 {
     public function requiredHeaders(): array

@@ -54,6 +54,8 @@ class ImportController extends Controller
      *
      * Validates source, container ownership, and file existence on the tmp disk,
      * then delegates to CsvImportService. Re-renders the import page with results.
+     *
+     * @throws ValidationException When validation fails or the CSV has missing headers.
      */
     public function store(Request $request): Response
     {

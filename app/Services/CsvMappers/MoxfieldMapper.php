@@ -4,6 +4,13 @@ namespace App\Services\CsvMappers;
 
 use App\Contracts\CsvRowMapper;
 
+/**
+ * CSV row mapper for Moxfield exports.
+ *
+ * Normalizes full language names to ISO codes, human-readable conditions
+ * to enum values, and empty foil strings to 'nonfoil'.
+ * Moxfield has no Scryfall ID column — card lookup always uses set code + collector number.
+ */
 class MoxfieldMapper implements CsvRowMapper
 {
     /** @var array<string, string> */

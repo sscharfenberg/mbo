@@ -4,6 +4,13 @@ namespace App\Services\CsvMappers;
 
 use App\Contracts\CsvRowMapper;
 
+/**
+ * CSV row mapper for Archidekt exports.
+ *
+ * Normalizes abbreviated conditions (NM, LP, etc.) to enum values,
+ * title-case finishes to lowercase labels, and uppercase languages to ISO codes.
+ * Uses Scryfall ID when available, with set code + collector number as fallback.
+ */
 class ArchidektMapper implements CsvRowMapper
 {
     /** @var array<string, string> */
