@@ -291,6 +291,9 @@
                 "warning": "This container has {amount} cards worth a total of {worth}.",
                 "aff": "Yes, delete",
                 "neg": "No, cancel"
+            },
+            "nav": {
+                "label": "Navigation for your containers"
             }
         },
         "new_container": {
@@ -349,6 +352,10 @@
                 "mbo": "MBO",
                 "moxfield": "Moxfield",
                 "archidekt": "Archidekt"
+            },
+            "explanations": {
+                "mbo": "When importing from our own import format, we will match the container according to the container id column - the 'Import to' dropdown is ignored. If you want to import all cards to a specific container - regardless of origin - empty the 'container id' column in the CSV file.",
+                "archidekt": "Archidekt allows you to choose the columns that you want to have exported. Please use these columns to ensure we can map the import correctly: Quantity, Card Name, Foil, Condition, Language, Edition Code, Collector Number, Scryfall ID."
             },
             "results": {
                 "title": "Import results",

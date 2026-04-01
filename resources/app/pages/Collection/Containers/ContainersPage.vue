@@ -68,12 +68,13 @@ setBreadcrumbs([
             </ul>
         </li>
         <li>
-            <link-group label="..">
+            <link-group :label="$t('pages.containers.nav.label')">
                 <Link v-if="canCreateNewContainer" href="/collection/containers/new" class="btn-default">
                     <icon name="add" />
                     {{ $t("pages.new_container.link") }}
                 </Link>
                 <Link v-if="containersAmount > 0" class="btn-default" href="/collection/containers/qr">
+                    <icon name="qr-code" />
                     {{ $t("pages.container_qr.link") }}
                 </Link>
             </link-group>

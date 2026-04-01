@@ -23,6 +23,7 @@ class CsvExportService
         'Last Modified',
         'Collector Number',
         'Container',
+        'Container ID',
     ];
 
     /**
@@ -48,7 +49,7 @@ class CsvExportService
 
         $filename = self::filename($user, Str::slug($container->name));
 
-        return self::streamCsv($query, $filename, $container->name);
+        return self::streamCsv($query, $filename, $container->name, $container->id);
     }
 
     /**
@@ -73,6 +74,7 @@ class CsvExportService
                 'default_cards.collector_number',
                 'sets.code as set_code',
                 'containers.name as container_name',
+                'containers.id as container_id',
             ]);
 
         $filename = self::filename($user, 'collection');
@@ -94,17 +96,18 @@ class CsvExportService
      * Chunks results in batches of 1000 to keep memory flat for large exports.
      *
      * @param  string|null  $containerName  Fixed container name for single-container exports.
+     * @param  string|null  $fixedContainerId  Fixed container UUID for single-container exports.
      */
-    private static function streamCsv(BuilderContract $query, string $filename, ?string $containerName = null): StreamedResponse
+    private static function streamCsv(BuilderContract $query, string $filename, ?string $containerName = null, ?string $fixedContainerId = null): StreamedResponse
     {
-        return new StreamedResponse(function () use ($query, $containerName) {
+        return new StreamedResponse(function () use ($query, $containerName, $fixedContainerId) {
             $handle = fopen('php://output', 'w');
 
             // UTF-8 BOM so Excel interprets the file correctly.
             fwrite($handle, "\xEF\xBB\xBF");
             fputcsv($handle, self::HEADERS);
 
-            $query->orderBy('card_stacks.id')->chunk(1000, function ($rows) use ($handle, $containerName) {
+            $query->orderBy('card_stacks.id')->chunk(1000, function ($rows) use ($handle, $containerName, $fixedContainerId) {
                 foreach ($rows as $row) {
                     fputcsv($handle, [
                         $row->scryfall_id ?? '',
@@ -117,6 +120,7 @@ class CsvExportService
                         $row->updated_at?->toIso8601String() ?? '',
                         $row->collector_number ?? '',
                         $containerName ?? $row->container_name ?? '',
+                        $fixedContainerId ?? $row->container_id ?? '',
                     ]);
                 }
             });

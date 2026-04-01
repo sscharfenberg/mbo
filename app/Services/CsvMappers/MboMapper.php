@@ -33,6 +33,7 @@ class MboMapper implements CsvRowMapper
             'language' => trim($row['language'] ?? 'en'),
             'condition' => trim($row['condition'] ?? '') ?: null,
             'finish' => trim($row['foil'] ?? 'nonfoil') ?: 'nonfoil',
+            'container_id' => trim($row['container id'] ?? '') ?: null,
         ];
     }
 }

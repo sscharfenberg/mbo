@@ -8,6 +8,7 @@ use App\Enums\CardLanguage;
 use App\Enums\Finish;
 use App\Enums\ImportSource;
 use App\Models\CardStack;
+use App\Models\Container;
 use App\Models\DefaultCard;
 use App\Models\Set;
 use App\Models\User;
@@ -94,8 +95,20 @@ class CsvImportService
             $validRows[] = $row;
         }
 
+        // Phase 3b: For MBO imports, resolve per-row container IDs.
+        $ownedContainerIds = self::resolveOwnedContainers($user, $validRows);
+
+        // Assign effective container ID per row: CSV container_id (if owned) → form container → null.
+        foreach ($validRows as &$row) {
+            $csvContainerId = $row['mapped']['container_id'] ?? null;
+            $row['container_id'] = ($csvContainerId && isset($ownedContainerIds[$csvContainerId]))
+                ? $csvContainerId
+                : $containerId;
+        }
+        unset($row);
+
         // Phase 4: Bulk upsert stacks.
-        $result = self::bulkUpsertStacks($user, $containerId, $validRows);
+        $result = self::bulkUpsertStacks($user, $validRows);
 
         Storage::disk('tmp')->delete($filename);
 
@@ -247,20 +260,36 @@ class CsvImportService
     /**
      * Bulk upsert card stacks: insert new stacks and increment existing ones.
      *
-     * @param  array<array{card_id: string, mapped: array}>  $validRows
+     * Each row carries its own `container_id` so stacks can span multiple containers.
+     *
+     * @param  array<array{card_id: string, container_id: ?string, mapped: array}>  $validRows
      * @return array{imported: int, merged: int}
      */
-    private static function bulkUpsertStacks(User $user, ?string $containerId, array $validRows): array
+    private static function bulkUpsertStacks(User $user, array $validRows): array
     {
         if (empty($validRows)) {
             return ['imported' => 0, 'merged' => 0];
         }
 
-        // Fetch all existing stacks for this user + container in one query.
-        $existingStacks = CardStack::where('user_id', $user->id)
-            ->where('container_id', $containerId)
-            ->get()
+        // Collect all distinct container IDs (including null) to fetch existing stacks.
+        $containerIds = array_unique(array_column($validRows, 'container_id'));
+
+        // Fetch all existing stacks for this user across all relevant containers.
+        $existingQuery = CardStack::where('user_id', $user->id);
+        $hasNull = in_array(null, $containerIds, true);
+        $nonNullIds = array_filter($containerIds, fn ($id) => $id !== null);
+
+        if ($hasNull && $nonNullIds) {
+            $existingQuery->where(fn ($q) => $q->whereNull('container_id')->orWhereIn('container_id', $nonNullIds));
+        } elseif ($hasNull) {
+            $existingQuery->whereNull('container_id');
+        } else {
+            $existingQuery->whereIn('container_id', $nonNullIds);
+        }
+
+        $existingStacks = $existingQuery->get()
             ->keyBy(fn (CardStack $s) => self::stackKey(
+                $s->container_id ?? '',
                 $s->default_card_id,
                 $s->language->value,
                 $s->condition?->value,
@@ -276,9 +305,10 @@ class CsvImportService
         foreach ($validRows as $row) {
             $mapped = $row['mapped'];
             $cardId = $row['card_id'];
+            $rowContainerId = $row['container_id'];
             $finish = Finish::fromLabel($mapped['finish']);
 
-            $key = self::stackKey($cardId, $mapped['language'], $mapped['condition'], $finish->value);
+            $key = self::stackKey($rowContainerId ?? '', $cardId, $mapped['language'], $mapped['condition'], $finish->value);
             $existing = $existingStacks->get($key);
 
             if ($existing) {
@@ -294,7 +324,7 @@ class CsvImportService
                         'id' => Str::uuid()->toString(),
                         'user_id' => $user->id,
                         'default_card_id' => $cardId,
-                        'container_id' => $containerId,
+                        'container_id' => $rowContainerId,
                         'amount' => $mapped['amount'],
                         'language' => $mapped['language'],
                         'condition' => $mapped['condition'],
@@ -325,11 +355,39 @@ class CsvImportService
     }
 
     /**
-     * Build a composite key for stack deduplication.
+     * Bulk-verify which container IDs from mapped rows belong to the user.
+     *
+     * @param  array<array{mapped: array}>  $validRows
+     * @return array<string, true> Set of owned container UUIDs.
      */
-    private static function stackKey(string $cardId, string $language, ?string $condition, int $finish): string
+    private static function resolveOwnedContainers(User $user, array $validRows): array
     {
-        return "{$cardId}|{$language}|{$condition}|{$finish}";
+        $containerIds = [];
+        foreach ($validRows as $row) {
+            $id = $row['mapped']['container_id'] ?? null;
+            if ($id) {
+                $containerIds[$id] = true;
+            }
+        }
+
+        if (empty($containerIds)) {
+            return [];
+        }
+
+        return Container::where('user_id', $user->id)
+            ->whereIn('id', array_keys($containerIds))
+            ->pluck('id')
+            ->flip()
+            ->map(fn () => true)
+            ->all();
+    }
+
+    /**
+     * Build a composite key for stack deduplication (includes container).
+     */
+    private static function stackKey(string $containerId, string $cardId, string $language, ?string $condition, int $finish): string
+    {
+        return "{$containerId}|{$cardId}|{$language}|{$condition}|{$finish}";
     }
 
     /**

@@ -4,12 +4,14 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import FileUpload from "Components/Form/FileUpload/FileUpload.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
+import FormLegend from "Components/Form/FormLegend.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import type { BreadcrumbItem } from "Composables/useBreadcrumbs.ts";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
+import { useFormatting } from "Composables/useFormatting";
 import type { Container } from "Types/container";
 import type { ContainerListItem } from "Types/containerListItem";
 const props = defineProps<{
@@ -32,6 +34,7 @@ const props = defineProps<{
     } | null;
 }>();
 const { t } = useI18n();
+const { formatDecimals } = useFormatting();
 const { setBreadcrumbs } = useBreadcrumbs();
 const crumbs: BreadcrumbItem[] = [{ labelKey: "pages.collection.link", href: "/collection", icon: "collection" }];
 if (props.container) {
@@ -102,6 +105,14 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
                 />
                 <input type="hidden" name="source" v-model="selectedSource" />
             </form-group>
+            <form-group>
+                <form-legend
+                    v-if="selectedSource === 'mbo' || selectedSource === 'archidekt'"
+                    :items="[{ slot: 'explanation', icon: 'info' }]"
+                >
+                    <template #explanation>{{ $t(`pages.import.explanations.${selectedSource}`) }}</template>
+                </form-legend>
+            </form-group>
             <form-group :label="$t('pages.import.target')" for-id="container">
                 <mono-select
                     :options="containerOptions"
@@ -138,10 +149,10 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
     <template v-else>
         <headline :size="3">{{ $t("pages.import.results.title") }}</headline>
         <paragraph>
-            {{ $t("pages.import.results.imported", { count: results.imported }) }}<br />
-            {{ $t("pages.import.results.merged", { count: results.merged }) }}<br />
+            {{ $t("pages.import.results.imported", { count: formatDecimals(results.imported) }) }}<br />
+            {{ $t("pages.import.results.merged", { count: formatDecimals(results.merged) }) }}<br />
             <span v-if="results.skipped > 0">
-                {{ $t("pages.import.results.skipped", { count: results.skipped }) }}
+                {{ $t("pages.import.results.skipped", { count: formatDecimals(results.skipped) }) }}
             </span>
         </paragraph>
         <table v-if="results.skipped_rows.length > 0" class="dt__table">
