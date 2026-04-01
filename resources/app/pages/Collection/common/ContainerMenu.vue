@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import { ref, useId } from "vue";
-import DeleteContainerModal from "@/pages/Collection/common/DeleteContainerModal.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import type { Container } from "Types/container.ts";
+import DeleteContainerModal from "./DeleteContainerModal.vue";
+import PruneContainerModal from "./PruneContainerModal.vue";
 const closePopover = () => {
     const dialog = document.getElementById(refId);
     if (dialog !== null) dialog.hidePopover();
@@ -12,6 +13,7 @@ const closePopover = () => {
 const refId = useId();
 defineProps<{ container: Container }>();
 const showDeleteModal = ref(false);
+const showPruneModal = ref(false);
 </script>
 
 <template>
@@ -84,6 +86,18 @@ const showDeleteModal = ref(false);
                 <button
                     class="popover-list-item popover-list-item--caution"
                     @click="
+                        showPruneModal = true;
+                        closePopover;
+                    "
+                >
+                    <icon name="delete" :size="1" />
+                    {{ $t("pages.containers.prune.link") }}
+                </button>
+            </li>
+            <li>
+                <button
+                    class="popover-list-item popover-list-item--error"
+                    @click="
                         showDeleteModal = true;
                         closePopover;
                     "
@@ -95,4 +109,5 @@ const showDeleteModal = ref(false);
         </ul>
     </pop-over>
     <delete-container-modal v-if="showDeleteModal" @close="showDeleteModal = false" :container="container" />
+    <prune-container-modal v-if="showPruneModal" @close="showPruneModal = false" :container="container" />
 </template>

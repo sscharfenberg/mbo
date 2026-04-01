@@ -75,6 +75,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('container.update');
     Route::delete('collection/containers/{container}', [ContainerController::class, 'destroy'])
         ->name('container.destroy');
+    Route::delete('collection/containers/{container}/prune', [ContainerController::class, 'prune'])
+        ->name('container.prune');
     Route::get('collection/containers/{container}/qr', [ContainerController::class, 'generateQr'])
         ->name('container.qr');
     Route::post('collection/containers/{container}/qr', [ContainerController::class, 'qrSvg'])

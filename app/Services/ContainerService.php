@@ -130,6 +130,23 @@ class ContainerService
     }
 
     /**
+     * Delete all card stacks from a container without deleting the container itself.
+     *
+     * Aborts with 403 if the container does not belong to the user.
+     *
+     * @return array{name: string, count: int}
+     */
+    public static function pruneContainer(User $user, Container $container): array
+    {
+        abort_if($container->user_id !== $user->id, 403);
+
+        $count = $container->cardStacks()->sum('amount');
+        $container->cardStacks()->delete();
+
+        return ['name' => $container->name, 'count' => $count];
+    }
+
+    /**
      * SQL CASE expression that resolves the unit price for a card stack row
      * based on its finish and the given currency.
      */

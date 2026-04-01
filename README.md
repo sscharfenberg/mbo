@@ -88,7 +88,7 @@ StyleLint should be run while editing in the IDE. This does not work well in `.v
 ### `php artisan scryfall:update`
 
 Runs all Scryfall commands in sequence. Use this for a daily cronjob.
-Warning: downloads ~600MB of bulk JSON data from Scryfall per run if in production. Other envs, only downloads once and keeps the downloadedd JSON files.
+Warning: downloads ~600MB of bulk JSON data from Scryfall per run if in production. Other envs, only downloads once and keeps the downloaded JSON files.
 
 In production, the app is put into maintenance mode (`artisan down`) for the duration and brought back up (`artisan up`) when done.
 
@@ -197,3 +197,6 @@ Uses the `mbo` SSH alias (configured in `~/.ssh/config`). Since `storage/logs/` 
 
 ## License
 `MBO` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## A note on AI usage
+`MBO` contains code that was written by a coding assistant, following strict guidelines on how to structure and architect the code. Every part that was not authored by a human has been reviewed and tested by a human.

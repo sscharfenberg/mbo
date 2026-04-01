@@ -165,11 +165,13 @@ class ImportController extends Controller
         fwrite($stream, $content);
         rewind($stream);
 
+        $delimiter = CsvImportService::detectDelimiter($content);
+
         $headerColumnCount = null;
         $rowsChecked = 0;
         $maxRows = 5;
 
-        while (($row = fgetcsv($stream)) !== false && $rowsChecked < $maxRows) {
+        while (($row = fgetcsv($stream, separator: $delimiter)) !== false && $rowsChecked < $maxRows) {
             // fgetcsv returns [null] for empty lines — skip them.
             if ($row === [null]) {
                 continue;

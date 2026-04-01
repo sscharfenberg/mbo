@@ -62,5 +62,10 @@
             background-color: map.get(c.$state, "warning", "background");
             color: map.get(c.$state, "warning", "surface");
         }
+
+        &--error {
+            background-color: map.get(c.$state, "error", "background");
+            color: map.get(c.$state, "error", "surface");
+        }
     }
 }

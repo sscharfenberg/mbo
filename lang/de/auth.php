@@ -30,5 +30,6 @@ return [
     'container_created' => 'Container ":name" wurde erstellt.',
     'container_updated' => 'Container ":name" wurde aktualisiert.',
     'container_deleted' => 'Container ":name" wurde gelöscht.',
+    'container_pruned' => ':count Karten wurden aus ":name" entfernt.',
 
 ];

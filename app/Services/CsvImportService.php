@@ -53,7 +53,16 @@ class CsvImportService
         $path = Storage::disk('tmp')->path($filename);
         $handle = fopen($path, 'r');
 
-        $headerRow = fgetcsv($handle);
+        // Skip UTF-8 BOM if present (written by Excel or MBO export for Excel compatibility).
+        $bom = fread($handle, 3);
+        if ($bom !== "\xEF\xBB\xBF") {
+            rewind($handle);
+        }
+
+        // Detect delimiter from the first line (comma or semicolon).
+        $delimiter = self::detectDelimiter($handle);
+
+        $headerRow = fgetcsv($handle, separator: $delimiter);
         if (! $headerRow) {
             fclose($handle);
             throw ValidationException::withMessages([
@@ -61,11 +70,22 @@ class CsvImportService
             ]);
         }
 
+        // Excel Mac data import prepends a row like "Column1;Column2;…" as a single field — skip it.
+        if (self::isExcelGeneratedRow($headerRow)) {
+            $headerRow = fgetcsv($handle, separator: $delimiter);
+            if (! $headerRow) {
+                fclose($handle);
+                throw ValidationException::withMessages([
+                    'filename' => [__('validation.custom.file.csv_not_parseable')],
+                ]);
+            }
+        }
+
         $headerMap = self::buildHeaderMap($headerRow);
         self::validateRequiredHeaders($mapper, $headerMap, $handle);
 
         // Phase 1: Parse all rows.
-        $parsedRows = self::parseAllRows($handle, $mapper, $headerMap);
+        $parsedRows = self::parseAllRows($handle, $mapper, $headerMap, $delimiter);
         fclose($handle);
 
         // Phase 2: Bulk-resolve cards.
@@ -127,14 +147,14 @@ class CsvImportService
      * @param  array<string, int>  $headerMap
      * @return array{rows: array<array{line: int, mapped: array}>, skipped: int, skipped_rows: array<array{row: int, name: string, reason: string}>}
      */
-    private static function parseAllRows($handle, CsvRowMapper $mapper, array $headerMap): array
+    private static function parseAllRows($handle, CsvRowMapper $mapper, array $headerMap, string $delimiter = ','): array
     {
         $rows = [];
         $skipped = 0;
         $skippedRows = [];
         $lineNumber = 1;
 
-        while (($rawRow = fgetcsv($handle)) !== false) {
+        while (($rawRow = fgetcsv($handle, separator: $delimiter)) !== false) {
             $lineNumber++;
 
             if ($rawRow === [null]) {
@@ -469,5 +489,47 @@ class CsvImportService
         }
 
         return null;
+    }
+
+    /**
+     * Detect the CSV delimiter by reading the first line and counting occurrences.
+     *
+     * Rewinds the file handle after detection. Supports comma and semicolon.
+     *
+     * Accepts either a file handle (seeks back after peeking) or a raw string.
+     *
+     * @param  resource|string  $input
+     */
+    public static function detectDelimiter($input): string
+    {
+        if (is_string($input)) {
+            $firstLine = strtok($input, "\n") ?: '';
+        } else {
+            $pos = ftell($input);
+            $firstLine = fgets($input) ?: '';
+            fseek($input, $pos);
+        }
+
+        $commas = substr_count($firstLine, ',');
+        $semicolons = substr_count($firstLine, ';');
+
+        return $semicolons > $commas ? ';' : ',';
+    }
+
+    /**
+     * Detect an Excel-generated header row (e.g. "Column1;Column2;Column3;…").
+     *
+     * Excel Mac data import prepends this as a single semicolon-delimited field
+     * before the actual CSV data.
+     *
+     * @param  array<string>  $row
+     */
+    private static function isExcelGeneratedRow(array $row): bool
+    {
+        if (count($row) !== 1) {
+            return false;
+        }
+
+        return (bool) preg_match('/^Column\d+(;Column\d+)*$/', trim($row[0]));
     }
 }

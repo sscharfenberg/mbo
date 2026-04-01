@@ -175,6 +175,24 @@ class ContainerController extends Controller
     }
 
     /**
+     * Delete all card stacks from a container.
+     *
+     * Redirects back to the container page with a success flash message.
+     */
+    public function prune(Request $request, Container $container): RedirectResponse
+    {
+        $result = ContainerService::pruneContainer($request->user(), $container);
+
+        $request->session()->flash('message', __('auth.container_pruned', [
+            'count' => $result['count'],
+            'name' => $result['name'],
+        ]));
+        $request->session()->flash('type', 'success');
+
+        return redirect(route('container.show', $container));
+    }
+
+    /**
      * Display a single container's detail page.
      *
      * Aborts with 403 if the container belongs to another user.

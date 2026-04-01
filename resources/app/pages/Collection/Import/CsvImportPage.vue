@@ -105,12 +105,26 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
                 />
                 <input type="hidden" name="source" v-model="selectedSource" />
             </form-group>
-            <form-group>
+            <form-group v-if="['mbo', 'archidekt'].includes(selectedSource)">
                 <form-legend
-                    v-if="selectedSource === 'mbo' || selectedSource === 'archidekt'"
-                    :items="[{ slot: 'explanation', icon: 'info' }]"
+                    v-if="selectedSource === 'mbo'"
+                    :items="[
+                        { slot: 'line1', icon: 'info' },
+                        { slot: 'line2', icon: 'info' }
+                    ]"
                 >
-                    <template #explanation>{{ $t(`pages.import.explanations.${selectedSource}`) }}</template>
+                    <template #line1>{{ $t("pages.import.explanations.mbo.line1") }}</template>
+                    <template #line2>{{ $t("pages.import.explanations.mbo.line2") }}</template>
+                </form-legend>
+                <form-legend
+                    v-else-if="selectedSource === 'archidekt'"
+                    :items="[
+                        { slot: 'line1', icon: 'info' },
+                        { slot: 'line2', icon: 'info' }
+                    ]"
+                >
+                    <template #line1>{{ $t("pages.import.explanations.archidekt.line1") }}</template>
+                    <template #line2>{{ $t("pages.import.explanations.archidekt.line2") }}</template>
                 </form-legend>
             </form-group>
             <form-group :label="$t('pages.import.target')" for-id="container">

@@ -35,6 +35,7 @@ class ArchidektMapper implements CsvRowMapper
         'FR' => 'fr',
         'IT' => 'it',
         'ES' => 'es',
+        'SP' => 'es',
         'PT' => 'pt',
         'JP' => 'ja',
         'KR' => 'ko',

@@ -9,21 +9,20 @@ import { useFormatting } from "Composables/useFormatting.ts";
 import type { Container } from "Types/container.ts";
 
 const { formatDecimals, formatPrice } = useFormatting();
-/** @emits close — Fired after successful deletion or when the user cancels. */
+/** @emits close — Fired after successful pruning or when the user cancels. */
 const emit = defineEmits<{ close: [] }>();
-/** @props container — The container to be deleted; its name is shown in the confirmation prompt. */
+/** @props container — The container to be pruned; its name and stats are shown in the confirmation prompt. */
 const props = defineProps<{ container: Container }>();
 /** True while the DELETE request is in flight — disables both buttons to prevent double submission. */
 const processing = ref<boolean>(false);
 /**
- * Sends a DELETE request via Inertia router to remove the container.
+ * Sends a DELETE request via Inertia router to remove all cards from the container.
  * On success the modal is closed (emitting `close`), which lets the parent
- * react to the updated Inertia page props. `processing` is reset on finish
- * regardless of outcome so the buttons become interactive again on error.
+ * react to the updated Inertia page props.
  */
 const onDelete = () => {
     processing.value = true;
-    router.delete(`/collection/containers/${props.container.id}`, {
+    router.delete(`/collection/containers/${props.container.id}/prune`, {
         onSuccess: () => {
             emit("close");
         },
@@ -36,13 +35,7 @@ const onDelete = () => {
 
 <template>
     <modal @close="emit('close')">
-        <template #header>
-            <i18n-t keypath="pages.containers.delete.title" scope="global">
-                <template #name
-                    ><cite>{{ container.name }}</cite></template
-                >
-            </i18n-t>
-        </template>
+        <template #header>{{ $t("pages.containers.prune.title", { name: container.name }) }}</template>
         <form-legend
             :items="[
                 { slot: 'warning', icon: 'warning', modifier: 'warning' },
@@ -50,7 +43,7 @@ const onDelete = () => {
             ]"
         >
             <template #warning>
-                <i18n-t keypath="pages.containers.delete.warning" scope="global">
+                <i18n-t keypath="pages.containers.prune.warning" scope="global">
                     <template #amount
                         ><strong>{{ formatDecimals(container.totalCards) }}</strong></template
                     >
@@ -59,16 +52,16 @@ const onDelete = () => {
                     >
                 </i18n-t>
             </template>
-            <template #question>{{ $t("pages.containers.delete.question") }} </template>
+            <template #question>{{ $t("pages.containers.prune.question") }} </template>
         </form-legend>
         <template #footer>
             <button type="submit" class="btn-default" :disabled="processing" @click="$emit('close')">
                 <icon name="close" />
-                {{ $t("pages.containers.delete.neg") }}
+                {{ $t("pages.containers.prune.neg") }}
             </button>
             <button type="submit" class="btn-primary" :disabled="processing" @click="onDelete">
                 <icon name="delete" />
-                {{ $t("pages.containers.delete.aff") }}
+                {{ $t("pages.containers.prune.aff") }}
                 <loading-spinner v-if="processing" :size="2" />
             </button>
         </template>

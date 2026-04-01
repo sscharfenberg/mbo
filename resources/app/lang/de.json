@@ -294,6 +294,14 @@
             },
             "nav": {
                 "label": "Navigation für deine Container"
+            },
+            "prune": {
+                "link": "Alle Karten löschen",
+                "title": "Alle Karten in dem Container '{name}' löschen?",
+                "warning": "Dieser Container enthält {amount} Karten mit einem Gesamtwert von {worth}.",
+                "question": "Bist du sicher das du die Karten in dem Container löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "aff": "Ja, Löschen",
+                "neg": "Nein, Abbruch"
             }
         },
         "new_container": {
@@ -354,8 +362,14 @@
                 "archidekt": "Archidekt"
             },
             "explanations": {
-                "mbo": "Beim Import unseres eigenen CSV Formates versuchen wir die Karten anhand der 'container id' dem richtigen Container zuzuordnen - das 'Importieren nach' dropdown wird ignoriert wenn eine 'container id' existiert. Wenn du Karten in einen bestimmten Container importieren möchtest - unabhängig vom Ursprungs-Container - leere die Spalte 'container id' in der CSV Datei, dann wird der Wert des 'Importieren nach' Dropdowns verwendet.",
-                "archidekt": "Archidekt ermöglicht es die Spalten auszuwählen die man exportiert. Bitte nutze diese Spalten damit wir die Karten richtig zuordnen können: Quantity, Card Name, Foil, Condition, Language, Edition Code, Collector Number, Scryfall ID."
+                "mbo": {
+                    "line1": "Beim Import unseres eigenen CSV Formates versuchen wir die Karten anhand der 'container id' dem richtigen Container zuzuordnen - das 'Importieren nach' dropdown wird ignoriert wenn eine 'container id' existiert.",
+                    "line2": "Wenn du Karten in einen bestimmten Container importieren möchtest - unabhängig vom Ursprungs-Container - leere die Spalte 'container id' in der CSV Datei, dann wird der Wert des 'Importieren nach' Dropdowns verwendet."
+                },
+                "archidekt": {
+                    "line1": "Archidekt ermöglicht es die Spalten auszuwählen die man exportiert.",
+                    "line2": "Bitte nutze diese Spalten damit wir die Karten richtig zuordnen können: Quantity, Card Name, Foil, Condition, Language, Edition Code, Collector Number, Scryfall ID."
+                }
             },
             "results": {
                 "title": "Import-Ergebnis",
