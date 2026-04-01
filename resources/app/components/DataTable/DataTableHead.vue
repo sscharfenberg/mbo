@@ -4,18 +4,22 @@ import Checkbox from "Components/Form/Checkbox.vue";
 import type { ColumnDef, SortEntry } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
 const props = defineProps<{
+    /** Column definitions for rendering header cells. */
     columns: ColumnDef<T>[];
+    /** Current sort state, used to display sort indicators. */
     sort: SortEntry[];
+    /** Whether to render the select-all checkbox column. */
     selectable: boolean;
+    /** All row IDs on the current page, for the select-all checkbox logic. */
     rowIds: string[];
+    /** True when the header is in its sticky (scrolled) state. */
     stuck: boolean;
 }>();
 const emit = defineEmits<{
+    /** Emitted with the column key when a sortable header is clicked. */
     sort: [key: string];
 }>();
-
 const provided = inject(DATA_TABLE_KEY)!;
-
 /** Determine aria-sort attribute for a column. */
 function ariaSort(col: ColumnDef<T>): "ascending" | "descending" | "none" | undefined {
     if (!col.sortable) return undefined;
@@ -23,13 +27,11 @@ function ariaSort(col: ColumnDef<T>): "ascending" | "descending" | "none" | unde
     if (!entry) return "none";
     return entry.direction === "asc" ? "ascending" : "descending";
 }
-
 /** Get current sort direction for a column, or null if not sorted. */
 function sortDir(col: ColumnDef<T>): "asc" | "desc" | null {
     const entry = props.sort.find(s => s.key === col.key);
     return entry?.direction ?? null;
 }
-
 /** Header checkbox state: true = all selected, false = none, 'indeterminate' = some. */
 const headerCheckState = computed(() => {
     if (props.rowIds.length === 0) return false;
@@ -38,7 +40,7 @@ const headerCheckState = computed(() => {
     if (selectedOnPage.length === props.rowIds.length) return true;
     return "indeterminate";
 });
-
+/** Toggle select-all: selects all rows on the page, or deselects if all are already selected. */
 function onHeaderCheckbox() {
     provided.togglePageSelection(props.rowIds);
 }
@@ -83,132 +85,3 @@ function onHeaderCheckbox() {
         </tr>
     </thead>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:map";
-@use "Abstracts/colors" as c;
-@use "Abstracts/sizes" as s;
-@use "Abstracts/z-indexes" as z;
-
-.dt-head {
-    position: sticky;
-    top: var(--datatable-sticky-offset, 0);
-    z-index: map.get(z.$index, "main");
-
-    &__check {
-        width: 2rem;
-    }
-
-    &__sort-btn {
-        position: relative;
-
-        padding-right: 1.25rem !important; /* space for the triangles */
-
-        &::before,
-        &::after {
-            position: absolute;
-            right: 0.4rem;
-
-            opacity: 0.3;
-
-            width: 0;
-            height: 0;
-            border-right: 0.3125rem solid transparent;
-            border-left: 0.3125rem solid transparent;
-
-            content: "";
-        }
-
-        /* Asc triangle (pointing up) — top */
-        &::before {
-            top: calc(50% - 0.465rem);
-
-            border-bottom: 0.375rem solid currentcolor;
-        }
-
-        /* Desc triangle (pointing down) — bottom */
-        &::after {
-            bottom: calc(50% - 0.465rem);
-
-            border-top: 0.375rem solid currentcolor;
-        }
-
-        &--asc::before {
-            opacity: 1;
-        }
-
-        &--desc::after {
-            opacity: 1;
-        }
-    }
-
-    &__actions {
-        width: 3rem;
-    }
-
-    th {
-        border-bottom: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
-
-        background-color: map.get(c.$components, "datatable", "th", "background");
-
-        text-align: left;
-
-        &:not(:last-child) {
-            border-right: map.get(s.$components, "datatable", "border") solid
-                map.get(c.$components, "datatable", "border");
-        }
-
-        &:first-child {
-            border-top-left-radius: calc(
-                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
-            );
-        }
-
-        &:last-child {
-            border-top-right-radius: calc(
-                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
-            );
-        }
-
-        &:not(:has(button)) {
-            padding: map.get(s.$components, "datatable", "padding", "th");
-        }
-
-        button {
-            width: 100%;
-            height: 100%;
-            padding: map.get(s.$components, "datatable", "padding", "th");
-            border: 0;
-            gap: 0.25rem;
-
-            background: transparent;
-
-            cursor: pointer;
-        }
-
-        button,
-        span {
-            color: map.get(c.$components, "datatable", "th", "surface");
-
-            font-weight: normal;
-        }
-    }
-
-    &--stuck {
-        th:first-child {
-            border-top-left-radius: 0;
-        }
-
-        th:last-child {
-            border-top-right-radius: 0;
-        }
-
-        th {
-            z-index: 2;
-
-            background-color: map.get(c.$components, "datatable", "th", "background-stuck");
-            color: map.get(c.$components, "datatable", "th", "surface-stuck");
-        }
-    }
-}
-</style>

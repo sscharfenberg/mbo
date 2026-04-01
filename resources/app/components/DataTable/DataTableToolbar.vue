@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import Icon from "Components/UI/Icon.vue";
-
 const props = defineProps<{
+    /** Current search query from the server response, synced to the input. */
     search: string | null;
+    /** Number of currently selected rows, shown as a badge. */
     selectedCount: number;
 }>();
 const emit = defineEmits<{
+    /** Emitted with the debounced search query after the user stops typing. */
     search: [query: string];
 }>();
-
+/** Local search input value, debounced before emitting to the parent. */
 const query = ref(props.search ?? "");
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-
 watch(query, value => {
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
         emit("search", value);
     }, 350);
 });
-
 /** Sync external search prop back to local input (e.g. on Inertia navigation). */
 watch(
     () => props.search,
@@ -49,39 +49,3 @@ watch(
         </div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@use "Abstracts/mixins" as m;
-
-.dt-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    gap: 1rem;
-
-    padding-block: 0.5rem;
-
-    &__selection {
-        margin-inline-start: auto;
-    }
-
-    .form-group {
-        display: flex;
-        flex-wrap: nowrap;
-
-        min-width: 0;
-        max-width: 12rem;
-        gap: 0;
-
-        @include m.mq("portrait") {
-            max-width: 18rem;
-        }
-
-        @include m.mq("landscape") {
-            max-width: 24rem;
-        }
-    }
-}
-</style>

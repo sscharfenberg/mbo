@@ -3,19 +3,24 @@ import { computed, ref } from "vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Icon from "Components/UI/Icon.vue";
 const props = defineProps<{
+    /** Current page number (1-based). */
     page: number;
+    /** Number of rows per page. */
     pageSize: number;
+    /** Total number of rows across all pages. */
     total: number;
 }>();
 const emit = defineEmits<{
+    /** Emitted when the user navigates to a different page. */
     navigate: [page: number];
+    /** Emitted when the user changes the page size. */
     pageSizeChange: [size: number];
 }>();
-
 const totalPages = computed(() => Math.ceil(props.total / props.pageSize));
+/** First row number displayed on the current page (1-based). */
 const from = computed(() => (props.page - 1) * props.pageSize + 1);
+/** Last row number displayed on the current page. */
 const to = computed(() => Math.min(props.page * props.pageSize, props.total));
-
 /**
  * Visible page numbers with ellipsis truncation.
  * Shows a sliding window around the current page. First/last page
@@ -36,7 +41,7 @@ const visiblePages = computed(() => {
     if (end < total) pages.push("...");
     return pages;
 });
-
+/** User-entered page number for the "jump to page" input. */
 const jumpToPage = ref(props.page);
 /** Clamp user input to valid range before navigating. */
 function onJumpToPage() {
@@ -44,7 +49,6 @@ function onJumpToPage() {
     jumpToPage.value = clamped;
     emit("navigate", clamped);
 }
-
 const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: String(s) }));
 </script>
 
@@ -123,78 +127,3 @@ const pageSizeOptions = [25, 50, 100].map(s => ({ value: String(s), label: Strin
         </div>
     </nav>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:map";
-@use "Abstracts/colors" as c;
-@use "Abstracts/sizes" as s;
-@use "Abstracts/timings" as ti;
-
-.dt-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    padding: map.get(s.$components, "datatable", "pagination", "padding");
-    border: map.get(s.$components, "datatable", "pagination", "border") solid
-        map.get(c.$components, "datatable", "pagination", "border");
-    margin: map.get(s.$components, "datatable", "pagination", "margin");
-    gap: map.get(s.$components, "datatable", "pagination", "gap");
-
-    background-color: map.get(c.$components, "datatable", "pagination", "background");
-    color: map.get(c.$components, "datatable", "pagination", "surface");
-    border-radius: map.get(s.$components, "datatable", "pagination", "radius");
-
-    &__col {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-
-        gap: 0.5rem;
-    }
-
-    &__jump {
-        width: 6rem;
-        padding: 0.75ex 2ch;
-    }
-
-    &__page {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        min-width: map.get(s.$components, "datatable", "pagination", "page", "min-width");
-        padding: map.get(s.$components, "datatable", "pagination", "page", "padding");
-        border: map.get(s.$components, "datatable", "pagination", "page", "border") solid
-            map.get(c.$components, "datatable", "pagination", "page", "border");
-
-        background-color: map.get(c.$components, "datatable", "pagination", "page", "background");
-        color: map.get(c.$components, "datatable", "pagination", "page", "surface");
-        border-radius: map.get(s.$components, "datatable", "pagination", "page", "radius");
-
-        transition:
-            background-color map.get(ti.$timings, "fast") linear,
-            color map.get(ti.$timings, "fast") linear;
-
-        &:not([disabled], .dt-pagination__current):hover {
-            background-color: map.get(c.$components, "datatable", "pagination", "page-hover", "background");
-            color: map.get(c.$components, "datatable", "pagination", "page-hover", "surface");
-
-            cursor: pointer;
-        }
-
-        &[disabled] {
-            opacity: 0.5;
-
-            cursor: not-allowed;
-        }
-    }
-
-    &__current {
-        background-color: map.get(c.$components, "datatable", "pagination", "page-current", "background");
-        color: map.get(c.$components, "datatable", "pagination", "page-current", "surface");
-        border-color: map.get(c.$components, "datatable", "pagination", "page-current", "surface");
-    }
-}
-</style>

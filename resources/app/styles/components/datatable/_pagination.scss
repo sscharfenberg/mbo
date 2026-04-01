@@ -1,0 +1,72 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+
+.dt-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    padding: map.get(s.$components, "datatable", "pagination", "padding");
+    border: map.get(s.$components, "datatable", "pagination", "border") solid
+        map.get(c.$components, "datatable", "pagination", "border");
+    margin: map.get(s.$components, "datatable", "pagination", "margin");
+    gap: map.get(s.$components, "datatable", "pagination", "gap");
+
+    background-color: map.get(c.$components, "datatable", "pagination", "background");
+    color: map.get(c.$components, "datatable", "pagination", "surface");
+    border-radius: map.get(s.$components, "datatable", "pagination", "radius");
+
+    &__col {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 0.5rem;
+    }
+
+    &__jump {
+        width: 6rem;
+        padding: 0.75ex 2ch;
+    }
+
+    &__page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: map.get(s.$components, "datatable", "pagination", "page", "min-width");
+        padding: map.get(s.$components, "datatable", "pagination", "page", "padding");
+        border: map.get(s.$components, "datatable", "pagination", "page", "border") solid
+            map.get(c.$components, "datatable", "pagination", "page", "border");
+
+        background-color: map.get(c.$components, "datatable", "pagination", "page", "background");
+        color: map.get(c.$components, "datatable", "pagination", "page", "surface");
+        border-radius: map.get(s.$components, "datatable", "pagination", "page", "radius");
+
+        transition:
+            background-color map.get(ti.$timings, "fast") linear,
+            color map.get(ti.$timings, "fast") linear;
+
+        &:not([disabled], .dt-pagination__current):hover {
+            background-color: map.get(c.$components, "datatable", "pagination", "page-hover", "background");
+            color: map.get(c.$components, "datatable", "pagination", "page-hover", "surface");
+
+            cursor: pointer;
+        }
+
+        &[disabled] {
+            opacity: 0.5;
+
+            cursor: not-allowed;
+        }
+    }
+
+    &__current {
+        background-color: map.get(c.$components, "datatable", "pagination", "page-current", "background");
+        color: map.get(c.$components, "datatable", "pagination", "page-current", "surface");
+        border-color: map.get(c.$components, "datatable", "pagination", "page-current", "surface");
+    }
+}

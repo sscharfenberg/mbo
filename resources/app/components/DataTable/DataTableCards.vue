@@ -5,24 +5,23 @@ import Checkbox from "Components/Form/Checkbox.vue";
 import Icon from "Components/UI/Icon.vue";
 import type { ColumnDef } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
-
 const props = defineProps<{
+    /** Column definitions, used to determine card primary field and visible fields. */
     columns: ColumnDef<T>[];
+    /** Data rows for the current page. */
     rows: T[];
+    /** Whether to render per-card selection checkboxes. */
     selectable: boolean;
 }>();
 const emit = defineEmits<{
+    /** Emitted when a card's three-dot action button is clicked. */
     action: [row: T, el: HTMLElement];
 }>();
-
 const provided = inject(DATA_TABLE_KEY)!;
-
 /** The primary column shown at the top of each card. First match wins. */
 const primaryCol = computed(() => props.columns.find(c => c.cardPrimary) ?? null);
-
 /** Columns visible in card mode, excluding the primary. */
 const cardColumns = computed(() => props.columns.filter(c => c.visibleInCard && c.key !== primaryCol.value?.key));
-
 /** Return card columns that have a non-empty value for the given row. */
 function visibleCardColumns(row: T) {
     return cardColumns.value.filter(col => {
@@ -30,11 +29,11 @@ function visibleCardColumns(row: T) {
         return val !== null && val !== undefined && val !== "" && val !== 0;
     });
 }
-
+/** Navigate to the row's detail page when the card is tapped (if href is set). */
 function onCardClick(row: T) {
     if (row.href) router.visit(row.href);
 }
-
+/** Emit the action event with the row and trigger button for popover anchoring. */
 function onActionClick(row: T, event: MouseEvent) {
     emit("action", row, event.currentTarget as HTMLElement);
 }
@@ -86,76 +85,3 @@ function onActionClick(row: T, event: MouseEvent) {
         </article>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:map";
-@use "Abstracts/colors" as c;
-@use "Abstracts/sizes" as s;
-
-/* Only visible in narrow containers — hidden by DataTable.vue's container query at >= breakpoint */
-.dt-cards {
-    display: none;
-}
-
-@container (max-width: #{map.get(s.$components, "datatable", "breakpoint") - 1px}) {
-    .dt-cards {
-        display: grid;
-        grid-template-columns: repeat(
-            auto-fill,
-            minmax(map.get(s.$components, "datatable", "cards", "min-width"), 1fr)
-        );
-
-        gap: map.get(s.$components, "datatable", "cards", "gap");
-    }
-
-    .dt-cards__card {
-        padding: map.get(s.$components, "datatable", "cards", "padding");
-        border: map.get(s.$components, "datatable", "cards", "border") solid
-            map.get(c.$components, "datatable", "cards", "border");
-
-        background-color: map.get(c.$components, "datatable", "cards", "background");
-        color: map.get(c.$components, "datatable", "cards", "surface");
-        border-radius: map.get(s.$components, "datatable", "cards", "radius");
-
-        &--clickable {
-            cursor: pointer;
-        }
-    }
-
-    .dt-cards__header {
-        display: flex;
-        align-items: center;
-
-        margin-bottom: 0.5rem;
-
-        gap: 1ch;
-    }
-
-    .dt-cards__primary {
-        flex: 1;
-
-        font-weight: 600;
-    }
-
-    .dt-cards__action {
-        cursor: pointer;
-    }
-
-    .dt-cards__fields {
-        display: grid;
-        grid-template-columns: minmax(30%, auto) 1fr;
-
-        margin: 0;
-        gap: 0.25rem 0.5rem;
-    }
-
-    .dt-cards__label {
-        display: flex;
-        align-items: center;
-    }
-
-    .dt-cards__value {
-        margin: 0;
-    }
-}
-</style>

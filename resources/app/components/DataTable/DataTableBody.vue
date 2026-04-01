@@ -6,20 +6,23 @@ import Icon from "Components/UI/Icon.vue";
 import type { ColumnDef } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
 defineProps<{
+    /** Column definitions controlling which cells to render per row. */
     columns: ColumnDef<T>[];
+    /** Data rows for the current page. */
     rows: T[];
+    /** Whether to render per-row selection checkboxes. */
     selectable: boolean;
 }>();
 const emit = defineEmits<{
+    /** Emitted when a row's three-dot action button is clicked. */
     action: [row: T, el: HTMLElement];
 }>();
-
 const provided = inject(DATA_TABLE_KEY)!;
-
+/** Navigate to the row's detail page when the row is clicked (if href is set). */
 function onRowClick(row: T) {
     if (row.href) router.visit(row.href);
 }
-
+/** Emit the action event with the row and the trigger button element for popover anchoring. */
 function onActionClick(row: T, event: MouseEvent) {
     emit("action", row, event.currentTarget as HTMLElement);
 }
@@ -41,7 +44,12 @@ function onActionClick(row: T, event: MouseEvent) {
                     @change="provided.toggleSelection(row.id)"
                 />
             </td>
-            <td v-for="col in columns" :key="col.key" :class="col.cellClass" :style="{ textAlign: col.align ?? 'left' }">
+            <td
+                v-for="col in columns"
+                :key="col.key"
+                :class="col.cellClass"
+                :style="{ textAlign: col.align ?? 'left' }"
+            >
                 <slot :name="`cell-${col.key}`" :row="row">
                     {{ row[col.key] }}
                 </slot>
@@ -60,70 +68,3 @@ function onActionClick(row: T, event: MouseEvent) {
         </tr>
     </tbody>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:map";
-@use "Abstracts/colors" as c;
-@use "Abstracts/sizes" as s;
-
-.dt-body {
-    &__row--clickable {
-        cursor: pointer;
-    }
-
-    &__check {
-        width: 2rem;
-
-        vertical-align: middle;
-    }
-
-    &__actions {
-        width: 3rem;
-
-        button {
-            cursor: pointer;
-        }
-    }
-
-    td {
-        padding: map.get(s.$components, "datatable", "padding", "td");
-
-        color: map.get(c.$components, "datatable", "td", "surface");
-
-        &.no-padding {
-            padding: 0;
-        }
-
-        &:not(:last-child) {
-            border-right: map.get(s.$components, "datatable", "border") solid
-                map.get(c.$components, "datatable", "border");
-        }
-    }
-
-    tr:nth-child(odd) td {
-        background-color: map.get(c.$components, "datatable", "td", "background", "odd");
-    }
-
-    tr:nth-child(even) td {
-        background-color: map.get(c.$components, "datatable", "td", "background", "even");
-    }
-
-    tr:not(:last-child) td {
-        border-bottom: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
-    }
-
-    tr:last-child {
-        td:first-child {
-            border-bottom-left-radius: calc(
-                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
-            );
-        }
-
-        td:last-child {
-            border-bottom-right-radius: calc(
-                map.get(s.$components, "datatable", "radius") - map.get(s.$components, "datatable", "border")
-            );
-        }
-    }
-}
-</style>

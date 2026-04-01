@@ -11,12 +11,15 @@ import DataTableToolbar from "Components/DataTable/DataTableToolbar.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import type { ColumnDef, TableResponse, SortEntry } from "Types/dataTable";
 import { DATA_TABLE_KEY } from "Types/dataTable";
-
 const props = withDefaults(
     defineProps<{
+        /** Column definitions controlling rendering, sorting, and visibility. */
         columns: ColumnDef<T>[];
+        /** Server-side table response containing rows, pagination, sort, and search state. */
         response: TableResponse<T>;
+        /** Whether rows can be selected via checkboxes. */
         selectable?: boolean;
+        /** Base URL for Inertia navigation; defaults to current pathname. */
         baseUrl?: string;
     }>(),
     {
@@ -26,10 +29,8 @@ const props = withDefaults(
 );
 const { t } = useI18n();
 const slots = useSlots();
-
 /** Filter slots to only cell-* and actions slots for forwarding. */
 const cellSlotNames = computed(() => Object.keys(slots).filter(name => name.startsWith("cell-")));
-
 // ---------------------------------------------------------------------------
 // Sort normalization: server sends object | null, internal is always array
 // ---------------------------------------------------------------------------
@@ -37,12 +38,12 @@ const sort = computed<SortEntry[]>(() => {
     if (!props.response.sort) return [];
     return [props.response.sort];
 });
-
 // ---------------------------------------------------------------------------
 // Selection state
 // ---------------------------------------------------------------------------
+/** IDs of currently selected rows, shared with child components via provide/inject. */
 const selectedIds = ref<string[]>([]);
-
+/** Toggle a single row's selection state. */
 function toggleSelection(id: string) {
     const idx = selectedIds.value.indexOf(id);
     if (idx === -1) {
@@ -51,7 +52,7 @@ function toggleSelection(id: string) {
         selectedIds.value.splice(idx, 1);
     }
 }
-
+/** Toggle selection for all rows on the current page (select all / deselect all). */
 function togglePageSelection(ids: string[]) {
     const allSelected = ids.every(id => selectedIds.value.includes(id));
     if (allSelected) {
@@ -61,7 +62,6 @@ function togglePageSelection(ids: string[]) {
         selectedIds.value.push(...missing);
     }
 }
-
 /** Clear selection on sort/filter/search change, preserve on page change. */
 watch(
     () => [props.response.sort, props.response.search, props.response.filters],
@@ -70,21 +70,20 @@ watch(
     },
     { deep: true }
 );
-
 provide(DATA_TABLE_KEY, {
     selectedIds,
     toggleSelection,
     togglePageSelection
 });
-
 // ---------------------------------------------------------------------------
 // Row IDs for header checkbox
 // ---------------------------------------------------------------------------
+/** All row IDs on the current page, used by the header checkbox. */
 const rowIds = computed(() => props.response.rows.map(row => row.id));
-
 // ---------------------------------------------------------------------------
 // Loading state — tracks Inertia navigation
 // ---------------------------------------------------------------------------
+/** True while an Inertia navigation is in flight, used to show the loading overlay. */
 const isLoading = ref(false);
 router.on("start", () => {
     isLoading.value = true;
@@ -92,12 +91,11 @@ router.on("start", () => {
 router.on("finish", () => {
     isLoading.value = false;
 });
-
 // ---------------------------------------------------------------------------
 // aria-live announcements
 // ---------------------------------------------------------------------------
+/** Screen reader announcement text, updated on sort and page changes. */
 const announcement = ref("");
-
 watch(sort, newSort => {
     if (newSort.length === 0) return;
     const entry = newSort[0];
@@ -108,7 +106,6 @@ watch(sort, newSort => {
             ? t("components.datatable.sorted_asc", { column: label })
             : t("components.datatable.sorted_desc", { column: label });
 });
-
 watch(
     () => props.response.page,
     page => {
@@ -121,18 +118,18 @@ watch(
         });
     }
 );
-
 // ---------------------------------------------------------------------------
 // Row action popover
 // ---------------------------------------------------------------------------
+/** The row whose action popover is currently open, or null. */
 const activeRow = ref<T | null>(null) as Ref<T | null>;
+/** Reference to the three-dot button that opened the popover, used for focus return. */
 const actionButtonRef = ref<HTMLElement | null>(null);
-
+/** Open the action popover for a row, anchored to the trigger button. */
 function onAction(row: T, el: HTMLElement) {
     activeRow.value = row;
     actionButtonRef.value = el;
 }
-
 /** Reset popover state and return focus to the three-dot button that opened it. */
 function onCloseActions() {
     const triggerEl = actionButtonRef.value;
@@ -140,7 +137,6 @@ function onCloseActions() {
     actionButtonRef.value = null;
     triggerEl?.focus();
 }
-
 // ---------------------------------------------------------------------------
 // Navigation helpers — emit Inertia requests
 // ---------------------------------------------------------------------------
@@ -166,7 +162,7 @@ function buildUrl(params: Record<string, string | number | null>) {
     }
     return url.pathname + url.search;
 }
-
+/** Toggle sort direction for a column and navigate to page 1. */
 function onSort(key: string) {
     const current = sort.value.find(s => s.key === key);
     let direction: "asc" | "desc" = "asc";
@@ -175,26 +171,26 @@ function onSort(key: string) {
     }
     router.get(buildUrl({ sort: key, dir: direction, page: 1 }), {}, { preserveState: true, preserveScroll: true });
 }
-
+/** Navigate with updated search query, resetting to page 1. */
 function onSearch(query: string) {
     router.get(buildUrl({ search: query || null, page: 1 }), {}, { preserveState: true, preserveScroll: true });
 }
-
+/** Navigate to a specific page number. */
 function onNavigate(page: number) {
     router.get(buildUrl({ page }), {}, { preserveState: true, preserveScroll: true });
 }
-
+/** Change page size and reset to page 1. */
 function onPageSizeChange(size: number) {
     router.get(buildUrl({ pageSize: size, page: 1 }), {}, { preserveState: true, preserveScroll: true });
 }
-
 // ---------------------------------------------------------------------------
 // Sticky header detection via IntersectionObserver
 // ---------------------------------------------------------------------------
+/** Sentinel element positioned at the top of the table wrapper for sticky detection. */
 const stickysentinel = ref<HTMLElement | null>(null);
+/** True when the table header is stuck (scrolled past the sentinel). */
 const isStuck = ref(false);
 let observer: IntersectionObserver | null = null;
-
 onMounted(() => {
     if (!stickysentinel.value) return;
     const offset = getComputedStyle(stickysentinel.value.closest(".dt")!)
@@ -209,7 +205,6 @@ onMounted(() => {
     );
     observer.observe(stickysentinel.value);
 });
-
 onBeforeUnmount(() => {
     observer?.disconnect();
 });
@@ -282,67 +277,3 @@ onBeforeUnmount(() => {
         <div class="sr-only" aria-live="polite">{{ announcement }}</div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:map";
-@use "Abstracts/colors" as c;
-@use "Abstracts/sizes" as s;
-
-.dt {
-    container-type: inline-size;
-
-    &--loading {
-        pointer-events: none;
-    }
-
-    &__wrapper {
-        position: relative;
-    }
-
-    &__sticky-sentinel {
-        height: 0;
-    }
-
-    &__overlay {
-        display: flex;
-
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        align-items: center;
-        justify-content: center;
-
-        background: rgb(255 255 255 / 60%);
-    }
-
-    &__table {
-        display: table;
-
-        width: 100%;
-        border: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
-
-        border-radius: map.get(s.$components, "datatable", "radius");
-
-        border-spacing: 0;
-    }
-
-    &__empty {
-        padding: 2rem;
-
-        text-align: center;
-    }
-}
-
-/* Show table on wide containers, cards on narrow */
-@container (min-width: #{map.get(s.$components, "datatable", "breakpoint")}) {
-    .dt__table {
-        display: table;
-    }
-}
-
-@container (max-width: #{map.get(s.$components, "datatable", "breakpoint") - 1px}) {
-    .dt__table {
-        display: none;
-    }
-}
-</style>

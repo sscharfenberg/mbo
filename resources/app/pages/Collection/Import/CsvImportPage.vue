@@ -7,6 +7,7 @@ import FormGroup from "Components/Form/FormGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import Paragraph from "Components/UI/Paragraph.vue";
 import type { BreadcrumbItem } from "Composables/useBreadcrumbs.ts";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import type { Container } from "Types/container";
@@ -135,36 +136,34 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
         </Form>
     </template>
     <template v-else>
-        <div class="import-results">
-            <h2>{{ $t("pages.import.results.title") }}</h2>
-            <ul class="import-results__summary">
-                <li>{{ $t("pages.import.results.imported", { count: results.imported }) }}</li>
-                <li>{{ $t("pages.import.results.merged", { count: results.merged }) }}</li>
-                <li v-if="results.skipped > 0">
-                    {{ $t("pages.import.results.skipped", { count: results.skipped }) }}
-                </li>
-            </ul>
-            <table v-if="results.skipped_rows.length > 0" class="import-results__table">
-                <thead>
-                    <tr>
-                        <th>{{ $t("pages.import.results.skipped_table.row") }}</th>
-                        <th>{{ $t("pages.import.results.skipped_table.name") }}</th>
-                        <th>{{ $t("pages.import.results.skipped_table.reason") }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="row in results.skipped_rows" :key="row.row">
-                        <td>{{ row.row }}</td>
-                        <td>{{ row.name }}</td>
-                        <td>{{ $t(`pages.import.results.reasons.${row.reason}`) }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="btn-default" @click="router.visit('/collection/import')">
-                <icon name="upload" />
-                {{ $t("pages.import.results.import_another") }}
-            </button>
-        </div>
+        <headline :size="3">{{ $t("pages.import.results.title") }}</headline>
+        <paragraph>
+            {{ $t("pages.import.results.imported", { count: results.imported }) }}<br />
+            {{ $t("pages.import.results.merged", { count: results.merged }) }}<br />
+            <span v-if="results.skipped > 0">
+                {{ $t("pages.import.results.skipped", { count: results.skipped }) }}
+            </span>
+        </paragraph>
+        <table v-if="results.skipped_rows.length > 0" class="dt__table">
+            <thead>
+                <tr>
+                    <th>{{ $t("pages.import.results.skipped_table.row") }}</th>
+                    <th>{{ $t("pages.import.results.skipped_table.name") }}</th>
+                    <th>{{ $t("pages.import.results.skipped_table.reason") }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="row in results.skipped_rows" :key="row.row">
+                    <td>{{ row.row }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ $t(`pages.import.results.reasons.${row.reason}`) }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn-default" @click="router.visit('/collection/import')">
+            <icon name="upload" />
+            {{ $t("pages.import.results.import_another") }}
+        </button>
     </template>
 </template>
 

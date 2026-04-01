@@ -1,0 +1,70 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+/* Only visible in narrow containers — hidden by DataTable.vue's container query at >= breakpoint */
+.dt-cards {
+    display: none;
+}
+
+@container (max-width: #{map.get(s.$components, "datatable", "breakpoint") - 1px}) {
+    .dt-cards {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(map.get(s.$components, "datatable", "cards", "min-width"), 1fr)
+        );
+
+        gap: map.get(s.$components, "datatable", "cards", "gap");
+    }
+
+    .dt-cards__card {
+        padding: map.get(s.$components, "datatable", "cards", "padding");
+        border: map.get(s.$components, "datatable", "cards", "border") solid
+            map.get(c.$components, "datatable", "cards", "border");
+
+        background-color: map.get(c.$components, "datatable", "cards", "background");
+        color: map.get(c.$components, "datatable", "cards", "surface");
+        border-radius: map.get(s.$components, "datatable", "cards", "radius");
+
+        &--clickable {
+            cursor: pointer;
+        }
+    }
+
+    .dt-cards__header {
+        display: flex;
+        align-items: center;
+
+        margin-bottom: 0.5rem;
+
+        gap: 1ch;
+    }
+
+    .dt-cards__primary {
+        flex: 1;
+
+        font-weight: 600;
+    }
+
+    .dt-cards__action {
+        cursor: pointer;
+    }
+
+    .dt-cards__fields {
+        display: grid;
+        grid-template-columns: minmax(30%, auto) 1fr;
+
+        margin: 0;
+        gap: 0.25rem 0.5rem;
+    }
+
+    .dt-cards__label {
+        display: flex;
+        align-items: center;
+    }
+
+    .dt-cards__value {
+        margin: 0;
+    }
+}

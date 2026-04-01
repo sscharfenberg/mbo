@@ -1,0 +1,66 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@forward "body";
+@forward "cards";
+@forward "head";
+@forward "pagination";
+@forward "toolbar";
+
+.dt {
+    container-type: inline-size;
+
+    &--loading {
+        pointer-events: none;
+    }
+
+    &__wrapper {
+        position: relative;
+    }
+
+    &__sticky-sentinel {
+        height: 0;
+    }
+
+    &__overlay {
+        display: flex;
+
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        align-items: center;
+        justify-content: center;
+
+        background: rgb(255 255 255 / 60%);
+    }
+
+    &__table {
+        display: table;
+
+        width: 100%;
+        border: map.get(s.$components, "datatable", "border") solid map.get(c.$components, "datatable", "border");
+
+        border-radius: map.get(s.$components, "datatable", "radius");
+
+        border-spacing: 0;
+    }
+
+    &__empty {
+        padding: 2rem;
+
+        text-align: center;
+    }
+}
+
+/* Show table on wide containers, cards on narrow */
+@container (min-width: #{map.get(s.$components, "datatable", "breakpoint")}) {
+    .dt__table {
+        display: table;
+    }
+}
+
+@container (max-width: #{map.get(s.$components, "datatable", "breakpoint") - 1px}) {
+    .dt__table {
+        display: none;
+    }
+}
