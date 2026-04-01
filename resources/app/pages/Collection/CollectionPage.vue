@@ -46,7 +46,7 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
                 icon="more"
                 :aria-label="$t('pages.collection.nav.label')"
                 class-string="popover-button--rounded"
-                reference="collection-menu"
+                :reference="refId"
                 width="12rem"
             >
                 <ul class="popover-list">

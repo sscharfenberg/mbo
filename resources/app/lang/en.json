@@ -341,7 +341,8 @@
             "title": "Import CSV",
             "link": "Import CSV",
             "target": "Import to",
-            "file": "CSV file"
+            "file": "CSV file",
+            "submit": "Start import"
         },
         "decks": {
             "title": "Your Decks",

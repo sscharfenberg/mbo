@@ -1,0 +1,86 @@
+@use "sass:map";
+@use "Abstracts/sizes" as s;
+@use "Abstracts/colors" as c;
+
+.file-upload {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+
+    &__trigger {
+        display: inline-flex;
+
+        width: fit-content;
+        flex: 0 0 100%;
+
+        &--disabled {
+            opacity: 0.5;
+
+            pointer-events: none;
+        }
+    }
+
+    &__requirements {
+        display: flex;
+
+        padding: map.get(s.$components, "file-upload", "requirements", "padding");
+        border: map.get(s.$components, "file-upload", "requirements", "border") solid
+            map.get(c.$components, "file-upload", "requirements", "border");
+        margin: map.get(s.$components, "file-upload", "requirements", "margin");
+        gap: map.get(s.$components, "file-upload", "requirements", "gap");
+
+        background-color: map.get(c.$components, "file-upload", "requirements", "background");
+        color: map.get(c.$components, "file-upload", "requirements", "surface");
+
+        list-style: none;
+        border-radius: map.get(s.$components, "file-upload", "requirements", "radius");
+
+        > li {
+            display: flex;
+            position: relative;
+            align-items: center;
+
+            gap: 0.5ch;
+
+            &:not(:first-child)::before {
+                display: block;
+                position: absolute;
+
+                width: map.get(s.$components, "file-upload", "requirements", "border");
+
+                height: 1lh;
+                transform: translateX(-0.75rem);
+
+                background-color: map.get(c.$components, "file-upload", "requirements", "surface");
+
+                content: "";
+            }
+        }
+    }
+
+    &__info {
+        display: flex;
+
+        flex: 0 0 100%;
+    }
+
+    .btn-clear {
+        margin: map.get(s.$components, "file-upload", "requirements", "margin");
+    }
+
+    &__progress {
+        display: flex;
+        align-items: center;
+
+        flex: 0 0 100%;
+        margin: map.get(s.$components, "file-upload", "requirements", "margin");
+        gap: 0.5rem;
+
+        .progressbar {
+            position: relative;
+            inset: auto;
+
+            flex: 1;
+        }
+    }
+}

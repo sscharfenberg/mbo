@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
+import { Form, Head } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
-import FileUpload from "Components/Form/FileUpload.vue";
+import FileUpload from "Components/Form/FileUpload/FileUpload.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -48,6 +48,7 @@ const onUploadClear = () => {
     uploadedFilename.value = "";
     uploadError.value = "";
 };
+const isUploading = ref(false);
 </script>
 
 <template>
@@ -58,7 +59,7 @@ const onUploadClear = () => {
         <icon name="upload" :size="3" />
         {{ $t("pages.import.title") }}
     </headline>
-    <div class="form">
+    <Form class="form" action="/collection/import" method="post">
         <form-group :label="$t('pages.import.target')" for-id="container">
             <mono-select
                 :options="containerOptions"
@@ -71,13 +72,19 @@ const onUploadClear = () => {
         <form-group :label="$t('pages.import.file')" :error="uploadError" :invalid="uploadError.length > 0">
             <file-upload
                 action="/collection/import/upload"
-                :accept="allowedTypes.join(',')"
                 :allowed-types="allowedTypes"
                 :max-bytes="maxUploadBytes"
                 @success="onUploadSuccess"
                 @error="onUploadError"
                 @clear="onUploadClear"
+                @uploading="isUploading = $event"
             />
         </form-group>
-    </div>
+        <form-group>
+            <button class="btn-primary" :disabled="isUploading">
+                <icon name="save" />
+                {{ $t("pages.import.submit") }}
+            </button>
+        </form-group>
+    </Form>
 </template>

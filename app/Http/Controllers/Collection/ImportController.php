@@ -37,22 +37,22 @@ class ImportController extends Controller
         return Inertia::render('Collection/Import/CsvImportPage', [
             'container' => $container ? ContainerService::serializeContainer($container) : null,
             'containers' => $containers,
-            'maxUploadBytes' => (int) config('mbo.csv_upload_max_bytes'),
-            'allowedTypes' => config('mbo.csv_upload_allowed_types'),
+            'maxUploadBytes' => (int) config('mbo.csv_upload.max_bytes'),
+            'allowedTypes' => config('mbo.csv_upload.allowed_types'),
         ]);
     }
 
     /**
      * Upload a CSV file to temporary storage.
      *
-     * Validates file size against config('mbo.csv_upload_max_bytes'), checks for
+     * Validates file size against config('mbo.csv_upload.max_bytes'), checks for
      * binary content (null bytes), and verifies the file is parseable as CSV with
      * a consistent column count. Stores the file on the `tmp` disk and returns the
      * generated filename so the client can reference it on form submit.
      */
     public function upload(Request $request): JsonResponse
     {
-        $maxBytes = config('mbo.csv_upload_max_bytes');
+        $maxBytes = config('mbo.csv_upload.max_bytes');
         $maxKb = (int) ceil($maxBytes / 1024);
 
         $maxMb = round($maxBytes / (1024 * 1024), 1);
@@ -124,13 +124,11 @@ class ImportController extends Controller
                 $headerColumnCount = count($row);
                 if ($headerColumnCount < 2) {
                     fclose($stream);
-
                     return __('validation.custom.file.csv_not_parseable');
                 }
             } else {
                 if (count($row) !== $headerColumnCount) {
                     fclose($stream);
-
                     return __('validation.custom.file.csv_not_parseable');
                 }
             }
