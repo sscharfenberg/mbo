@@ -154,6 +154,16 @@ Walks `default_cards` and `oracle_cards` looking for rows that still have Scryfa
 
 For oracle cards, the local path is copied from a matching default card (looked up via `oracle_id`), since oracle cards share images with their default card printings.
 
+## Scheduled tasks
+
+Laravel's task scheduler handles recurring jobs (e.g. temporary file cleanup). To activate it, add this cron entry for the web server user:
+
+```bash
+* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+```
+
+This runs `schedule:run` every minute; Laravel determines internally which scheduled tasks are due. Scheduled tasks are defined in `routes/console.php`.
+
 ## Development
 
 ### `composer dev`

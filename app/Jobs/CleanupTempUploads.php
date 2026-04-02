@@ -3,15 +3,11 @@
 namespace App\Jobs;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class CleanupTempUploads implements ShouldQueue
+class CleanupTempUploads
 {
-    use Queueable;
-
     /**
      * Delete all files on the tmp disk that are older than 24 hours.
      */
@@ -32,22 +28,18 @@ class CleanupTempUploads implements ShouldQueue
             }
         }
 
-        $log->info('CleanupTempUploads: found {count} file(s) older than 24h', [
-            'count' => count($candidates),
-        ]);
+        $count = count($candidates);
+        $log->info("CleanupTempUploads: found {$count} file(s) older than 24h");
 
         $deleted = 0;
         foreach ($candidates as $file) {
             $disk->delete($file);
-            $log->info('CleanupTempUploads: deleted {file}', ['file' => $file]);
+            $log->info("CleanupTempUploads: deleted {$file}");
             $deleted++;
         }
 
         $elapsed = round(microtime(true) - $start, 2);
 
-        $log->info('CleanupTempUploads: done — {deleted} file(s) deleted in {elapsed}s', [
-            'deleted' => $deleted,
-            'elapsed' => $elapsed,
-        ]);
+        $log->info("CleanupTempUploads: done — {$deleted} file(s) deleted in {$elapsed}s");
     }
 }
