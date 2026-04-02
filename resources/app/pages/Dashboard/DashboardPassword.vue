@@ -3,10 +3,10 @@ import { Form } from "@inertiajs/vue3";
 import { ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
+import PasswordStrength from "Components/Form/PasswordStrength.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
-import PasswordStrength from "Components/UI/PasswordStrength.vue";
 import { usePasswordEntropy } from "Composables/usePasswordEntropy.ts";
 const { password, score, onPasswordChange, reset } = usePasswordEntropy();
 const showCurrentPassword = ref(false);
@@ -101,7 +101,7 @@ const showPasswordConfirmation = ref(false);
                     <span>{{ showPassword ? $t("components.password.hide") : $t("components.password.show") }}</span>
                 </button>
             </template>
-            <template #text><PasswordStrength v-if="score !== null" :score="score" /></template>
+            <template v-if="score !== null" #text><PasswordStrength :score="score" /></template>
         </form-group>
         <form-group
             for-id="password_confirmation"

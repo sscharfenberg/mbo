@@ -4,14 +4,12 @@ namespace App\Models;
 
 use App\Enums\Scryfall\ScryfallCardLayout;
 use App\Enums\Scryfall\ScryfallLang;
-use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OracleCard extends Model
 {
-
     use HasUuids;
 
     /**
@@ -65,12 +63,11 @@ class OracleCard extends Model
         'mana_cost',
         'color_identity',
         'colors',
-        'legalities',
         'card_image_0',
         'card_image_1',
         'reserved',
         'game_changer',
-        'scryfall_uri'
+        'scryfall_uri',
     ];
 
     /**
@@ -79,22 +76,28 @@ class OracleCard extends Model
      * @var array
      */
     protected $casts = [
-        'reserved'     => 'boolean',
+        'reserved' => 'boolean',
         'game_changer' => 'boolean',
-        'layout'       => ScryfallCardLayout::class,
-        'lang'         => ScryfallLang::class,
-        'cmc'          => 'float',
-        'legalities'   => AsCollection::class,
+        'layout' => ScryfallCardLayout::class,
+        'lang' => ScryfallLang::class,
+        'cmc' => 'float',
     ];
 
     /**
-     * Get all default versions of this oracle card.
+     * Get all legality entries for this oracle card.
      *
-     * @return HasMany<DefaultCard>
+     * Formats where the card is not legal have no row — absence means not legal.
+     */
+    public function legalities(): HasMany
+    {
+        return $this->hasMany(OracleCardLegality::class, 'oracle_card_id');
+    }
+
+    /**
+     * Get all default versions of this oracle card.
      */
     public function defaults(): HasMany
     {
         return $this->hasMany(DefaultCard::class, 'oracle_id', 'oracle_id');
     }
-
 }

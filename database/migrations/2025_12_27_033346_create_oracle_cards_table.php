@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('mana_cost', 64)->nullable();
             $table->string('color_identity', 6)->nullable();
             $table->string('colors', 6)->nullable();
-            $table->json('legalities');
             $table->string('card_image_0')->nullable();
             $table->string('card_image_1')->nullable();
             $table->boolean('reserved')->default(false);

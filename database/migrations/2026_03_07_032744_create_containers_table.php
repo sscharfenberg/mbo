@@ -32,6 +32,7 @@ return new class extends Migration
                 ->constrained('default_cards')
                 ->cascadeOnDelete();
             $table->timestamps();
+
             $table->index(['user_id', 'type']);
         });
     }

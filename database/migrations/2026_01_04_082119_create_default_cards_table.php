@@ -44,6 +44,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('oracle_cards')
                 ->cascadeOnDelete();
+
             $table->index(['set_id', 'collector_number']);
         });
     }

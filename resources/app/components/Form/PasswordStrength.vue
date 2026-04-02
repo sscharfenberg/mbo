@@ -52,7 +52,7 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
 
     // Right padding reserves space for the valid/invalid icon (always shown).
     // The icon is 20px wide; 1ch gap between meter and icon.
-    padding: map.get(s.$components, "password-strength", "padding") calc(20px + 1.5ch)
+    padding: map.get(s.$components, "password-strength", "padding") calc(20px + 2ch)
         map.get(s.$components, "password-strength", "padding") map.get(s.$components, "password-strength", "padding");
     border: map.get(s.$components, "password-strength", "border") solid
         map.get(c.$components, "password-strength", "border");
@@ -96,7 +96,7 @@ const anchorName = `--psm-${useId().replace(/[^a-z0-9_-]/gi, "")}`;
     .form-group--invalid {
         top: calc(anchor(top) + 0.4lh);
         right: unset;
-        left: calc(anchor(right) + 0.5ch);
+        left: calc(anchor(right) + 1ch);
     }
 
     .icon {

@@ -52,6 +52,11 @@
             }
         }
 
+        &.info {
+            background-color: map.get(c.$state, "info", "background");
+            color: map.get(c.$state, "info", "surface");
+        }
+
         &.warning {
             background-color: map.get(c.$state, "warning", "background");
             color: map.get(c.$state, "warning", "surface");
