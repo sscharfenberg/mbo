@@ -17,4 +17,8 @@ export interface CardStackRow {
     price: number;
     /** Total price of the stack (unit price × amount). */
     total_price: number;
+    /** ISO 8601 timestamp when the card stack was created. */
+    created_at: string;
+    /** ISO 8601 timestamp when the card stack was last updated. */
+    updated_at: string;
 }

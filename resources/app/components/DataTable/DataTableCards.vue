@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends { id: string; href?: string }">
 import { router } from "@inertiajs/vue3";
-import { computed, inject } from "vue";
+import { computed, inject, useSlots } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import Icon from "Components/UI/Icon.vue";
 import type { ColumnDef } from "Types/dataTable";
@@ -18,6 +18,7 @@ const emit = defineEmits<{
     action: [row: T, el: HTMLElement];
 }>();
 const provided = inject(DATA_TABLE_KEY)!;
+const slots = useSlots();
 /** The primary column shown at the top of each card. First match wins. */
 const primaryCol = computed(() => props.columns.find(c => c.cardPrimary) ?? null);
 /** Columns visible in card mode, excluding the primary. */
@@ -58,9 +59,8 @@ function onActionClick(row: T, event: MouseEvent) {
                     />
                 </div>
                 <div v-if="primaryCol" class="dt-cards__primary">
-                    <slot :name="`cell-${primaryCol.key}`" :row="row">
-                        {{ row[primaryCol.key] }}
-                    </slot>
+                    <slot v-if="slots[`cell-${primaryCol.key}`]" :name="`cell-${primaryCol.key}`" :row="row" />
+                    <template v-else>{{ row[primaryCol.key] }}</template>
                 </div>
                 <button
                     type="button"
@@ -76,9 +76,8 @@ function onActionClick(row: T, event: MouseEvent) {
                 <template v-for="col in visibleCardColumns(row)" :key="col.key">
                     <dt class="dt-cards__label">{{ col.label }}</dt>
                     <dd class="dt-cards__value">
-                        <slot :name="`cell-${col.key}`" :row="row">
-                            {{ row[col.key] }}
-                        </slot>
+                        <slot v-if="slots[`cell-${col.key}`]" :name="`cell-${col.key}`" :row="row" />
+                        <template v-else>{{ row[col.key] }}</template>
                     </dd>
                 </template>
             </dl>

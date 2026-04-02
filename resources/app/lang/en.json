@@ -453,7 +453,9 @@
             "language": "Language",
             "price": "Price",
             "total_price": "Total",
-            "artist": "Artist"
+            "artist": "Artist",
+            "created_at": "Added",
+            "updated_at": "Changed"
         }
     },
     "state": {

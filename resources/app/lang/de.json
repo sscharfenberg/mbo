@@ -453,7 +453,9 @@
             "language": "Sprache",
             "price": "Preis",
             "total_price": "Gesamt",
-            "artist": "Künstler"
+            "artist": "Künstler",
+            "created_at": "Hinzugefügt",
+            "updated_at": "Geändert"
         }
     },
     "state": {

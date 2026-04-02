@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends { id: string; href?: string }">
 import { router } from "@inertiajs/vue3";
-import { inject } from "vue";
+import { inject, useSlots } from "vue";
 import Checkbox from "Components/Form/Checkbox.vue";
 import Icon from "Components/UI/Icon.vue";
 import type { ColumnDef } from "Types/dataTable";
@@ -18,6 +18,7 @@ const emit = defineEmits<{
     action: [row: T, el: HTMLElement];
 }>();
 const provided = inject(DATA_TABLE_KEY)!;
+const slots = useSlots();
 /** Navigate to the row's detail page when the row is clicked (if href is set). */
 function onRowClick(row: T) {
     if (row.href) router.visit(row.href);
@@ -50,9 +51,8 @@ function onActionClick(row: T, event: MouseEvent) {
                 :class="col.cellClass"
                 :style="{ textAlign: col.align ?? 'left' }"
             >
-                <slot :name="`cell-${col.key}`" :row="row">
-                    {{ row[col.key] }}
-                </slot>
+                <slot v-if="slots[`cell-${col.key}`]" :name="`cell-${col.key}`" :row="row" />
+                <template v-else>{{ row[col.key] }}</template>
             </td>
             <td class="dt-body__actions">
                 <button

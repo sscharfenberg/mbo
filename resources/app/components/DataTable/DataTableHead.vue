@@ -74,10 +74,13 @@ function onHeaderCheckbox() {
                     }"
                     @click="emit('sort', col.key)"
                     :style="{ textAlign: col.align ?? 'left' }"
+                    :aria-label="$slots[`header-${col.key}`] ? col.label : undefined"
                 >
-                    {{ col.label }}
+                    <slot :name="`header-${col.key}`" :column="col">{{ col.label }}</slot>
                 </button>
-                <span v-else :style="{ textAlign: col.align ?? 'left' }">{{ col.label }}</span>
+                <span v-else :style="{ textAlign: col.align ?? 'left' }">
+                    <slot :name="`header-${col.key}`" :column="col">{{ col.label }}</slot>
+                </span>
             </th>
             <th class="dt-head__actions">
                 <span class="sr-only">{{ $t("components.datatable.actions") }}</span>

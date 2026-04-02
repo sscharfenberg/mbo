@@ -230,13 +230,14 @@ class ContainerController extends Controller
         $table = DataTableService::buildResponse(
             query: $query,
             request: $request,
-            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish', 'price', 'total_price'],
+            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish', 'price', 'total_price', 'created_at'],
             sortColumnMap: [
                 'name' => 'default_cards.name',
                 'set_name' => 'sets.name',
                 'collector_number' => 'default_cards.collector_number',
                 'price' => 'unit_price',
                 'total_price' => 'stack_price',
+                'created_at' => 'card_stacks.created_at',
             ],
             defaultSort: 'name',
             searchCallback: function ($q, $search) {
@@ -277,6 +278,8 @@ class ContainerController extends Controller
                     'card_image_0' => $stack->card_image_0,
                     'price' => (float) ($stack->unit_price ?? 0),
                     'total_price' => (float) ($stack->stack_price ?? 0),
+                    'created_at' => $stack->created_at?->toIso8601String(),
+                    'updated_at' => $stack->updated_at?->toIso8601String(),
                 ];
             },
         );

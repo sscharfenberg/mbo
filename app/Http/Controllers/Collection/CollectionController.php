@@ -64,13 +64,14 @@ class CollectionController extends Controller
         $table = DataTableService::buildResponse(
             query: $tableQuery,
             request: $request,
-            sortable: ['name', 'set_name', 'container_name', 'amount', 'condition', 'language', 'finish', 'price', 'total_price'],
+            sortable: ['name', 'set_name', 'container_name', 'amount', 'condition', 'language', 'finish', 'price', 'total_price', 'created_at'],
             sortColumnMap: [
                 'name' => 'default_cards.name',
                 'set_name' => 'sets.name',
                 'container_name' => 'containers.name',
                 'price' => 'unit_price',
                 'total_price' => 'stack_price',
+                'created_at' => 'card_stacks.created_at',
             ],
             defaultSort: 'name',
             searchCallback: function ($q, $search) {
@@ -114,6 +115,8 @@ class CollectionController extends Controller
                     'total_price' => (float) ($stack->stack_price ?? 0),
                     'container_name' => $stack->container_name,
                     'container_id' => $stack->container_id,
+                    'created_at' => $stack->created_at?->toIso8601String(),
+                    'updated_at' => $stack->updated_at?->toIso8601String(),
                 ];
             },
         );

@@ -22,7 +22,7 @@ defineProps<{
     containers: ContainerListItem[];
 }>();
 const { t } = useI18n();
-const { formatPrice } = useFormatting();
+const { formatPrice, formatDateTime } = useFormatting();
 const columns = computed<ColumnDef<CardStackRow>[]>(() => [
     {
         key: "name",
@@ -48,6 +48,7 @@ const columns = computed<ColumnDef<CardStackRow>[]>(() => [
     {
         key: "language",
         label: t("form.fields.language"),
+        sortable: true,
         visibleInCard: true
     },
     {
@@ -81,6 +82,11 @@ const columns = computed<ColumnDef<CardStackRow>[]>(() => [
         sortable: true,
         align: "right",
         visibleInCard: true
+    },
+    {
+        key: "created_at",
+        label: t("form.fields.created_at"),
+        sortable: true
     }
 ]);
 /** Resolve the flag image URL for a given language code. */
@@ -107,10 +113,21 @@ const openDeleteSelectedModal = (selectedIds: string[]) => {
 };
 /** The card stack ID currently shown in the preview modal, or null when hidden. */
 const previewId = ref<string | null>(null);
+/** helper function for created/updated at dates */
+const getTimeStamps = (created: string, updated?: string | null) => {
+    let timestamp = formatDateTime(created);
+    if (updated && updated !== created) {
+        timestamp = `${t("form.fields.created_at")}: ${timestamp}<br />${t("form.fields.updated_at")}: ${formatDateTime(updated)}`;
+    }
+    return timestamp;
+};
 </script>
 
 <template>
     <data-table :columns="columns" :response="table" :selectable="true" :base-url="baseUrl">
+        <template #header-created_at>
+            <icon name="calendar" :size="1" />
+        </template>
         <template #toolbar-actions="{ selectedIds }">
             <pop-over
                 v-if="selectedIds.length > 0"
@@ -154,7 +171,12 @@ const previewId = ref<string | null>(null);
             <template v-if="row.condition">{{ $t("enums.conditions." + row.condition) }}</template>
         </template>
         <template #cell-finish="{ row }">
-            <template v-if="row.finish">{{ $t("enums.finishes." + row.finish) }}</template>
+            <icon
+                v-if="row.finish === 'foil' || row.finish === 'etched'"
+                :name="row.finish === 'foil' ? 'star' : 'texture'"
+                :size="2"
+                v-tooltip="$t('enums.finishes.' + row.finish)"
+            />
         </template>
         <template #cell-language="{ row }">
             <img
@@ -167,6 +189,9 @@ const previewId = ref<string | null>(null);
         </template>
         <template #cell-price="{ row }">{{ row.price ? formatPrice(row.price) : "" }}</template>
         <template #cell-total_price="{ row }">{{ row.total_price ? formatPrice(row.total_price) : "" }}</template>
+        <template #cell-created_at="{ row }">
+            <icon name="calendar" :size="1" v-tooltip="`${getTimeStamps(row.created_at, row.updated_at)}`" />
+        </template>
         <template #actions="{ row }">
             <li>
                 <button

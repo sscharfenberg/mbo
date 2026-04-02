@@ -57,7 +57,8 @@ createInertiaApp({
             themes: {
                 tooltip: {
                     triggers: ["hover", "focus", "click"],
-                    hideTriggers: ["hover", "focus", "click"]
+                    hideTriggers: ["hover", "focus", "click"],
+                    html: true
                 }
             }
         });

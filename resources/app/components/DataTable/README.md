@@ -54,10 +54,25 @@ const columns: ColumnDef<UserRow>[] = [
 
 | Slot                | Scope                         | Description                                                              |
 |---------------------|-------------------------------|--------------------------------------------------------------------------|
+| `#header-{key}`     | `{ column: ColumnDef<T> }`    | Custom header content for a column. Fallback: `column.label` as text.    |
 | `#cell-{key}`       | `{ row: T }`                  | Custom renderer for a column. Fallback: raw `row[key]` as text.          |
 | `#actions`          | `{ row: T }`                  | Row action popover content. Render as `<li>` with `popover-list-item`.   |
 | `#toolbar-actions`  | `{ selectedIds: string[] }`   | Toolbar buttons (e.g. bulk actions). Only visible when slot is provided.  |
 | `#empty`            | —                             | Content shown when `rows` is empty and not loading.                      |
+
+### Header Slots
+
+Columns without a matching `#header-{key}` slot render the `label` as text.
+Columns with a slot get full control over the header content:
+
+```vue
+<template #header-created_at>
+    <icon name="calendar" :size="1" />
+</template>
+```
+
+When a header slot replaces the text label, the sort button automatically gets an `aria-label`
+set to the column's `label` value so the header remains accessible to screen readers.
 
 ### Cell Slots
 
@@ -107,6 +122,7 @@ interface ColumnDef<T extends { id: string }> {
     align?: 'left' | 'center' | 'right'; // default 'left'
     visibleInCard?: boolean;     // show in mobile card layout, default false
     cardPrimary?: boolean;       // main column at the top of the card, first wins
+    cellClass?: string;          // extra CSS class(es) for <td>
 }
 ```
 

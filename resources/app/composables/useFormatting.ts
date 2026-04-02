@@ -5,6 +5,8 @@ export type UseFormattingReturn = {
     formatDecimals: (num: number) => string;
     formatBytes: (bytes: number, si?: boolean, dp?: number) => string;
     formatPrice: (amount: number) => string;
+    formatDate: (iso: string) => string;
+    formatDateTime: (iso: string) => string;
 };
 
 /**
@@ -71,5 +73,35 @@ export const useFormatting = (): UseFormattingReturn => {
         });
     };
 
-    return { formatDecimals, formatBytes, formatPrice };
+    /**
+     * Format an ISO 8601 date string as a short locale-aware date.
+     *
+     * @param iso - ISO 8601 date string (e.g. "2026-04-02T07:25:01+00:00").
+     * @return Formatted date string (e.g. "02.04.2026" or "4/2/2026").
+     */
+    const formatDate = (iso: string): string => {
+        return new Date(iso).toLocaleDateString(locale.value, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+        });
+    };
+
+    /**
+     * Format an ISO 8601 timestamp as a locale-aware date and time string.
+     *
+     * @param iso - ISO 8601 timestamp (e.g. "2026-04-02T07:25:01+00:00").
+     * @return Formatted date-time string (e.g. "02.04.2026, 07:25" or "4/2/2026, 7:25 AM").
+     */
+    const formatDateTime = (iso: string): string => {
+        return new Date(iso).toLocaleString(locale.value, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+
+    return { formatDecimals, formatBytes, formatPrice, formatDate, formatDateTime };
 };

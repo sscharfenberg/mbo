@@ -31,6 +31,8 @@ const { t } = useI18n();
 const slots = useSlots();
 /** Filter slots to only cell-* and actions slots for forwarding. */
 const cellSlotNames = computed(() => Object.keys(slots).filter(name => name.startsWith("cell-")));
+/** Filter slots to only header-* slots for forwarding to DataTableHead. */
+const headerSlotNames = computed(() => Object.keys(slots).filter(name => name.startsWith("header-")));
 // ---------------------------------------------------------------------------
 // Sort normalization: server sends object | null, internal is always array
 // ---------------------------------------------------------------------------
@@ -235,7 +237,11 @@ onBeforeUnmount(() => {
                     :row-ids="rowIds"
                     :stuck="isStuck"
                     @sort="onSort"
-                />
+                >
+                    <template v-for="name in headerSlotNames" :key="name" #[name]="slotProps">
+                        <slot :name="name" v-bind="slotProps" />
+                    </template>
+                </data-table-head>
                 <data-table-body :columns="columns" :rows="response.rows" :selectable="selectable" @action="onAction">
                     <template v-for="name in cellSlotNames" :key="name" #[name]="slotProps">
                         <slot :name="name" v-bind="slotProps" />
