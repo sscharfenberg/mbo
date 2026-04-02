@@ -2,10 +2,12 @@
 import { Link } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
+import { useI18n } from "vue-i18n";
 import ContainerMenu from "@/pages/Collection/common/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
 import { useFormatting } from "Composables/useFormatting";
 import type { Container } from "Types/container";
+const { t } = useI18n();
 const { formatPrice, formatDecimals } = useFormatting();
 const props = defineProps<{ containers: Container[] }>();
 /** Emitted after a successful drag-drop; carries the visible rows in their new order. */
@@ -55,7 +57,13 @@ watch(
                 >
                 <span
                     class="clist__count"
-                    v-tooltip="$t('pages.container_page.cards_count', { count: container.totalCards })"
+                    v-tooltip="
+                        t(
+                            'pages.container_page.cards_count',
+                            { count: formatDecimals(container.totalCards) },
+                            container.totalCards
+                        )
+                    "
                     ><icon name="deck" />{{ formatDecimals(container.totalCards) }}</span
                 >
                 <span class="clist__price"><icon name="money" />{{ formatPrice(container.totalPrice) }}</span>

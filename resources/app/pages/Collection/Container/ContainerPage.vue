@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import ContainerMenu from "@/pages/Collection/common/ContainerMenu.vue";
 import ContainerCardStacks from "@/pages/Collection/Container/ContainerCardStacks.vue";
 import ArtCropImage from "Components/Card/ArtCropImage.vue";
@@ -20,8 +22,14 @@ const props = defineProps<{
     containers: ContainerListItem[];
 }>();
 
-const { formatPrice } = useFormatting();
+const { t } = useI18n();
+const { formatPrice, formatDecimals } = useFormatting();
 const { setBreadcrumbs } = useBreadcrumbs();
+
+const cardsCountLabel = computed(() => {
+    const count = props.container.totalCards;
+    return t("pages.container_page.cards_count", { count: formatDecimals(count) }, count);
+});
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
     { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" },
@@ -52,7 +60,9 @@ setBreadcrumbs([
                 container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
             }}
         </li>
-        <li><icon name="deck" />{{ $t("pages.container_page.cards_count", { count: container.totalCards }) }}</li>
+        <li>
+            <icon name="deck" />{{ cardsCountLabel }}
+        </li>
         <li><icon name="money" />{{ formatPrice(container.totalPrice) }}</li>
     </ul>
     <container-card-stacks
