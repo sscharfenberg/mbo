@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Currency;
+use App\Enums\Locale;
 use App\Models\Artist;
 use App\Models\BulkData;
+use App\Models\CardStack;
+use App\Models\Container;
 use App\Models\DefaultCard;
 use App\Models\OracleCard;
 use App\Models\Set;
 use App\Models\Symbol;
+use App\Services\ContainerService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -57,8 +62,18 @@ class WelcomeController extends Controller
      */
     public function show(Request $request): Response
     {
+        $currency = Locale::tryFrom(app()->getLocale())?->defaultCurrency()
+            ?? Currency::Eur;
+        $unitPriceSql = ContainerService::unitPriceSql($currency);
+
+        $collectionStats = CardStack::query()
+            ->join('default_cards', 'card_stacks.default_card_id', '=', 'default_cards.id')
+            ->selectRaw('COALESCE(SUM(card_stacks.amount), 0) as total_cards')
+            ->selectRaw("COALESCE(SUM(card_stacks.amount * ({$unitPriceSql})), 0) as total_price")
+            ->first();
+
         return Inertia::render('Guest/Welcome', [
-            'stats' => [
+            'scryfallStats' => [
                 'oracleCards' => [
                     'num' => OracleCard::count(),
                     'size' => BulkData::where('type', 'oracle_cards')->first()?->size,
@@ -72,7 +87,11 @@ class WelcomeController extends Controller
                 'artCrops' => $this->getArtCropStats(),
                 'cardImages' => $this->getCardImageStats(),
             ],
-            'symbols' => Symbol::where('funny', false)->inRandomOrder()->limit(10)->get(['path', 'english']),
+            'collectionStats' => [
+                'totalCards' => (int) $collectionStats->total_cards,
+                'containers' => Container::count(),
+                'totalPrice' => (float) $collectionStats->total_price,
+            ]
         ]);
     }
 }

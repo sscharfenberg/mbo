@@ -49,7 +49,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'supportedLocales' => array_column(Locale::cases(), 'value'),
-            'currency' => fn () => $request->user()?->currency?->value ?? Currency::Eur->value,
+            'currency' => fn () => $request->user()?->currency?->value
+                ?? Locale::from(app()->getLocale())->defaultCurrency()->value,
             'supportedCurrencies' => array_column(Currency::cases(), 'value'),
             'features' => [
                 'registration' => Features::enabled(Features::registration()),

@@ -77,17 +77,6 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
     }
 
     /**
-     * Derive the default currency from a locale.
-     */
-    public static function currencyFromLocale(Locale $locale): Currency
-    {
-        return match ($locale) {
-            Locale::De => Currency::Eur,
-            Locale::En => Currency::Usd,
-        };
-    }
-
-    /**
      * Send the email verification notification, if the feature is enabled.
      */
     public function sendEmailVerificationNotification(): void

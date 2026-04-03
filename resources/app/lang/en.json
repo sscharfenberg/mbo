@@ -76,8 +76,8 @@
             "title": "Welcome",
             "claim": "Keep your collection of magic cards organized.",
             "intro": "While building a new deck, you want to add a specific card. You know that you own the card - somewhere in your 10+ binders/boxes/whatever. After searching for half an hour, you give up and buy a new copy. Sounds familiar? MBO is for you.",
-            "stats": {
-                "title": "Global data stats",
+            "scryfall_stats": {
+                "title": "Scryfall data",
                 "oracle": {
                     "title": "Oracle Cards",
                     "explanation": "One card for each Oracle ID. The chosen sets for the cards are an attempt to return the most up-to-date recognizable version of the card."
@@ -101,6 +101,25 @@
                 "cardImages": {
                     "title": "Card Images",
                     "explanation": "Scanned images of the full card."
+                },
+                "scryfall": {
+                    "title": "Scryfall",
+                    "explanation": "Scryfall is the backbone of all MtG community websites."
+                }
+            },
+            "collection_stats": {
+                "title": "MBO collection data",
+                "cards": {
+                    "title": "Total cards",
+                    "explanation": "The number of cards in collections."
+                },
+                "containers": {
+                    "title": "Containers",
+                    "explanation": "The number of containers organized in MBO."
+                },
+                "worth": {
+                    "title": "Total worth",
+                    "explanation": "The total worth of cards organized in MBO collections."
                 }
             }
         },

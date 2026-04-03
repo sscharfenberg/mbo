@@ -54,7 +54,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'locale' => $locale,
-            'currency' => User::currencyFromLocale($locale),
+            'currency' => $locale->defaultCurrency(),
         ]);
     }
 }
