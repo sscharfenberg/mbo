@@ -6,7 +6,7 @@ import DeleteCardStackModal from "@/pages/Collection/common/DeleteCardStackModal
 import DeleteSelectedCardStacksModal from "@/pages/Collection/common/DeleteSelectedCardStacksModal.vue";
 import MoveSelectedCardStacksModal from "@/pages/Collection/common/MoveSelectedCardStacksModal.vue";
 import CardImagePreview from "Components/Card/CardImagePreview.vue";
-import CardPreviewModal from "Components/Card/CardPreviewModal.vue";
+import CardStackPreviewModal from "Components/Card/CardStackPreviewModal.vue";
 import DataTable from "Components/DataTable/DataTable.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
@@ -217,7 +217,7 @@ const getTimeStamps = (created: string, updated?: string | null) => {
             <paragraph>{{ $t("components.datatable.no_results") }}</paragraph>
         </template>
     </data-table>
-    <card-preview-modal v-if="previewId" :card-stack-id="previewId" @close="previewId = null" />
+    <card-stack-preview-modal v-if="previewId" :card-stack-id="previewId" @close="previewId = null" />
     <delete-card-stack-modal
         v-if="deleteTarget"
         :card-stack="deleteTarget"

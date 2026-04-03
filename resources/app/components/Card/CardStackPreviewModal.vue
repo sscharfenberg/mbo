@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import CardFaceImage from "Components/Card/CardFaceImage.vue";
+import CardLegalities from "Components/Card/CardLegalities.vue";
 import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
@@ -16,7 +17,10 @@ const props = defineProps<{
     cardStackId: string;
 }>();
 const { t } = useI18n();
-const { formatPrice } = useFormatting();
+const { formatPrice, formatDateTime, formatDecimals } = useFormatting();
+
+/** Resolve the flag image URL for a given language code. */
+const flagSrc = (lang: string): string => new URL(`../../assets/flags/${lang}.svg`, import.meta.url).href;
 
 /** True while the preview data is being fetched from the server. */
 const loading = ref(true);
@@ -69,18 +73,22 @@ onMounted(async () => {
 <template>
     <modal @close="emit('close')">
         <template #header>{{ card?.name ?? t("components.card_preview.title") }}</template>
-        <div v-if="loading" class="preview-loading">
+        <div v-if="loading" class="cardstack-preview__loading">
             <loading-spinner :size="4" :branded="true" />
             <p>{{ t("components.card_preview.loading") }}</p>
         </div>
-        <div v-else-if="error" class="preview-error">
+        <div v-else-if="error" class="cardstack-preview__error">
             <icon name="error" :size="2" />
             <p>{{ t("components.card_preview.error") }}</p>
         </div>
-        <div v-else-if="card" class="preview">
+        <div v-else-if="card" class="cardstack-preview">
             <card-face-image v-if="faceImage?.card_image_0" :card="faceImage" />
             <div class="col">
-                <dl class="preview__details">
+                <dl class="cardstack-preview__details">
+                    <template v-if="card.amount">
+                        <dt>{{ t("form.fields.qty") }}</dt>
+                        <dd>{{ formatDecimals(card.amount) }}</dd>
+                    </template>
                     <template v-if="card.condition">
                         <dt>{{ t("form.fields.condition") }}</dt>
                         <dd>{{ t("enums.conditions." + card.condition) }}</dd>
@@ -89,9 +97,22 @@ onMounted(async () => {
                         <dt>{{ t("form.fields.finish") }}</dt>
                         <dd>{{ t("enums.finishes." + card.finish) }}</dd>
                     </template>
+                    <template v-if="card.language">
+                        <dt>{{ t("form.fields.language") }}</dt>
+                        <dd class="cardstack-preview__language">
+                            <img
+                                :src="flagSrc(card.language)"
+                                :alt="t('enums.card_languages.' + card.language)"
+                                v-tooltip="{
+                                    content: t('enums.card_languages.' + card.language),
+                                    container: '#modal-body'
+                                }"
+                            />
+                        </dd>
+                    </template>
                     <template v-if="card.set_code && card.set_name && card.set_icon">
                         <dt>{{ t("form.fields.set_name") }}</dt>
-                        <dd class="preview__set">
+                        <dd class="cardstack-preview__set">
                             [{{ card.set_code.toUpperCase() }}] {{ card.set_name }}
                             <img :src="card.set_icon" :alt="`[${card.set_code.toUpperCase()}] ${card.set_name}`" />
                         </dd>
@@ -104,7 +125,17 @@ onMounted(async () => {
                         <dt>{{ t("components.card_preview.total_price", { amount: card.amount }) }}</dt>
                         <dd>{{ formatPrice(card.total_price) }}</dd>
                     </template>
+                    <template v-if="card.created_at">
+                        <dt>{{ t("form.fields.created_at") }}</dt>
+                        <dd>{{ formatDateTime(card.created_at) }}</dd>
+                    </template>
+                    <template v-if="card.updated_at">
+                        <dt>{{ t("form.fields.updated_at") }}</dt>
+                        <dd>{{ formatDateTime(card.updated_at) }}</dd>
+                    </template>
                 </dl>
+                <card-legalities v-if="card.legalities.length" :legalities="card.legalities" />
+                <br />
                 <a
                     v-if="card.scryfall_uri"
                     :href="card.scryfall_uri"
@@ -122,69 +153,12 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 @use "sass:map";
-@use "Abstracts/colors" as c;
+@use "Abstracts/mixins" as m;
 @use "Abstracts/sizes" as s;
-@use "Abstracts/mixins" as m;
 
-.preview-loading,
-.preview-error {
-    display: flex;
-    align-items: center;
-
-    padding: 2rem;
-    gap: 1rem;
-}
-
-.preview {
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-
-    gap: 1rem;
-
+:deep(.modal-dialog__content) {
     @include m.mq("landscape") {
-        align-items: flex-start;
-        flex-direction: row;
+        min-width: map.get(s.$components, "modal", "max-width");
     }
-
-    &__details {
-        display: grid;
-        grid-template-columns: auto 1fr;
-
-        margin: 0 0 1rem;
-        gap: 0.5rem 1rem;
-
-        dt {
-            font-weight: 600;
-        }
-
-        dd {
-            margin: 0;
-        }
-    }
-
-    &__set {
-        display: flex;
-        justify-content: space-between;
-
-        gap: 0.5rem;
-
-        img {
-            width: map.get(s.$components, "face-image", "set");
-            height: map.get(s.$components, "face-image", "set");
-            margin-left: auto;
-
-            filter: none;
-        }
-    }
-}
-</style>
-
-<style lang="scss">
-@use "Abstracts/mixins" as m;
-
-@include m.theme-dark(".preview__set img") {
-    filter: invert(1);
 }
 </style>

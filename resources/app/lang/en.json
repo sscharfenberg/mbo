@@ -24,6 +24,35 @@
             "foil": "Foil",
             "etched": "Etched"
         },
+        "card_legalities": {
+            "legal": "Legal",
+            "not_legal": "Not Legal",
+            "banned": "Banned",
+            "restricted": "Restricted"
+        },
+        "card_formats": {
+            "standard": "Standard",
+            "pioneer": "Pioneer",
+            "modern": "Modern",
+            "legacy": "Legacy",
+            "vintage": "Vintage",
+            "commander": "Commander",
+            "oathbreaker": "Oathbreaker",
+            "brawl": "Brawl",
+            "standardbrawl": "Standard Brawl",
+            "alchemy": "Alchemy",
+            "historic": "Historic",
+            "timeless": "Timeless",
+            "gladiator": "Gladiator",
+            "pauper": "Pauper",
+            "paupercommander": "Pauper Commander",
+            "penny": "Penny Dreadful",
+            "duel": "Duel Commander",
+            "premodern": "Premodern",
+            "predh": "PreDH",
+            "oldschool": "Old School",
+            "future": "Future"
+        },
         "card_languages": {
             "en": "English",
             "de": "German",
@@ -474,7 +503,8 @@
             "total_price": "Total",
             "artist": "Artist",
             "created_at": "Added",
-            "updated_at": "Changed"
+            "updated_at": "Changed",
+            "legalities": "Legalities"
         }
     },
     "state": {

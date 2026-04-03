@@ -1,0 +1,9 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$card-legalities: (
+    "gap": 0.25rem 0.5rem,
+    "radius": map.get(s.$radius, "base"),
+    "font": 0.8rem
+);

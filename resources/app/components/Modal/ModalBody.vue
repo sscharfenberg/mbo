@@ -10,7 +10,7 @@ withDefaults(
 </script>
 
 <template>
-    <div :class="['modal-dialog__body', { 'modal-dialog__body--no-footer': !hasFooter }]"><slot /></div>
+    <div id="modal-body" :class="['modal-dialog__body', { 'modal-dialog__body--no-footer': !hasFooter }]"><slot /></div>
 </template>
 
 <style scoped lang="scss">

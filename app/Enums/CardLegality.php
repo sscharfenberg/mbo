@@ -11,6 +11,7 @@ namespace App\Enums;
 enum CardLegality: string
 {
     case Legal = 'legal';
+    case NotLegal = 'not_legal';
     case Banned = 'banned';
     case Restricted = 'restricted';
 }

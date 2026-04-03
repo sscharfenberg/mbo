@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\CardFormat;
+use App\Enums\CardLegality;
 use App\Http\Controllers\Controller;
 use App\Models\CardStack;
 use App\Services\ContainerService;
@@ -22,7 +24,7 @@ class CardStackPreviewController extends Controller
             abort(403);
         }
 
-        $cardStack->load('defaultCard.set', 'defaultCard.artist', 'defaultCard.oracle');
+        $cardStack->load('defaultCard.set', 'defaultCard.artist', 'defaultCard.oracle.legalities');
 
         $card = $cardStack->defaultCard;
         $currency = $request->user()->currency;
@@ -47,9 +49,20 @@ class CardStackPreviewController extends Controller
             'amount' => $cardStack->amount,
             'condition' => $cardStack->condition?->value,
             'finish' => $cardStack->finish?->label(),
+            'language' => $cardStack->language?->value ?? 'en',
+            'created_at' => $cardStack->created_at?->toIso8601String(),
+            'updated_at' => $cardStack->updated_at?->toIso8601String(),
             'price' => (float) ($priceRow->unit_price ?? 0),
             'total_price' => (float) ($priceRow->stack_price ?? 0),
             'scryfall_uri' => $card->oracle?->scryfall_uri,
+            'legalities' => collect(CardFormat::cases())->map(function (CardFormat $format) use ($card) {
+                $match = $card->oracle?->legalities->first(fn ($l) => $l->format === $format->value);
+
+                return [
+                    'format' => $format->value,
+                    'legality' => $match?->legality->value ?? CardLegality::NotLegal->value,
+                ];
+            })->all(),
         ]);
     }
 }

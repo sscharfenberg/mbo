@@ -1,0 +1,68 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/mixins" as m;
+
+.cardstack-preview {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    gap: 1rem;
+
+    @include m.mq("landscape") {
+        align-items: flex-start;
+        flex-direction: row;
+    }
+
+    &__loading,
+    &__error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 2rem 0;
+        gap: 1rem;
+    }
+
+    &__details {
+        display: grid;
+        grid-template-columns: auto 1fr;
+
+        margin: 0 0 1rem;
+        gap: 0.5rem 1rem;
+
+        dt {
+            font-weight: 600;
+        }
+
+        dd {
+            margin: 0;
+        }
+    }
+
+    &__set {
+        display: flex;
+        justify-content: space-between;
+
+        gap: 0.5rem;
+
+        img {
+            width: map.get(s.$components, "face-image", "set");
+            height: map.get(s.$components, "face-image", "set");
+            margin-left: auto;
+
+            filter: none;
+        }
+    }
+
+    &__language img {
+        width: auto;
+        height: map.get(s.$components, "face-image", "set");
+    }
+}
+
+@include m.theme-dark(".preview__set img") {
+    filter: invert(1);
+}
