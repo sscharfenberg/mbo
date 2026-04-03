@@ -230,16 +230,16 @@ class ContainerController extends Controller
         $table = DataTableService::buildResponse(
             query: $query,
             request: $request,
-            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish', 'price', 'total_price', 'created_at'],
+            sortable: ['name', 'set_name', 'collector_number', 'amount', 'condition', 'language', 'finish', 'price', 'total_price', 'updated_at'],
             sortColumnMap: [
                 'name' => 'default_cards.name',
                 'set_name' => 'sets.name',
                 'collector_number' => 'default_cards.collector_number',
                 'price' => 'unit_price',
                 'total_price' => 'stack_price',
-                'created_at' => 'card_stacks.created_at',
+                'updated_at' => 'card_stacks.updated_at',
             ],
-            defaultSort: 'name',
+            defaultSort: 'updated_at',
             searchCallback: function ($q, $search) {
                 $parsed = CardSearchParser::parse($search);
 
@@ -282,6 +282,7 @@ class ContainerController extends Controller
                     'updated_at' => $stack->updated_at?->toIso8601String(),
                 ];
             },
+            defaultDirection: 'desc',
         );
 
         $containers = Container::query()

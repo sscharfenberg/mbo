@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Collection;
 use App\Enums\Scryfall\ScryfallRarity;
 use App\Http\Controllers\Controller;
 use App\Models\CardStack;
+use App\Models\Container;
 use App\Services\CardSearchParser;
 use App\Services\ContainerService;
 use App\Services\DataTableService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -64,16 +66,16 @@ class CollectionController extends Controller
         $table = DataTableService::buildResponse(
             query: $tableQuery,
             request: $request,
-            sortable: ['name', 'set_name', 'container_name', 'amount', 'condition', 'language', 'finish', 'price', 'total_price', 'created_at'],
+            sortable: ['name', 'set_name', 'container_name', 'amount', 'condition', 'language', 'finish', 'price', 'total_price', 'updated_at'],
             sortColumnMap: [
                 'name' => 'default_cards.name',
                 'set_name' => 'sets.name',
                 'container_name' => 'containers.name',
                 'price' => 'unit_price',
                 'total_price' => 'stack_price',
-                'created_at' => 'card_stacks.created_at',
+                'updated_at' => 'card_stacks.updated_at',
             ],
-            defaultSort: 'name',
+            defaultSort: 'updated_at',
             searchCallback: function ($q, $search) {
                 $parsed = CardSearchParser::parse($search);
 
@@ -119,6 +121,7 @@ class CollectionController extends Controller
                     'updated_at' => $stack->updated_at?->toIso8601String(),
                 ];
             },
+            defaultDirection: 'desc',
         );
 
         return Inertia::render('Collection/CollectionPage', [
@@ -133,6 +136,26 @@ class CollectionController extends Controller
                 'mythics' => (int) $stats->mythics,
             ],
             'table' => $table,
+            'canCreateNewContainer' => $containerCount < Container::MAX_CONTAINERS,
         ]);
+    }
+
+    /**
+     * Delete the entire collection of the authenticated user.
+     *
+     * Removes all card stacks and containers, then redirects back
+     * with a warning flash message.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        CardStack::where('user_id', $user->id)->delete();
+        Container::where('user_id', $user->id)->delete();
+
+        $request->session()->flash('message', __('collection.collection_deleted'));
+        $request->session()->flash('type', 'warning');
+
+        return redirect(route('collection'));
     }
 }

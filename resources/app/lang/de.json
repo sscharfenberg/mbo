@@ -319,7 +319,15 @@
                 "label": "Navigation deiner Sammlung"
             },
             "unsorted": "Unsortiert",
-            "export_csv": "CSV exportieren"
+            "export_csv": "CSV exportieren",
+            "nuke": {
+                "link": "Sammlung löschen",
+                "title": "Bist du ganz sicher?",
+                "summary": "Du willst deine Sammlung mit {amount} Karten, organisiert in {containers} Containern, mit einem Gesamtwert von {worth}, löschen.",
+                "question": "Bist du ganz sicher? Diese Aktion kann nicht rückgängig gemacht werden.",
+                "aff": "Ja, lösche meine Sammlung",
+                "neg": "Nein, abbrechen"
+            }
         },
         "containers": {
             "title": "Meine Container",
@@ -455,6 +463,7 @@
         "add_cards": {
             "title": "Karten hinzufügen",
             "link": "Karten hinzufügen",
+            "to_collection": "Zur Sammlung hinzufügen",
             "defaults": {
                 "title": "Voreinstellungen",
                 "explanation": "Du kannst die aktuellen Einstellungen als Voreinstellungen verwenden, sie werden dann vorbelegt wenn du zu dieser Seite zurückkehrst. Das Zurücksetzen der Voreinstellungen verwendet dann wieder Standard Vorbelegungen.",

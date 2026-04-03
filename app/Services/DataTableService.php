@@ -36,9 +36,10 @@ class DataTableService
         string $defaultSort,
         ?callable $searchCallback,
         callable $rowMapper,
+        string $defaultDirection = self::DEFAULT_SORT_DIR,
     ): array {
         $sortKey = $request->input('sort', $defaultSort);
-        $sortDir = $request->input('dir', self::DEFAULT_SORT_DIR);
+        $sortDir = $request->input('dir', $defaultDirection);
 
         if (! in_array($sortKey, $sortable)) {
             $sortKey = $defaultSort;

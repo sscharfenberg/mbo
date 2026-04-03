@@ -41,6 +41,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     // collection
     Route::get('/collection', [CollectionController::class, 'list'])
         ->name('collection');
+    Route::delete('/collection', [CollectionController::class, 'destroy'])
+        ->name('collection.destroy');
     Route::get('collection/export', [ExportController::class, 'collection'])
         ->name('collection.export');
     Route::get('collection/import', [ImportController::class, 'show'])

@@ -44,9 +44,9 @@ class CardStackService
             'user_id' => $user->id,
             'default_card_id' => $data['default_card_id'],
             'language' => $data['language'],
-            'condition' => $data['condition'] ?: null,
+            'condition' => $data['condition'] ?? null,
             'finish' => Finish::fromLabel($data['finish']),
-            'container_id' => $data['container_id'] ?: null,
+            'container_id' => $data['container_id'] ?? null,
         ];
 
         $existing = CardStack::where($attributes)->first();
@@ -80,9 +80,9 @@ class CardStackService
         $cardStack->update([
             'amount' => $data['amount'],
             'language' => $data['language'],
-            'condition' => $data['condition'] ?: null,
+            'condition' => $data['condition'] ?? null,
             'finish' => Finish::fromLabel($data['finish']),
-            'container_id' => $data['container_id'] ?: null,
+            'container_id' => $data['container_id'] ?? null,
         ]);
     }
 

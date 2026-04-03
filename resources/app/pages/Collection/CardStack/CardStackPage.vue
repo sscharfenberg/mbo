@@ -215,6 +215,7 @@ function onCardCleared() {
             :invalid="!!errors?.finish"
         />
         <form-group
+            v-if="containerOptions.length > 0"
             :label="$t('form.fields.container.id')"
             :error="errors.container_id ?? ''"
             :invalid="!!errors?.container_id"

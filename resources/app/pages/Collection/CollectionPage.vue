@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from "@inertiajs/vue3";
-import { useId } from "vue";
+import { ref, useId } from "vue";
 import CollectionCardStacks from "@/pages/Collection/CollectionCardStacks.vue";
+import DeleteCollectionModal from "@/pages/Collection/DeleteCollectionModal.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
@@ -24,12 +25,14 @@ defineProps<{
         mythics: number;
     };
     table: TableResponse<CollectionCardStackRow>;
+    canCreateNewContainer: boolean;
 }>();
 const closePopover = () => {
     const dialog = document.getElementById(refId);
     if (dialog !== null) dialog.hidePopover();
 };
 const refId = useId();
+const showNukeModal = ref(false);
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
 </script>
@@ -41,13 +44,13 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
     <headline>
         <icon name="collection" :size="3" />
         {{ $t("pages.collection.title") }}
-        <template #right>
+        <template v-if="stats.totalCards > 0" #right>
             <pop-over
                 icon="more"
                 :aria-label="$t('pages.collection.nav.label')"
                 class-string="popover-button--rounded"
                 :reference="refId"
-                width="12rem"
+                width="14rem"
             >
                 <ul class="popover-list">
                     <li>
@@ -74,11 +77,23 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
                             {{ $t("pages.import.link") }}
                         </Link>
                     </li>
+                    <li>
+                        <button
+                            class="popover-list-item popover-list-item--error"
+                            @click="
+                                showNukeModal = true;
+                                closePopover();
+                            "
+                        >
+                            <icon name="delete" :size="1" />
+                            {{ $t("pages.collection.nuke.link") }}
+                        </button>
+                    </li>
                 </ul>
             </pop-over>
         </template>
     </headline>
-    <stats>
+    <stats v-if="stats.totalCards > 0">
         <stats-item>
             <template #title>{{ $t("pages.collection.stats.totalPrice.title") }}</template>
             <template #value>{{ formatPrice(stats.totalPrice) }}</template>
@@ -120,13 +135,32 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
             <template #explanation>{{ $t("pages.collection.stats.mythics.explanation") }}</template>
         </stats-item>
     </stats>
-    <nav class="links">
-        <Link href="/collection/containers" class="btn-primary">
+    <nav class="links" :aria-label="$t('pages.collection.nav.label')">
+        <Link v-if="stats.containers > 0" href="/collection/containers" class="btn-primary">
             <icon name="storage" />
             {{ $t("pages.containers.link") }}
         </Link>
+        <Link
+            v-if="stats.containers === 0 && canCreateNewContainer"
+            href="/collection/containers/new"
+            class="btn-default"
+        >
+            <icon name="add" />
+            {{ $t("pages.new_container.link") }}
+        </Link>
+        <Link v-if="stats.containers === 0" href="/collection/add" class="btn-default">
+            <icon name="add" />
+            {{ $t("pages.add_cards.link") }}
+        </Link>
     </nav>
-    <collection-card-stacks :table="table" />
+    <collection-card-stacks v-if="table.rows.length > 0" :table="table" />
+    <delete-collection-modal
+        v-if="showNukeModal"
+        :total-cards="stats.totalCards"
+        :total-price="stats.totalPrice"
+        :containers="stats.containers"
+        @close="showNukeModal = false"
+    />
 </template>
 
 <style lang="scss" scoped>

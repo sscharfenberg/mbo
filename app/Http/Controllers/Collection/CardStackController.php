@@ -111,7 +111,7 @@ class CardStackController extends Controller
             return redirect(route('container.show', $request->container_id));
         }
 
-        return redirect(route('containers'));
+        return redirect(route('collection'));
     }
 
     /**
@@ -200,7 +200,7 @@ class CardStackController extends Controller
             return redirect(route('container.show', $cardStack->container_id));
         }
 
-        return redirect(route('containers'));
+        return redirect(route('collection'));
     }
 
     /**
@@ -243,7 +243,7 @@ class CardStackController extends Controller
             return redirect(route('container.show', $targetContainer->id));
         }
 
-        return redirect(route('containers'));
+        return redirect(route('collection'));
     }
 
     /**
@@ -303,7 +303,7 @@ class CardStackController extends Controller
             return redirect(route('container.show', $meta['container_id']));
         }
 
-        return redirect(route('containers'));
+        return redirect(route('collection'));
     }
 
     /**
@@ -334,6 +334,6 @@ class CardStackController extends Controller
             return redirect(route('container.show', $meta['container_id']));
         }
 
-        return redirect(route('containers'));
+        return redirect(route('collection'));
     }
 }

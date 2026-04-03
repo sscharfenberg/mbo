@@ -319,7 +319,15 @@
                 "label": "Collection navigation"
             },
             "unsorted": "Unsorted",
-            "export_csv": "Export CSV"
+            "export_csv": "Export CSV",
+            "nuke": {
+                "link": "Delete collection",
+                "title": "Are you really sure?",
+                "summary": "You are about to delete your collection containing {amount} cards organized in {containers} with a total worth of {worth}.",
+                "question": "Are you really sure? This action can't be reverted.",
+                "aff": "Yes, delete my collection",
+                "neg": "No, abort"
+            }
         },
         "containers": {
             "title": "My Containers",
@@ -455,6 +463,7 @@
         "add_cards": {
             "title": "Add cards",
             "link": "Add cards",
+            "to_collection": "Add to collection",
             "defaults": {
                 "title": "Defaults",
                 "explanation": "You can use the current settings as defaults so they will be used when you return to this page. Clearing the current defaults will return to app-wide defaults.",

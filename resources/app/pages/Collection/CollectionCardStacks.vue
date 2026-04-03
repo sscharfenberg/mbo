@@ -76,8 +76,8 @@ const columns = computed<ColumnDef<CollectionCardStackRow>[]>(() => [
         visibleInCard: true
     },
     {
-        key: "created_at",
-        label: t("form.fields.created_at"),
+        key: "updated_at",
+        label: t("form.fields.updated_at"),
         sortable: true
     }
 ]);
@@ -103,8 +103,12 @@ const getTimeStamps = (created: string, updated?: string | null) => {
 
 <template>
     <data-table :columns="columns" :response="table" :selectable="false" base-url="/collection">
-        <template #header-created_at>
-            <icon name="calendar" :size="1" />
+        <template #header-updated_at>
+            <icon
+                name="calendar"
+                :size="1"
+                v-tooltip="$t('form.fields.created_at') + ' / ' + $t('form.fields.updated_at')"
+            />
         </template>
         <template #cell-name="{ row }">
             <card-image-preview :src="row.card_image_0" :alt="row.name" @preview="previewId = row.id">
@@ -148,7 +152,7 @@ const getTimeStamps = (created: string, updated?: string | null) => {
         </template>
         <template #cell-price="{ row }">{{ row.price ? formatPrice(row.price) : "" }}</template>
         <template #cell-total_price="{ row }">{{ row.total_price ? formatPrice(row.total_price) : "" }}</template>
-        <template #cell-created_at="{ row }">
+        <template #cell-updated_at="{ row }">
             <icon name="calendar" :size="1" v-tooltip="`${getTimeStamps(row.created_at, row.updated_at)}`" />
         </template>
         <template #actions="{ row }">
