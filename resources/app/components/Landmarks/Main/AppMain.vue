@@ -41,6 +41,7 @@ main {
 
     .inner {
         max-width: map.get(s.$app, "max");
+        min-height: 20rem;
         margin: 0 auto 2lh;
     }
 }

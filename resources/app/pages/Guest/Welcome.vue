@@ -31,8 +31,8 @@ defineProps<{
     </headline>
     <paragraph>{{ $t("pages.welcome.intro") }}</paragraph>
     <headline :size="3">{{ $t("pages.welcome.scryfall_stats.title") }}</headline>
-    <stats v-if="scryfallStats">
-        <stats-item>
+    <stats>
+        <stats-item v-if="scryfallStats.oracleCards.num > 0">
             <template #title>{{ $t("pages.welcome.scryfall_stats.oracle.title") }}</template>
             <template #icon>
                 <img src="/symbol/W.svg" alt="white mana" class="icon medium" />
@@ -41,7 +41,7 @@ defineProps<{
             <template #detail><icon name="file" />{{ formatBytes(scryfallStats.oracleCards.size) }}</template>
             <template #explanation>{{ $t("pages.welcome.scryfall_stats.oracle.explanation") }}</template>
         </stats-item>
-        <stats-item>
+        <stats-item v-if="scryfallStats.defaultCards.num > 0">
             <template #title>{{ $t("pages.welcome.scryfall_stats.default.title") }}</template>
             <template #icon>
                 <img src="/symbol/U.svg" alt="blue mana" class="icon medium" />
@@ -50,7 +50,7 @@ defineProps<{
             <template #detail><icon name="file" />{{ formatBytes(scryfallStats.defaultCards.size) }}</template>
             <template #explanation>{{ $t("pages.welcome.scryfall_stats.default.explanation") }}</template>
         </stats-item>
-        <stats-item>
+        <stats-item v-if="scryfallStats.sets > 0">
             <template #title>{{ $t("pages.welcome.scryfall_stats.sets.title") }}</template>
             <template #icon>
                 <img src="/symbol/B.svg" alt="black mana" class="icon medium" />
@@ -58,7 +58,7 @@ defineProps<{
             <template #value>{{ formatDecimals(scryfallStats.sets) }}</template>
             <template #explanation>{{ $t("pages.welcome.scryfall_stats.sets.explanation") }}</template>
         </stats-item>
-        <stats-item>
+        <stats-item v-if="scryfallStats.artists > 0">
             <template #title>{{ $t("pages.welcome.scryfall_stats.artists.title") }}</template>
             <template #icon>
                 <img src="/symbol/R.svg" alt="red mana" class="icon medium" />
@@ -66,7 +66,7 @@ defineProps<{
             <template #value>{{ formatDecimals(scryfallStats.artists) }}</template>
             <template #explanation>{{ $t("pages.welcome.scryfall_stats.artists.explanation") }}</template>
         </stats-item>
-        <stats-item>
+        <stats-item v-if="scryfallStats.artCrops.num > 0">
             <template #title>{{ $t("pages.welcome.scryfall_stats.artCrops.title") }}</template>
             <template #icon>
                 <img src="/symbol/G.svg" alt="green mana" class="icon medium" />
@@ -75,7 +75,7 @@ defineProps<{
             <template #detail><icon name="file" />{{ formatBytes(scryfallStats.artCrops.size) }}</template>
             <template #explanation>{{ $t("pages.welcome.scryfall_stats.artCrops.explanation") }}</template>
         </stats-item>
-        <stats-item>
+        <stats-item v-if="scryfallStats.cardImages.num > 0">
             <template #title>{{ $t("pages.welcome.scryfall_stats.cardImages.title") }}</template>
             <template #icon>
                 <img src="/symbol/T.svg" alt="tap symbol" class="icon medium" />
@@ -97,32 +97,33 @@ defineProps<{
             <template #explanation>{{ $t("pages.welcome.scryfall_stats.scryfall.explanation") }}</template>
         </stats-item>
     </stats>
-    <br />
-    <headline :size="3">{{ $t("pages.welcome.collection_stats.title") }}</headline>
-    <stats v-if="collectionStats">
-        <stats-item>
-            <template #title>{{ $t("pages.welcome.collection_stats.cards.title") }}</template>
-            <template #icon>
-                <img src="/symbol/2-W.svg" alt="tap symbol" class="icon medium" />
-            </template>
-            <template #value>{{ formatDecimals(collectionStats.totalCards) }}</template>
-            <template #explanation>{{ $t("pages.welcome.collection_stats.cards.explanation") }}</template>
-        </stats-item>
-        <stats-item>
-            <template #title>{{ $t("pages.welcome.collection_stats.containers.title") }}</template>
-            <template #icon>
-                <img src="/symbol/B-G-P.svg" alt="tap symbol" class="icon medium" />
-            </template>
-            <template #value>{{ formatDecimals(collectionStats.containers) }}</template>
-            <template #explanation>{{ $t("pages.welcome.collection_stats.containers.explanation") }}</template>
-        </stats-item>
-        <stats-item>
-            <template #title>{{ $t("pages.welcome.collection_stats.worth.title") }}</template>
-            <template #icon>
-                <img src="/symbol/S.svg" alt="tap symbol" class="icon medium" />
-            </template>
-            <template #value>{{ formatPrice(collectionStats.totalPrice) }}</template>
-            <template #explanation>{{ $t("pages.welcome.collection_stats.worth.explanation") }}</template>
-        </stats-item>
-    </stats>
+    <template v-if="collectionStats.totalCards > 0 || collectionStats.containers > 0 || collectionStats.totalPrice > 0">
+        <headline :size="3">{{ $t("pages.welcome.collection_stats.title") }}</headline>
+        <stats>
+            <stats-item v-if="collectionStats.totalCards > 0">
+                <template #title>{{ $t("pages.welcome.collection_stats.cards.title") }}</template>
+                <template #icon>
+                    <img src="/symbol/2-W.svg" alt="tap symbol" class="icon medium" />
+                </template>
+                <template #value>{{ formatDecimals(collectionStats.totalCards) }}</template>
+                <template #explanation>{{ $t("pages.welcome.collection_stats.cards.explanation") }}</template>
+            </stats-item>
+            <stats-item v-if="collectionStats.containers > 0">
+                <template #title>{{ $t("pages.welcome.collection_stats.containers.title") }}</template>
+                <template #icon>
+                    <img src="/symbol/B-G-P.svg" alt="tap symbol" class="icon medium" />
+                </template>
+                <template #value>{{ formatDecimals(collectionStats.containers) }}</template>
+                <template #explanation>{{ $t("pages.welcome.collection_stats.containers.explanation") }}</template>
+            </stats-item>
+            <stats-item v-if="collectionStats.totalPrice > 0">
+                <template #title>{{ $t("pages.welcome.collection_stats.worth.title") }}</template>
+                <template #icon>
+                    <img src="/symbol/S.svg" alt="tap symbol" class="icon medium" />
+                </template>
+                <template #value>{{ formatPrice(collectionStats.totalPrice) }}</template>
+                <template #explanation>{{ $t("pages.welcome.collection_stats.worth.explanation") }}</template>
+            </stats-item>
+        </stats>
+    </template>
 </template>

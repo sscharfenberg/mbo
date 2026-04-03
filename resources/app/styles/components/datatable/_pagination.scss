@@ -27,9 +27,9 @@
         gap: 0.5rem;
     }
 
-    &__jump {
-        width: 6rem;
-        padding: 0.75ex 2ch;
+    &__jump.dt-pagination__jump {
+        width: map.get(s.$components, "datatable", "pagination", "jump", "width");
+        padding: map.get(s.$components, "datatable", "pagination", "jump", "padding");
     }
 
     &__page {
