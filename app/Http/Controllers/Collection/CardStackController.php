@@ -247,6 +247,43 @@ class CardStackController extends Controller
     }
 
     /**
+     * Move all card stacks from one container to another (or to unsorted).
+     *
+     * Validates ownership of both source and target containers.
+     * Redirects back to the previous page with a flash message.
+     */
+    public function massMove(Request $request, Container $container): RedirectResponse
+    {
+        $request->validate([
+            'container_id' => ['nullable', Rule::exists(Container::class, 'id')],
+        ]);
+
+        $targetContainer = CardStackService::resolveOwnedContainer(
+            $request->user(),
+            $request->container_id,
+        );
+
+        $count = CardStackService::massMove(
+            $request->user(),
+            $container,
+            $request->container_id ?: null,
+        );
+
+        $targetName = $targetContainer
+            ? $targetContainer->name
+            : __('collection.unsorted');
+
+        $request->session()->flash('message', __('collection.cards_mass_moved', [
+            'number' => number_format($count, 0, ',', '.'),
+            'source' => $container->name,
+            'target' => $targetName,
+        ]));
+        $request->session()->flash('type', 'success');
+
+        return redirect()->back();
+    }
+
+    /**
      * Delete an existing card stack from the user's collection.
      *
      * Redirects to the container page when the card stack belonged to one,

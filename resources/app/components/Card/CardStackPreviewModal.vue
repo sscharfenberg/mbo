@@ -140,7 +140,7 @@ onMounted(async () => {
                     v-if="card.scryfall_uri"
                     :href="card.scryfall_uri"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                     class="btn-default"
                 >
                     <icon name="external-link" :size="0" />

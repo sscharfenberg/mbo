@@ -154,4 +154,25 @@ class CardStackService
 
         return $stacks;
     }
+
+    /**
+     * Move all card stacks from one container to another.
+     *
+     * Aborts with 403 if the source container does not belong to the user.
+     *
+     * @return int Total number of cards (sum of amounts) moved.
+     */
+    public static function massMove(User $user, Container $sourceContainer, ?string $targetContainerId): int
+    {
+        abort_if($sourceContainer->user_id !== $user->id, 403);
+
+        $query = CardStack::where('user_id', $user->id)
+            ->where('container_id', $sourceContainer->id);
+
+        $totalCards = (int) $query->sum('amount');
+
+        $query->update(['container_id' => $targetContainerId]);
+
+        return $totalCards;
+    }
 }

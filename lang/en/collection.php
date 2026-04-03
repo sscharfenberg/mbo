@@ -9,6 +9,7 @@ return [
     'card_deleted' => ':amount× :name has been removed from your collection.',
     'cards_moved' => ':number card stacks successfully moved to :container.',
     'cards_deleted' => 'Deleted :stacks card stacks with :cards cards total.',
+    'cards_mass_moved' => ':number cards moved from \':source\' to \':target\'.',
     'unsorted' => 'Unsorted',
 
 ];

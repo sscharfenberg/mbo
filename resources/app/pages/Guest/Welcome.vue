@@ -90,7 +90,7 @@ defineProps<{
                 <img :src="scryfallLogo" alt="Scryfall" class="icon medium" />
             </template>
             <template #detail>
-                <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer" class="btn-primary"
+                <a href="https://scryfall.com" target="_blank" rel="noopener" class="btn-primary"
                     ><icon name="external-link" />scryfall</a
                 >
             </template>

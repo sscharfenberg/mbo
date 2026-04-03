@@ -68,7 +68,7 @@ watch(
                 >
                 <span class="clist__price"><icon name="money" />{{ formatPrice(container.totalPrice) }}</span>
             </Link>
-            <ContainerMenu :container="container" />
+            <ContainerMenu :container="container" :containers="containers" />
         </li>
     </VueDraggable>
 </template>

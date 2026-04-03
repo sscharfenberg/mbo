@@ -384,6 +384,13 @@
                 "question": "Bist du sicher das du {amount} Kartenstapel aus {container} löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.",
                 "aff": "Ja, Löschen",
                 "neg": "Nein, Abbruch"
+            },
+            "mass_move": {
+                "link": "Karten verschieben",
+                "title": "Alle Karten von {source} verschieben?",
+                "question": "Du bist dabei alle {amount} Karten aus {source} zu verschieben. Bitte wähle den Ziel Container.",
+                "unsorted": "Keine Angabe = Unsortiert, ohne Container.",
+                "submit": "Verschiebe {number}"
             }
         },
         "container_qr": {
@@ -448,8 +455,6 @@
         "add_cards": {
             "title": "Karten hinzufügen",
             "link": "Karten hinzufügen",
-            "to_collection": "Sammlung",
-            "container_link": "Karten zu {container} hinzufügen",
             "defaults": {
                 "title": "Voreinstellungen",
                 "explanation": "Du kannst die aktuellen Einstellungen als Voreinstellungen verwenden, sie werden dann vorbelegt wenn du zu dieser Seite zurückkehrst. Das Zurücksetzen der Voreinstellungen verwendet dann wieder Standard Vorbelegungen.",

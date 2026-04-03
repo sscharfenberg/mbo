@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import { ref, useId } from "vue";
+import MoveAllCardStacksModal from "@/pages/Collection/common/MoveAllCardStacksModal.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import type { Container } from "Types/container.ts";
+import type { ContainerListItem } from "Types/containerListItem.ts";
 import DeleteContainerModal from "./DeleteContainerModal.vue";
 import PruneContainerModal from "./PruneContainerModal.vue";
 const closePopover = () => {
@@ -11,9 +13,10 @@ const closePopover = () => {
     if (dialog !== null) dialog.hidePopover();
 };
 const refId = useId();
-defineProps<{ container: Container }>();
+defineProps<{ container: Container; containers: ContainerListItem[] }>();
 const showDeleteModal = ref(false);
 const showPruneModal = ref(false);
+const showMoveModal = ref(false);
 </script>
 
 <template>
@@ -42,15 +45,20 @@ const showPruneModal = ref(false);
                     @click="closePopover"
                 >
                     <icon name="add" :size="1" />
-                    {{
-                        $t("pages.add_cards.container_link", {
-                            container:
-                                container.type === "other"
-                                    ? container.custom_type
-                                    : $t("enums.binder_type." + container.type)
-                        })
-                    }}
+                    {{ $t("pages.add_cards.link") }}
                 </Link>
+            </li>
+            <li>
+                <button
+                    class="popover-list-item"
+                    @click="
+                        showMoveModal = true;
+                        closePopover;
+                    "
+                >
+                    <icon name="move" :size="1" />
+                    {{ $t("pages.container_page.mass_move.link") }}
+                </button>
             </li>
             <li>
                 <Link
@@ -110,4 +118,5 @@ const showPruneModal = ref(false);
     </pop-over>
     <delete-container-modal v-if="showDeleteModal" @close="showDeleteModal = false" :container="container" />
     <prune-container-modal v-if="showPruneModal" @close="showPruneModal = false" :container="container" />
+    <move-all-card-stacks-modal v-if="showMoveModal" @close="showMoveModal = false" :container="container" :containers="containers" />
 </template>

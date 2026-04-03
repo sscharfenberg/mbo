@@ -384,6 +384,13 @@
                 "question": "Are you sure you want to delete {amount} card stacks from {container}? This action can not be undone.",
                 "aff": "Yes, delete",
                 "neg": "No, cancel"
+            },
+            "mass_move": {
+                "link": "Move cards",
+                "title": "Move all cards from {source}?",
+                "question": "You are about to move all {amount} cards out of {source}. Please choose the target container.",
+                "unsorted": "No choice = unsorted, no container.",
+                "submit": "Move {number}"
             }
         },
         "container_qr": {
@@ -448,8 +455,6 @@
         "add_cards": {
             "title": "Add cards",
             "link": "Add cards",
-            "to_collection": "Collection",
-            "container_link": "Add cards to {container}",
             "defaults": {
                 "title": "Defaults",
                 "explanation": "You can use the current settings as defaults so they will be used when you return to this page. Clearing the current defaults will return to app-wide defaults.",

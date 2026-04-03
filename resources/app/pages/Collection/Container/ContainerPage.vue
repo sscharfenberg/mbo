@@ -51,7 +51,7 @@ setBreadcrumbs([
     <ul class="container-meta">
         <li class="container-meta__name">
             {{ container.name }}
-            <ContainerMenu :container="container" />
+            <ContainerMenu :container="container" :containers="containers" />
         </li>
         <li v-if="container.description">{{ container.description }}</li>
         <li v-if="container.defaultCard"><art-crop-image :card="container.defaultCard" /></li>
