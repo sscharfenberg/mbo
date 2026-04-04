@@ -6,10 +6,5 @@ $cardstack-preview: (
     "set": (
         "width": map.get(s.$icons, "medium"),
         "height": map.get(s.$icons, "medium")
-    ),
-    "language": (
-        "width": auto,
-        "height": map.get(s.$icons, "medium"),
-        "radius": math.round(map.get(s.$radius, "base") * 1.6)
     )
 );

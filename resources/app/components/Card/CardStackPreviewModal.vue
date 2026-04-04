@@ -99,10 +99,11 @@ onMounted(async () => {
                     </template>
                     <template v-if="card.language">
                         <dt>{{ t("form.fields.language") }}</dt>
-                        <dd class="cardstack-preview__language">
+                        <dd>
                             <img
                                 :src="flagSrc(card.language)"
                                 :alt="t('enums.card_languages.' + card.language)"
+                                class="flag"
                                 v-tooltip="{
                                     content: t('enums.card_languages.' + card.language),
                                     container: '#modal-body'

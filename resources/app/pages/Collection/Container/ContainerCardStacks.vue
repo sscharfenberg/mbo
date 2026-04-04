@@ -188,7 +188,7 @@ const getTimeStamps = (created: string, updated?: string | null) => {
                 v-if="row.language"
                 :src="flagSrc(row.language)"
                 :alt="t('enums.card_languages.' + row.language)"
-                class="language"
+                class="flag small"
                 v-tooltip="t('enums.card_languages.' + row.language)"
             />
         </template>
@@ -254,10 +254,7 @@ const getTimeStamps = (created: string, updated?: string | null) => {
     vertical-align: middle;
 }
 
-.language {
-    width: 27px;
-    height: 18px;
-
+.flag {
     vertical-align: middle;
 }
 </style>

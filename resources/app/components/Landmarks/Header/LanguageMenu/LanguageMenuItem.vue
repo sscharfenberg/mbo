@@ -51,15 +51,8 @@ const localeLabel = (lang: string): string =>
             :class="{ 'popover-list-item--selected': currentLocale === locale }"
             @click="onLocaleChange"
         >
-            <img class="flag" :src="flagSrc(locale)" :alt="localeLabel(locale)" />
+            <img class="flag small" :src="flagSrc(locale)" :alt="localeLabel(locale)" />
             {{ locale }}
         </button>
     </li>
 </template>
-
-<style scoped lang="scss">
-.flag {
-    width: 24px;
-    height: 14.4px;
-}
-</style>

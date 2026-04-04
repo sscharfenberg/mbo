@@ -1,0 +1,17 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$flag: (
+    "width": auto,
+    "height": map.get(s.$icons, "medium"),
+    "radius": map.get(s.$radius, "base"),
+    "medium": (
+        "width": map.get(s.$icons, "large"),
+        "height": math.div(map.get(s.$icons, "large"), 1.666)
+    ),
+    "small": (
+        "width": map.get(s.$icons, "medium"),
+        "height": math.div(map.get(s.$icons, "medium"), 1.666)
+    )
+);

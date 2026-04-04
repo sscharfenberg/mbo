@@ -49,12 +49,6 @@ watch(
                     {{ container.name }}
                     <span v-if="container.description" class="clist__description">{{ container.description }}</span>
                 </span>
-                <span
-                    :class="['clist__visibility', 'clist__visibility--' + container.visibility]"
-                    v-tooltip="$t('form.fields.container.visibility_' + container.visibility)"
-                >
-                    <icon :name="container.visibility === 'private' ? 'visibility-off' : 'visibility-on'" />
-                </span>
                 <span class="clist__type"
                     ><icon name="storage" />
                     {{
@@ -75,6 +69,12 @@ watch(
                     ><icon name="deck" />{{ formatDecimals(container.totalCards) }}</span
                 >
                 <span class="clist__price"><icon name="money" />{{ formatPrice(container.totalPrice) }}</span>
+                <span
+                    :class="['clist__visibility', 'clist__visibility--' + container.visibility]"
+                    v-tooltip="$t('form.fields.container.visibility_' + container.visibility)"
+                >
+                    <icon :name="container.visibility === 'private' ? 'visibility-off' : 'visibility-on'" />
+                </span>
             </Link>
             <ContainerMenu :container="container" :containers="containers" />
         </li>

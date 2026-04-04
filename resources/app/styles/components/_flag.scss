@@ -1,0 +1,14 @@
+@use "sass:map";
+@use "Abstracts/sizes" as s;
+
+.flag {
+    width: map.get(s.$components, "flag", "medium", "width");
+    height: map.get(s.$components, "flag", "medium", "height");
+
+    border-radius: map.get(s.$components, "flag", "radius");
+
+    &.small {
+        width: map.get(s.$components, "flag", "small", "width");
+        height: map.get(s.$components, "flag", "small", "height");
+    }
+}

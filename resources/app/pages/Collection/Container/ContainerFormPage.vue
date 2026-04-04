@@ -118,6 +118,13 @@ setBreadcrumbs([
                 @change="validate('container_name')"
             />
         </form-group>
+        <form-group :label="$t('form.fields.container.visibility')" :required="true">
+            <radio-button-group
+                name="container_visibility"
+                :radio-buttons="visibilityOptions"
+                @change="visibility = ($event.target as HTMLInputElement).value"
+            />
+        </form-group>
         <form-group
             :label="$t('form.fields.container.type')"
             :error="errors.container_type ?? ''"
@@ -192,13 +199,6 @@ setBreadcrumbs([
                 <art-crop-image :card="card" />
             </template>
         </card-search>
-        <form-group :label="$t('form.fields.container.visibility')">
-            <radio-button-group
-                name="container_visibility"
-                :radio-buttons="visibilityOptions"
-                @change="visibility = ($event.target as HTMLInputElement).value"
-            />
-        </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />

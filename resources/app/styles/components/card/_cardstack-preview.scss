@@ -57,13 +57,6 @@
         }
     }
 
-    &__language img {
-        width: map.get(s.$components, "cardstack-preview", "language", "width");
-        height: map.get(s.$components, "cardstack-preview", "language", "height");
-
-        border-radius: map.get(s.$components, "cardstack-preview", "language", "radius");
-    }
-
     .col {
         flex-grow: 1;
     }
