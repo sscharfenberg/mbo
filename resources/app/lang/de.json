@@ -1,6 +1,6 @@
 {
     "enums": {
-        "binder_type": {
+        "container_type": {
             "binder": "Ordner",
             "deckbox": "Deckbox",
             "display": "Display",
@@ -9,6 +9,10 @@
             "cube": "Cube",
             "tin": "Booster Tin",
             "Toploader": "Toploader"
+        },
+        "visibility": {
+            "private": "Privat",
+            "public": "Öffentlich"
         },
         "conditions": {
             "mint":  "Makellos",
@@ -501,7 +505,10 @@
                 "type": "Typ",
                 "image": "Bild",
                 "other_type": "Sonstiger Typ",
-                "id": "Container"
+                "id": "Container",
+                "visibility": "Sichtbarkeit",
+                "visibility_private": "Privat - nur du kannst diesen Container sehen.",
+                "visibility_public": "Öffentlich - jeder kann diesen Container sehen."
             },
             "card": "Karte",
             "name": "Kartenname",

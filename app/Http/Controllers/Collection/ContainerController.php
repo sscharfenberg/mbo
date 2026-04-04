@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Collection;
 
-use App\Enums\BinderType;
+use App\Enums\ContainerType;
+use App\Enums\ContainerVisibility;
+use App\Enums\Locale;
 use App\Http\Controllers\Controller;
 use App\Models\Container;
 use App\Models\DefaultCard;
@@ -37,7 +39,7 @@ class ContainerController extends Controller
             ->get();
 
         return Inertia::render('Collection/Containers/ContainersPage', [
-            'containerTypes' => array_column(BinderType::cases(), 'value'),
+            'containerTypes' => array_column(ContainerType::cases(), 'value'),
             'containersMax' => Container::MAX_CONTAINERS,
             'containersAmount' => $containers->count(),
             'canCreateNewContainer' => $containers->count() < Container::MAX_CONTAINERS,
@@ -54,7 +56,7 @@ class ContainerController extends Controller
     public function create(Request $request): Response
     {
         return Inertia::render('Collection/Container/ContainerFormPage', [
-            'containerTypes' => array_column(BinderType::cases(), 'value'),
+            'containerTypes' => array_column(ContainerType::cases(), 'value'),
             'nameMax' => Container::NAME_MAX,
             'descriptionMax' => Container::DESCRIPTION_MAX,
             'customTypeMax' => Container::CUSTOM_TYPE_MAX,
@@ -74,14 +76,15 @@ class ContainerController extends Controller
             $request->validate([
                 'container_name' => ['required', 'string', 'max:'.Container::NAME_MAX],
                 'container_description' => ['max:'.Container::DESCRIPTION_MAX],
-                'container_type' => ['required', 'string', Rule::enum(BinderType::class)],
+                'container_type' => ['required', 'string', Rule::enum(ContainerType::class)],
                 'container_type_other' => ['required_if:container_type,other', 'string', 'max:'.Container::CUSTOM_TYPE_MAX],
                 'container_image' => ['nullable', Rule::exists(DefaultCard::class, 'id')],
+                'container_visibility' => ['nullable', 'string', Rule::enum(ContainerVisibility::class)],
             ]);
         });
 
         $container = ContainerService::createContainer($request->user(), $request->only([
-            'container_name', 'container_description', 'container_type', 'container_type_other', 'container_image',
+            'container_name', 'container_description', 'container_type', 'container_type_other', 'container_image', 'container_visibility',
         ]));
 
         $request->session()->flash('message', __('auth.container_created', ['name' => $container->name]));
@@ -103,7 +106,7 @@ class ContainerController extends Controller
         $container->load('defaultCard.set', 'defaultCard.artist');
 
         return Inertia::render('Collection/Container/ContainerFormPage', [
-            'containerTypes' => array_column(BinderType::cases(), 'value'),
+            'containerTypes' => array_column(ContainerType::cases(), 'value'),
             'nameMax' => Container::NAME_MAX,
             'descriptionMax' => Container::DESCRIPTION_MAX,
             'customTypeMax' => Container::CUSTOM_TYPE_MAX,
@@ -124,20 +127,21 @@ class ContainerController extends Controller
             $request->validate([
                 'container_name' => ['required', 'string', 'max:'.Container::NAME_MAX],
                 'container_description' => ['max:'.Container::DESCRIPTION_MAX],
-                'container_type' => ['required', 'string', Rule::enum(BinderType::class)],
+                'container_type' => ['required', 'string', Rule::enum(ContainerType::class)],
                 'container_type_other' => ['required_if:container_type,other', 'string', 'max:'.Container::CUSTOM_TYPE_MAX],
                 'container_image' => ['nullable', Rule::exists(DefaultCard::class, 'id')],
+                'container_visibility' => ['nullable', 'string', Rule::enum(ContainerVisibility::class)],
             ]);
         });
 
         ContainerService::updateContainer($request->user(), $container, $request->only([
-            'container_name', 'container_description', 'container_type', 'container_type_other', 'container_image',
+            'container_name', 'container_description', 'container_type', 'container_type_other', 'container_image', 'container_visibility',
         ]));
 
         $request->session()->flash('message', __('auth.container_updated', ['name' => $container->name]));
         $request->session()->flash('type', 'success');
 
-        return redirect(route('containers'));
+        return redirect(route('container.show', $container));
     }
 
     /**
@@ -195,14 +199,21 @@ class ContainerController extends Controller
     /**
      * Display a single container's detail page.
      *
-     * Aborts with 403 if the container belongs to another user.
-     * Route model binding automatically returns 404 if the container does not exist.
+     * This route is publicly accessible (outside the auth middleware group).
+     * - Owner: full page with management actions.
+     * - Non-owner + public visibility: read-only view.
+     * - Non-owner + private visibility: 404.
      */
     public function show(Request $request, Container $container): Response
     {
-        abort_if($container->user_id !== $request->user()->id, 403);
+        $isOwner = $request->user()?->id === $container->user_id;
 
-        $currency = $request->user()->currency;
+        if (! $isOwner && $container->visibility !== ContainerVisibility::Public) {
+            abort(404);
+        }
+
+        $currency = $request->user()?->currency
+            ?? Locale::from(app()->getLocale())->defaultCurrency();
 
         $container->load('defaultCard.set', 'defaultCard.artist');
         $container->loadSum('cardStacks', 'amount');
@@ -285,17 +296,21 @@ class ContainerController extends Controller
             defaultDirection: 'desc',
         );
 
-        $containers = Container::query()
-            ->where('user_id', $request->user()->id)
-            ->where('id', '!=', $container->id)
-            ->orderBy('name')
-            ->get(['id', 'name']);
-
-        return Inertia::render('Collection/Container/ContainerPage', [
+        $props = [
             'container' => ContainerService::serializeContainer($container),
             'table' => $table,
-            'containers' => $containers,
-        ]);
+            'isOwner' => $isOwner,
+        ];
+
+        if ($isOwner) {
+            $props['containers'] = Container::query()
+                ->where('user_id', $request->user()->id)
+                ->where('id', '!=', $container->id)
+                ->orderBy('name')
+                ->get(['id', 'name']);
+        }
+
+        return Inertia::render('Collection/Container/ContainerPage', $props);
     }
 
     /**

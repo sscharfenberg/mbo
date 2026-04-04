@@ -38,7 +38,7 @@ const onOptionsChange = (value: string) => {
 const onSubmit = () => {
     processing.value = true;
     router.patch(
-        `/collection/containers/${props.container.id}/move-all`,
+        `/containers/${props.container.id}/move-all`,
         {
             container_id: selectedContainer.value || null
         },

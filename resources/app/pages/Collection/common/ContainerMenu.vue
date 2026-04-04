@@ -31,7 +31,7 @@ const showMoveModal = ref(false);
             <li>
                 <Link
                     class="popover-list-item"
-                    :href="`/collection/containers/${container.id}/edit`"
+                    :href="`/containers/${container.id}/edit`"
                     @click="closePopover"
                 >
                     <icon name="edit" :size="1" />
@@ -41,7 +41,7 @@ const showMoveModal = ref(false);
             <li>
                 <Link
                     class="popover-list-item"
-                    :href="`/collection/containers/${container.id}/add`"
+                    :href="`/containers/${container.id}/add`"
                     @click="closePopover"
                 >
                     <icon name="add" :size="1" />
@@ -63,7 +63,7 @@ const showMoveModal = ref(false);
             <li>
                 <Link
                     class="popover-list-item"
-                    :href="`/collection/containers/${container.id}/qr`"
+                    :href="`/containers/${container.id}/qr`"
                     @click="closePopover"
                 >
                     <icon name="qr-code" :size="1" />
@@ -73,7 +73,7 @@ const showMoveModal = ref(false);
             <li>
                 <a
                     class="popover-list-item"
-                    :href="`/collection/containers/${container.id}/export`"
+                    :href="`/containers/${container.id}/export`"
                     @click="closePopover"
                 >
                     <icon name="download" :size="1" />
@@ -83,7 +83,7 @@ const showMoveModal = ref(false);
             <li>
                 <Link
                     class="popover-list-item"
-                    :href="`/collection/containers/${container.id}/import`"
+                    :href="`/containers/${container.id}/import`"
                     @click="closePopover"
                 >
                     <icon name="upload" :size="1" />

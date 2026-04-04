@@ -27,7 +27,7 @@ export type UseContainerReturn = {
  * (e.g. after a delete) automatically sync into local state.
  *
  * @param containers - Reactive ref to the server-provided container array (Inertia prop).
- * @param containerTypes - Static array of known BinderType enum values.
+ * @param containerTypes - Static array of known ContainerType enum values.
  * @returns Reactive sort/filter state and handler functions.
  */
 export function useContainer(containers: Ref<Container[]>, containerTypes: string[]): UseContainerReturn {
@@ -77,7 +77,7 @@ export function useContainer(containers: Ref<Container[]>, containerTypes: strin
             abortController?.abort();
             abortController = new AbortController();
 
-            fetch("/collection/containers/sort", {
+            fetch("/containers/sort", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export function useContainer(containers: Ref<Container[]>, containerTypes: strin
      * or the raw string for user-defined custom types.
      */
     function typeLabel(type: string): string {
-        return containerTypes.includes(type) ? t(`enums.binder_type.${type}`) : type;
+        return containerTypes.includes(type) ? t(`enums.container_type.${type}`) : type;
     }
 
     /** Currently selected type filter keys. All types selected by default = show all. */

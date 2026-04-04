@@ -23,7 +23,7 @@ const processing = ref<boolean>(false);
  */
 const onDelete = () => {
     processing.value = true;
-    router.delete(`/collection/containers/${props.container.id}`, {
+    router.delete(`/containers/${props.container.id}`, {
         onSuccess: () => {
             emit("close");
         },

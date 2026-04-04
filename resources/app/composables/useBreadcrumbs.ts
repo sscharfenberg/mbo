@@ -40,7 +40,7 @@ const crumbs = ref<BreadcrumbItem[]>([]);
  * const { setBreadcrumbs } = useBreadcrumbs()
  * setBreadcrumbs([
  *     { labelKey: 'pages.collection.link', href: '/collection', icon: 'deck' },
- *     { labelKey: 'pages.containers.link', href: '/collection/containers' },
+ *     { labelKey: 'pages.containers.link', href: '/containers' },
  *     // i18n key with interpolated param:
  *     { labelKey: 'pages.container.link', params: { name: props.container.name } },
  *     // or raw string directly:

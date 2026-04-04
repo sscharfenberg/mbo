@@ -19,7 +19,9 @@ import type { TableResponse } from "Types/dataTable";
 const props = defineProps<{
     container: Container;
     table: TableResponse<CardStackRow>;
-    containers: ContainerListItem[];
+    isOwner: boolean;
+    /** Only present when isOwner is true. */
+    containers?: ContainerListItem[];
 }>();
 
 const { t } = useI18n();
@@ -30,11 +32,15 @@ const cardsCountLabel = computed(() => {
     const count = props.container.totalCards;
     return t("pages.container_page.cards_count", { count: formatDecimals(count) }, count);
 });
-setBreadcrumbs([
-    { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
-    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" },
-    { label: props.container.name }
-]);
+setBreadcrumbs(
+    props.isOwner
+        ? [
+              { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
+              { labelKey: "pages.containers.link", href: "/containers", icon: "storage" },
+              { label: props.container.name }
+          ]
+        : [{ label: props.container.name }]
+);
 </script>
 
 <template>
@@ -44,33 +50,39 @@ setBreadcrumbs([
     <headline>
         <icon name="container-name" :size="3" />
         {{ container.name }}
-        <badge type="info">{{
-            container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
-        }}</badge>
+        <badge type="info">
+            <icon name="storage" />
+            {{
+                container.type === "other" ? container.custom_type : $t("enums.container_type." + container.type)
+            }}</badge
+        >
+        <badge v-if="isOwner" :type="container.visibility === 'private' ? 'success' : 'error'">
+            <icon :name="container.visibility === 'private' ? 'visibility-off' : 'visibility-on'" />
+            {{ $t("enums.visibility." + container.visibility) }}
+        </badge>
     </headline>
     <ul class="container-meta">
         <li class="container-meta__name">
             {{ container.name }}
-            <ContainerMenu :container="container" :containers="containers" />
+            <ContainerMenu v-if="isOwner && containers" :container="container" :containers="containers" />
         </li>
         <li v-if="container.description">{{ container.description }}</li>
         <li v-if="container.defaultCard"><art-crop-image :card="container.defaultCard" /></li>
         <li>
             <icon name="storage" />{{
-                container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
+                container.type === "other" ? container.custom_type : $t("enums.container_type." + container.type)
             }}
         </li>
-        <li>
-            <icon name="deck" />{{ cardsCountLabel }}
-        </li>
+        <li><icon name="deck" />{{ cardsCountLabel }}</li>
         <li><icon name="money" />{{ formatPrice(container.totalPrice) }}</li>
     </ul>
     <container-card-stacks
         v-if="container.totalCards > 0"
         :table="table"
-        :base-url="`/collection/containers/${container.id}`"
+        :base-url="`/containers/${container.id}`"
         :container-name="container.name"
-        :containers="containers"
+        :containers="containers ?? []"
+        :is-owner="isOwner"
     />
     <paragraph v-else>{{ $t("pages.container_page.empty") }}</paragraph>
 </template>
@@ -120,6 +132,14 @@ setBreadcrumbs([
         content: "";
     }
 
+    li:not(:has(.art-crop)) {
+        display: flex;
+        align-items: center;
+        grid-column: 1;
+
+        gap: 1ch;
+    }
+
     @include m.mq("desktop") {
         &:has(.art-crop) {
             display: grid;
@@ -130,14 +150,6 @@ setBreadcrumbs([
                 justify-content: flex-end;
                 grid-column: 2;
                 grid-row: 1 / span 10;
-            }
-
-            li:not(:has(.art-crop)) {
-                display: flex;
-                align-items: center;
-                grid-column: 1;
-
-                gap: 1ch;
             }
         }
     }
@@ -161,7 +173,7 @@ setBreadcrumbs([
     }
 }
 
-.badge {
+.badge:first-of-type {
     margin-left: auto;
 }
 </style>

@@ -5,8 +5,10 @@ export interface Container {
     id: string;
     name: string;
     description: string | null;
-    /** BinderType enum value (e.g. "binder", "deckbox", "other"). */
+    /** ContainerType enum value (e.g. "binder", "deckbox", "other"). */
     type: string;
+    /** ContainerVisibility enum value ("private" or "public"). */
+    visibility: string;
     /** Free-text label used when type === "other". */
     custom_type: string | null;
     /** Persisted sort_order from the database. */

@@ -40,7 +40,7 @@ const crumbs: BreadcrumbItem[] = [{ labelKey: "pages.collection.link", href: "/c
 if (props.container) {
     crumbs.push({
         label: props.container.name,
-        href: `/collection/containers/${props.container.id}`,
+        href: `/containers/${props.container.id}`,
         icon: "storage"
     });
 }

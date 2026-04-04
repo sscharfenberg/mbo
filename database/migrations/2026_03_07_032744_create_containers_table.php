@@ -1,6 +1,7 @@
 <?php
 
-use App\Enums\BinderType;
+use App\Enums\ContainerType;
+use App\Enums\ContainerVisibility;
 use App\Models\Container;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,8 +22,10 @@ return new class extends Migration
             $table->string('name', Container::NAME_MAX);
             $table->string('description', Container::DESCRIPTION_MAX)->nullable();
             $table->string('type', 64)
-                ->default(BinderType::Binder->value);
+                ->default(ContainerType::Binder->value);
             $table->string('custom_type', Container::CUSTOM_TYPE_MAX)->nullable();
+            $table->string('visibility', 16)
+                ->default(ContainerVisibility::Private->value);
             $table->unsignedSmallInteger('sort_order');
             $table->foreignUuid('user_id')
                 ->constrained()

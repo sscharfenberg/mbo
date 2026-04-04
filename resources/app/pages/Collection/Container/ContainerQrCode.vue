@@ -22,12 +22,12 @@ const csrfToken = computed(() => page.props.csrfToken as string);
 const { setBreadcrumbs } = useBreadcrumbs();
 const crumbs: BreadcrumbItem[] = [
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
-    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" }
+    { labelKey: "pages.containers.link", href: "/containers", icon: "storage" }
 ];
 if (props.container) {
     crumbs.push({
         label: props.container.name,
-        href: `/collection/containers/${props.container.id}`,
+        href: `/containers/${props.container.id}`,
         icon: "container-name"
     });
 }
@@ -52,7 +52,7 @@ function onContainerChange(id: string) {
         qrSvg.value = "";
         return;
     }
-    router.get(`/collection/containers/${id}/qr`, {}, { preserveState: true });
+    router.get(`/containers/${id}/qr`, {}, { preserveState: true });
 }
 /**
  * Fetch the QR code SVG from the server for the given container ID.
@@ -61,7 +61,7 @@ async function fetchQr(containerId: string) {
     loading.value = true;
     qrSvg.value = "";
     try {
-        const response = await fetch(`/collection/containers/${containerId}/qr`, {
+        const response = await fetch(`/containers/${containerId}/qr`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

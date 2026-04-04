@@ -37,7 +37,7 @@ watch(
     >
         <li v-for="container in list" :key="container.id" class="clist__item">
             <span class="clist__drag-handle"><icon name="drag" /></span>
-            <Link class="clist__data" :href="`/collection/containers/${container.id}`">
+            <Link class="clist__data" :href="`/containers/${container.id}`">
                 <img
                     v-if="container.defaultCard"
                     :src="container.defaultCard.art_crop"
@@ -49,10 +49,18 @@ watch(
                     {{ container.name }}
                     <span v-if="container.description" class="clist__description">{{ container.description }}</span>
                 </span>
+                <span
+                    :class="['clist__visibility', 'clist__visibility--' + container.visibility]"
+                    v-tooltip="$t('form.fields.container.visibility_' + container.visibility)"
+                >
+                    <icon :name="container.visibility === 'private' ? 'visibility-off' : 'visibility-on'" />
+                </span>
                 <span class="clist__type"
                     ><icon name="storage" />
                     {{
-                        container.type === "other" ? container.custom_type : $t("enums.binder_type." + container.type)
+                        container.type === "other"
+                            ? container.custom_type
+                            : $t("enums.container_type." + container.type)
                     }}</span
                 >
                 <span
@@ -82,7 +90,7 @@ watch(
 
 .clist {
     display: grid;
-    grid-template-columns: auto 1fr auto auto auto;
+    grid-template-columns: auto 1fr auto auto auto auto;
 
     padding: 0;
     margin: 1lh 0 0;
@@ -91,7 +99,7 @@ watch(
     list-style: none;
 
     @include m.mq("landscape") {
-        grid-template-columns: auto 4rem 1fr auto auto auto auto;
+        grid-template-columns: auto 4rem 1fr auto auto auto auto auto;
     }
 
     &__item {
@@ -204,6 +212,28 @@ watch(
             @include m.mq("landscape") {
                 display: block;
             }
+        }
+    }
+
+    &__visibility {
+        display: none;
+
+        padding: map.get(s.$pages, "containers", "visibility", "padding");
+
+        border-radius: map.get(s.$pages, "containers", "visibility", "radius");
+
+        &--public {
+            background-color: map.get(c.$pages, "containers", "visibility", "public", "background");
+            color: map.get(c.$pages, "containers", "visibility", "public", "surface");
+        }
+
+        &--private {
+            background-color: map.get(c.$pages, "containers", "visibility", "private", "background");
+            color: map.get(c.$pages, "containers", "visibility", "private", "surface");
+        }
+
+        @include m.mq("landscape") {
+            display: block;
         }
     }
 

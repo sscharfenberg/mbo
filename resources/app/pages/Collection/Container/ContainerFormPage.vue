@@ -6,6 +6,7 @@ import ArtCropImage from "Components/Card/ArtCropImage.vue";
 import CardSearch from "Components/Card/CardSearch/CardSearch.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
+import RadioButtonGroup from "Components/Form/Radio/RadioButtonGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
@@ -29,16 +30,30 @@ const { t } = useI18n();
 const nameValue = ref(props.container?.name ?? "");
 const descriptionValue = ref(props.container?.description ?? "");
 const customTypeValue = ref(props.container?.custom_type ?? "");
+const initialVisibility = props.container?.visibility ?? "private";
+const visibilityOptions = [
+    {
+        value: "private",
+        label: "form.fields.container.visibility_private",
+        checked: initialVisibility === "private",
+        icon: "visibility-off"
+    },
+    {
+        value: "public",
+        label: "form.fields.container.visibility_public",
+        checked: initialVisibility === "public",
+        icon: "visibility-on"
+    }
+];
+const visibility = ref(initialVisibility);
 /** True when a container prop is present, i.e. the form is in edit mode. */
 const isEdit = computed(() => !!props.container);
 /** Form action URL — points to the edit endpoint in edit mode, create endpoint otherwise. */
-const formAction = computed(() =>
-    isEdit.value ? `/collection/containers/${props.container!.id}` : "/collection/containers/new"
-);
+const formAction = computed(() => (isEdit.value ? `/containers/${props.container!.id}` : "/containers/new"));
 /** HTTP method — PATCH for edit, POST for create. */
 const formMethod = computed(() => (isEdit.value ? "patch" : "post"));
-/** BinderType options formatted for MonoSelect: `{ value, label }` pairs with translated labels. */
-const types = computed(() => props.containerTypes.map(value => ({ value, label: t(`enums.binder_type.${value}`) })));
+/** ContainerType options formatted for MonoSelect: `{ value, label }` pairs with translated labels. */
+const types = computed(() => props.containerTypes.map(value => ({ value, label: t(`enums.container_type.${value}`) })));
 /** Currently selected binder type. Initialized from the container prop in edit mode. */
 const selectedType = ref(props.container?.type ?? "");
 /**
@@ -55,7 +70,7 @@ const onTypeChange = (value: string, validate: (field: string) => void) => {
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "deck" },
-    { labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" },
+    { labelKey: "pages.containers.link", href: "/containers", icon: "storage" },
     {
         label: isEdit.value ? t("pages.edit_container.title") : t("pages.new_container.title")
     }
@@ -177,6 +192,13 @@ setBreadcrumbs([
                 <art-crop-image :card="card" />
             </template>
         </card-search>
+        <form-group :label="$t('form.fields.container.visibility')">
+            <radio-button-group
+                name="container_visibility"
+                :radio-buttons="visibilityOptions"
+                @change="visibility = ($event.target as HTMLInputElement).value"
+            />
+        </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
                 <icon name="save" />

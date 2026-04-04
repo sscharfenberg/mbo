@@ -24,7 +24,7 @@ const { isSaving, handleReorder, activeTypes, search, usedTypes, filteredContain
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
-    { labelKey: "pages.containers.link", href: "/collection/containers" }
+    { labelKey: "pages.containers.link", href: "/containers" }
 ]);
 </script>
 
@@ -69,11 +69,11 @@ setBreadcrumbs([
         </li>
         <li>
             <link-group :label="$t('pages.containers.nav.label')">
-                <Link v-if="canCreateNewContainer" href="/collection/containers/new" class="btn-default">
+                <Link v-if="canCreateNewContainer" href="/containers/new" class="btn-default">
                     <icon name="add" />
                     {{ $t("pages.new_container.link") }}
                 </Link>
-                <Link v-if="containersAmount > 0" class="btn-default" href="/collection/containers/qr">
+                <Link v-if="containersAmount > 0" class="btn-default" href="/containers/qr">
                     <icon name="qr-code" />
                     {{ $t("pages.container_qr.link") }}
                 </Link>

@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\BinderType;
+use App\Enums\ContainerType;
+use App\Enums\ContainerVisibility;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +13,13 @@ class Container extends Model
 {
     use HasUuids;
 
-    const NAME_MAX        = 128;
+    const NAME_MAX = 128;
+
     const DESCRIPTION_MAX = 255;
+
     const CUSTOM_TYPE_MAX = 64;
-    const MAX_CONTAINERS  = 100;
+
+    const MAX_CONTAINERS = 100;
 
     /**
      * The data type of the primary key ID.
@@ -63,6 +67,7 @@ class Container extends Model
         'type',
         'custom_type',
         'default_card_id',
+        'visibility',
         'sort_order',
     ];
 
@@ -72,7 +77,8 @@ class Container extends Model
      * @var array
      */
     protected $casts = [
-        'type' => BinderType::class,
+        'type' => ContainerType::class,
+        'visibility' => ContainerVisibility::class,
     ];
 
     /**

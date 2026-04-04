@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ContainerVisibility;
 use App\Enums\Currency;
 use App\Enums\Finish;
 use App\Models\CardStack;
@@ -31,6 +32,7 @@ class ContainerService
             'description' => $container->description,
             'type' => $container->type,
             'custom_type' => $container->custom_type,
+            'visibility' => $container->visibility?->value ?? 'private',
             'sort' => $container->sort_order,
             'defaultCard' => $container->defaultCard ? [
                 'id' => $container->defaultCard->id,
@@ -53,7 +55,7 @@ class ContainerService
      * Aborts with 422 if the user has reached the container limit.
      * Automatically assigns the next sort_order.
      *
-     * @param  array{container_name: string, container_description?: string|null, container_type: string, container_type_other?: string|null, container_image?: string|null}  $data
+     * @param  array{container_name: string, container_description?: string|null, container_type: string, container_type_other?: string|null, container_image?: string|null, container_visibility?: string|null}  $data
      */
     public static function createContainer(User $user, array $data): Container
     {
@@ -68,6 +70,7 @@ class ContainerService
             'type' => $data['container_type'],
             'custom_type' => $data['container_type'] === 'other' ? ($data['container_type_other'] ?? null) : null,
             'default_card_id' => $data['container_image'] ?: null,
+            'visibility' => ($data['container_visibility'] ?? null) ?: ContainerVisibility::Private,
             'sort_order' => $nextSort,
         ]);
     }
@@ -77,7 +80,7 @@ class ContainerService
      *
      * Aborts with 403 if the container does not belong to the user.
      *
-     * @param  array{container_name: string, container_description?: string|null, container_type: string, container_type_other?: string|null, container_image?: string|null}  $data
+     * @param  array{container_name: string, container_description?: string|null, container_type: string, container_type_other?: string|null, container_image?: string|null, container_visibility?: string|null}  $data
      */
     public static function updateContainer(User $user, Container $container, array $data): void
     {
@@ -89,6 +92,7 @@ class ContainerService
             'type' => $data['container_type'],
             'custom_type' => $data['container_type'] === 'other' ? ($data['container_type_other'] ?? null) : null,
             'default_card_id' => $data['container_image'] ?: null,
+            'visibility' => ($data['container_visibility'] ?? null) ?: ContainerVisibility::Private,
         ]);
     }
 

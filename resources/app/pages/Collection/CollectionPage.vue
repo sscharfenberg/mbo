@@ -54,7 +54,7 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
             >
                 <ul class="popover-list">
                     <li>
-                        <Link href="/collection/containers" class="popover-list-item" @click="closePopover">
+                        <Link href="/containers" class="popover-list-item" @click="closePopover">
                             <icon name="storage" :size="1" />
                             {{ $t("pages.containers.link") }}
                         </Link>
@@ -136,13 +136,13 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
         </stats-item>
     </stats>
     <nav class="links" :aria-label="$t('pages.collection.nav.label')">
-        <Link v-if="stats.containers > 0" href="/collection/containers" class="btn-primary">
+        <Link v-if="stats.containers > 0" href="/containers" class="btn-primary">
             <icon name="storage" />
             {{ $t("pages.containers.link") }}
         </Link>
         <Link
             v-if="stats.containers === 0 && canCreateNewContainer"
-            href="/collection/containers/new"
+            href="/containers/new"
             class="btn-default"
         >
             <icon name="add" />

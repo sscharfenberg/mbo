@@ -8,5 +8,9 @@ $containers: (
     "border": map.get(s.$border, "base"),
     "types-radius": map.get(s.$radius, "featured"),
     "types-padding": 0.5lh 1ch,
-    "types-border": map.get(s.$border, "base")
+    "types-border": map.get(s.$border, "base"),
+    "visibility": (
+        "padding": 0.25rem,
+        "radius": 90dvw
+    )
 );

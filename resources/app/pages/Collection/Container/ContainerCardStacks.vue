@@ -20,6 +20,7 @@ defineProps<{
     baseUrl: string;
     containerName: string;
     containers: ContainerListItem[];
+    isOwner: boolean;
 }>();
 const { t } = useI18n();
 const { formatPrice, formatDateTime } = useFormatting();
@@ -124,9 +125,13 @@ const getTimeStamps = (created: string, updated?: string | null) => {
 </script>
 
 <template>
-    <data-table :columns="columns" :response="table" :selectable="true" :base-url="baseUrl">
-        <template #header-created_at>
-            <icon name="calendar" :size="1" />
+    <data-table :columns="columns" :response="table" :selectable="isOwner" :base-url="baseUrl">
+        <template #header-updated_at>
+            <icon
+                name="calendar"
+                :size="1"
+                v-tooltip="$t('form.fields.created_at') + ' / ' + $t('form.fields.updated_at')"
+            />
         </template>
         <template #toolbar-actions="{ selectedIds }">
             <pop-over
@@ -192,7 +197,7 @@ const getTimeStamps = (created: string, updated?: string | null) => {
         <template #cell-updated_at="{ row }">
             <icon name="calendar" :size="1" v-tooltip="`${getTimeStamps(row.created_at, row.updated_at)}`" />
         </template>
-        <template #actions="{ row }">
+        <template v-if="isOwner" #actions="{ row }">
             <li>
                 <button
                     type="button"
@@ -218,25 +223,27 @@ const getTimeStamps = (created: string, updated?: string | null) => {
         </template>
     </data-table>
     <card-stack-preview-modal v-if="previewId" :card-stack-id="previewId" @close="previewId = null" />
-    <delete-card-stack-modal
-        v-if="deleteTarget"
-        :card-stack="deleteTarget"
-        :container-name="containerName"
-        @close="deleteTarget = null"
-    />
-    <move-selected-card-stacks-modal
-        v-if="moveSelectedIds"
-        :containers="containers"
-        :selected-ids="moveSelectedIds"
-        :container-name="containerName"
-        @close="moveSelectedIds = null"
-    />
-    <delete-selected-card-stacks-modal
-        v-if="deleteSelectedIds"
-        :selected-ids="deleteSelectedIds"
-        :container-name="containerName"
-        @close="deleteSelectedIds = null"
-    />
+    <template v-if="isOwner">
+        <delete-card-stack-modal
+            v-if="deleteTarget"
+            :card-stack="deleteTarget"
+            :container-name="containerName"
+            @close="deleteTarget = null"
+        />
+        <move-selected-card-stacks-modal
+            v-if="moveSelectedIds"
+            :containers="containers"
+            :selected-ids="moveSelectedIds"
+            :container-name="containerName"
+            @close="moveSelectedIds = null"
+        />
+        <delete-selected-card-stacks-modal
+            v-if="deleteSelectedIds"
+            :selected-ids="deleteSelectedIds"
+            :container-name="containerName"
+            @close="deleteSelectedIds = null"
+        />
+    </template>
 </template>
 
 <style lang="scss" scoped>

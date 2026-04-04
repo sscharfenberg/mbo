@@ -53,48 +53,46 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('collection.import.store');
 
     // Containers
-    Route::get('collection/containers', [ContainerController::class, 'list'])
+    Route::get('containers', [ContainerController::class, 'list'])
         ->name('containers');
-    Route::get('collection/containers/new', [ContainerController::class, 'create'])
+    Route::get('containers/new', [ContainerController::class, 'create'])
         ->name('container.new');
-    Route::post('collection/containers/new', [ContainerController::class, 'store'])
+    Route::post('containers/new', [ContainerController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.store');
-    Route::patch('collection/containers/sort', [ContainerController::class, 'reorder'])
+    Route::patch('containers/sort', [ContainerController::class, 'reorder'])
         ->name('container.reorder');
-    Route::get('collection/containers/qr', [ContainerController::class, 'generateQr'])
+    Route::get('containers/qr', [ContainerController::class, 'generateQr'])
         ->name('containers.qr');
-    Route::get('collection/containers/{container}/export', [ExportController::class, 'container'])
+    Route::get('containers/{container}/export', [ExportController::class, 'container'])
         ->name('container.export');
-    Route::get('collection/containers/{container}/import', [ImportController::class, 'show'])
+    Route::get('containers/{container}/import', [ImportController::class, 'show'])
         ->name('container.import');
-    Route::get('collection/containers/{container}/edit', [ContainerController::class, 'edit'])
+    Route::get('containers/{container}/edit', [ContainerController::class, 'edit'])
         ->name('container.edit');
-    Route::get('collection/containers/{container}', [ContainerController::class, 'show'])
-        ->name('container.show');
-    Route::patch('collection/containers/{container}', [ContainerController::class, 'update'])
+    Route::patch('containers/{container}', [ContainerController::class, 'update'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('container.update');
-    Route::delete('collection/containers/{container}', [ContainerController::class, 'destroy'])
+    Route::delete('containers/{container}', [ContainerController::class, 'destroy'])
         ->name('container.destroy');
-    Route::delete('collection/containers/{container}/prune', [ContainerController::class, 'prune'])
+    Route::delete('containers/{container}/prune', [ContainerController::class, 'prune'])
         ->name('container.prune');
-    Route::get('collection/containers/{container}/qr', [ContainerController::class, 'generateQr'])
+    Route::get('containers/{container}/qr', [ContainerController::class, 'generateQr'])
         ->name('container.qr');
-    Route::post('collection/containers/{container}/qr', [ContainerController::class, 'qrSvg'])
+    Route::post('containers/{container}/qr', [ContainerController::class, 'qrSvg'])
         ->name('container.qr.svg');
 
     // cardstacks
     Route::get('collection/add', [CardStackController::class, 'add'])
         ->name('cards.add');
-    Route::get('collection/containers/{container}/add', [CardStackController::class, 'add'])
+    Route::get('containers/{container}/add', [CardStackController::class, 'add'])
         ->name('container.cards.add');
     Route::post('collection/add', [CardStackController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('cards.store');
     Route::patch('collection/cardstack/move', [CardStackController::class, 'moveSelected'])
         ->name('cardstack.moveSelected');
-    Route::patch('collection/containers/{container}/move-all', [CardStackController::class, 'massMove'])
+    Route::patch('containers/{container}/move-all', [CardStackController::class, 'massMove'])
         ->name('cardstack.massMove');
     Route::delete('collection/cardstack/delete-selected', [CardStackController::class, 'destroySelected'])
         ->name('cardstack.destroySelected');
@@ -113,6 +111,14 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('decks');
 
 });
+
+/******************************************************************************
+ * Public container page (visibility check handled in controller)
+ * Must be registered after the auth group so that specific routes like
+ * containers/new, containers/qr, containers/sort are matched first.
+ *****************************************************************************/
+Route::get('containers/{container}', [ContainerController::class, 'show'])
+    ->name('container.show');
 
 /******************************************************************************
  * Dev pages (no auth, not linked from anywhere)

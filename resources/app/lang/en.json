@@ -1,6 +1,6 @@
 {
     "enums": {
-        "binder_type": {
+        "container_type": {
             "binder": "Binder",
             "deckbox": "Deck Box",
             "display": "Display",
@@ -9,6 +9,10 @@
             "cube": "Cube",
             "tin": "Booster Tin",
             "Toploader": "Toploaders"
+        },
+        "visibility": {
+            "private": "Private",
+            "public": "Public"
         },
         "conditions": {
             "mint":  "Mint",
@@ -501,7 +505,10 @@
                 "type": "Type",
                 "image": "Image",
                 "other_type": "Custom Type",
-                "id": "Container"
+                "id": "Container",
+                "visibility": "Visibility",
+                "visibility_private": "Private - only you can view this container.",
+                "visibility_public": "Public - everyone view this container."
             },
             "card": "Card",
             "name": "Card name",

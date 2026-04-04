@@ -50,13 +50,13 @@ const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
     ...(props.container
-        ? [{ labelKey: "pages.containers.link", href: "/collection/containers", icon: "storage" }]
+        ? [{ labelKey: "pages.containers.link", href: "/containers", icon: "storage" }]
         : []),
     ...(props.container
         ? [
               {
                   label: props.container.name,
-                  href: `/collection/containers/${props.container.id}`,
+                  href: `/containers/${props.container.id}`,
                   icon: "container-name"
               }
           ]
@@ -140,7 +140,7 @@ function onCardCleared() {
         {{ isEditMode ? $t("pages.edit_card.title") : $t("pages.add_cards.title") }}
         <badge type="info" v-if="container">
             <icon name="storage" />
-            {{ container?.type === "other" ? container?.custom_type : $t("enums.binder_type." + container?.type) }}:
+            {{ container?.type === "other" ? container?.custom_type : $t("enums.container_type." + container?.type) }}:
             {{ container.name }}
         </badge>
         <badge v-else-if="!isEditMode">

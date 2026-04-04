@@ -21,8 +21,27 @@ $containers: (
     "types-border": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
     "type-background": light-dark(map.get(c.$grey, "mystic"), map.get(c.$grey, "bunker")),
     "type-background-active": light-dark(map.get(c.$brand, "light1", "color"), map.get(c.$brand, "dark1", "color")),
-    "type-surface-active": light-dark(
-            map.get(c.$brand, "light1", "contrast"),
-            map.get(c.$brand, "dark1", "contrast")
+    "type-surface-active": light-dark(map.get(c.$brand, "light1", "contrast"), map.get(c.$brand, "dark1", "contrast")),
+    "visibility": (
+        "public": (
+            "background": light-dark(
+                    map.get(c.$state, "light", "error", "color"),
+                    map.get(c.$state, "dark", "error", "color")
+                ),
+            "surface": light-dark(
+                    map.get(c.$state, "light", "error", "contrast"),
+                    map.get(c.$state, "dark", "error", "contrast")
+                )
+        ),
+        "private": (
+            "background": light-dark(
+                    map.get(c.$state, "light", "success", "color"),
+                    map.get(c.$state, "dark", "success", "color")
+                ),
+            "surface": light-dark(
+                    map.get(c.$state, "light", "success", "contrast"),
+                    map.get(c.$state, "dark", "success", "contrast")
+                )
         )
+    )
 );
