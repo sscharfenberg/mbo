@@ -1,0 +1,17 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:meta"; // https://sass-lang.com/documentation/modules/meta/
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+ul.list {
+    padding: map.get(s.$components, "list", "padding");
+    border: map.get(s.$components, "list", "border") solid map.get(c.$components, "list", "border");
+
+    background-color: map.get(c.$components, "list", "background");
+    color: map.get(c.$components, "list", "surface");
+    border-radius: map.get(s.$components, "list", "radius");
+
+    > li {
+        margin-left: 1.5rem;
+    }
+}

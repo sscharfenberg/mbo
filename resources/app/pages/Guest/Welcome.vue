@@ -98,6 +98,7 @@ defineProps<{
         </stats-item>
     </stats>
     <template v-if="collectionStats.totalCards > 0 || collectionStats.containers > 0 || collectionStats.totalPrice > 0">
+        <br />
         <headline :size="3">{{ $t("pages.welcome.collection_stats.title") }}</headline>
         <stats>
             <stats-item v-if="collectionStats.totalCards > 0">

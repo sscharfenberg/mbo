@@ -50,13 +50,13 @@ setBreadcrumbs(
     <headline>
         <icon name="container-name" :size="3" />
         {{ container.name }}
-        <badge type="info">
+        <badge type="info" class="type">
             <icon name="storage" />
             {{
                 container.type === "other" ? container.custom_type : $t("enums.container_type." + container.type)
             }}</badge
         >
-        <badge v-if="isOwner" :type="container.visibility === 'private' ? 'success' : 'error'">
+        <badge v-if="isOwner" :type="container.visibility === 'private' ? 'success' : 'error'" class="visibility">
             <icon :name="container.visibility === 'private' ? 'visibility-off' : 'visibility-on'" />
             {{ $t("enums.visibility." + container.visibility) }}
         </badge>
@@ -173,7 +173,21 @@ setBreadcrumbs(
     }
 }
 
-.badge:first-of-type {
+.type {
+    display: none;
+
+    @include m.mq("portrait") {
+        display: block;
+
+        margin-left: auto;
+    }
+}
+
+.visibility {
     margin-left: auto;
+
+    @include m.mq("portrait") {
+        margin-left: 0;
+    }
 }
 </style>

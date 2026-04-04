@@ -2,6 +2,8 @@
 import { Head } from "@inertiajs/vue3";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
+import LabelledLink from "Components/UI/LabelledLink.vue";
+import Paragraph from "Components/UI/Paragraph.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
@@ -15,49 +17,208 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
         <icon name="privacy" :size="3" />
         {{ $t("pages.privacy.title") }}
     </headline>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque dignissimos eius nihil perferendis possimus
-        praesentium qui soluta ullam voluptatibus. Cumque ea libero non possimus soluta. Accusantium ad adipisci aliquid
-        at atque commodi, consectetur corporis deserunt, dolorem dolores eos expedita id illo ipsum laborum maxime
-        mollitia nam nobis nostrum perferendis quia quod ratione recusandae reiciendis rem sapiente tempora, temporibus
-        vero voluptate voluptatum. A ab adipisci aliquid amet architecto asperiores assumenda beatae dolor dolores eius
-        et excepturi hic ipsa itaque labore laboriosam laudantium minima minus nam nulla, numquam obcaecati officiis
-        quas qui quos reiciendis repellat repellendus reprehenderit sequi suscipit tempora voluptate?
-    </p>
+    <headline :size="3">{{ $t("pages.privacy.preamble") }}</headline>
+    <paragraph>{{ $t("pages.privacy.preamble_text") }}</paragraph>
+    <paragraph>{{ $t("pages.privacy.gender_note") }}</paragraph>
+    <paragraph>{{ $t("pages.privacy.last_updated") }}</paragraph>
+    <headline :size="3">{{ $t("pages.privacy.controller") }}</headline>
+    <paragraph>
+        Sven Scharfenberg<br />
+        Blaue Str. 9<br />
+        21726 Oldendorf
+    </paragraph>
+    <paragraph>
+        {{ $t("pages.privacy.email_label") }}
+        <labelled-link href="mailto:admin@mtgbo.de">
+            <icon name="mail" />
+            admin@mtgbo.de
+        </labelled-link>
+    </paragraph>
+    <headline :size="3">{{ $t("pages.privacy.processing_overview") }}</headline>
+    <paragraph>{{ $t("pages.privacy.processing_overview_text") }}</paragraph>
+    <headline :size="4">{{ $t("pages.privacy.data_types") }}</headline>
+    <ul class="list">
+        <li>{{ $t("pages.privacy.data_types_meta") }}</li>
+        <li>{{ $t("pages.privacy.data_types_log") }}</li>
+    </ul>
+    <headline :size="4">{{ $t("pages.privacy.affected_persons") }}</headline>
+    <ul class="list">
+        <li>{{ $t("pages.privacy.affected_persons_users") }}</li>
+        <li>{{ $t("pages.privacy.affected_persons_third") }}</li>
+    </ul>
+    <headline :size="4">{{ $t("pages.privacy.processing_purposes") }}</headline>
+    <ul class="list">
+        <li>{{ $t("pages.privacy.processing_purposes_security") }}</li>
+        <li>{{ $t("pages.privacy.processing_purposes_provision") }}</li>
+    </ul>
+    <headline :size="3">{{ $t("pages.privacy.legal_bases") }}</headline>
+    <paragraph>
+        <strong>{{ $t("pages.privacy.legal_bases_intro") }} </strong>{{ $t("pages.privacy.legal_bases_text") }}
+    </paragraph>
+    <ul class="list">
+        <li>
+            <strong>{{ $t("pages.privacy.legal_consent_title") }}</strong> -
+            {{ $t("pages.privacy.legal_consent_text") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.legal_obligation_title") }}</strong> -
+            {{ $t("pages.privacy.legal_obligation_text") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.legal_interest_title") }}</strong> -
+            {{ $t("pages.privacy.legal_interest_text") }}
+        </li>
+    </ul>
+    <paragraph>
+        <strong>{{ $t("pages.privacy.national_regulations_title") }} </strong
+        >{{ $t("pages.privacy.national_regulations_text") }}
+    </paragraph>
+    <headline :size="3">{{ $t("pages.privacy.security_measures") }}</headline>
+    <paragraph>{{ $t("pages.privacy.security_measures_text_1") }}</paragraph>
+    <paragraph>{{ $t("pages.privacy.security_measures_text_2") }}</paragraph>
+    <paragraph>{{ $t("pages.privacy.security_tls") }}</paragraph>
+    <headline :size="3">{{ $t("pages.privacy.hosting") }}</headline>
+    <paragraph>{{ $t("pages.privacy.hosting_text") }}</paragraph>
+    <ul class="list">
+        <li><strong>{{ $t("pages.privacy.data_types_label") }}</strong> {{ $t("pages.privacy.hosting_data_types") }}</li>
+        <li><strong>{{ $t("pages.privacy.affected_label") }}</strong> {{ $t("pages.privacy.hosting_affected") }}</li>
+        <li>
+            <strong>{{ $t("pages.privacy.purposes_label") }}</strong> {{ $t("pages.privacy.hosting_purposes") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.retention_label") }}</strong> {{ $t("pages.privacy.hosting_retention") }}
+        </li>
+        <li><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong> {{ $t("pages.privacy.hosting_legal") }}</li>
+    </ul>
+    <headline :size="4">{{ $t("pages.privacy.hosting_notes") }}</headline>
+    <ul class="list">
+        <li>
+            <strong>{{ $t("pages.privacy.hosting_rented_title") }} </strong>{{ $t("pages.privacy.hosting_rented_text") }}
+            <span
+                ><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+                {{ $t("pages.privacy.legal_basis_interest") }}</span
+            >
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.hosting_logs_title") }} </strong>{{ $t("pages.privacy.hosting_logs_text") }}
+            <span
+                ><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+                {{ $t("pages.privacy.legal_basis_interest") }} </span
+            ><strong>{{ $t("pages.privacy.hosting_logs_deletion_title") }}</strong>
+            {{ $t("pages.privacy.hosting_logs_deletion_text") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.hetzner_title") }} </strong>{{ $t("pages.privacy.hetzner_text") }}
+            <strong>{{ $t("pages.privacy.service_provider") }}</strong> Hetzner Online GmbH, Industriestr. 25, 91710
+            Gunzenhausen, Deutschland;<br />
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+            {{ $t("pages.privacy.legal_basis_interest") }}
+            <br />
+            <strong>{{ $t("pages.privacy.website_label") }}</strong>
+            <labelled-link href="https://www.hetzner.com" target="_blank" rel="noreferrer noopener nofollow"
+                ><icon name="external-link" />https://www.hetzner.com</labelled-link
+            ><br />
+            <strong>{{ $t("pages.privacy.privacy_policy_label") }}</strong>
+            <labelled-link
+                href="https://www.hetzner.com/de/rechtliches/datenschutz"
+                target="_blank"
+                rel="noreferrer noopener nofollow"
+                ><icon name="external-link" />https://www.hetzner.com/de/rechtliches/datenschutz</labelled-link
+            ><br />
+            <strong>{{ $t("pages.privacy.dpa_label") }}</strong>
+            <labelled-link
+                href="https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/"
+                target="_blank"
+                rel="noreferrer noopener nofollow"
+                ><icon
+                    name="external-link"
+                />https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/</labelled-link
+            >
+        </li>
+    </ul>
+    <headline :size="3">{{ $t("pages.privacy.cookies") }}</headline>
+    <paragraph>{{ $t("pages.privacy.cookies_text") }}</paragraph>
+    <paragraph>
+        <strong>{{ $t("pages.privacy.cookies_legal_title") }} </strong>{{ $t("pages.privacy.cookies_legal_text") }}
+    </paragraph>
+    <paragraph>
+        <strong>{{ $t("pages.privacy.cookies_duration_title") }}&nbsp;</strong
+        >{{ $t("pages.privacy.cookies_duration_text") }}
+    </paragraph>
+    <ul class="list">
+        <li>
+            <strong>{{ $t("pages.privacy.cookies_temp_title") }}</strong>
+            {{ $t("pages.privacy.cookies_temp_text") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.cookies_perm_title") }}</strong>
+            {{ $t("pages.privacy.cookies_perm_text") }}
+        </li>
+    </ul>
+    <paragraph>
+        <strong>{{ $t("pages.privacy.cookies_optout_title") }}&nbsp;</strong
+        >{{ $t("pages.privacy.cookies_optout_text") }}
+    </paragraph>
+    <ul class="list">
+        <li><strong>{{ $t("pages.privacy.data_types_label") }}</strong> {{ $t("pages.privacy.cookies_data_types") }}</li>
+        <li><strong>{{ $t("pages.privacy.affected_label") }}</strong> {{ $t("pages.privacy.cookies_affected") }}</li>
+        <li><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong> {{ $t("pages.privacy.legal_basis_interest") }}</li>
+    </ul>
+    <headline :size="3">{{ $t("pages.privacy.registration") }}</headline>
+    <paragraph>{{ $t("pages.privacy.registration_text") }}</paragraph>
+    <ul class="list">
+        <li><strong>{{ $t("pages.privacy.retention_label") }}</strong> {{ $t("pages.privacy.registration_retention") }}</li>
+        <li>
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+            {{ $t("pages.privacy.registration_legal") }}
+        </li>
+    </ul>
+    <paragraph><strong>{{ $t("pages.privacy.registration_notes") }}</strong></paragraph>
+    <ul class="list">
+        <li>
+            <strong>{{ $t("pages.privacy.registration_pseudonym_title") }} </strong
+            >{{ $t("pages.privacy.registration_pseudonym_text") }}
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+            {{ $t("pages.privacy.registration_pseudonym_legal") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.registration_profiles_title") }} </strong
+            >{{ $t("pages.privacy.registration_profiles_text") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.registration_2fa_title") }} </strong
+            >{{ $t("pages.privacy.registration_2fa_text") }}
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+            {{ $t("pages.privacy.registration_2fa_legal") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.registration_noretention_title") }} </strong
+            >{{ $t("pages.privacy.registration_noretention_text") }}
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+            {{ $t("pages.privacy.registration_noretention_legal") }}
+        </li>
+    </ul>
+    <paragraph><strong>{{ $t("pages.privacy.registration_protection_notes") }}</strong></paragraph>
+    <ul class="list">
+        <li>
+            <strong>{{ $t("pages.privacy.registration_protection_title") }} </strong
+            >{{ $t("pages.privacy.registration_protection_text") }}
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
+            {{ $t("pages.privacy.registration_protection_legal") }}
+        </li>
+    </ul>
+    <headline :size="3">{{ $t("pages.privacy.changes") }}</headline>
+    <paragraph>{{ $t("pages.privacy.changes_text") }}</paragraph>
+    <paragraph>{{ $t("pages.privacy.changes_addresses") }}</paragraph>
+    <paragraph>
+        <labelled-link
+            href="https://datenschutz-generator.de/"
+            title="Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken."
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+        >
+            <icon name="external-link" />
+            {{ $t("pages.privacy.generated_by") }}
+        </labelled-link>
+    </paragraph>
 </template>
