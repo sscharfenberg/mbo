@@ -8,14 +8,20 @@ use Inertia\Response;
 
 class GuestController extends Controller
 {
+    /**
+     * Display the about page.
+     */
+    public function about(Request $request): Response
+    {
+        return Inertia::render('Guest/About', [
+            'request' => $request,
+        ]);
+    }
 
     /**
      * Display the imprint page.
      *
      * Renders the legally required imprint / Impressum for the site.
-     *
-     * @param  Request  $request
-     * @return Response
      */
     public function imprint(Request $request): Response
     {
@@ -28,9 +34,6 @@ class GuestController extends Controller
      * Display the privacy policy page.
      *
      * Renders the legally required privacy policy / Datenschutzerklärung.
-     *
-     * @param  Request  $request
-     * @return Response
      */
     public function privacy(Request $request): Response
     {
@@ -38,5 +41,4 @@ class GuestController extends Controller
             'request' => $request,
         ]);
     }
-
 }

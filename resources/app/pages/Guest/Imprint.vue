@@ -24,50 +24,62 @@ setBreadcrumbs([{ labelKey: "pages.imprint.link" }]);
         21726 Oldendorf
     </paragraph>
     <paragraph>
-        <strong>{{ $t("pages.imprint.represented_by") }}</strong><br />
+        <strong>{{ $t("pages.imprint.represented_by") }}</strong
+        ><br />
         Sven Scharfenberg
     </paragraph>
     <paragraph>
-        <strong>{{ $t("pages.imprint.contact") }}</strong><br />
+        <strong>{{ $t("pages.imprint.contact") }}</strong
+        ><br />
         {{ $t("pages.imprint.phone") }} 04144-7774<br />
         {{ $t("pages.imprint.email") }}
-        <labelled-link href="mailto:admin@mtgbo.de">
-            <icon name="mail" />
-            admin@mtgbo.de
-        </labelled-link>
+        <labelled-link href="mailto:admin@mtgbo.de" :external="true" icon="mail" rel="noopener nofollow"
+            >admin@mtgbo.de</labelled-link
+        >
     </paragraph>
     <paragraph>
-        <strong>{{ $t("pages.imprint.responsible") }}</strong><br />
+        <strong>{{ $t("pages.imprint.responsible") }}</strong
+        ><br />
         Sven Scharfenberg<br />
         Blaue Str. 9<br />
         21726 Oldendorf
     </paragraph>
     <paragraph>
-        <strong>{{ $t("pages.imprint.dispute_resolution") }}</strong><br />
+        <strong>{{ $t("pages.imprint.dispute_resolution") }}</strong
+        ><br />
         {{ $t("pages.imprint.dispute_resolution_text") }}
     </paragraph>
     <headline :size="3">{{ $t("pages.imprint.disclaimer") }}</headline>
     <paragraph>
-        <strong>{{ $t("pages.imprint.liability_content") }}</strong><br />
+        <strong>{{ $t("pages.imprint.liability_content") }}</strong
+        ><br />
         {{ $t("pages.imprint.liability_content_text") }}
     </paragraph>
     <paragraph>
-        <strong>{{ $t("pages.imprint.liability_links") }}</strong><br />
+        <strong>{{ $t("pages.imprint.liability_links") }}</strong
+        ><br />
         {{ $t("pages.imprint.liability_links_text") }}
     </paragraph>
     <paragraph>
-        <strong>{{ $t("pages.imprint.copyright") }}</strong><br />
+        <strong>{{ $t("pages.imprint.copyright") }}</strong
+        ><br />
         {{ $t("pages.imprint.copyright_text") }}
     </paragraph>
     <paragraph>
         {{ $t("pages.imprint.generated_by") }}
-        <labelled-link href="https://impressum-generator.de" rel="noreferrer noopener nofollow">
-            <icon name="external-link" />
-            impressum-generator.de </labelled-link
+        <labelled-link
+            href="https://impressum-generator.de"
+            :external="true"
+            icon="external-link"
+            rel="noopener nofollow"
+            >impressum-generator.de</labelled-link
         >. {{ $t("pages.imprint.powered_by") }}
-        <labelled-link class="text-link" href="https://www.kanzlei-hasselbach.de/" rel="noreferrer noopener nofollow">
-            <icon name="external-link" />
-            Franziska Hasselbach, Bonn </labelled-link
+        <labelled-link
+            href="https://www.kanzlei-hasselbach.de/"
+            :external="true"
+            icon="external-link"
+            rel="noopener nofollow"
+            >Franziska Hasselbach, Bonn</labelled-link
         >.
     </paragraph>
 </template>

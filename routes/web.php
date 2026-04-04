@@ -24,6 +24,8 @@ Route::get('/', [WelcomeController::class, 'show'])
     ->name('welcome');
 Route::post('/lang/{locale}', [LocaleController::class, 'update'])
     ->name('locale');
+Route::get('/about', [GuestController::class, 'about'])
+    ->name('about');
 Route::get('/privacy', [GuestController::class, 'privacy'])
     ->name('privacy');
 Route::get('/imprint', [GuestController::class, 'imprint'])

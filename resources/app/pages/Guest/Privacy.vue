@@ -29,10 +29,9 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
     </paragraph>
     <paragraph>
         {{ $t("pages.privacy.email_label") }}
-        <labelled-link href="mailto:admin@mtgbo.de">
-            <icon name="mail" />
-            admin@mtgbo.de
-        </labelled-link>
+        <labelled-link href="mailto:admin@mtgbo.de" :external="true" icon="mail" rel="noopener nofollow"
+            >admin@mtgbo.de</labelled-link
+        >
     </paragraph>
     <headline :size="3">{{ $t("pages.privacy.processing_overview") }}</headline>
     <paragraph>{{ $t("pages.privacy.processing_overview_text") }}</paragraph>
@@ -80,20 +79,27 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
     <headline :size="3">{{ $t("pages.privacy.hosting") }}</headline>
     <paragraph>{{ $t("pages.privacy.hosting_text") }}</paragraph>
     <ul class="list">
-        <li><strong>{{ $t("pages.privacy.data_types_label") }}</strong> {{ $t("pages.privacy.hosting_data_types") }}</li>
-        <li><strong>{{ $t("pages.privacy.affected_label") }}</strong> {{ $t("pages.privacy.hosting_affected") }}</li>
+        <li>
+            <strong>{{ $t("pages.privacy.data_types_label") }}</strong> {{ $t("pages.privacy.hosting_data_types") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.affected_label") }}</strong> {{ $t("pages.privacy.hosting_affected") }}
+        </li>
         <li>
             <strong>{{ $t("pages.privacy.purposes_label") }}</strong> {{ $t("pages.privacy.hosting_purposes") }}
         </li>
         <li>
             <strong>{{ $t("pages.privacy.retention_label") }}</strong> {{ $t("pages.privacy.hosting_retention") }}
         </li>
-        <li><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong> {{ $t("pages.privacy.hosting_legal") }}</li>
+        <li>
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong> {{ $t("pages.privacy.hosting_legal") }}
+        </li>
     </ul>
     <headline :size="4">{{ $t("pages.privacy.hosting_notes") }}</headline>
     <ul class="list">
         <li>
-            <strong>{{ $t("pages.privacy.hosting_rented_title") }} </strong>{{ $t("pages.privacy.hosting_rented_text") }}
+            <strong>{{ $t("pages.privacy.hosting_rented_title") }} </strong
+            >{{ $t("pages.privacy.hosting_rented_text") }}
             <span
                 ><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
                 {{ $t("pages.privacy.legal_basis_interest") }}</span
@@ -115,24 +121,24 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
             {{ $t("pages.privacy.legal_basis_interest") }}
             <br />
             <strong>{{ $t("pages.privacy.website_label") }}</strong>
-            <labelled-link href="https://www.hetzner.com" target="_blank" rel="noreferrer noopener nofollow"
-                ><icon name="external-link" />https://www.hetzner.com</labelled-link
+            <labelled-link href="https://www.hetzner.com" :external="true" icon="external-link" rel="noopener nofollow"
+                >https://www.hetzner.com</labelled-link
             ><br />
             <strong>{{ $t("pages.privacy.privacy_policy_label") }}</strong>
             <labelled-link
                 href="https://www.hetzner.com/de/rechtliches/datenschutz"
-                target="_blank"
-                rel="noreferrer noopener nofollow"
-                ><icon name="external-link" />https://www.hetzner.com/de/rechtliches/datenschutz</labelled-link
+                :external="true"
+                icon="external-link"
+                rel="noopener nofollow"
+                >https://www.hetzner.com/de/rechtliches/datenschutz</labelled-link
             ><br />
             <strong>{{ $t("pages.privacy.dpa_label") }}</strong>
             <labelled-link
                 href="https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/"
-                target="_blank"
-                rel="noreferrer noopener nofollow"
-                ><icon
-                    name="external-link"
-                />https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/</labelled-link
+                :external="true"
+                icon="external-link"
+                rel="noopener nofollow"
+                >https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/</labelled-link
             >
         </li>
     </ul>
@@ -160,20 +166,30 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
         >{{ $t("pages.privacy.cookies_optout_text") }}
     </paragraph>
     <ul class="list">
-        <li><strong>{{ $t("pages.privacy.data_types_label") }}</strong> {{ $t("pages.privacy.cookies_data_types") }}</li>
-        <li><strong>{{ $t("pages.privacy.affected_label") }}</strong> {{ $t("pages.privacy.cookies_affected") }}</li>
-        <li><strong>{{ $t("pages.privacy.legal_basis_label") }}</strong> {{ $t("pages.privacy.legal_basis_interest") }}</li>
+        <li>
+            <strong>{{ $t("pages.privacy.data_types_label") }}</strong> {{ $t("pages.privacy.cookies_data_types") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.affected_label") }}</strong> {{ $t("pages.privacy.cookies_affected") }}
+        </li>
+        <li>
+            <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong> {{ $t("pages.privacy.legal_basis_interest") }}
+        </li>
     </ul>
     <headline :size="3">{{ $t("pages.privacy.registration") }}</headline>
     <paragraph>{{ $t("pages.privacy.registration_text") }}</paragraph>
     <ul class="list">
-        <li><strong>{{ $t("pages.privacy.retention_label") }}</strong> {{ $t("pages.privacy.registration_retention") }}</li>
+        <li>
+            <strong>{{ $t("pages.privacy.retention_label") }}</strong> {{ $t("pages.privacy.registration_retention") }}
+        </li>
         <li>
             <strong>{{ $t("pages.privacy.legal_basis_label") }}</strong>
             {{ $t("pages.privacy.registration_legal") }}
         </li>
     </ul>
-    <paragraph><strong>{{ $t("pages.privacy.registration_notes") }}</strong></paragraph>
+    <paragraph
+        ><strong>{{ $t("pages.privacy.registration_notes") }}</strong></paragraph
+    >
     <ul class="list">
         <li>
             <strong>{{ $t("pages.privacy.registration_pseudonym_title") }} </strong
@@ -198,7 +214,9 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
             {{ $t("pages.privacy.registration_noretention_legal") }}
         </li>
     </ul>
-    <paragraph><strong>{{ $t("pages.privacy.registration_protection_notes") }}</strong></paragraph>
+    <paragraph
+        ><strong>{{ $t("pages.privacy.registration_protection_notes") }}</strong></paragraph
+    >
     <ul class="list">
         <li>
             <strong>{{ $t("pages.privacy.registration_protection_title") }} </strong
@@ -214,11 +232,10 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
         <labelled-link
             href="https://datenschutz-generator.de/"
             title="Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken."
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+            :external="true"
+            icon="external-link"
+            rel="noopener nofollow"
+            >{{ $t("pages.privacy.generated_by") }}</labelled-link
         >
-            <icon name="external-link" />
-            {{ $t("pages.privacy.generated_by") }}
-        </labelled-link>
     </paragraph>
 </template>

@@ -274,6 +274,16 @@
                 }
             }
         },
+        "about": {
+            "title": "Über MBO",
+            "link": "Über MBO",
+            "hello": "Hello, I'm Sven.",
+            "intro": "MBO is a hobby project with a single developer. I started developing the site not because I wasn't happy with the 'other' mtg sites, but because i wanted to do it a bit differently. This is the result.",
+            "attribution": {
+                "title": "Attribution",
+                "intro": "MBO wasn't developed in a vacuum. A lot of other fine developers and artists have laid the groundwork that MBO uses - without them, this site simply wouldn't exist."
+            }
+        },
         "privacy": {
             "title": "Datenschutzerklärung",
             "link": "Datenschutz",

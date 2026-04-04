@@ -274,6 +274,10 @@
                 }
             }
         },
+        "about": {
+            "title": "About MBO",
+            "link": "About"
+        },
         "privacy": {
             "title": "Privacy Policy",
             "link": "Privacy",
