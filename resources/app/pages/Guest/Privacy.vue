@@ -29,7 +29,7 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
     </paragraph>
     <paragraph>
         {{ $t("pages.privacy.email_label") }}
-        <labelled-link href="mailto:admin@mtgbo.de" :external="true" icon="mail" rel="noopener nofollow"
+        <labelled-link href="mailto:admin@mtgbo.de"
             >admin@mtgbo.de</labelled-link
         >
     </paragraph>
@@ -121,23 +121,14 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
             {{ $t("pages.privacy.legal_basis_interest") }}
             <br />
             <strong>{{ $t("pages.privacy.website_label") }}</strong>
-            <labelled-link href="https://www.hetzner.com" :external="true" icon="external-link" rel="noopener nofollow"
-                >https://www.hetzner.com</labelled-link
-            ><br />
+            <labelled-link href="https://www.hetzner.com">https://www.hetzner.com</labelled-link><br />
             <strong>{{ $t("pages.privacy.privacy_policy_label") }}</strong>
-            <labelled-link
-                href="https://www.hetzner.com/de/rechtliches/datenschutz"
-                :external="true"
-                icon="external-link"
-                rel="noopener nofollow"
+            <labelled-link href="https://www.hetzner.com/de/rechtliches/datenschutz"
                 >https://www.hetzner.com/de/rechtliches/datenschutz</labelled-link
             ><br />
             <strong>{{ $t("pages.privacy.dpa_label") }}</strong>
             <labelled-link
                 href="https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/"
-                :external="true"
-                icon="external-link"
-                rel="noopener nofollow"
                 >https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/</labelled-link
             >
         </li>
@@ -232,9 +223,6 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
         <labelled-link
             href="https://datenschutz-generator.de/"
             title="Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken."
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
             >{{ $t("pages.privacy.generated_by") }}</labelled-link
         >
     </paragraph>

@@ -276,7 +276,21 @@
         },
         "about": {
             "title": "About MBO",
-            "link": "About"
+            "link": "About",
+            "hello": "Hello, I'm Sven.",
+            "intro": "MBO is a hobby project with a single developer. I started developing the site not because I wasn't happy with the 'other' MtG sites, but because I wanted to do it a bit differently. This is the result.",
+            "security": "Security policy",
+            "security_text": "Do not open public Github Issues for security vulnerabilities - instead, check our {link}, which includes instructions how to report them.",
+            "security_link": "security policy",
+            "attribution": {
+                "title": "Attribution",
+                "scryfall": "The pillar of MtG community websites. Scryfall provides the data that drives MBO - all data about cards, sets, artists and all card images come from them. Sites like this would not be possible without the developers and the community over at Scryfall.",
+                "laravel": "{cite} provides the backend (server) framework for MBO. Laravel is an opinionated full-stack framework.",
+                "vue": "is the frontend framework that powers the client - what's running in your browser. VueJS is easy to get into, and complex enough to power enterprise solutions.",
+                "images": "Images {maintenance} and {notfound} by {author} from {source} licensed under the {license}.",
+                "icons": "Icons used throughout the site are from {link}, licensed under the Apache-2.0 License.",
+                "symbols": "MtG symbols © Wizards of the Coast LLC. SVGs provided by {scryfall} and used under the {fcp}."
+            }
         },
         "privacy": {
             "title": "Privacy Policy",

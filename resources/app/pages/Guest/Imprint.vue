@@ -33,7 +33,7 @@ setBreadcrumbs([{ labelKey: "pages.imprint.link" }]);
         ><br />
         {{ $t("pages.imprint.phone") }} 04144-7774<br />
         {{ $t("pages.imprint.email") }}
-        <labelled-link href="mailto:admin@mtgbo.de" :external="true" icon="mail" rel="noopener nofollow"
+        <labelled-link href="mailto:admin@mtgbo.de"
             >admin@mtgbo.de</labelled-link
         >
     </paragraph>
@@ -67,18 +67,10 @@ setBreadcrumbs([{ labelKey: "pages.imprint.link" }]);
     </paragraph>
     <paragraph>
         {{ $t("pages.imprint.generated_by") }}
-        <labelled-link
-            href="https://impressum-generator.de"
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
+        <labelled-link href="https://impressum-generator.de"
             >impressum-generator.de</labelled-link
         >. {{ $t("pages.imprint.powered_by") }}
-        <labelled-link
-            href="https://www.kanzlei-hasselbach.de/"
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
+        <labelled-link href="https://www.kanzlei-hasselbach.de/"
             >Franziska Hasselbach, Bonn</labelled-link
         >.
     </paragraph>

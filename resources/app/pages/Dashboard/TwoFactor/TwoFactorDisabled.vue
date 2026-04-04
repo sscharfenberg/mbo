@@ -33,12 +33,12 @@ const handleModalClose = () => {
                     ><strong>{{ $t("pages.dashboard.two_factor.totp") }}</strong></template
                 >
                 <template #tool1
-                    ><labelled-link href="https://bitwarden.com/" :external="true" icon="external-link">{{
+                    ><labelled-link href="https://bitwarden.com/">{{
                         $t("pages.dashboard.two_factor.tool1")
                     }}</labelled-link></template
                 >
                 <template #tool2
-                    ><labelled-link href="https://www.enpass.io/" :external="true" icon="external-link">{{
+                    ><labelled-link href="https://www.enpass.io/">{{
                         $t("pages.dashboard.two_factor.tool2")
                     }}</labelled-link></template
                 >

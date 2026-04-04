@@ -22,72 +22,75 @@ setBreadcrumbs([{ labelKey: "pages.about.link" }]);
         <br />
         {{ $t("pages.about.intro") }}
     </paragraph>
+    <headline :size="3">{{ $t("pages.about.security") }}</headline>
+    <paragraph>
+        <i18n-t keypath="pages.about.security_text" scope="global">
+            <template #link>
+                <labelled-link href="https://github.com/sscharfenberg/mbo/blob/main/SECURITY.md">{{
+                    $t("pages.about.security_link")
+                }}</labelled-link>
+            </template>
+        </i18n-t>
+    </paragraph>
     <headline :size="3">{{ $t("pages.about.attribution.title") }}</headline>
     <paragraph>
         <strong>Scryfall</strong><br />
-        The pillar of MtG community websites. Scryfall provides the data that drives MBO - all data about cards, sets,
-        artists and all card images come from them. Sites like this would not be possible without the developers and the
-        community over at scryfall.<br />
-        <labelled-link href="https://scryfall.com" :external="true" icon="external-link" rel="noopener nofollow"
-            >scryfall.com</labelled-link
-        >
+        {{ $t("pages.about.attribution.scryfall") }}<br />
+        <labelled-link href="https://scryfall.com">scryfall.com</labelled-link>
     </paragraph>
     <paragraph>
         <strong>Laravel</strong><br />
-        <cite>The framework for web artisans</cite> provides the backend (server) framework for MBO. Laravel is an
-        opinionated full-stack framework.<br />
-        <labelled-link href="https://laravel.com" :external="true" icon="external-link" rel="noopener nofollow"
-            >laravel.com</labelled-link
-        >
+        <i18n-t keypath="pages.about.attribution.laravel" scope="global">
+            <template #cite><cite>The framework for web artisans</cite></template>
+        </i18n-t
+        ><br />
+        <labelled-link href="https://laravel.com">laravel.com</labelled-link>
     </paragraph>
     <paragraph>
         <strong>VueJS</strong><br />
-        is the frontend framework that powers the client - what's running in your browser. VueJS is easy to get into,
-        and complex enough to power enterprise solutions.<br />
-        <labelled-link href="https://vuejs.org" :external="true" icon="external-link" rel="noopener nofollow"
-            >vuejs.org</labelled-link
-        >
+        {{ $t("pages.about.attribution.vue") }}<br />
+        <labelled-link href="https://vuejs.org">vuejs.org</labelled-link>
     </paragraph>
     <paragraph>
-        Images <cite>Error 503 (Maintenance)</cite> and <cite>Error 404 (Page not found)</cite> by
-        <labelled-link
-            href="https://pixabay.com/users/valiphotos-1720744/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3089995"
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
-            >Valentin</labelled-link
-        >
-        from
-        <labelled-link
-            href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3089995"
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
-            >Pixabay</labelled-link
-        >.
+        <i18n-t keypath="pages.about.attribution.images" scope="global">
+            <template #maintenance><cite>Error 503 (Maintenance)</cite></template>
+            <template #notfound><cite>Error 404 (Page not found)</cite></template>
+            <template #author>
+                <labelled-link
+                    href="https://pixabay.com/users/valiphotos-1720744/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3089995"
+                    >Valentin</labelled-link
+                >
+            </template>
+            <template #source>
+                <labelled-link
+                    href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=3089995"
+                    >Pixabay</labelled-link
+                >
+            </template>
+            <template #license>
+                <labelled-link href="https://pixabay.com/service/license-summary/"
+                    >Pixabay Content License</labelled-link
+                >
+            </template>
+        </i18n-t>
     </paragraph>
     <paragraph>
-        Icons used throughout the site are from
-        <labelled-link
-            href="https://fonts.google.com/icons"
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
-            >Google Material Design Icons</labelled-link
-        >
+        <i18n-t keypath="pages.about.attribution.icons" scope="global">
+            <template #link>
+                <labelled-link href="https://fonts.google.com/icons">Google Material Design Icons</labelled-link>
+            </template>
+        </i18n-t>
     </paragraph>
     <paragraph>
-        MtG symbols © Wizards of the Coast LLC. SVGs provided by
-        <labelled-link href="https://scryfall.com" :external="true" icon="external-link" rel="noopener nofollow"
-            >scryfall.com</labelled-link
-        >
-        and used under the
-        <labelled-link
-            href="https://company.wizards.com/en/legal/fancontentpolicy"
-            :external="true"
-            icon="external-link"
-            rel="noopener nofollow"
-            >Fan Content Policy</labelled-link
-        >.</paragraph
-    >
+        <i18n-t keypath="pages.about.attribution.symbols" scope="global">
+            <template #scryfall>
+                <labelled-link href="https://scryfall.com">scryfall.com</labelled-link>
+            </template>
+            <template #fcp>
+                <labelled-link href="https://company.wizards.com/en/legal/fancontentpolicy"
+                    >Fan Content Policy</labelled-link
+                >
+            </template>
+        </i18n-t>
+    </paragraph>
 </template>

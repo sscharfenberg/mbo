@@ -1,28 +1,42 @@
 <script setup lang="ts">
 import type { RequestPayload } from "@inertiajs/core";
 import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
 import Icon from "Components/UI/Icon.vue";
-withDefaults(
+const props = withDefaults(
     defineProps<{
         href: string;
         method?: "get" | "post" | "put" | "patch" | "delete";
         data?: RequestPayload;
-        external?: boolean;
+        /** Icon name. Defaults to "external-link" for https links, "mail" for mailto. Pass "" to suppress. */
         icon?: string;
     }>(),
     {
-        method: "get",
-        external: false
+        method: "get"
     }
 );
+const isExternal = computed(() => props.href.startsWith("https://") || props.href.startsWith("http://"));
+const isMailto = computed(() => props.href.startsWith("mailto:"));
+const resolvedIcon = computed(() => {
+    if (props.icon === "") return undefined;
+    if (props.icon) return props.icon;
+    if (isExternal.value) return "external-link";
+    if (isMailto.value) return "mail";
+    return undefined;
+});
 </script>
 
 <template>
-    <Link v-if="!external" class="text-link" :href="href" :method="method" :data="data">
+    <Link v-if="!isExternal && !isMailto" class="text-link" :href="href" :method="method" :data="data">
+        <icon v-if="resolvedIcon" :name="resolvedIcon" :size="1" />
         <slot />
     </Link>
-    <a v-else :href="href" target="_blank" class="text-link">
-        <icon v-if="icon?.length" :name="icon" :size="1" />
+    <a v-else-if="isExternal" :href="href" target="_blank" rel="noopener nofollow" class="text-link">
+        <icon v-if="resolvedIcon" :name="resolvedIcon" :size="1" />
+        <slot />
+    </a>
+    <a v-else :href="href" class="text-link">
+        <icon v-if="resolvedIcon" :name="resolvedIcon" :size="1" />
         <slot />
     </a>
 </template>
