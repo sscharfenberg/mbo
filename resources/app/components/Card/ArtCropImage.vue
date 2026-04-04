@@ -12,7 +12,7 @@ defineProps<{
     <div class="art-crop" :class="{ 'card-image--interactive': interactive }">
         <img :src="card.art_crop" alt="" loading="lazy" class="art-crop__image" />
         <span class="art-crop__panel">
-            <span class="art-crop__info" v-tooltip="`${card.name}`">
+            <span class="art-crop__info">
                 <span class="art-crop__name">{{ card.name }}</span>
                 <span v-if="card.artist" class="art-crop__artist">
                     <icon name="brush" :size="0" />
