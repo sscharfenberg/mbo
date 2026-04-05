@@ -140,11 +140,7 @@ setBreadcrumbs([{ labelKey: "pages.collection.link" }]);
             <icon name="storage" />
             {{ $t("pages.containers.link") }}
         </Link>
-        <Link
-            v-if="stats.containers === 0 && canCreateNewContainer"
-            href="/containers/new"
-            class="btn-default"
-        >
+        <Link v-if="stats.containers === 0 && canCreateNewContainer" href="/containers/new" class="btn-default">
             <icon name="add" />
             {{ $t("pages.new_container.link") }}
         </Link>

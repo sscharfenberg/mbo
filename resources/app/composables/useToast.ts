@@ -106,11 +106,7 @@ export function useToast(): UseToastReturn {
      * @param type     - Severity level; defaults to `"info"`.
      * @param duration - Auto-dismiss delay in ms; `0` disables auto-dismiss. Defaults to {@link DEFAULT_DURATION}.
      */
-    function addToast(
-        message: string,
-        type: ToastType = "info",
-        duration: number = DEFAULT_DURATION
-    ) {
+    function addToast(message: string, type: ToastType = "info", duration: number = DEFAULT_DURATION) {
         const toast: Toast = { id: crypto.randomUUID(), message, type, duration };
         if (activeToasts.value.length < MAX_VISIBLE) {
             activeToasts.value.push(toast);

@@ -29,21 +29,13 @@ const showMoveModal = ref(false);
     >
         <ul class="popover-list">
             <li>
-                <Link
-                    class="popover-list-item"
-                    :href="`/containers/${container.id}/edit`"
-                    @click="closePopover"
-                >
+                <Link class="popover-list-item" :href="`/containers/${container.id}/edit`" @click="closePopover">
                     <icon name="edit" :size="1" />
                     {{ $t("pages.edit_container.link") }}
                 </Link>
             </li>
             <li>
-                <Link
-                    class="popover-list-item"
-                    :href="`/containers/${container.id}/add`"
-                    @click="closePopover"
-                >
+                <Link class="popover-list-item" :href="`/containers/${container.id}/add`" @click="closePopover">
                     <icon name="add" :size="1" />
                     {{ $t("pages.add_cards.link") }}
                 </Link>
@@ -61,31 +53,19 @@ const showMoveModal = ref(false);
                 </button>
             </li>
             <li>
-                <Link
-                    class="popover-list-item"
-                    :href="`/containers/${container.id}/qr`"
-                    @click="closePopover"
-                >
+                <Link class="popover-list-item" :href="`/containers/${container.id}/qr`" @click="closePopover">
                     <icon name="qr-code" :size="1" />
                     {{ $t("pages.container_qr.link") }}
                 </Link>
             </li>
             <li>
-                <a
-                    class="popover-list-item"
-                    :href="`/containers/${container.id}/export`"
-                    @click="closePopover"
-                >
+                <a class="popover-list-item" :href="`/containers/${container.id}/export`" @click="closePopover">
                     <icon name="download" :size="1" />
                     {{ $t("pages.containers.export_csv") }}
                 </a>
             </li>
             <li>
-                <Link
-                    class="popover-list-item"
-                    :href="`/containers/${container.id}/import`"
-                    @click="closePopover"
-                >
+                <Link class="popover-list-item" :href="`/containers/${container.id}/import`" @click="closePopover">
                     <icon name="upload" :size="1" />
                     {{ $t("pages.import.link") }}
                 </Link>
@@ -118,5 +98,10 @@ const showMoveModal = ref(false);
     </pop-over>
     <delete-container-modal v-if="showDeleteModal" @close="showDeleteModal = false" :container="container" />
     <prune-container-modal v-if="showPruneModal" @close="showPruneModal = false" :container="container" />
-    <move-all-card-stacks-modal v-if="showMoveModal" @close="showMoveModal = false" :container="container" :containers="containers" />
+    <move-all-card-stacks-modal
+        v-if="showMoveModal"
+        @close="showMoveModal = false"
+        :container="container"
+        :containers="containers"
+    />
 </template>

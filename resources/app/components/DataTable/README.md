@@ -24,16 +24,12 @@ defineProps<{
 const columns: ColumnDef<UserRow>[] = [
     { key: "name", label: "Name", sortable: true, visibleInCard: true, cardPrimary: true },
     { key: "email", label: "Email", sortable: true, visibleInCard: true },
-    { key: "role", label: "Role" },
+    { key: "role", label: "Role" }
 ];
 </script>
 
 <template>
-    <data-table
-        :columns="columns"
-        :response="table"
-        base-url="/admin/users"
-    >
+    <data-table :columns="columns" :response="table" base-url="/admin/users">
         <template #empty>
             <p>No users found.</p>
         </template>
@@ -43,22 +39,22 @@ const columns: ColumnDef<UserRow>[] = [
 
 ## Props
 
-| Prop         | Type                   | Default | Description                                                                 |
-|--------------|------------------------|---------|-----------------------------------------------------------------------------|
-| `columns`    | `ColumnDef<T>[]`       | —       | Column definitions (see below).                                             |
-| `response`   | `TableResponse<T>`     | —       | Server response containing rows, pagination, sort, and search state.        |
-| `selectable` | `boolean`              | `false` | Enable row selection checkboxes.                                            |
-| `baseUrl`    | `string`               | `""`    | Base path for Inertia navigation. Falls back to `window.location.pathname`. |
+| Prop         | Type               | Default | Description                                                                 |
+| ------------ | ------------------ | ------- | --------------------------------------------------------------------------- |
+| `columns`    | `ColumnDef<T>[]`   | —       | Column definitions (see below).                                             |
+| `response`   | `TableResponse<T>` | —       | Server response containing rows, pagination, sort, and search state.        |
+| `selectable` | `boolean`          | `false` | Enable row selection checkboxes.                                            |
+| `baseUrl`    | `string`           | `""`    | Base path for Inertia navigation. Falls back to `window.location.pathname`. |
 
 ## Slots
 
-| Slot                | Scope                         | Description                                                              |
-|---------------------|-------------------------------|--------------------------------------------------------------------------|
-| `#header-{key}`     | `{ column: ColumnDef<T> }`    | Custom header content for a column. Fallback: `column.label` as text.    |
-| `#cell-{key}`       | `{ row: T }`                  | Custom renderer for a column. Fallback: raw `row[key]` as text.          |
-| `#actions`          | `{ row: T }`                  | Row action popover content. Render as `<li>` with `popover-list-item`.   |
-| `#toolbar-actions`  | `{ selectedIds: string[] }`   | Toolbar buttons (e.g. bulk actions). Only visible when slot is provided.  |
-| `#empty`            | —                             | Content shown when `rows` is empty and not loading.                      |
+| Slot               | Scope                       | Description                                                              |
+| ------------------ | --------------------------- | ------------------------------------------------------------------------ |
+| `#header-{key}`    | `{ column: ColumnDef<T> }`  | Custom header content for a column. Fallback: `column.label` as text.    |
+| `#cell-{key}`      | `{ row: T }`                | Custom renderer for a column. Fallback: raw `row[key]` as text.          |
+| `#actions`         | `{ row: T }`                | Row action popover content. Render as `<li>` with `popover-list-item`.   |
+| `#toolbar-actions` | `{ selectedIds: string[] }` | Toolbar buttons (e.g. bulk actions). Only visible when slot is provided. |
+| `#empty`           | —                           | Content shown when `rows` is empty and not loading.                      |
 
 ### Header Slots
 
@@ -105,9 +101,7 @@ Shown to the right of the search input. The slot exposes `selectedIds` so you ca
 
 ```vue
 <template #toolbar-actions="{ selectedIds }">
-    <button v-if="selectedIds.length > 0" @click="moveCards(selectedIds)">
-        Move {{ selectedIds.length }} cards
-    </button>
+    <button v-if="selectedIds.length > 0" @click="moveCards(selectedIds)">Move {{ selectedIds.length }} cards</button>
 </template>
 ```
 
@@ -115,14 +109,14 @@ Shown to the right of the search input. The slot exposes `selectedIds` so you ca
 
 ```ts
 interface ColumnDef<T extends { id: string }> {
-    key: keyof T & string;       // field name in row data — type-safe
-    label: string;               // display label (pass translated string)
-    sortable?: boolean;          // default false
-    width?: string;              // CSS value, default 'auto'
-    align?: 'left' | 'center' | 'right'; // default 'left'
-    visibleInCard?: boolean;     // show in mobile card layout, default false
-    cardPrimary?: boolean;       // main column at the top of the card, first wins
-    cellClass?: string;          // extra CSS class(es) for <td>
+    key: keyof T & string; // field name in row data — type-safe
+    label: string; // display label (pass translated string)
+    sortable?: boolean; // default false
+    width?: string; // CSS value, default 'auto'
+    align?: "left" | "center" | "right"; // default 'left'
+    visibleInCard?: boolean; // show in mobile card layout, default false
+    cardPrimary?: boolean; // main column at the top of the card, first wins
+    cellClass?: string; // extra CSS class(es) for <td>
 }
 ```
 
@@ -132,11 +126,11 @@ The server must return this shape as an Inertia prop:
 
 ```ts
 interface TableResponse<T> {
-    rows: T[];                   // current page of data
-    total: number;               // total row count across all pages
-    page: number;                // current page (1-based)
-    pageSize: number | null;     // null = no pagination
-    sort: { key: string; direction: 'asc' | 'desc' } | null;
+    rows: T[]; // current page of data
+    total: number; // total row count across all pages
+    page: number; // current page (1-based)
+    pageSize: number | null; // null = no pagination
+    sort: { key: string; direction: "asc" | "desc" } | null;
     search: string | null;
     filters: Record<string, string | string[]> | null; // v1: always null
 }
@@ -207,6 +201,7 @@ public function show(Request $request, Container $container): Response
 ```
 
 `DataTableService` handles:
+
 - Sort key validation against the whitelist (falls back to `defaultSort`)
 - Sort direction validation (`asc`/`desc`)
 - Page size validation (25, 50, or 100)
@@ -223,15 +218,15 @@ map fall through as-is (e.g. `amount` → `amount`).
 
 All live in `Components/DataTable/`. The parent only imports `DataTable.vue` — the rest are internal.
 
-| Component              | Responsibility                                                                          |
-|------------------------|-----------------------------------------------------------------------------------------|
-| **DataTable.vue**      | Orchestrator. Selection state, slot forwarding, Inertia navigation, loading overlay, aria-live announcements. |
-| **DataTableToolbar**   | Search input (350ms debounce), selection count badge, `#actions` slot.                   |
-| **DataTableHead**      | Sticky `<thead>` with sort buttons, `aria-sort` attributes, header checkbox (three-state). |
-| **DataTableBody**      | `<tbody>` with cell slot rendering, row selection, clickable rows, three-dot action button. |
-| **DataTableCards**     | Mobile card layout via `@container` query (<640px). Renders `visibleInCard` columns.     |
-| **DataTablePagination**| Page navigation (first/prev/next/last), page numbers with ellipsis truncation, jump-to-page, page size selector. Shows info + page size selector even on single-page results. |
-| **DataTableActions**   | Shared row-action popover (one instance, repositioned per click). Uses CSS anchor positioning and the existing `popover-content` styles. |
+| Component               | Responsibility                                                                                                                                                                |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **DataTable.vue**       | Orchestrator. Selection state, slot forwarding, Inertia navigation, loading overlay, aria-live announcements.                                                                 |
+| **DataTableToolbar**    | Search input (350ms debounce), selection count badge, `#actions` slot.                                                                                                        |
+| **DataTableHead**       | Sticky `<thead>` with sort buttons, `aria-sort` attributes, header checkbox (three-state).                                                                                    |
+| **DataTableBody**       | `<tbody>` with cell slot rendering, row selection, clickable rows, three-dot action button.                                                                                   |
+| **DataTableCards**      | Mobile card layout via `@container` query (<640px). Renders `visibleInCard` columns.                                                                                          |
+| **DataTablePagination** | Page navigation (first/prev/next/last), page numbers with ellipsis truncation, jump-to-page, page size selector. Shows info + page size selector even on single-page results. |
+| **DataTableActions**    | Shared row-action popover (one instance, repositioned per click). Uses CSS anchor positioning and the existing `popover-content` styles.                                      |
 
 ## Responsive Behavior
 
@@ -241,6 +236,7 @@ CSS `display: none` toggles visibility at the 640px container-width breakpoint.
 With a max of 100 rows per page, the DOM duplication is negligible.
 
 In the card layout:
+
 - Only columns with `visibleInCard: true` are shown
 - The column with `cardPrimary: true` renders at the top of each card
 - Cell slots work identically in both layouts
@@ -248,6 +244,7 @@ In the card layout:
 ## Selection
 
 When `selectable` is enabled:
+
 - Each row gets a checkbox
 - The header checkbox has three states: unchecked (none), checked (all on page), indeterminate (some)
 - Selection **persists across page changes** (IDs stored in component state)

@@ -21,7 +21,6 @@ const active = ref(props.initialOpen);
 const animating = ref(false);
 /** Template ref to the body wrapper element used for height measurement and animation. */
 const body = useTemplateRef<HTMLElement>("body");
-
 /**
  * Toggle the collapsible open or closed.
  * No-ops if a transition is already running or the body element is missing.
@@ -37,7 +36,6 @@ function toggle() {
         expand();
     }
 }
-
 /**
  * Listen for the `height` transition ending on the given element, ignoring
  * bubbled events from children and transitions on other properties.
@@ -54,7 +52,6 @@ function onTransitionEnd(el: HTMLElement, callback: () => void) {
     };
     el.addEventListener("transitionend", handler);
 }
-
 /**
  * Animate the body open. Sets `isOpen` first so Vue renders the element,
  * then waits a tick to measure `scrollHeight` and transitions from `0` to
@@ -78,7 +75,6 @@ function expand() {
         });
     });
 }
-
 /**
  * Animate the body closed by snapshotting the current `scrollHeight`,
  * then transitioning to `0`. Sets `isOpen` to false after the transition

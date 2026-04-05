@@ -48,7 +48,14 @@ defineOptions({ layout: NarrowLayout });
             addon-icon="mail"
             :required="true"
         >
-            <input type="email" name="email" id="email" maxlength="255" @change="validate('email')" class="form-input" />
+            <input
+                type="email"
+                name="email"
+                id="email"
+                maxlength="255"
+                @change="validate('email')"
+                class="form-input"
+            />
         </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">

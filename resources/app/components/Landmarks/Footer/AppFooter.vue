@@ -25,9 +25,9 @@ if (currentYear > startYear) {
         <section class="inner gap">
             <i18n-t keypath="footer.disclaimer" scope="global">
                 <template #fcp
-                    ><labelled-link href="https://company.wizards.com/en/legal/fancontentpolicy"
-                        >{{ $t("footer.fcp") }}</labelled-link
-                    ></template
+                    ><labelled-link href="https://company.wizards.com/en/legal/fancontentpolicy">{{
+                        $t("footer.fcp")
+                    }}</labelled-link></template
                 >
             </i18n-t>
         </section>

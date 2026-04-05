@@ -42,9 +42,15 @@ const emit = defineEmits<{
     /** Emitted when the user clears the current selection. */
     cleared: [];
 }>();
-const { searchQuery, results, processing, selectedCard, refValue, onCardSelected: selectCard, onClearSelection } = useCardSearch<T>(
-    props.endpoint
-);
+const {
+    searchQuery,
+    results,
+    processing,
+    selectedCard,
+    refValue,
+    onCardSelected: selectCard,
+    onClearSelection
+} = useCardSearch<T>(props.endpoint);
 /** Wraps composable selection to also emit the event to the parent. */
 function onCardSelected(card: T) {
     selectCard(card);
@@ -75,7 +81,14 @@ function onClearAndFocus() {
             <slot name="selected" :card="selectedCard as T" />
         </current-selection>
         <template v-else>
-            <input ref="searchInput" type="text" class="form-input" :id="refId" :placeholder="$t(placeholder)" v-model="searchQuery" />
+            <input
+                ref="searchInput"
+                type="text"
+                class="form-input"
+                :id="refId"
+                :placeholder="$t(placeholder)"
+                v-model="searchQuery"
+            />
         </template>
         <input type="hidden" :name="refId" :value="refValue" />
         <template v-if="!selectedCard && results.length === 0" #text>

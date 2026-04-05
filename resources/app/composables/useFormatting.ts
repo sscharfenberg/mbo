@@ -69,7 +69,7 @@ export const useFormatting = (): UseFormattingReturn => {
 
         return amount.toLocaleString(locale.value, {
             style: "currency",
-            currency: currency.toUpperCase(),
+            currency: currency.toUpperCase()
         });
     };
 
@@ -83,7 +83,7 @@ export const useFormatting = (): UseFormattingReturn => {
         return new Date(iso).toLocaleDateString(locale.value, {
             year: "numeric",
             month: "2-digit",
-            day: "2-digit",
+            day: "2-digit"
         });
     };
 
@@ -99,7 +99,7 @@ export const useFormatting = (): UseFormattingReturn => {
             month: "2-digit",
             day: "2-digit",
             hour: "2-digit",
-            minute: "2-digit",
+            minute: "2-digit"
         });
     };
 

@@ -29,9 +29,7 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
     </paragraph>
     <paragraph>
         {{ $t("pages.privacy.email_label") }}
-        <labelled-link href="mailto:admin@mtgbo.de"
-            >admin@mtgbo.de</labelled-link
-        >
+        <labelled-link href="mailto:admin@mtgbo.de">admin@mtgbo.de</labelled-link>
     </paragraph>
     <headline :size="3">{{ $t("pages.privacy.processing_overview") }}</headline>
     <paragraph>{{ $t("pages.privacy.processing_overview_text") }}</paragraph>
@@ -127,8 +125,7 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
                 >https://www.hetzner.com/de/rechtliches/datenschutz</labelled-link
             ><br />
             <strong>{{ $t("pages.privacy.dpa_label") }}</strong>
-            <labelled-link
-                href="https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/"
+            <labelled-link href="https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/"
                 >https://docs.hetzner.com/de/general/general-terms-and-conditions/data-privacy-faq/</labelled-link
             >
         </li>

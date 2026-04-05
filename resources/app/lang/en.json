@@ -15,10 +15,10 @@
             "public": "Public"
         },
         "conditions": {
-            "mint":  "Mint",
+            "mint": "Mint",
             "near_mint": "Near mint",
             "excellent": "Excellent",
-            "good":  "Good",
+            "good": "Good",
             "light_played": "Light played",
             "played": "Played",
             "poor": "Poor"
@@ -689,7 +689,7 @@
                 "general": "You can use spaces to separate your query - {query} finds (among others) {result}.",
                 "query": "bl kn",
                 "result": "Black Knight",
-                "set":"You can also use {set_codes} to restrict your search the specific sets. {set_example} restricts to cards from {set_result}.",
+                "set": "You can also use {set_codes} to restrict your search the specific sets. {set_example} restricts to cards from {set_result}.",
                 "set_codes": "set:[code] or s:[code] or e:[code]",
                 "set_example": "set:ecl",
                 "set_result": "Lorwyn Eclipsed",
@@ -755,6 +755,18 @@
             "scryfall": "View on Scryfall",
             "loading": "Loading card details…",
             "error": "Could not load card details."
+        },
+        "deck_format_capabilities": {
+            "title": "Deck construction rules",
+            "deck_size_exact": "Deck must contain exactly {count} cards.",
+            "deck_size_min": "Deck must contain at least {count} cards.",
+            "singleton": "Singleton format: except for basic lands, only one copy of each card is allowed.",
+            "max_copies": "Up to {count} copies of each non-basic card are allowed.",
+            "sideboard": "Sideboard of up to {count} cards.",
+            "commander": "Requires a commander. The commander counts toward the deck size and starts in the command zone.",
+            "commander_partners": "Requires a commander. Two partner commanders may share the slot; both count toward the deck size and start in the command zone.",
+            "color_identity": "All cards must fall within the commander's color identity.",
+            "signature_spell": "Requires a signature spell — an instant or sorcery matching the oathbreaker's color identity. It counts toward the deck size and is cast from the command zone while the oathbreaker is on the battlefield."
         }
     }
 }

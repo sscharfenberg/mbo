@@ -41,8 +41,7 @@ setBreadcrumbs([{ labelKey: "pages.about.link" }]);
     <paragraph>
         <strong>Laravel</strong><br />
         <i18n-t keypath="pages.about.attribution.laravel" scope="global">
-            <template #cite><cite>The framework for web artisans</cite></template>
-        </i18n-t
+            <template #cite><cite>The framework for web artisans</cite></template> </i18n-t
         ><br />
         <labelled-link href="https://laravel.com">laravel.com</labelled-link>
     </paragraph>

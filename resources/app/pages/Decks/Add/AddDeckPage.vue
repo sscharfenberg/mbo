@@ -2,33 +2,28 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import type { FormatCapabilities } from "@/types/formatCapabilities";
+import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
-
+import type { FormatCapabilities } from "Types/formatCapabilities";
 const props = defineProps<{
     formats: string[];
     capabilities: Record<string, FormatCapabilities>;
     nameMax: number;
     descriptionMax: number;
 }>();
-
 const { t } = useI18n();
-
 /** CardFormat options formatted for MonoSelect: `{ value, label }` pairs with translated labels. */
 const formatOptions = computed(() => props.formats.map(value => ({ value, label: t(`enums.card_formats.${value}`) })));
-
 /** Currently selected deck format. */
 const selectedFormat = ref("");
-
 /** Capabilities for the currently selected format, or null if none selected. */
 const selectedCapabilities = computed<FormatCapabilities | null>(
     () => props.capabilities[selectedFormat.value] ?? null
 );
-
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "pages.add_deck.link" }]);
 </script>
@@ -52,7 +47,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             />
             <input type="hidden" name="format" :value="selectedFormat" />
             <template v-if="selectedCapabilities" #text>
-                <pre>{{ selectedCapabilities }}</pre>
+                <deck-format-capabilities :capabilities="selectedCapabilities" />
             </template>
         </form-group>
         <form-group

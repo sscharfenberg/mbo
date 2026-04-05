@@ -40,20 +40,24 @@ const onOptionsChange = (value: string) => {
  */
 const onSubmit = () => {
     processing.value = true;
-    router.patch("/collection/cardstack/move", {
-        card_stack_ids: props.selectedIds,
-        container_id: selectedContainer.value || null,
-    }, {
-        onSuccess: () => {
-            emit("close");
+    router.patch(
+        "/collection/cardstack/move",
+        {
+            card_stack_ids: props.selectedIds,
+            container_id: selectedContainer.value || null
         },
-        onError: (responseErrors) => {
-            errors.value = responseErrors;
-        },
-        onFinish: () => {
-            processing.value = false;
-        },
-    });
+        {
+            onSuccess: () => {
+                emit("close");
+            },
+            onError: responseErrors => {
+                errors.value = responseErrors;
+            },
+            onFinish: () => {
+                processing.value = false;
+            }
+        }
+    );
 };
 </script>
 

@@ -207,10 +207,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         if (!response.ok) {
             const data = await response.json();
             validationErrors.value = Object.fromEntries(
-                Object.entries(data.errors ?? {}).map(([key, msgs]) => [
-                    key,
-                    Array.isArray(msgs) ? msgs[0] : msgs
-                ])
+                Object.entries(data.errors ?? {}).map(([key, msgs]) => [key, Array.isArray(msgs) ? msgs[0] : msgs])
             );
             return false;
         }

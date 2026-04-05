@@ -49,9 +49,7 @@ const { t } = useI18n();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([
     { labelKey: "pages.collection.link", href: "/collection", icon: "collection" },
-    ...(props.container
-        ? [{ labelKey: "pages.containers.link", href: "/containers", icon: "storage" }]
-        : []),
+    ...(props.container ? [{ labelKey: "pages.containers.link", href: "/containers", icon: "storage" }] : []),
     ...(props.container
         ? [
               {

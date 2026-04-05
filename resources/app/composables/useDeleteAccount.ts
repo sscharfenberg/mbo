@@ -24,7 +24,7 @@ export const useDeleteAccount = (): UseDeleteAccountReturn => {
         passwordError.value = "";
         router.delete("/user/delete", {
             data: { password },
-            onError: (errors) => {
+            onError: errors => {
                 passwordError.value = errors.password ?? "";
             },
             onFinish: () => {
