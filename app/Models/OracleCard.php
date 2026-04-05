@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\CardFormat;
+use App\Enums\CardLegality;
 use App\Enums\Scryfall\ScryfallCardLayout;
 use App\Enums\Scryfall\ScryfallLang;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -104,5 +107,19 @@ class OracleCard extends Model
     public function faces(): HasMany
     {
         return $this->hasMany(OracleCardFace::class);
+    }
+
+    /**
+     * Restrict the query to cards that are legal (or restricted) in the given format.
+     *
+     * A card is considered playable when it has a legalities row for the format
+     * with status `legal` or `restricted`. `banned` and missing rows are excluded.
+     */
+    public function scopeLegalIn(Builder $query, CardFormat $format): Builder
+    {
+        return $query->whereHas('legalities', function (Builder $q) use ($format): void {
+            $q->where('format', $format->value)
+                ->whereIn('legality', [CardLegality::Legal->value, CardLegality::Restricted->value]);
+        });
     }
 }

@@ -17,6 +17,8 @@ class Deck extends Model
 
     const NAME_MAX = 128;
 
+    const DESCRIPTION_MAX = 2000;
+
     protected $keyType = 'string';
 
     public $incrementing = false;

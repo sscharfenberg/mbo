@@ -2,6 +2,13 @@
 
 namespace App\Enums;
 
+use App\Formats\CommanderProfile;
+use App\Formats\ConstructedProfile;
+use App\Formats\FormatProfile;
+use App\Formats\GladiatorProfile;
+use App\Formats\OathbreakerProfile;
+use App\Formats\StandardBrawlProfile;
+
 /**
  * Playable formats for Magic: The Gathering cards.
  *
@@ -33,4 +40,25 @@ enum CardFormat: string
     case Predh = 'predh';
     case Oldschool = 'oldschool';
     case Future = 'future';
+
+    /**
+     * The construction-rules profile for this format.
+     *
+     * Card-pool differences (legality/banned lists) live in the `legalities`
+     * pivot table — this method only decides which deckbuilding rules apply.
+     */
+    public function rules(): FormatProfile
+    {
+        return match ($this) {
+            self::Commander,
+            self::Duel,
+            self::Brawl,
+            self::PauperCommander,
+            self::Predh => new CommanderProfile($this),
+            self::StandardBrawl => new StandardBrawlProfile($this),
+            self::Oathbreaker => new OathbreakerProfile($this),
+            self::Gladiator => new GladiatorProfile($this),
+            default => new ConstructedProfile($this),
+        };
+    }
 }

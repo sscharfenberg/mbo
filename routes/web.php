@@ -111,6 +111,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     // decks
     Route::get('/decks', [DecksController::class, 'show'])
         ->name('decks');
+    Route::get('/decks/add', [DecksController::class, 'create'])
+        ->name('decks.create');
 
 });
 

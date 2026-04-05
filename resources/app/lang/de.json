@@ -595,6 +595,11 @@
             "title": "Deine Decks",
             "link": "Decks"
         },
+        "add_deck": {
+            "title": "Deck erstellen",
+            "link": "Deck erstellen",
+            "submit": "Save deck"
+        },
         "add_cards": {
             "title": "Karten hinzufügen",
             "link": "Karten hinzufügen",
@@ -654,6 +659,7 @@
             "price": "Preis",
             "total_price": "Gesamt",
             "artist": "Künstler",
+            "format": "Format",
             "created_at": "Hinzugefügt",
             "updated_at": "Geändert",
             "legalities": "Legalität"
