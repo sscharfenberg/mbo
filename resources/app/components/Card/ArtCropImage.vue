@@ -20,7 +20,8 @@ defineProps<{
                 </span>
             </span>
             <img
-                :src="`/set/${card.set.code}.svg`"
+                v-if="card.set.path"
+                :src="card.set.path"
                 class="art-crop__set"
                 :alt="`${card.set.code.toUpperCase()} - ${card.set.name}`"
                 :title="`${card.set.code.toUpperCase()} - ${card.set.name}`"

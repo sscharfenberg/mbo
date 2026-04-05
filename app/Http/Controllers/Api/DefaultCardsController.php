@@ -65,7 +65,7 @@ class DefaultCardsController extends Controller
 
         $cards = $query->whereNotNull('art_crop')
             ->select('id', 'name', 'art_crop', 'set_id', 'artist_id')
-            ->with('set:id,name,code', 'artist:id,name')
+            ->with('set:id,name,code,path', 'artist:id,name')
             ->orderBy('name')
             ->get()
             ->map(fn (DefaultCard $card) => [
@@ -76,6 +76,7 @@ class DefaultCardsController extends Controller
                 'set' => $card->set ? [
                     'name' => $card->set->name,
                     'code' => $card->set->code,
+                    'path' => $card->set->path,
                 ] : null,
             ]);
 
@@ -98,7 +99,7 @@ class DefaultCardsController extends Controller
         }
 
         $cards = $query->select('id', 'name', 'card_image_0', 'card_image_1', 'set_id', 'artist_id', 'collector_number', 'finishes')
-            ->with('set:id,name,code', 'artist:id,name')
+            ->with('set:id,name,code,path', 'artist:id,name')
             ->orderBy('name')
             ->get()
             ->map(fn (DefaultCard $card) => [
@@ -112,6 +113,7 @@ class DefaultCardsController extends Controller
                 'set' => $card->set ? [
                     'name' => $card->set->name,
                     'code' => $card->set->code,
+                    'path' => $card->set->path,
                 ] : null,
             ]);
 

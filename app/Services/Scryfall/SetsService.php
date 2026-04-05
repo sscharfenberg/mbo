@@ -4,21 +4,28 @@ namespace App\Services\Scryfall;
 
 use App\Models\Set;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SetsService extends ScryfallService
 {
+    /**
+     * Cached list of files on the "set" disk, loaded lazily on first access.
+     * Used to identify stale icon versions to delete when Scryfall updates
+     * the icon for a set (new timestamp in icon_svg_uri).
+     *
+     * @var string[]|null
+     */
+    private ?array $cachedSetIcons = null;
 
     /**
      * Prepare the database for a sets import by truncating the sets table.
      *
-     * Icon SVGs are intentionally not purged here — set icons are stable once
-     * released and getSetIcon() only downloads files that are missing, so
-     * wiping cached icons would cause unnecessary re-downloads on every run.
-     *
-     * @return void
+     * Icon SVGs are intentionally not purged here — getSetIcon() uses
+     * timestamp-suffixed filenames and only re-downloads when Scryfall
+     * publishes a new timestamp, so wiping cached icons on every run
+     * would cause unnecessary re-downloads.
      */
     private function setup(): void
     {
@@ -31,40 +38,79 @@ class SetsService extends ScryfallService
     /**
      * Derive the local filename for a set icon SVG.
      *
+     * Embeds the Scryfall timestamp from icon_svg_uri so a filesystem check
+     * alone can determine whether the cached icon is current.
+     *
+     * Format: {code}--{timestamp}.svg (or {code}.svg if no timestamp).
+     *
      * @param  string  $code  The set code (e.g. "lea", "mh3").
-     * @return string  e.g. "lea.svg"
+     * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
+     * @return string e.g. "lea--1709234567.svg"
      */
-    private function buildFileName(string $code): string
+    private function buildFileName(string $code, ?string $timestamp): string
     {
-        return $code.'.svg';
+        if ($timestamp !== null) {
+            return "$code--$timestamp.svg";
+        }
+
+        return "$code.svg";
     }
 
     /**
-     * Download a set icon SVG if it is not already cached locally.
+     * List (lazily) all files on the "set" disk, cached for the duration
+     * of the current updateSets() run. Used to locate stale icon versions
+     * when a set's icon_svg_uri timestamp has changed.
      *
-     * Returns the public-facing path to the icon file on the "set" disk,
-     * regardless of whether a fresh download was needed.
+     * @return string[]
+     */
+    private function getCachedSetIcons(): array
+    {
+        if ($this->cachedSetIcons === null) {
+            $this->cachedSetIcons = Storage::disk('set')->files();
+        }
+
+        return $this->cachedSetIcons;
+    }
+
+    /**
+     * Download a set icon SVG if the current (timestamped) version is not
+     * already cached locally. When a newer timestamp is detected, stale
+     * versions of the icon for the same set code are deleted first.
      *
-     * @param  string  $uri   The Scryfall icon_svg_uri for the set.
+     * @param  string  $uri  The Scryfall icon_svg_uri for the set.
      * @param  string  $code  The set code, used as the local filename.
-     * @return string  The public-facing path to the stored SVG.
+     * @return string The public-facing path to the stored SVG.
      *
      * @throws ConnectionException
      */
     private function getSetIcon(string $uri, string $code): string
     {
-        $fileName = $this->buildFileName($code);
-        if (Storage::disk('set')->missing($fileName)) {
-            $response = $this->http()
-                ->get($uri);
-            if ($response->successful()) {
-                Storage::disk('set')->put($fileName, $response->body());
-                Log::channel('scryfall')->debug("created SVG in storage disk 'set': $fileName");
-            } else {
-                Log::channel('scryfall')->error("error calling icon uri '$uri' from scryfall: ".$response->body());
+        $timestamp = parse_url($uri, PHP_URL_QUERY) ?: null;
+        $fileName = $this->buildFileName($code, $timestamp);
+
+        if (Storage::disk('set')->exists($fileName)) {
+            return "/set/$fileName";
+        }
+
+        // Delete any stale versions of this set's icon (old timestamp, or
+        // legacy non-timestamped file) before downloading the fresh one.
+        foreach ($this->getCachedSetIcons() as $existing) {
+            $basename = basename($existing);
+            if ($basename === "$code.svg" || str_starts_with($basename, "$code--")) {
+                Storage::disk('set')->delete($existing);
+                Log::channel('scryfall')->debug("deleted stale set icon: $basename");
             }
         }
-        return "/set/".$fileName;
+
+        $response = $this->http()->get($uri);
+        if ($response->successful()) {
+            Storage::disk('set')->put($fileName, $response->body());
+            Log::channel('scryfall')->debug("created SVG in storage disk 'set': $fileName");
+        } else {
+            Log::channel('scryfall')->error("error calling icon uri '$uri' from scryfall: ".$response->body());
+        }
+
+        return "/set/$fileName";
     }
 
     /**
@@ -75,7 +121,6 @@ class SetsService extends ScryfallService
      * Also downloads the set icon via getSetIcon().
      *
      * @param  array  $set  A single set object from the Scryfall /sets response.
-     * @return void
      *
      * @throws ConnectionException
      */
@@ -93,11 +138,21 @@ class SetsService extends ScryfallService
             'digital' => $set['digital'],
         ];
         // these array keys might not exist.
-        if (array_key_exists('block_code', $set)) { $arr['block_code'] = $set['block_code']; }
-        if (array_key_exists('released_at', $set)) { $arr['released_at'] = $set['released_at']; }
-        if (array_key_exists('block', $set)) { $arr['block'] = $set['block']; }
-        if (array_key_exists('parent_set_code', $set)) { $arr['parent_set_code'] = $set['parent_set_code']; }
-        if (array_key_exists('printed_size', $set)) { $arr['printed_size'] = $set['printed_size']; }
+        if (array_key_exists('block_code', $set)) {
+            $arr['block_code'] = $set['block_code'];
+        }
+        if (array_key_exists('released_at', $set)) {
+            $arr['released_at'] = $set['released_at'];
+        }
+        if (array_key_exists('block', $set)) {
+            $arr['block'] = $set['block'];
+        }
+        if (array_key_exists('parent_set_code', $set)) {
+            $arr['parent_set_code'] = $set['parent_set_code'];
+        }
+        if (array_key_exists('printed_size', $set)) {
+            $arr['printed_size'] = $set['printed_size'];
+        }
         $newSet = Set::create($arr);
         if ($newSet->wasRecentlyCreated) {
             Log::channel('scryfall')->debug("created set [$newSet->code] $newSet->name.");
@@ -108,11 +163,10 @@ class SetsService extends ScryfallService
      * Fetch all sets from the Scryfall API and replace the local database.
      *
      * Filters out sets with zero cards. Runs setup() first to truncate existing data.
-     *
-     * @return void
      */
     public function updateSets(): void
     {
+        $this->cachedSetIcons = null;
         $this->setup();
         try {
             $response = $this->http()
@@ -123,17 +177,16 @@ class SetsService extends ScryfallService
                     $sets = collect($sets['data'])->filter(function ($set) {
                         return $set['card_count'] > 0;
                     });
-                    $sets->each(fn($set) => $this->insertSet($set));
+                    $sets->each(fn ($set) => $this->insertSet($set));
                 } else { // json does not have 'data' prop
                     Log::channel('scryfall')->error("Scryfall response successful, but json does not have a field 'data'.");
                 }
             } else { // scryfall response not successful
-                Log::channel('scryfall')->error("Scryfall response failed: ".$response->body());
+                Log::channel('scryfall')->error('Scryfall response failed: '.$response->body());
             }
         } catch (\Exception $exception) {
             Log::channel('scryfall')->error($exception->getMessage());
             report($exception);
         }
     }
-
 }

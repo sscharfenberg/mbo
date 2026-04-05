@@ -117,8 +117,8 @@ const getTimeStamps = (created: string, updated?: string | null) => {
         </template>
         <template #cell-set_name="{ row }">
             <img
-                v-if="row.set_icon"
-                :src="row.set_icon"
+                v-if="row.set_path"
+                :src="row.set_path"
                 :alt="row.set_code"
                 class="set"
                 v-tooltip="`[${row.set_code.toUpperCase()}] ${row.set_name}`"

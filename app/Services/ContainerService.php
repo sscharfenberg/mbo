@@ -42,6 +42,7 @@ class ContainerService
                 'set' => [
                     'name' => $container->defaultCard->set?->name,
                     'code' => $container->defaultCard->set?->code,
+                    'path' => $container->defaultCard->set?->path,
                 ],
             ] : null,
             'totalCards' => (int) ($container->card_stacks_sum_amount ?? 0),

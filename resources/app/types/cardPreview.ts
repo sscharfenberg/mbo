@@ -11,7 +11,7 @@ export interface CardPreview {
     card_image_1: string | null;
     set_code: string | null;
     set_name: string | null;
-    set_icon: string | null;
+    set_path: string | null;
     collector_number: string;
     artist: string | null;
     amount: number;

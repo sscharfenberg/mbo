@@ -7,5 +7,5 @@ export type DefaultCardImage = {
     artist: string | null;
     cn: string;
     finishes: string[];
-    set: { name: string; code: string };
+    set: { name: string; code: string; path: string | null };
 };

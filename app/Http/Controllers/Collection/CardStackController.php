@@ -163,6 +163,7 @@ class CardStackController extends Controller
                     'set' => [
                         'name' => $defaultCard->set->name,
                         'code' => $defaultCard->set->code,
+                        'path' => $defaultCard->set->path,
                     ],
                 ],
             ],

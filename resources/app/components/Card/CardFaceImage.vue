@@ -40,7 +40,8 @@ function onFlip() {
                 <icon name="star" :size="0" />
                 {{ card.cn }}
                 <img
-                    :src="`/set/${card.set.code}.svg`"
+                    v-if="card.set.path"
+                    :src="card.set.path"
                     class="face-image__set"
                     :alt="`${card.set.code.toUpperCase()} - ${card.set.name}`"
                     :title="`${card.set.code.toUpperCase()} - ${card.set.name}`"

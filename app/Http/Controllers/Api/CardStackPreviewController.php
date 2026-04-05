@@ -43,7 +43,7 @@ class CardStackPreviewController extends Controller
             'card_image_1' => $card->card_image_1,
             'set_code' => $card->set?->code,
             'set_name' => $card->set?->name,
-            'set_icon' => $card->set?->path,
+            'set_path' => $card->set?->path,
             'collector_number' => $card->collector_number,
             'artist' => $card->artist?->name,
             'amount' => $cardStack->amount,

@@ -4,7 +4,7 @@ export interface CardStackRow {
     name: string;
     set_name: string;
     set_code: string;
-    set_icon: string | null;
+    set_path: string | null;
     collector_number: string;
     amount: number;
     condition: string | null;

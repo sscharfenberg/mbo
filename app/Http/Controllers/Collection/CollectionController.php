@@ -57,7 +57,7 @@ class CollectionController extends Controller
                 'default_cards.card_image_0',
                 'sets.name as set_name',
                 'sets.code as set_code',
-                'sets.path as set_icon',
+                'sets.path as set_path',
                 'containers.name as container_name',
             ])
             ->selectRaw("COALESCE({$unitPriceSql}, 0) as unit_price")
@@ -105,7 +105,7 @@ class CollectionController extends Controller
                     'name' => $stack->card_name,
                     'set_name' => $stack->set_name,
                     'set_code' => $stack->set_code,
-                    'set_icon' => $stack->set_icon,
+                    'set_path' => $stack->set_path,
                     'collector_number' => $stack->collector_number,
                     'amount' => $stack->amount,
                     'condition' => $stack->condition?->value,

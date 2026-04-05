@@ -42,7 +42,8 @@ const faceImage = computed<DefaultCardImage | null>(() => {
         finishes: card.value.finish ? [card.value.finish] : [],
         set: {
             name: card.value.set_name ?? "",
-            code: card.value.set_code ?? ""
+            code: card.value.set_code ?? "",
+            path: card.value.set_path ?? null
         }
     };
 });
@@ -111,11 +112,11 @@ onMounted(async () => {
                             />
                         </dd>
                     </template>
-                    <template v-if="card.set_code && card.set_name && card.set_icon">
+                    <template v-if="card.set_code && card.set_name && card.set_path">
                         <dt>{{ t("form.fields.set_name") }}</dt>
                         <dd class="cardstack-preview__set">
                             [{{ card.set_code.toUpperCase() }}] {{ card.set_name }}
-                            <img :src="card.set_icon" :alt="`[${card.set_code.toUpperCase()}] ${card.set_name}`" />
+                            <img :src="card.set_path" :alt="`[${card.set_code.toUpperCase()}] ${card.set_name}`" />
                         </dd>
                     </template>
                     <template v-if="card.price">

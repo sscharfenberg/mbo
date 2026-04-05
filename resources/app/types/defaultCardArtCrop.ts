@@ -4,5 +4,5 @@ export type DefaultCardArtCrop = {
     name: string;
     art_crop: string;
     artist: string | null;
-    set: { name: string; code: string };
+    set: { name: string; code: string; path: string | null };
 };
