@@ -19,7 +19,11 @@ withDefaults(
 
 .modal-dialog__body {
     overflow-y: auto;
-    max-height: 75dvh;
+
+    // `min-height: 0` lets this flex item shrink below its intrinsic content
+    // size so the parent's `max-height` cap wins and the scrollbar lives here.
+    min-height: 0;
+    flex: 1 1 auto;
 
     padding: map.get(s.$components, "modal", "padding");
 

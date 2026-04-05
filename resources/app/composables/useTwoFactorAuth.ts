@@ -13,6 +13,7 @@ export type UseTwoFactorAuthReturn = {
     isRecoveryCodesVisible: Ref<boolean>;
     showSetupModal: Ref<boolean>;
     requiresConfirmation: ComputedRef<boolean>;
+    requiresPasswordConfirmation: ComputedRef<boolean>;
     twoFactorEnabled: ComputedRef<boolean>;
     hasSetupData: ComputedRef<boolean>;
     clearSetupData: () => void;
@@ -183,6 +184,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
 
     const page = usePage();
     const requiresConfirmation = computed(() => page.props.requiresConfirmation as boolean);
+    const requiresPasswordConfirmation = computed(() => page.props.requiresPasswordConfirmation as boolean);
     const twoFactorEnabled = computed(() => page.props.twoFactorEnabled as boolean);
 
     /**
@@ -227,7 +229,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         processing.value = true;
         validationErrors.value = {};
 
-        if (requiresConfirmation.value) {
+        if (requiresPasswordConfirmation.value) {
             const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
@@ -266,7 +268,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         validationErrors.value = {};
         showSetupModal.value = false;
 
-        if (requiresConfirmation.value) {
+        if (requiresPasswordConfirmation.value) {
             const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
@@ -297,7 +299,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         processing.value = true;
         validationErrors.value = {};
 
-        if (requiresConfirmation.value) {
+        if (requiresPasswordConfirmation.value) {
             const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
@@ -334,7 +336,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         let response = await postRegenerate();
 
         // Only ask for password again when the session confirmation has expired.
-        if (response.status === 423 && requiresConfirmation.value) {
+        if (response.status === 423 && requiresPasswordConfirmation.value) {
             const confirmed = await confirmPassword(pw);
             if (!confirmed) {
                 processing.value = false;
@@ -364,6 +366,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         isRecoveryCodesVisible,
         showSetupModal,
         requiresConfirmation,
+        requiresPasswordConfirmation,
         twoFactorEnabled,
         hasSetupData,
         clearSetupData,

@@ -7,12 +7,12 @@ import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
 import TwoFactorRecoveryCodes from "./TwoFactorRecoveryCodes.vue";
-const { processing, validationErrors, requiresConfirmation, disableTwoFactor } = useTwoFactorAuth();
+const { processing, validationErrors, requiresPasswordConfirmation, disableTwoFactor } = useTwoFactorAuth();
 const password = ref("");
 const showPassword = ref(false);
 const legendItems = computed(() => {
     const items = [{ slot: "intro", icon: "info" }];
-    if (requiresConfirmation.value) items.push({ slot: "required", icon: "info" });
+    if (requiresPasswordConfirmation.value) items.push({ slot: "required", icon: "info" });
     return items;
 });
 </script>
@@ -30,7 +30,7 @@ const legendItems = computed(() => {
             </template>
         </form-legend>
         <form-group
-            v-if="requiresConfirmation"
+            v-if="requiresPasswordConfirmation"
             for-id="disable-password"
             :label="$t('form.fields.password')"
             :error="validationErrors.password"

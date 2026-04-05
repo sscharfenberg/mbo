@@ -3,13 +3,10 @@ import { onMounted, ref } from "vue";
 import ModalBody from "./ModalBody.vue";
 import ModalFooter from "./ModalFooter.vue";
 import ModalHeader from "./ModalHeader.vue";
-
 const emit = defineEmits<{ close: [] }>();
-
 const modalRef = ref<HTMLDialogElement | null>(null);
 const contentRef = ref<HTMLDivElement | null>(null);
 const isClosing = ref(false);
-
 /**
  * Open the native dialog via `showModal()`.
  *
@@ -22,7 +19,6 @@ const openModal = () => {
     isClosing.value = false;
     modal.showModal();
 };
-
 /**
  * Close the dialog with an optional exit animation.
  *
@@ -48,7 +44,6 @@ const closeModal = () => {
     };
     content.addEventListener("animationend", handleAnimationEnd, { once: true });
 };
-
 /**
  * Intercept native cancel requests (for example Escape key presses) so the
  * modal can run its exit animation before the dialog is actually closed.
@@ -59,7 +54,6 @@ const onDialogCancel = (event: Event) => {
     event.preventDefault();
     closeModal();
 };
-
 /**
  * Close the modal when users click outside the content area on the dialog
  * backdrop itself.
@@ -71,7 +65,6 @@ const onDialogClick = (event: MouseEvent) => {
         closeModal();
     }
 };
-
 /**
  * Open the dialog immediately after mount so rendering this component
  * behaves like "show this modal now" for consumers.
@@ -129,8 +122,13 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
 
+        // Bounded by viewport (minus the vertical margin below) but free to
+        // shrink for small content — the body flex-grows to fill whatever
+        // space is available inside this cap.
+        overflow: hidden;
         width: 100%;
         max-width: map.get(s.$components, "modal", "max-width");
+        max-height: calc(100dvh - 2rem);
         border: map.get(s.$components, "modal", "border") solid map.get(c.$components, "modal", "border");
         margin: 1rem 0;
 

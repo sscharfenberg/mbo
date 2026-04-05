@@ -12,7 +12,7 @@ const {
     isRecoveryCodesVisible,
     processing,
     recoveryCodesList,
-    requiresConfirmation,
+    requiresPasswordConfirmation,
     validationErrors
 } = useTwoFactorAuth();
 /** Recovery codes joined by newline for display in the readonly textarea. */
@@ -24,7 +24,7 @@ const showPassword = ref(false);
 /** FormLegend items — includes the "required" hint only when password confirmation is active. */
 const legendItems = computed(() => {
     const items = [{ slot: "intro", icon: "info" }];
-    if (requiresConfirmation.value) items.push({ slot: "required", icon: "info" });
+    if (requiresPasswordConfirmation.value) items.push({ slot: "required", icon: "info" });
     return items;
 });
 /**
@@ -53,7 +53,7 @@ const onSubmit = (e: SubmitEvent) => {
             </template>
         </form-legend>
         <form-group
-            v-if="requiresConfirmation && !isRecoveryCodesVisible"
+            v-if="requiresPasswordConfirmation && !isRecoveryCodesVisible"
             for-id="recovery-codes-password"
             :label="$t('form.fields.password')"
             :error="validationErrors.password"

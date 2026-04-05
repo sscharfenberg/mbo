@@ -598,6 +598,9 @@
         "add_deck": {
             "title": "Create deck",
             "link": "Create deck",
+            "commander": {
+                "choose": "Choose commander"
+            },
             "submit": "Save deck"
         },
         "add_cards": {
@@ -662,7 +665,9 @@
             "format": "Format",
             "created_at": "Added",
             "updated_at": "Changed",
-            "legalities": "Legalities"
+            "legalities": "Legalities",
+            "commander": "Commander",
+            "signature_spell": "Signature Spell"
         }
     },
     "state": {
@@ -755,6 +760,9 @@
             "scryfall": "View on Scryfall",
             "loading": "Loading card details…",
             "error": "Could not load card details."
+        },
+        "commander_picker": {
+            "title": "Choose commander"
         },
         "deck_format_capabilities": {
             "title": "Deck construction rules",

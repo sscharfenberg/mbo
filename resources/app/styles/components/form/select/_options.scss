@@ -5,6 +5,7 @@
 
 .form-select__options {
     position: fixed;
+    inset: unset;
     top: anchor(bottom);
     right: anchor(right);
     left: anchor(left);
@@ -12,9 +13,12 @@
 
     overflow: hidden;
 
+    width: auto;
+    height: auto;
     padding: 1ex 0;
     border: map.get(s.$components, "select", "border") solid map.get(c.$components, "select", "border");
     border-top-width: 0;
+    margin: 0;
 
     background-color: map.get(c.$components, "select", "options-background");
     border-bottom-right-radius: map.get(s.$components, "select", "radius");

@@ -1,7 +1,7 @@
 <?php
 
-use Laravel\Fortify\Features;
 use App\Http\Middleware\HandleControllerPrecognitiveRequest;
+use Laravel\Fortify\Features;
 
 return [
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, useId, useTemplateRef, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, useId, useTemplateRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import Icon from "Components/UI/Icon.vue";
 const { t } = useI18n();
@@ -47,6 +47,10 @@ const menuOpen = ref(false);
 const selectedValue = ref(props.selected);
 // Used for click-outside detection to close the dropdown.
 const dropdown = useTemplateRef<HTMLDivElement>("dropdown");
+// Template ref to the listbox element — used to promote it into the top layer
+// via the HTML Popover API so it escapes any ancestor overflow/clipping
+// (e.g. when MonoSelect is rendered inside a modal dialog).
+const listbox = useTemplateRef<HTMLDivElement>("listbox");
 // Resolves the human-readable label for the currently selected value.
 const selectedLabel = computed(() => props.options.find(o => o.value === selectedValue.value)?.label);
 /**
@@ -95,6 +99,17 @@ watch(
     },
     { immediate: true }
 );
+// Promote the listbox into the browser's top layer via the HTML Popover API
+// whenever it opens. This escapes any ancestor overflow/clipping/stacking context
+// (e.g. when MonoSelect is rendered inside a modal dialog) so the dropdown is
+// never visually cut off. v-if removes the element on close, so no explicit
+// hidePopover() call is needed.
+watch(menuOpen, async open => {
+    if (open) {
+        await nextTick();
+        listbox.value?.showPopover?.();
+    }
+});
 onMounted(() => {
     document.addEventListener("click", onClickOutSide);
 });
@@ -134,9 +149,11 @@ onUnmounted(() => {
         <Transition name="slide-down" @after-enter="onAfterEnter">
             <div
                 v-if="menuOpen"
+                ref="listbox"
                 :id="listboxId"
                 role="listbox"
                 :aria-labelledby="buttonId"
+                popover="manual"
                 class="form-select__options"
                 :style="{ 'position-anchor': anchorName }"
             >

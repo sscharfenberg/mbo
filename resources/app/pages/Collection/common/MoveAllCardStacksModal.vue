@@ -66,7 +66,7 @@ const onSubmit = () => {
                 >
             </i18n-t>
         </template>
-        <form class="form" @submit.prevent="onSubmit">
+        <form id="move-all-cardstacks-form" class="form" @submit.prevent="onSubmit">
             <form-legend
                 :items="[
                     { slot: 'info', icon: 'info' },
@@ -98,13 +98,18 @@ const onSubmit = () => {
                     addon-icon="storage"
                 />
             </form-group>
-            <form-group>
-                <button type="submit" class="btn-primary" :disabled="processing">
-                    <icon name="move" />
-                    {{ $t("pages.container_page.mass_move.submit", { number: formatDecimals(container.totalCards) }) }}
-                    <loading-spinner v-if="processing" :size="2" />
-                </button>
-            </form-group>
         </form>
+        <template #footer>
+            <button
+                type="submit"
+                form="move-all-cardstacks-form"
+                class="btn-primary"
+                :disabled="processing"
+            >
+                <icon name="move" />
+                {{ $t("pages.container_page.mass_move.submit", { number: formatDecimals(container.totalCards) }) }}
+                <loading-spinner v-if="processing" :size="2" />
+            </button>
+        </template>
     </modal>
 </template>

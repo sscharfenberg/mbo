@@ -6,23 +6,11 @@ import LabelledLink from "Components/UI/LabelledLink.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import { useTwoFactorAuth } from "Composables/useTwoFactorAuth.ts";
-import TwoFactorModal from "./TwoFactorModal.vue";
-const { processing, validationErrors, requiresConfirmation, showSetupModal, enableTwoFactor, clearSetupData } =
-    useTwoFactorAuth();
+const { processing, validationErrors, requiresPasswordConfirmation, enableTwoFactor } = useTwoFactorAuth();
 /** Password input bound to the confirmation field (only shown when the session requires re-confirmation). */
 const password = ref("");
 /** Toggles the password field between `text` and `password` type for visibility. */
 const showPassword = ref(false);
-/**
- * Resets all local state and shared composable data when the setup modal is dismissed.
- * Called on both successful activation and user cancellation.
- */
-const handleModalClose = () => {
-    showSetupModal.value = false;
-    password.value = "";
-    showPassword.value = false;
-    clearSetupData();
-};
 </script>
 
 <template>
@@ -43,10 +31,12 @@ const handleModalClose = () => {
                     }}</labelled-link></template
                 >
             </i18n-t>
-            <span v-if="requiresConfirmation"><br />{{ $t("pages.dashboard.two_factor.requires_confirmation") }}</span>
+            <span v-if="requiresPasswordConfirmation"
+                ><br />{{ $t("pages.dashboard.two_factor.requires_confirmation") }}</span
+            >
         </Paragraph>
         <form-group
-            v-if="requiresConfirmation"
+            v-if="requiresPasswordConfirmation"
             for-id="password_enable_2fa"
             :label="$t('form.fields.password')"
             :error="validationErrors.password"
@@ -81,5 +71,4 @@ const handleModalClose = () => {
             </button>
         </form-group>
     </form>
-    <two-factor-modal v-if="showSetupModal" :requiresConfirmation="requiresConfirmation" @close="handleModalClose" />
 </template>

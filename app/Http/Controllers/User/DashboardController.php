@@ -15,9 +15,6 @@ class DashboardController extends Controller
      *
      * Entry point for authenticated users after login. Renders the main
      * dashboard view with the current request context.
-     *
-     * @param  Request  $request
-     * @return Response
      */
     public function show(Request $request): Response
     {
@@ -25,6 +22,7 @@ class DashboardController extends Controller
             'request' => $request,
             'twoFactorEnabled' => $request->user()->hasEnabledTwoFactorAuthentication(),
             'requiresConfirmation' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),
+            'requiresPasswordConfirmation' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
         ]);
     }
 }

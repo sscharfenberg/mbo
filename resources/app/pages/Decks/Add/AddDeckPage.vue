@@ -2,6 +2,7 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import CommanderPicker from "Components/Deck/CommanderPicker/CommanderPicker.vue";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
@@ -24,6 +25,8 @@ const selectedFormat = ref("");
 const selectedCapabilities = computed<FormatCapabilities | null>(
     () => props.capabilities[selectedFormat.value] ?? null
 );
+/** Whether the commander picker modal is open. */
+const commanderPickerOpen = ref(false);
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "pages.add_deck.link" }]);
 </script>
@@ -49,6 +52,12 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             <template v-if="selectedCapabilities" #text>
                 <deck-format-capabilities :capabilities="selectedCapabilities" />
             </template>
+        </form-group>
+        <form-group v-if="selectedCapabilities?.requiresCommander" :label="$t('form.fields.commander')">
+            <button type="button" class="btn-default" @click="commanderPickerOpen = true">
+                <icon name="register" />
+                {{ $t("pages.add_deck.commander.choose") }}
+            </button>
         </form-group>
         <form-group
             for-id="deck_name"
@@ -93,4 +102,5 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </button>
         </form-group>
     </Form>
+    <commander-picker v-if="commanderPickerOpen" @close="commanderPickerOpen = false" />
 </template>

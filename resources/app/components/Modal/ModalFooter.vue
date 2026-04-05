@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
     <div class="modal-dialog__footer"><slot /></div>
 </template>

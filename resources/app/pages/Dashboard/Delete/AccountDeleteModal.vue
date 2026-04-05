@@ -20,7 +20,7 @@ const onSubmit = () => deleteAccount(password.value);
         <template #header>
             {{ $t("pages.dashboard.deletion.modal.title") }}
         </template>
-        <form class="form" @submit.prevent="onSubmit">
+        <form id="account-delete-form" class="form" @submit.prevent="onSubmit">
             <form-legend :items="[{ slot: 'intro', icon: 'question' }]">
                 <template #intro>{{ $t("pages.dashboard.deletion.modal.explanation") }}</template>
             </form-legend>
@@ -56,13 +56,18 @@ const onSubmit = () => deleteAccount(password.value);
                     </button>
                 </template>
             </form-group>
-            <form-group>
-                <button type="submit" class="btn-primary" :disabled="processing || !password">
-                    <icon name="delete" />
-                    {{ $t("pages.dashboard.deletion.modal.submit") }}
-                    <loading-spinner v-if="processing" :size="2" />
-                </button>
-            </form-group>
         </form>
+        <template #footer>
+            <button
+                type="submit"
+                form="account-delete-form"
+                class="btn-primary"
+                :disabled="processing || !password"
+            >
+                <icon name="delete" />
+                {{ $t("pages.dashboard.deletion.modal.submit") }}
+                <loading-spinner v-if="processing" :size="2" />
+            </button>
+        </template>
     </modal>
 </template>

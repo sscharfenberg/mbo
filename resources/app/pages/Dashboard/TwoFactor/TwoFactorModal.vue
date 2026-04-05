@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import { nextTick, onMounted, ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
@@ -22,6 +22,10 @@ const { copy, copied } = useClipboard();
 const showVerificationStep = ref(false);
 /** The 6-digit OTP code entered by the user during the verification step. */
 const code = ref<string>("");
+/** True while the verification POST request is in flight. */
+const processing = ref(false);
+/** Server-side validation error for the OTP code field. */
+const codeError = ref<string | undefined>(undefined);
 /** Fetches the QR code and manual setup key from the server if not already loaded. */
 onMounted(async () => {
     if (!qrCodeSvg.value) {
@@ -44,6 +48,29 @@ const handleModalNextStep = async () => {
     }
     emit("close");
 };
+/**
+ * Submit the OTP code to confirm 2FA activation.
+ * Resets the code field on failure and closes the modal on success.
+ */
+const submitVerification = () => {
+    processing.value = true;
+    codeError.value = undefined;
+    router.post(
+        "/user/confirmed-two-factor-authentication",
+        { code: code.value },
+        {
+            errorBag: "confirmTwoFactorAuthentication",
+            onSuccess: () => emit("close"),
+            onError: errors => {
+                codeError.value = errors.code;
+                code.value = "";
+            },
+            onFinish: () => {
+                processing.value = false;
+            }
+        }
+    );
+};
 </script>
 
 <template>
@@ -52,7 +79,7 @@ const handleModalNextStep = async () => {
             <span v-if="!showVerificationStep">{{ $t("pages.dashboard.two_factor.setup.title") }}</span>
             <span v-else>{{ $t("pages.dashboard.two_factor.verification.title") }}</span>
         </template>
-        <form v-if="!showVerificationStep" class="form">
+        <div v-if="!showVerificationStep" class="form">
             <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
                 <template #intro>{{ $t("pages.dashboard.two_factor.setup.explanation") }}</template>
             </form-legend>
@@ -79,28 +106,14 @@ const handleModalNextStep = async () => {
                     </button>
                 </template>
             </form-group>
-            <form-group>
-                <button class="btn-primary" @click="handleModalNextStep">
-                    {{ $t("pages.dashboard.two_factor.setup.next") }}
-                </button>
-            </form-group>
-        </form>
-        <Form
-            v-else
-            action="/user/confirmed-two-factor-authentication"
-            error-bag="confirmTwoFactorAuthentication"
-            class="form"
-            reset-on-error
-            @success="$emit('close')"
-            method="post"
-            v-slot="{ errors, processing, submit }"
-        >
+        </div>
+        <form v-else id="two-factor-verify-form" class="form" @submit.prevent="submitVerification">
             <form-legend :items="[{ slot: 'intro', icon: 'info' }]">
                 <template #intro>{{ $t("pages.dashboard.two_factor.verification.explanation") }}</template>
             </form-legend>
             <form-group
-                :error="errors?.code"
-                :invalid="!!errors?.code"
+                :error="codeError"
+                :invalid="!!codeError"
                 :label="$t('pages.login.2fa.2fa_code')"
                 :required="true"
                 for-id="code"
@@ -113,21 +126,36 @@ const handleModalNextStep = async () => {
                     autocomplete="one-time-code"
                     :maxlength="6"
                     autofocus
-                    @complete="() => submit()"
+                    @complete="submitVerification"
                 />
             </form-group>
-            <form-group>
-                <button type="submit" class="btn-primary" :disabled="processing || code.length < 6">
+        </form>
+        <template #footer>
+            <template v-if="!showVerificationStep">
+                <button type="button" class="btn-primary" @click="handleModalNextStep">
+                    {{ $t("pages.dashboard.two_factor.setup.next") }}
+                </button>
+            </template>
+            <template v-else>
+                <button
+                    type="button"
+                    class="btn-default"
+                    :disabled="processing"
+                    @click="showVerificationStep = false"
+                >
+                    {{ $t("pages.dashboard.two_factor.verification.back") }}
+                </button>
+                <button
+                    type="submit"
+                    form="two-factor-verify-form"
+                    class="btn-primary"
+                    :disabled="processing || code.length < 6"
+                >
                     <icon name="check" />
                     {{ $t("pages.dashboard.two_factor.verification.submit") }}
                     <loading-spinner v-if="processing" :size="2" />
                 </button>
-            </form-group>
-            <form-group>
-                <button type="button" class="btn-default" @click="showVerificationStep = false" :disabled="processing">
-                    {{ $t("pages.dashboard.two_factor.verification.back") }}
-                </button>
-            </form-group>
-        </Form>
+            </template>
+        </template>
     </modal>
 </template>

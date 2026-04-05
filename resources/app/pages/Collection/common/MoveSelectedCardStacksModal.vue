@@ -64,7 +64,7 @@ const onSubmit = () => {
 <template>
     <modal @close="emit('close')">
         <template #header>{{ $t("pages.container_page.move.title") }}</template>
-        <form class="form" @submit.prevent="onSubmit">
+        <form id="move-selected-cardstacks-form" class="form" @submit.prevent="onSubmit">
             <form-legend
                 :items="[
                     { slot: 'question', icon: 'question' },
@@ -94,13 +94,18 @@ const onSubmit = () => {
                     addon-icon="storage"
                 />
             </form-group>
-            <form-group>
-                <button type="submit" class="btn-primary" :disabled="processing">
-                    <icon name="move" />
-                    {{ $t("pages.container_page.move.submit", { number: selectedIds.length }) }}
-                    <loading-spinner v-if="processing" :size="2" />
-                </button>
-            </form-group>
         </form>
+        <template #footer>
+            <button
+                type="submit"
+                form="move-selected-cardstacks-form"
+                class="btn-primary"
+                :disabled="processing"
+            >
+                <icon name="move" />
+                {{ $t("pages.container_page.move.submit", { number: selectedIds.length }) }}
+                <loading-spinner v-if="processing" :size="2" />
+            </button>
+        </template>
     </modal>
 </template>

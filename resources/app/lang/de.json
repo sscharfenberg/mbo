@@ -598,6 +598,9 @@
         "add_deck": {
             "title": "Deck erstellen",
             "link": "Deck erstellen",
+            "commander": {
+                "choose": "Choose commander"
+            },
             "submit": "Save deck"
         },
         "add_cards": {
@@ -662,7 +665,9 @@
             "format": "Format",
             "created_at": "Hinzugefügt",
             "updated_at": "Geändert",
-            "legalities": "Legalität"
+            "legalities": "Legalität",
+            "commander": "Commander",
+            "signature_spell": "Signature Spell"
         }
     },
     "state": {
@@ -755,6 +760,9 @@
             "scryfall": "Auf Scryfall ansehen",
             "loading": "Lade Kartendetails…",
             "error": "Kartendetails konnten nicht geladen werden."
+        },
+        "commander_picker": {
+            "title": "Commander auswählen"
         },
         "deck_format_capabilities": {
             "title": "Deckbau-Regeln",
