@@ -117,4 +117,14 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
     {
         return $this->hasMany(CardStack::class);
     }
+
+    /**
+     * Get the decks belonging to this user.
+     *
+     * @return HasMany<Deck>
+     */
+    public function decks(): HasMany
+    {
+        return $this->hasMany(Deck::class);
+    }
 }

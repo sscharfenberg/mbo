@@ -8,6 +8,7 @@ use App\Enums\Finish;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CardStack extends Model
 {
@@ -86,5 +87,15 @@ class CardStack extends Model
     public function container(): BelongsTo
     {
         return $this->belongsTo(Container::class);
+    }
+
+    /**
+     * The deck card this physical card is assigned to, if any.
+     *
+     * @return HasOne<DeckCard>
+     */
+    public function deckCard(): HasOne
+    {
+        return $this->hasOne(DeckCard::class);
     }
 }
