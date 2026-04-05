@@ -57,14 +57,9 @@ class OracleCard extends Model
         'name',
         'collector_number',
         'layout',
-        'type_line',
         'lang',
         'cmc',
-        'mana_cost',
         'color_identity',
-        'colors',
-        'card_image_0',
-        'card_image_1',
         'reserved',
         'game_changer',
         'scryfall_uri',
@@ -99,5 +94,15 @@ class OracleCard extends Model
     public function defaults(): HasMany
     {
         return $this->hasMany(DefaultCard::class, 'oracle_id', 'oracle_id');
+    }
+
+    /**
+     * Get the card faces (1 for single-faced cards, 2 for multi-faced).
+     *
+     * @return HasMany<OracleCardFace>
+     */
+    public function faces(): HasMany
+    {
+        return $this->hasMany(OracleCardFace::class);
     }
 }

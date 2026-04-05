@@ -3,7 +3,6 @@
 namespace App\Services\Scryfall;
 
 use App\Models\DefaultCard;
-use App\Models\OracleCard;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -18,7 +17,6 @@ use Illuminate\Support\Facades\Storage;
  */
 class ResolveImagePathsService
 {
-
     /**
      * Cached directory listings indexed by "disk:setCode".
      * Each entry maps UUID to an array of relative disk paths for that card.
@@ -33,9 +31,9 @@ class ResolveImagePathsService
      * Lists all files once per set per disk, then indexes them by UUID prefix
      * for O(1) lookups. The index maps each UUID to all its matching files.
      *
-     * @param  string  $disk     The Storage disk name.
+     * @param  string  $disk  The Storage disk name.
      * @param  string  $setCode  The set code directory.
-     * @return array<string, string[]>  UUID → list of relative disk paths.
+     * @return array<string, string[]> UUID → list of relative disk paths.
      */
     private function getFileIndex(string $disk, string $setCode): array
     {
@@ -55,6 +53,7 @@ class ResolveImagePathsService
         }
 
         $this->fileIndex[$cacheKey] = $index;
+
         return $index;
     }
 
@@ -64,14 +63,15 @@ class ResolveImagePathsService
      * Art crop filenames: {uuid}--{timestamp}.jpg or {uuid}.jpg
      * A card has exactly one art crop, so any file starting with the UUID is a match.
      *
-     * @param  string  $disk     The Storage disk name.
+     * @param  string  $disk  The Storage disk name.
      * @param  string  $setCode  The set code directory.
-     * @param  string  $uuid     The card UUID.
-     * @return string|null  The relative disk path if found, null otherwise.
+     * @param  string  $uuid  The card UUID.
+     * @return string|null The relative disk path if found, null otherwise.
      */
     private function findArtCropOnDisk(string $disk, string $setCode, string $uuid): ?string
     {
         $index = $this->getFileIndex($disk, $setCode);
+
         return $index[$uuid][0] ?? null;
     }
 
@@ -82,11 +82,11 @@ class ResolveImagePathsService
      * Must match the specific face index suffix to avoid returning face 0's
      * file when looking for face 1 (and vice versa).
      *
-     * @param  string  $disk       The Storage disk name.
-     * @param  string  $setCode    The set code directory.
-     * @param  string  $uuid       The card UUID.
-     * @param  int     $faceIndex  The face index (0 = front, 1 = back).
-     * @return string|null  The relative disk path if found, null otherwise.
+     * @param  string  $disk  The Storage disk name.
+     * @param  string  $setCode  The set code directory.
+     * @param  string  $uuid  The card UUID.
+     * @param  int  $faceIndex  The face index (0 = front, 1 = back).
+     * @return string|null The relative disk path if found, null otherwise.
      */
     private function findCardImageOnDisk(string $disk, string $setCode, string $uuid, int $faceIndex): ?string
     {
@@ -98,6 +98,7 @@ class ResolveImagePathsService
                 return $file;
             }
         }
+
         return null;
     }
 
@@ -109,7 +110,7 @@ class ResolveImagePathsService
      * the disk for any file matching the card UUID. This makes resolution
      * resilient to timestamp mismatches between the bulk data and disk.
      *
-     * @return int  Number of paths resolved.
+     * @return int Number of paths resolved.
      */
     public function resolveArtCropPaths(): int
     {
@@ -122,7 +123,7 @@ class ResolveImagePathsService
             ->chunkById(500, function ($cards) use (&$resolved) {
                 foreach ($cards as $card) {
                     $setCode = $card->set?->code;
-                    if (!$setCode) {
+                    if (! $setCode) {
                         continue;
                     }
 
@@ -144,7 +145,7 @@ class ResolveImagePathsService
      * Scans the disk for a file matching the card UUID and the specific face
      * index suffix, so face 0 and face 1 files are never confused.
      *
-     * @return int  Number of resolved image paths.
+     * @return int Number of resolved image paths.
      */
     public function resolveCardImagePaths(): int
     {
@@ -160,7 +161,7 @@ class ResolveImagePathsService
                 ->chunkById(500, function ($cards) use (&$resolved, $column, $index) {
                     foreach ($cards as $card) {
                         $setCode = $card->set?->code;
-                        if (!$setCode) {
+                        if (! $setCode) {
                             continue;
                         }
 
@@ -175,44 +176,4 @@ class ResolveImagePathsService
 
         return $resolved;
     }
-
-    /**
-     * Copy resolved card image paths from default_cards to their oracle_cards.
-     *
-     * For each oracle card that still has Scryfall URLs, finds a matching
-     * default card (via oracle_id) that already has a resolved local path
-     * and copies it over.
-     *
-     * @return int  Number of oracle cards updated.
-     */
-    public function resolveOracleCardImagePaths(): int
-    {
-        $resolved = 0;
-
-        OracleCard::whereNotNull('card_image_0')
-            ->where('card_image_0', 'like', 'https://%')
-            ->chunkById(500, function ($oracleCards) use (&$resolved) {
-                foreach ($oracleCards as $oracleCard) {
-                    $defaultCard = DefaultCard::where('oracle_id', $oracleCard->id)
-                        ->whereNotNull('card_image_0')
-                        ->where('card_image_0', 'not like', 'https://%')
-                        ->first();
-
-                    if (!$defaultCard) {
-                        continue;
-                    }
-
-                    $update = ['card_image_0' => $defaultCard->card_image_0];
-                    if ($defaultCard->card_image_1 !== null) {
-                        $update['card_image_1'] = $defaultCard->card_image_1;
-                    }
-
-                    $oracleCard->update($update);
-                    $resolved++;
-                }
-            });
-
-        return $resolved;
-    }
-
 }

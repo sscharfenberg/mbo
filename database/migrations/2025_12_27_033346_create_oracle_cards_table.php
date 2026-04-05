@@ -19,14 +19,9 @@ return new class extends Migration
             $table->string('name', 160);
             $table->string('collector_number', 10);
             $table->string('layout', 48);
-            $table->string('type_line', 128);
             $table->string('lang', 8);
             $table->decimal('cmc', 8, 1);
-            $table->string('mana_cost', 64)->nullable();
             $table->string('color_identity', 6)->nullable();
-            $table->string('colors', 6)->nullable();
-            $table->string('card_image_0')->nullable();
-            $table->string('card_image_1')->nullable();
             $table->boolean('reserved')->default(false);
             $table->boolean('game_changer')->default(false);
             $table->string('scryfall_uri', 255);

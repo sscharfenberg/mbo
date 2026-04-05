@@ -4,18 +4,20 @@ namespace App\Services\Scryfall;
 
 use App\Enums\CardLegality;
 use App\Models\OracleCard;
+use App\Models\OracleCardFace;
 use App\Models\OracleCardLegality;
 use App\Services\FormatService;
 use Cerbero\JsonParser\JsonParser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class OracleCardsService
 {
     private const LEGALITY_BUFFER_SIZE = 500;
 
-    private ScryfallImageService $imageService;
+    private const FACE_BUFFER_SIZE = 500;
 
     private FormatService $formatService;
 
@@ -24,15 +26,18 @@ class OracleCardsService
     /** @var array<array{oracle_card_id: string, format: string, legality: string}> */
     private array $legalityBuffer = [];
 
+    /** @var array<array<string, mixed>> */
+    private array $faceBuffer = [];
+
     public function __construct()
     {
-        $this->imageService = new ScryfallImageService;
         $this->formatService = new FormatService;
         $this->bulkdataService = new BulkdataService;
     }
 
     /**
-     * Truncate the oracle_cards table before a fresh import.
+     * Truncate the oracle_cards, oracle_card_faces and legalities tables
+     * before a fresh import.
      *
      * Temporarily disables foreign key checks to allow truncation.
      */
@@ -40,17 +45,20 @@ class OracleCardsService
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         OracleCardLegality::truncate();
+        OracleCardFace::truncate();
         OracleCard::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        Log::channel('scryfall')->notice('truncated oracle_cards and legalities tables.');
+        Log::channel('scryfall')->notice('truncated oracle_cards, oracle_card_faces and legalities tables.');
     }
 
     /**
-     * Persist a single oracle card to the database.
+     * Persist a single oracle card to the database along with its face rows.
      *
-     * Maps required Scryfall fields and conditionally includes optional
-     * ones (mana_cost, layout, colors, color_identity). Card images are
-     * resolved via ScryfallImageService::getCardImages().
+     * Card-level fields (name, layout, cmc, color_identity, etc.) go to
+     * oracle_cards. Per-face fields (type_line, oracle_text, mana_cost,
+     * colors, power/toughness/loyalty/defense, image) go to oracle_card_faces
+     * via the face buffer. Single-faced cards get 1 face row synthesized from
+     * root-level fields; multi-faced cards get one row per card_faces entry.
      *
      * @param  array  $card  A single card object from the oracle_cards bulk JSON.
      */
@@ -61,23 +69,15 @@ class OracleCardsService
             'id' => $card['oracle_id'],
             'name' => $card['name'],
             'collector_number' => $card['collector_number'],
-            'type_line' => $card['type_line'],
             'lang' => $card['lang'],
             'cmc' => $card['cmc'],
-            ...$this->imageService->getCardImages($card),
             'reserved' => $card['reserved'],
             'game_changer' => $card['game_changer'],
             'scryfall_uri' => $card['scryfall_uri'],
         ];
         // nullable values
-        if (array_key_exists('mana_cost', $card)) {
-            $arr['mana_cost'] = $card['mana_cost'];
-        }
         if (array_key_exists('layout', $card)) {
             $arr['layout'] = $card['layout'];
-        }
-        if (array_key_exists('colors', $card) && count($card['colors']) > 0) {
-            $arr['colors'] = implode('', $card['colors']);
         }
         if (array_key_exists('color_identity', $card) && count($card['color_identity']) > 0) {
             $arr['color_identity'] = implode('', $card['color_identity']);
@@ -87,12 +87,84 @@ class OracleCardsService
             $newCard = OracleCard::create($arr);
             if ($newCard->wasRecentlyCreated) {
                 Log::channel('scryfall')->debug('Inserted OracleCard "'.$newCard->name.'".');
+                $this->bufferFaces($card);
                 $this->bufferLegalities($card['oracle_id'], $card['legalities'] ?? []);
             }
         } catch (\Exception $e) {
             Log::channel('scryfall')->error('error inserting card '.$card['name'].': '.$e->getMessage());
             Log::channel('scryfall')->error($e->getTraceAsString());
         }
+    }
+
+    /**
+     * Buffer face rows for a card. Single-faced cards produce exactly one
+     * face row synthesized from root-level fields; multi-faced cards produce
+     * one row per entry in the card_faces array.
+     *
+     * @param  array  $card  A single card object from the oracle_cards bulk JSON.
+     */
+    private function bufferFaces(array $card): void
+    {
+        if (array_key_exists('card_faces', $card) && is_array($card['card_faces']) && count($card['card_faces']) > 0) {
+            foreach ($card['card_faces'] as $index => $face) {
+                $this->faceBuffer[] = $this->buildFaceRow(
+                    oracleCardId: $card['oracle_id'],
+                    faceIndex: $index,
+                    source: $face,
+                );
+            }
+        } else {
+            $this->faceBuffer[] = $this->buildFaceRow(
+                oracleCardId: $card['oracle_id'],
+                faceIndex: 0,
+                source: $card,
+            );
+        }
+
+        if (count($this->faceBuffer) >= self::FACE_BUFFER_SIZE) {
+            $this->flushFaceBuffer();
+        }
+    }
+
+    /**
+     * Build a single oracle_card_faces row from a card or card_face object.
+     *
+     * @param  string  $oracleCardId  The parent oracle card UUID.
+     * @param  int  $faceIndex  0 = front, 1 = back (or higher for split cards).
+     * @param  array  $source  Root card object or card_faces entry.
+     * @return array<string, mixed>
+     */
+    private function buildFaceRow(string $oracleCardId, int $faceIndex, array $source): array
+    {
+        return [
+            'id' => (string) Str::uuid(),
+            'oracle_card_id' => $oracleCardId,
+            'face_index' => $faceIndex,
+            'name' => $source['name'] ?? '',
+            'mana_cost' => $source['mana_cost'] ?? null,
+            'type_line' => $source['type_line'] ?? '',
+            'oracle_text' => $source['oracle_text'] ?? null,
+            'colors' => (array_key_exists('colors', $source) && count($source['colors']) > 0)
+                ? implode('', $source['colors'])
+                : null,
+            'power' => $source['power'] ?? null,
+            'toughness' => $source['toughness'] ?? null,
+            'loyalty' => $source['loyalty'] ?? null,
+            'defense' => $source['defense'] ?? null,
+        ];
+    }
+
+    /**
+     * Insert all buffered face rows and clear the buffer.
+     */
+    private function flushFaceBuffer(): void
+    {
+        if (empty($this->faceBuffer)) {
+            return;
+        }
+
+        OracleCardFace::insert($this->faceBuffer);
+        $this->faceBuffer = [];
     }
 
     /**
@@ -152,6 +224,7 @@ class OracleCardsService
             $this->insertCard($value);
             $count++;
         });
+        $this->flushFaceBuffer();
         $this->flushLegalityBuffer();
         $ms = $start->diffInMilliseconds(now());
         $numCards = number_format($count, 0, ',', '.');

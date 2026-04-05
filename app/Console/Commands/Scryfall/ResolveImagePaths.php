@@ -21,16 +21,17 @@ class ResolveImagePaths extends Command
      *
      * @var string
      */
-    protected $description = 'Resolve Scryfall image URLs to local paths for art crops, card images, and oracle cards.';
+    protected $description = 'Resolve Scryfall image URLs to local paths for art crops and card images on default_cards.';
 
     private FormatService $formatService;
+
     private ResolveImagePathsService $resolveService;
 
     public function __construct()
     {
         parent::__construct();
-        $this->formatService = new FormatService();
-        $this->resolveService = new ResolveImagePathsService();
+        $this->formatService = new FormatService;
+        $this->resolveService = new ResolveImagePathsService;
     }
 
     /**
@@ -40,9 +41,9 @@ class ResolveImagePaths extends Command
     {
         $start = now();
         $this->info("artisan command 'scryfall:resolve-paths' started.");
-        Log::channel('scryfall')->info("=======================================================");
+        Log::channel('scryfall')->info('=======================================================');
         Log::channel('scryfall')->info("artisan command 'scryfall:resolve-paths' started.");
-        Log::channel('scryfall')->info("=======================================================");
+        Log::channel('scryfall')->info('=======================================================');
 
         $artCrops = $this->resolveService->resolveArtCropPaths();
         $this->line("resolved $artCrops art crop paths to local cache.");
@@ -52,14 +53,10 @@ class ResolveImagePaths extends Command
         $this->line("resolved $cardImages card image paths to local cache.");
         Log::channel('scryfall')->notice("resolved $cardImages card image paths to local cache.");
 
-        $oracleImages = $this->resolveService->resolveOracleCardImagePaths();
-        $this->line("resolved $oracleImages oracle card image paths from default cards.");
-        Log::channel('scryfall')->notice("resolved $oracleImages oracle card image paths from default cards.");
-
         $ms = $start->diffInMilliseconds(now());
-        Log::channel('scryfall')->info("=======================================================");
-        Log::channel('scryfall')->info("artisan command 'scryfall:resolve-paths' finished in ".$this->formatService->formatMs($ms).".");
-        Log::channel('scryfall')->info("=======================================================");
-        $this->info("artisan command 'scryfall:resolve-paths' finished in ".$this->formatService->formatMs($ms).".");
+        Log::channel('scryfall')->info('=======================================================');
+        Log::channel('scryfall')->info("artisan command 'scryfall:resolve-paths' finished in ".$this->formatService->formatMs($ms).'.');
+        Log::channel('scryfall')->info('=======================================================');
+        $this->info("artisan command 'scryfall:resolve-paths' finished in ".$this->formatService->formatMs($ms).'.');
     }
 }

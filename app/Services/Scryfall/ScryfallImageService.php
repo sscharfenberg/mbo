@@ -4,7 +4,6 @@ namespace App\Services\Scryfall;
 
 class ScryfallImageService
 {
-
     /**
      * Preferred image formats in descending priority order.
      *
@@ -12,7 +11,7 @@ class ScryfallImageService
      *
      * @var string[]
      */
-    protected array $imageFormats = ["large", "normal", "small", "png"];
+    protected array $imageFormats = ['large', 'normal', 'small', 'png'];
 
     /**
      * Extract card image URLs from a Scryfall card object.
@@ -40,6 +39,7 @@ class ScryfallImageService
                 }
             }
         }
+
         return [
             'card_image_0' => $uris[0] ?? null,
             'card_image_1' => $uris[1] ?? null,
@@ -54,7 +54,6 @@ class ScryfallImageService
      * Returns null if no art crop is available.
      *
      * @param  array  $card  A single card object from the Scryfall bulk JSON.
-     * @return string|null
      */
     public function getArtCrop(array $card): ?string
     {
@@ -68,6 +67,7 @@ class ScryfallImageService
                 }
             }
         }
+
         return null;
     }
 
@@ -79,11 +79,12 @@ class ScryfallImageService
      * Returns null if no query string / timestamp is present.
      *
      * @param  string  $url  A Scryfall image URL.
-     * @return string|null   The timestamp portion, or null.
+     * @return string|null The timestamp portion, or null.
      */
     public function parseTimestamp(string $url): ?string
     {
         $query = parse_url($url, PHP_URL_QUERY);
+
         return $query ?: null;
     }
 
@@ -95,29 +96,30 @@ class ScryfallImageService
      *
      * Format: {uuid}--{timestamp}.jpg  (or {uuid}.jpg if no timestamp)
      *
-     * @param  string       $uuid       The card UUID.
+     * @param  string  $uuid  The card UUID.
      * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
-     * @return string  e.g. "abcdef-1234--1709234567.jpg"
+     * @return string e.g. "abcdef-1234--1709234567.jpg"
      */
     public function buildArtCropFilename(string $uuid, ?string $timestamp): string
     {
         if ($timestamp !== null) {
             return "$uuid--$timestamp.jpg";
         }
+
         return "$uuid.jpg";
     }
 
     /**
      * Build the full local path for a cached art crop image.
      *
-     * @param  string       $setCode    The set code (e.g. "lea", "mh3").
-     * @param  string       $uuid       The card UUID.
+     * @param  string  $setCode  The set code (e.g. "lea", "mh3").
+     * @param  string  $uuid  The card UUID.
      * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
-     * @return string  e.g. "art-crops/lea/abcdef-1234--1709234567.jpg"
+     * @return string e.g. "art-crops/lea/abcdef-1234--1709234567.jpg"
      */
     public function buildArtCropPath(string $setCode, string $uuid, ?string $timestamp): string
     {
-        return "art-crops/$setCode/" . $this->buildArtCropFilename($uuid, $timestamp);
+        return "art-crops/$setCode/".$this->buildArtCropFilename($uuid, $timestamp);
     }
 
     /**
@@ -128,31 +130,32 @@ class ScryfallImageService
      *
      * Format: {uuid}--{timestamp}--{index}.jpg  (or {uuid}--{index}.jpg if no timestamp)
      *
-     * @param  string       $uuid       The card UUID.
+     * @param  string  $uuid  The card UUID.
      * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
-     * @param  int          $index      The face index (0 = front, 1 = back).
-     * @return string  e.g. "abcdef-1234--1709234567--0.jpg"
+     * @param  int  $index  The face index (0 = front, 1 = back).
+     * @return string e.g. "abcdef-1234--1709234567--0.jpg"
      */
     public function buildCardImageFilename(string $uuid, ?string $timestamp, int $index): string
     {
         if ($timestamp !== null) {
             return "$uuid--$timestamp--$index.jpg";
         }
+
         return "$uuid--$index.jpg";
     }
 
     /**
      * Build the full local path for a cached card image.
      *
-     * @param  string       $setCode    The set code (e.g. "lea", "mh3").
-     * @param  string       $uuid       The card UUID.
+     * @param  string  $setCode  The set code (e.g. "lea", "mh3").
+     * @param  string  $uuid  The card UUID.
      * @param  string|null  $timestamp  The timestamp from the Scryfall URL.
-     * @param  int          $index      The face index (0 = front, 1 = back).
-     * @return string  e.g. "card-images/lea/abcdef-1234--1709234567--0.jpg"
+     * @param  int  $index  The face index (0 = front, 1 = back).
+     * @return string e.g. "card-images/lea/abcdef-1234--1709234567--0.jpg"
      */
     public function buildCardImagePath(string $setCode, string $uuid, ?string $timestamp, int $index): string
     {
-        return "card-images/$setCode/" . $this->buildCardImageFilename($uuid, $timestamp, $index);
+        return "card-images/$setCode/".$this->buildCardImageFilename($uuid, $timestamp, $index);
     }
 
     /**
@@ -162,16 +165,18 @@ class ScryfallImageService
      * the first match. Returns an empty string if none are available.
      *
      * @param  array  $face  A card or card_face object from the Scryfall bulk JSON.
-     * @return string
      */
-    private function getCardFaceImageUri(array $face): string
+    public function getCardFaceImageUri(array $face): string
     {
+        if (! array_key_exists('image_uris', $face) || ! is_array($face['image_uris'])) {
+            return '';
+        }
         foreach ($this->imageFormats as $format) {
             if (array_key_exists($format, $face['image_uris'])) {
                 return $face['image_uris'][$format];
             }
         }
-        return "";
-    }
 
+        return '';
+    }
 }
