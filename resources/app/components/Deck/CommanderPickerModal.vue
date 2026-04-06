@@ -121,6 +121,10 @@ const fetchCompanions = async (q: string) => {
             params.set("exclude", selected.value.id);
             if (selected.value.companion_type === "background") {
                 params.set("background", "1");
+            } else if (selected.value.companion_type === "friends_forever") {
+                params.set("friends_forever", "1");
+            } else if (selected.value.companion_type === "doctors_companion") {
+                params.set("doctors_companion", "1");
             } else {
                 params.set("partner", "1");
             }
@@ -217,8 +221,15 @@ const onConfirm = () => {
                         </form-group>
                     </template>
                 </template>
-                <!-- Partner / Background: search for a companion -->
-                <template v-else-if="selected.companion_type === 'partner' || selected.companion_type === 'background'">
+                <!-- Partner / Friends forever / Doctor's companion / Background: search for a companion -->
+                <template
+                    v-else-if="
+                        selected.companion_type === 'partner' ||
+                        selected.companion_type === 'friends_forever' ||
+                        selected.companion_type === 'doctors_companion' ||
+                        selected.companion_type === 'background'
+                    "
+                >
                     <template v-if="selectedCompanion">
                         <form-group :label="$t(`components.commander_picker.${selected.companion_type}_selected`)">
                             <div class="commander-picker__commander commander-picker__commander--selected">

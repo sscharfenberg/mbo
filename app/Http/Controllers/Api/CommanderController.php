@@ -21,15 +21,16 @@ class CommanderController extends Controller
      *
      * Supports "set:xxx" and "number:xxx" tokens via CardSearchParser.
      *
-     * Optional query parameters:
      * Required query parameters:
      *  - `format=<key>` — CardFormat enum value; filters to cards legal/restricted in this format.
      *
      * Optional query parameters:
-     *  - `rule0=1`       — skip commander-legality filters (any oracle card matches).
-     *  - `partner=1`     — restrict to cards with a partner keyword (Partner, Friends forever, etc.).
-     *  - `background=1`  — restrict to cards with the Background subtype.
-     *  - `exclude=<uuid>` — exclude a specific oracle card (e.g. the already-selected commander).
+     *  - `rule0=1`              — skip commander-legality filters (any oracle card matches).
+     *  - `partner=1`            — restrict to cards with the Partner keyword.
+     *  - `friends_forever=1`    — restrict to cards with "Friends forever".
+     *  - `doctors_companion=1`  — restrict to cards with "Doctor's companion".
+     *  - `background=1`         — restrict to cards with the Background subtype.
+     *  - `exclude=<uuid>`       — exclude a specific oracle card (e.g. the already-selected commander).
      */
     public function search(Request $request): JsonResponse
     {
@@ -86,7 +87,21 @@ class CommanderController extends Controller
         // When searching for a partner, only return cards with a partner keyword.
         if ($request->boolean('partner')) {
             $query->whereHas('faces', function (Builder $fq): void {
-                $fq->where('oracle_text', 'regexp', '\\bPartner\\b|Friends forever|Doctor\'s companion|Legendary partner');
+                $fq->where('oracle_text', 'regexp', '\\bPartner\\b|Doctor\'s companion|Legendary partner');
+            });
+        }
+
+        // When searching for a Doctor's companion, only return cards with that keyword.
+        if ($request->boolean('doctors_companion')) {
+            $query->whereHas('faces', function (Builder $fq): void {
+                $fq->where('oracle_text', 'like', '%Doctor\'s companion%');
+            });
+        }
+
+        // When searching for a "Friends forever" partner, only return other "Friends forever" cards.
+        if ($request->boolean('friends_forever')) {
+            $query->whereHas('faces', function (Builder $fq): void {
+                $fq->where('oracle_text', 'like', '%Friends forever%');
             });
         }
 
@@ -106,7 +121,8 @@ class CommanderController extends Controller
             ->map(function (OracleCard $card) {
                 $allOracleText = $card->faces->pluck('oracle_text')->implode("\n");
 
-                $companion = $this->resolveCompanionType($allOracleText);
+                $frontTypeLine = $card->faces->first()?->type_line ?? '';
+                $companion = $this->resolveCompanionType($allOracleText, $frontTypeLine);
 
                 return [
                     'id' => $card->id,
@@ -125,11 +141,11 @@ class CommanderController extends Controller
     }
 
     /**
-     * Determine the companion type from the combined oracle text.
+     * Determine the companion type from the combined oracle text and front-face type line.
      *
-     * @return array{type: 'partner'|'partner_with'|'background'|null, partner_with_name: string|null}
+     * @return array{type: 'partner'|'partner_with'|'friends_forever'|'doctors_companion'|'background'|null, partner_with_name: string|null}
      */
-    private function resolveCompanionType(string $oracleText): array
+    private function resolveCompanionType(string $oracleText, string $frontTypeLine): array
     {
         if (preg_match('/Choose a Background/i', $oracleText)) {
             return ['type' => 'background', 'partner_with_name' => null];
@@ -139,7 +155,16 @@ class CommanderController extends Controller
             return ['type' => 'partner_with', 'partner_with_name' => trim($matches[1])];
         }
 
-        if (preg_match('/\bPartner\b|Friends forever|Doctor\'s companion|Legendary partner/i', $oracleText)) {
+        if (preg_match('/Friends forever/i', $oracleText)) {
+            return ['type' => 'friends_forever', 'partner_with_name' => null];
+        }
+
+        // Time Lord Doctors can have a Doctor's companion in the command zone.
+        if ($frontTypeLine === 'Legendary Creature — Time Lord Doctor') {
+            return ['type' => 'doctors_companion', 'partner_with_name' => null];
+        }
+
+        if (preg_match('/\bPartner\b|Legendary partner/i', $oracleText)) {
             return ['type' => 'partner', 'partner_with_name' => null];
         }
 
