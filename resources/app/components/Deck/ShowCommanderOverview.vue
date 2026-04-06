@@ -3,26 +3,26 @@ import { useI18n } from "vue-i18n";
 import ColorIdentity from "Components/Card/ColorIdentity.vue";
 import ManaCost from "Components/Card/ManaCost.vue";
 import Icon from "Components/UI/Icon.vue";
-
 const { t } = useI18n();
-
 /** Shape of a single face in a commander search result. */
 export type CommanderFace = {
     type_line: string;
     mana_cost: string | null;
 };
-
 /** Shape of a single commander search result from `/api/commander`. */
 export type CommanderResult = {
     id: string;
     name: string;
     color_identity: string | null;
-    can_have_partner: boolean;
+    companion_type: "partner" | "partner_with" | "background" | null;
+    partner_with_name: string | null;
     faces: CommanderFace[];
 };
-
-defineProps<{ card: CommanderResult }>();
-
+defineProps<{
+    card: CommanderResult;
+    /** CSS selector for the FloatingVue tooltip container. Defaults to `body`. */
+    tooltipContainer?: string;
+}>();
 /** Color letter → i18n key mapping in WUBRG order. */
 const COLOR_NAMES: Record<string, string> = {
     W: "enums.colors.W",
@@ -31,7 +31,6 @@ const COLOR_NAMES: Record<string, string> = {
     R: "enums.colors.R",
     G: "enums.colors.G"
 };
-
 /**
  * Build a tooltip string like "Color Identity: white, blue and green".
  *
@@ -51,7 +50,7 @@ const ciTooltip = (ci: string | null): string => {
     <span class="commander-picker__name">{{ card.name }}</span>
     <span
         class="commander-picker__ci"
-        v-tooltip="{ content: ciTooltip(card.color_identity), container: '#modal' }"
+        v-tooltip="{ content: ciTooltip(card.color_identity), container: tooltipContainer ?? false }"
         @click.stop
     >
         <color-identity :color-identity="card.color_identity" />
@@ -64,13 +63,16 @@ const ciTooltip = (ci: string | null): string => {
     </span>
     <span
         class="commander-picker__partner"
-        v-if="card.can_have_partner"
+        v-if="card.companion_type"
         @click.stop
         v-tooltip="{
-            content: $t('components.commander_picker.partner_tooltip'),
-            container: '#modal'
+            content:
+                card.companion_type === 'partner_with'
+                    ? $t('components.commander_picker.partner_with_tooltip', { name: card.partner_with_name })
+                    : $t(`components.commander_picker.${card.companion_type}_tooltip`),
+            container: tooltipContainer ?? false
         }"
     >
-        <icon name="register" />
+        <icon :name="card.companion_type === 'background' ? 'background' : 'partner'" />
     </span>
 </template>

@@ -608,6 +608,7 @@
             "link": "Deck erstellen",
             "commander": {
                 "choose": "Commander auswählen",
+                "change": "Command Zone ändern",
                 "search": "Commander suchen"
             },
             "submit": "Save deck"
@@ -779,9 +780,23 @@
             "no_results": "Keine Commander gefunden.",
             "color_identity": "Farbidentität",
             "partner_tooltip": "Partner — du kannst einen zusätzlichen Commander auswählen",
-            "include_rule0": "Include Rule 0 / non-legal commanders",
+            "partner_with_tooltip": "Partner mit {name}",
+            "partner_with_label": "Partner hinzufügen: {name}",
+            "background_tooltip": "Hintergrund wählen — du kannst einen Hintergrund als zweiten Commander auswählen",
+            "include_rule0": "Einschließlich Rule 0 / nicht-legale Commander",
             "selected": "Ausgewählter Commander",
-            "change": "Ändern"
+            "change": "Ändern",
+            "change_commander_and_partner": "Commander und Partner ändern",
+            "change_commander_and_background": "Commander und Hintergrund ändern",
+            "partner_search": "Partner-Commander suchen",
+            "partner_selected": "Ausgewählter Partner",
+            "partner_no_results": "Keine Partner-Commander gefunden.",
+            "partner_change": "Partner ändern",
+            "background_search": "Hintergrund suchen",
+            "background_selected": "Ausgewählter Hintergrund",
+            "background_no_results": "Keine Hintergründe gefunden.",
+            "background_change": "Hintergrund ändern",
+            "confirm": "Command Zone bestätigen"
         },
         "deck_format_capabilities": {
             "title": "Deckbau-Regeln",

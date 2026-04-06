@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import CommanderPickerModal from "Components/Deck/CommanderPickerModal.vue";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
+import type { CommanderResult } from "Components/Deck/ShowCommanderOverview.vue";
+import ShowCommanderOverview from "Components/Deck/ShowCommanderOverview.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
 import Headline from "Components/UI/Headline.vue";
@@ -27,6 +29,20 @@ const selectedCapabilities = computed<FormatCapabilities | null>(
 );
 /** Whether the commander picker modal is open. */
 const commanderPickerOpen = ref(false);
+/** Confirmed commander from the picker modal. */
+const commander = ref<CommanderResult | null>(null);
+/** Confirmed companion (partner or background) from the picker modal (may be null). */
+const companion = ref<CommanderResult | null>(null);
+/** Store the confirmed commander and optional companion from the picker modal. */
+const onCommandZoneConfirmed = (cmd: CommanderResult, comp: CommanderResult | null) => {
+    commander.value = cmd;
+    companion.value = comp;
+};
+/** Clear command zone when format changes — legality may differ. */
+watch(selectedFormat, () => {
+    commander.value = null;
+    companion.value = null;
+});
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "pages.add_deck.link" }]);
 </script>
@@ -53,12 +69,29 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
                 <deck-format-capabilities :capabilities="selectedCapabilities" />
             </template>
         </form-group>
-        <form-group v-if="selectedCapabilities?.requiresCommander" :label="$t('form.fields.commander')">
-            <button type="button" class="btn-default" @click="commanderPickerOpen = true">
-                <icon name="register" />
-                {{ $t("pages.add_deck.commander.choose") }}
-            </button>
-        </form-group>
+        <template v-if="selectedCapabilities?.requiresCommander">
+            <form-group v-if="commander" :label="$t('form.fields.commander')">
+                <div class="commander-picker__commander commander-picker__commander--selected">
+                    <show-commander-overview :card="commander" />
+                </div>
+                <input type="hidden" name="commander_id" :value="commander.id" />
+            </form-group>
+            <form-group
+                v-if="companion && commander?.companion_type"
+                :label="$t(`components.commander_picker.${commander.companion_type === 'partner_with' ? 'partner' : commander.companion_type}_selected`)"
+            >
+                <div class="commander-picker__commander commander-picker__commander--selected">
+                    <show-commander-overview :card="companion" />
+                </div>
+                <input type="hidden" name="companion_id" :value="companion.id" />
+            </form-group>
+            <form-group>
+                <button type="button" class="btn-default" @click="commanderPickerOpen = true">
+                    <icon name="register" />
+                    {{ $t(commander ? "pages.add_deck.commander.change" : "pages.add_deck.commander.choose") }}
+                </button>
+            </form-group>
+        </template>
         <form-group
             for-id="deck_name"
             :label="$t('form.fields.container.name')"
@@ -102,5 +135,10 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </button>
         </form-group>
     </Form>
-    <commander-picker-modal v-if="commanderPickerOpen" @close="commanderPickerOpen = false" />
+    <commander-picker-modal
+        v-if="commanderPickerOpen"
+        :format="selectedFormat"
+        @close="commanderPickerOpen = false"
+        @confirm="onCommandZoneConfirmed"
+    />
 </template>

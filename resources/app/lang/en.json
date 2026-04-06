@@ -608,6 +608,7 @@
             "link": "Create deck",
             "commander": {
                 "choose": "Choose commander",
+                "change": "Change command zone",
                 "search": "Search for commander"
             },
             "submit": "Save deck"
@@ -779,9 +780,23 @@
             "no_results": "No commanders found.",
             "color_identity": "Color Identity",
             "partner_tooltip": "Partner — you can select an additional commander",
+            "partner_with_tooltip": "Partner with {name}",
+            "partner_with_label": "Add partner: {name}",
+            "background_tooltip": "Choose a Background — you can select a Background as a second commander",
             "include_rule0": "Include Rule 0 / non-legal commanders",
             "selected": "Selected commander",
-            "change": "Change"
+            "change": "Change",
+            "change_commander_and_partner": "Change commander and partner",
+            "change_commander_and_background": "Change commander and background",
+            "partner_search": "Search partner commander",
+            "partner_selected": "Selected partner",
+            "partner_no_results": "No partner commanders found.",
+            "partner_change": "Change partner",
+            "background_search": "Search background",
+            "background_selected": "Selected background",
+            "background_no_results": "No backgrounds found.",
+            "background_change": "Change background",
+            "confirm": "Confirm Command Zone"
         },
         "deck_format_capabilities": {
             "title": "Deck construction rules",
