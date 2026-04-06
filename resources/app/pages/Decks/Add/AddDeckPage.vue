@@ -70,7 +70,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </template>
         </form-group>
         <template v-if="selectedCapabilities?.requiresCommander">
-            <form-group v-if="commander" :label="$t('form.fields.commander')">
+            <form-group v-if="commander" :label="$t('form.fields.commander')" :required="true">
                 <div class="commander-picker__commander commander-picker__commander--selected">
                     <show-commander-overview :card="commander" />
                 </div>
@@ -78,7 +78,11 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </form-group>
             <form-group
                 v-if="companion && commander?.companion_type"
-                :label="$t(`components.commander_picker.${commander.companion_type === 'partner_with' ? 'partner' : commander.companion_type}_selected`)"
+                :label="
+                    $t(
+                        `components.commander_picker.${commander.companion_type === 'partner_with' ? 'partner' : commander.companion_type}_selected`
+                    )
+                "
             >
                 <div class="commander-picker__commander commander-picker__commander--selected">
                     <show-commander-overview :card="companion" />

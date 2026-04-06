@@ -119,15 +119,12 @@ const fetchCompanions = async (q: string) => {
         const params = new URLSearchParams({ q, format: props.format });
         if (selected.value) {
             params.set("exclude", selected.value.id);
-            if (selected.value.companion_type === "background") {
-                params.set("background", "1");
-            } else if (selected.value.companion_type === "friends_forever") {
-                params.set("friends_forever", "1");
-            } else if (selected.value.companion_type === "doctors_companion") {
-                params.set("doctors_companion", "1");
-            } else {
-                params.set("partner", "1");
-            }
+            const companionTypeParam: Record<string, string> = {
+                background: "background",
+                friends_forever: "friends_forever",
+                doctors_companion: "doctors_companion"
+            };
+            params.set(companionTypeParam[selected.value.companion_type ?? ""] ?? "partner", "1");
         }
         const response = await fetch(`/api/commander?${params}`);
         if (response.ok) {
@@ -183,7 +180,7 @@ const onConfirm = () => {
                         {{
                             $t(
                                 selectedCompanion && selected.companion_type
-                                    ? `components.commander_picker.change_commander_and_${selected.companion_type === 'partner_with' ? 'partner' : selected.companion_type}`
+                                    ? `components.commander_picker.change_commander_and_${selected.companion_type === "partner_with" ? "partner" : selected.companion_type}`
                                     : "components.commander_picker.change"
                             )
                         }}
@@ -206,11 +203,7 @@ const onConfirm = () => {
                     </template>
                     <template v-else-if="partnerWithCard">
                         <form-group :label="$t('components.commander_picker.partner_selected')">
-                            <button
-                                type="button"
-                                class="btn-default"
-                                @click="onCompanionSelected(partnerWithCard)"
-                            >
+                            <button type="button" class="btn-default" @click="onCompanionSelected(partnerWithCard)">
                                 <icon name="partner" />
                                 {{
                                     $t("components.commander_picker.partner_with_label", {
@@ -222,14 +215,7 @@ const onConfirm = () => {
                     </template>
                 </template>
                 <!-- Partner / Friends forever / Doctor's companion / Background: search for a companion -->
-                <template
-                    v-else-if="
-                        selected.companion_type === 'partner' ||
-                        selected.companion_type === 'friends_forever' ||
-                        selected.companion_type === 'doctors_companion' ||
-                        selected.companion_type === 'background'
-                    "
-                >
+                <template v-else-if="selected.companion_type">
                     <template v-if="selectedCompanion">
                         <form-group :label="$t(`components.commander_picker.${selected.companion_type}_selected`)">
                             <div class="commander-picker__commander commander-picker__commander--selected">
