@@ -1,5 +1,13 @@
 {
     "enums": {
+        "colors": {
+            "W": "white",
+            "U": "blue",
+            "B": "black",
+            "R": "red",
+            "G": "green",
+            "C": "colorless"
+        },
         "container_type": {
             "binder": "Binder",
             "deckbox": "Deck Box",
@@ -684,6 +692,10 @@
     "breadcrumb": {
         "nav": "Breadcrumb navigation"
     },
+    "combinations": {
+        "and": "and",
+        "or": "or"
+    },
     "card": {
         "search": {
             "placeholder": {
@@ -764,7 +776,12 @@
         },
         "commander_picker": {
             "title": "Choose commander",
-            "no_results": "No commanders found."
+            "no_results": "No commanders found.",
+            "color_identity": "Color Identity",
+            "partner_tooltip": "Partner — you can select an additional commander",
+            "include_rule0": "Include Rule 0 / non-legal commanders",
+            "selected": "Selected commander",
+            "change": "Change"
         },
         "deck_format_capabilities": {
             "title": "Deck construction rules",

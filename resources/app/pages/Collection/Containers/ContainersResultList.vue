@@ -110,13 +110,13 @@ watch(
 
         padding-right: 1ch;
         border: map.get(s.$pages, "containers", "border") solid map.get(c.$pages, "containers", "border");
+        row-gap: 0.5rem;
 
         background: map.get(c.$pages, "containers", "background", "odd");
         color: map.get(c.$pages, "containers", "surface");
         border-radius: map.get(s.$pages, "containers", "radius");
 
         transition: background-color map.get(ti.$timings, "fast") linear;
-        row-gap: 0.5rem;
 
         &:hover {
             background: map.get(c.$pages, "containers", "background-hover", "odd");
@@ -168,9 +168,10 @@ watch(
 
         padding-right: 1ch;
 
+        column-gap: 1ch;
+
         color: inherit;
 
-        column-gap: 1ch;
         text-decoration: none;
     }
 

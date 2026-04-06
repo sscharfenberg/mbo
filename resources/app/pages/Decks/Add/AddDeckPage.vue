@@ -2,7 +2,7 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import CommanderPicker from "Components/Deck/CommanderPicker/CommanderPicker.vue";
+import CommanderPickerModal from "Components/Deck/CommanderPickerModal.vue";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import MonoSelect from "Components/Form/Select/MonoSelect.vue";
@@ -102,5 +102,5 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </button>
         </form-group>
     </Form>
-    <commander-picker v-if="commanderPickerOpen" @close="commanderPickerOpen = false" />
+    <commander-picker-modal v-if="commanderPickerOpen" @close="commanderPickerOpen = false" />
 </template>

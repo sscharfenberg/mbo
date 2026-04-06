@@ -41,15 +41,21 @@ class CommanderController extends Controller
             $query->where('name', 'like', "%$segment%");
         }
 
-        // Must have at least one face that qualifies as a commander.
-        $query->whereHas('faces', function (Builder $q): void {
-            $q->where(function (Builder $q): void {
-                // Legendary creature (has power + toughness).
-                $q->where('type_line', 'like', '%Legendary%')
-                    ->whereNotNull('power')
-                    ->whereNotNull('toughness');
-            })->orWhere('oracle_text', 'like', '%can be your commander%');
-        });
+        // Rule 0: skip commander-legality filters when the user opts in.
+        if (! $request->boolean('rule0')) {
+            // Must qualify as a commander: front face is a legendary creature,
+            // or any face explicitly says "can be your commander".
+            $query->where(function (Builder $q): void {
+                $q->whereHas('faces', function (Builder $fq): void {
+                    $fq->where('face_index', 0)
+                        ->where('type_line', 'like', '%Legendary%')
+                        ->whereNotNull('power')
+                        ->whereNotNull('toughness');
+                })->orWhereHas('faces', function (Builder $fq): void {
+                    $fq->where('oracle_text', 'like', '%can be your commander%');
+                });
+            });
+        }
 
         $cards = $query->select('id', 'name', 'color_identity')
             ->with(['faces' => fn ($q) => $q->select('oracle_card_id', 'face_index', 'mana_cost', 'type_line', 'oracle_text')

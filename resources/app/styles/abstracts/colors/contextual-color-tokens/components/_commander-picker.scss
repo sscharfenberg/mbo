@@ -3,7 +3,17 @@
 @use "../../global-color-tokens" as c;
 
 $commander-picker: (
-    "background": light-dark(color.adjust(#fff, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),
+    "background": (
+        "odd": light-dark(
+                color.adjust(map.get(c.$grey, "mystic"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "asher"), $alpha: -0.5)
+            ),
+        "even": light-dark(
+                color.adjust(map.get(c.$grey, "infra"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "asher"), $alpha: -0.5)
+            ),
+        "hover": light-dark(#fff, #000)
+    ),
     "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
     "border-from": light-dark(map.get(c.$grey, "iron"), map.get(c.$grey, "abbey")),
     "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker")),

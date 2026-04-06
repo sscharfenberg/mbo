@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
 @use "Abstracts/mixins" as m;
 @use "Abstracts/z-indexes" as z;
 
@@ -15,21 +16,35 @@
     &__commander {
         display: grid;
         position: relative;
+        flex-grow: 1;
         grid-template-columns: 1fr auto;
         grid-template-rows: auto auto;
 
         padding: map.get(s.$components, "commander-picker", "padding", "base");
         border: 0;
+        column-gap: 1ch;
 
-        background-color: map.get(c.$components, "commander-picker", "background");
+        background-color: map.get(c.$components, "commander-picker", "background", "odd");
         color: map.get(c.$components, "commander-picker", "surface");
         border-radius: map.get(s.$components, "commander-picker", "radius");
-
-        column-gap: 1ch;
 
         text-align: left;
 
         cursor: pointer;
+
+        transition: background-color map.get(ti.$timings, "fast") linear;
+
+        &:nth-of-type(even) {
+            background-color: map.get(c.$components, "commander-picker", "background", "even");
+        }
+
+        &:not(.commander-picker__commander--selected):hover {
+            background-color: map.get(c.$components, "commander-picker", "background", "hover");
+        }
+
+        &--selected {
+            cursor: default;
+        }
 
         &::before {
             position: absolute;

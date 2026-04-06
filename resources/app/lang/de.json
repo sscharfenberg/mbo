@@ -1,5 +1,13 @@
 {
     "enums": {
+        "colors": {
+            "W": "Weiß",
+            "U": "Blau",
+            "B": "Schwarz",
+            "R": "Rot",
+            "G": "Grün",
+            "C": "Farblos"
+        },
         "container_type": {
             "binder": "Ordner",
             "deckbox": "Deckbox",
@@ -684,6 +692,10 @@
     "breadcrumb": {
         "nav": "Breadcrumb-Navigation"
     },
+    "combinations": {
+        "and": "und",
+        "or": "oder"
+    },
     "card": {
         "search": {
             "placeholder": {
@@ -764,7 +776,12 @@
         },
         "commander_picker": {
             "title": "Commander auswählen",
-            "no_results": "Keine Commander gefunden."
+            "no_results": "Keine Commander gefunden.",
+            "color_identity": "Farbidentität",
+            "partner_tooltip": "Partner — du kannst einen zusätzlichen Commander auswählen",
+            "include_rule0": "Include Rule 0 / non-legal commanders",
+            "selected": "Ausgewählter Commander",
+            "change": "Ändern"
         },
         "deck_format_capabilities": {
             "title": "Deckbau-Regeln",
