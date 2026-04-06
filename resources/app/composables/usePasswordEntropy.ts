@@ -1,4 +1,3 @@
-import { debounce, type DebouncedFunc } from "lodash-es";
 import { type Ref, ref } from "vue";
 
 /**
@@ -7,40 +6,50 @@ import { type Ref, ref } from "vue";
  * Provides a reactive password ref, a debounced handler that posts the
  * current value to the server-side zxcvbn endpoint, and a reactive score
  * ref (0-4) updated with each response.
- *
- * @returns {{ password: Ref<string>, score: Ref<number | null>, onPasswordChange: DebouncedFunc<() => void>, reset: () => void }}
  */
 export function usePasswordEntropy(): {
     password: Ref<string>;
     score: Ref<number | null>;
-    onPasswordChange: DebouncedFunc<() => void>;
+    onPasswordChange: () => void;
     reset: () => void;
 } {
     const password = ref("");
     const score = ref<number | null>(null);
 
-    const onPasswordChange = debounce(
-        () => {
-            if (!password.value.length) return;
-            fetch("/api/auth/entropy", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", Accept: "application/json" },
-                body: JSON.stringify({ p: password.value })
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+    let maxWaitTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const checkEntropy = () => {
+        debounceTimer = null;
+        if (maxWaitTimer) {
+            clearTimeout(maxWaitTimer);
+            maxWaitTimer = null;
+        }
+        if (!password.value.length) return;
+        fetch("/api/auth/entropy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ p: password.value })
+        })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.json();
             })
-                .then(response => {
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return response.json();
-                })
-                .then(data => {
-                    score.value = data.score;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        750,
-        { maxWait: 5000 }
-    );
+            .then(data => {
+                score.value = data.score;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const onPasswordChange = () => {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(checkEntropy, 750);
+        if (!maxWaitTimer) {
+            maxWaitTimer = setTimeout(checkEntropy, 5000);
+        }
+    };
 
     const reset = () => {
         password.value = "";

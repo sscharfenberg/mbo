@@ -13,75 +13,52 @@ import processAgs from "minimist";
 import { optimize } from "svgo";
 import svgStore from "svgstore";
 const args = processAgs(argv.slice(2));
-const PROJECTROOT = fs.realpathSync(cwd());
-const ICONS_DIR = path.resolve(PROJECTROOT, "resources/app/assets/icons");
-const INLINE = args.i || false; // true = no DOCTYPE and xml/xmlns attribute
-const OUT_DIR = path.resolve(PROJECTROOT, "storage/app/public");
-const OUT_PATH = path.resolve(OUT_DIR, "sprite.svg");
+const PROJECTROOT: string = fs.realpathSync(cwd());
+const ICONS_DIR: string = path.resolve(PROJECTROOT, "resources/app/assets/icons");
+const INLINE: boolean = args.i || false; // true = no DOCTYPE and xml/xmlns attribute
+const OUT_DIR: string = path.resolve(PROJECTROOT, "storage/app/public");
+const OUT_PATH: string = path.resolve(OUT_DIR, "sprite.svg");
 
-/**
- * the global prefix for all icon log messages
- * @type {string}
- */
-const logPrefix = !args.w && chalk.bgCyan.black("[" + chalk.italic("icons") + "]");
+/** the global prefix for all icon log messages */
+const logPrefix: string | false = !args.w && chalk.bgCyan.black("[" + chalk.italic("icons") + "]");
 
-/**
- * info prefix for all icon log messages
- * @type {string}
- */
-const infoPrefix = chalk.bgWhiteBright.black(" 🧐 nfo ");
+/** info prefix for all icon log messages */
+const infoPrefix: string = chalk.bgWhiteBright.black(" 🧐 nfo ");
 
-/**
- * debug prefix for all icon log messages
- * @type {string}
- */
-const debugPrefix = chalk.bgYellow.black(" 😏 dbg ");
+/** debug prefix for all icon log messages */
+const debugPrefix: string = chalk.bgYellow.black(" 😏 dbg ");
 
-/**
- * error prefix for all icon log messages
- * @type {string}
- */
-const errorPrefix = chalk.bgRed.white(" 🫣 err ");
+/** error prefix for all icon log messages */
+const errorPrefix: string = chalk.bgRed.white(" 🫣 err ");
 
-/**
- * log object with [info|debug|error] methods
- * @type {Object}
- */
+/** log object with [info|debug|error] methods */
 const log = {
-    info: text => {
+    info: (text: string): void => {
         let msg = "";
         if (!args.w) msg += logPrefix;
         console.log(`${msg}${infoPrefix} ${chalk.whiteBright(text)}`);
     },
-    debug: text => {
+    debug: (text: string): void => {
         let msg = "";
         if (!args.w) msg += logPrefix;
         console.log(`${msg}${debugPrefix} ${chalk.yellowBright(text)}`);
     },
-    error: text => {
+    error: (text: string): void => {
         let msg = "";
         if (!args.w) msg += logPrefix;
         console.log(`${msg}${errorPrefix} ${chalk.redBright(text)}`);
     }
 };
 
-/**
- * @function read directory and get filenames of svg files
- * @returns {string[]} array with filename strings
- */
-const getSvgFileNames = () => {
-    const fileNames = fs.readdirSync(ICONS_DIR).filter(file => !file.isDirectory && file.endsWith(".svg"));
+/** read directory and get filenames of svg files */
+const getSvgFileNames = (): string[] => {
+    const fileNames = fs.readdirSync(ICONS_DIR).filter(file => file.endsWith(".svg"));
     if (fileNames.length > 0) return fileNames;
     return [];
 };
 
-/**
- * @function write sprite to disk
- * @param {string} data - SVG contents as string
- * @param {number} length - the amount of SVGs processed.
- * @param {BigInt} start - the time the processing of the sprite sheet was started in BigInt nanoseconds
- */
-const writeSpriteToDisk = (data, length, start) => {
+/** write sprite to disk */
+const writeSpriteToDisk = (data: string, length: number, start: bigint): void => {
     if (!fs.existsSync(OUT_DIR)) {
         if (args.v) log.info(`creating output directory ${chalk.yellow(path.basename(OUT_DIR))}`);
         fs.mkdirSync(OUT_DIR);
@@ -89,7 +66,7 @@ const writeSpriteToDisk = (data, length, start) => {
     log.info(`writing icon sprite with ${chalk.bgRed.white(" " + length + " ")} symbols`);
     fs.writeFile(OUT_PATH, data, err => {
         if (err) {
-            log.error(err);
+            log.error(err.message);
             exit(1);
         } else {
             log.info(chalk.bgGreenBright.black(" 🥳 success! "));
@@ -99,33 +76,25 @@ const writeSpriteToDisk = (data, length, start) => {
     });
 };
 
-/**
- * @function format HrTime in a human-readable format
- * @param {BigInt} time
- * @returns {string}
- */
-const formatHrTime = time => {
+/** format HrTime in a human-readable format */
+const formatHrTime = (time: bigint): string => {
     return (Number(time) / 1000000000).toFixed(3);
 };
 
-/**
- * @function event handler for firing a watch event
- * @param event
- * @param fileName
- */
-const onIconChanged = (event, fileName) => {
+/** event handler for firing a watch event */
+const onIconChanged = (event: string, fileName: string | null): void => {
     log.info(`file ${chalk.bgYellow.black(" " + fileName + " ")} triggered watcher`);
     createIconSprite();
 };
 
 /**
- * @function watch icon files for changes
+ * watch icon files for changes
  * once triggered, the watcher is killed and one second later resurrected
  * there are two reasons for this:
- * 1) depending on the OS, the watch function is triggered twice - once with "change", once with "rename" ¯\_(ツ)_/¯
+ * 1) depending on the OS, the watch function is triggered twice - once with "change", once with "rename"
  * 2) if more than one file is copied into the watched directory, the watcher gets triggered once per file.
  */
-const watch = () => {
+const watch = (): void => {
     const watcher = fs.watch(ICONS_DIR, { recursive: true }, (event, filename) => {
         watcher.close(); // first, kill the watcher so the event only triggers once.
         onIconChanged(event, filename); // event handler for the watch event
@@ -133,10 +102,8 @@ const watch = () => {
     });
 };
 
-/**
- * @function main function that creates the icon sprite
- */
-export const createIconSprite = () => {
+/** main function that creates the icon sprite */
+export const createIconSprite = (): void => {
     const svgFiles = getSvgFileNames();
     let counter = 0;
     // prepare svgStore instance
@@ -183,7 +150,7 @@ export const createIconSprite = () => {
 };
 
 /**
- * main script execution via node resources/build/icons.js
+ * main script execution via node resources/build/icons.ts
  */
 if (args.v) log.debug("verbose output selected");
 if (args.w) log.debug("watch option selected");

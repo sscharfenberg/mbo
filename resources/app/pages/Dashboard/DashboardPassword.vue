@@ -22,7 +22,7 @@ const showPasswordConfirmation = ref(false);
         class="form"
         resetOnSuccess
         @success="reset"
-        #default="{ errors, valid, invalid, validating, validate, processing }"
+        #default="{ errors, valid, invalid, validating, processing }"
     >
         <form-legend
             :items="[
@@ -51,7 +51,6 @@ const showPasswordConfirmation = ref(false);
                 :type="showCurrentPassword ? 'text' : 'password'"
                 name="current_password"
                 id="current_password"
-                @change="validate('current_password')"
                 @keyup="onPasswordChange"
                 class="form-input"
             />
@@ -84,7 +83,6 @@ const showPasswordConfirmation = ref(false);
                 :type="showPassword ? 'text' : 'password'"
                 name="password"
                 id="password"
-                @change="validate('password')"
                 @keyup="onPasswordChange"
                 class="form-input"
                 v-model="password"
@@ -117,7 +115,6 @@ const showPasswordConfirmation = ref(false);
                 :type="showPasswordConfirmation ? 'text' : 'password'"
                 name="password_confirmation"
                 id="password_confirmation"
-                @change="validate('password_confirmation')"
                 class="form-input"
             />
             <template #button>
