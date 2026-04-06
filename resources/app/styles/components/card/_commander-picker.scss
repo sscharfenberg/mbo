@@ -47,13 +47,7 @@
         }
 
         &--selected {
-            padding-right: calc(0.5rem + 20px + 0.5ch);
-
             cursor: default;
-
-            @include m.mq("landscape") {
-                padding-right: calc(1rem + 20px + 0.5ch);
-            }
         }
 
         &::before {
@@ -106,5 +100,26 @@
 
         // Compensate for the Material Symbols SVG viewBox padding.
         margin-right: -0.25em;
+    }
+
+    &__heading {
+        display: grid;
+        position: relative;
+        grid-template-columns: 1fr auto;
+
+        padding: map.get(s.$components, "commander-picker", "padding", "base");
+        border: map.get(s.$components, "commander-picker", "border") solid
+            map.get(c.$components, "commander-picker", "border-from");
+
+        background-color: map.get(c.$components, "commander-picker", "background", "even");
+        border-radius: map.get(s.$components, "commander-picker", "radius");
+
+        @include m.mq("landscape") {
+            padding: map.get(s.$components, "commander-picker", "padding", "landscape");
+        }
+
+        > span:last-child {
+            text-align: right;
+        }
     }
 }

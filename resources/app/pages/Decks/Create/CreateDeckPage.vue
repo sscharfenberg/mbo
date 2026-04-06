@@ -90,7 +90,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
                 v-if="companion && commander?.companion_type"
                 :label="
                     $t(
-                        `components.commander_picker.${commander.companion_type === 'partner_with' ? 'partner' : commander.companion_type}_selected`
+                        `components.commander_picker.${commander.companion_type === 'partner_with' || commander.companion_type === 'partner_type' ? 'partner' : commander.companion_type}_selected`
                     )
                 "
                 :validated="true"
@@ -157,3 +157,15 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
         @confirm="onCommandZoneConfirmed"
     />
 </template>
+
+<style lang="scss" scoped>
+@use "Abstracts/mixins" as m;
+
+.commander-picker__commander--selected {
+    padding-right: calc(0.5rem + 20px + 0.5ch);
+
+    @include m.mq("landscape") {
+        padding-right: calc(1rem + 20px + 0.5ch);
+    }
+}
+</style>

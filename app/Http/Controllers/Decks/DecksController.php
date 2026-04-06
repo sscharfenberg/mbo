@@ -51,7 +51,7 @@ class DecksController extends Controller
             $capabilities[$format->value] = $format->rules()->toArray();
         }
 
-        return Inertia::render('Decks/Add/AddDeckPage', [
+        return Inertia::render('Decks/Create/CreateDeckPage', [
             'formats' => array_column(CardFormat::cases(), 'value'),
             'capabilities' => $capabilities,
             'nameMax' => Deck::NAME_MAX,

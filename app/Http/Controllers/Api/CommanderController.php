@@ -29,7 +29,12 @@ class CommanderController extends Controller
      *  - `friends_forever=1`    — restrict to cards with "Friends forever".
      *  - `doctors_companion=1`  — restrict to cards with "Doctor's companion".
      *  - `background=1`         — restrict to cards with the Background subtype.
+     *  - `partner_type=<type>`  — restrict to cards with "Partner—<type>" (e.g. "Survivors").
      *  - `exclude=<uuid>`       — exclude a specific oracle card (e.g. the already-selected commander).
+     *
+     * When a companion filter is active (`friends_forever`, `doctors_companion`,
+     * or `partner_type`), the `q` parameter may be omitted to list all matching
+     * cards — these pools are small enough to display without a search query.
      */
     public function search(Request $request): JsonResponse
     {
@@ -39,20 +44,28 @@ class CommanderController extends Controller
             return response()->json([]);
         }
 
-        $parsed = CardSearchParser::parse(trim($request->query('q', '')));
-
-        if (! $parsed) {
-            return response()->json([]);
-        }
-
         $filters = [
             'rule0' => $request->boolean('rule0'),
             'partner' => $request->boolean('partner'),
             'friends_forever' => $request->boolean('friends_forever'),
             'doctors_companion' => $request->boolean('doctors_companion'),
             'background' => $request->boolean('background'),
+            'partner_type' => $request->query('partner_type'),
             'exclude' => $request->query('exclude'),
         ];
+
+        $hasCompanionFilter = $filters['friends_forever']
+            || $filters['doctors_companion']
+            || $filters['partner_type'];
+
+        $parsed = CardSearchParser::parse(trim($request->query('q', '')));
+
+        // Allow empty query when a small-pool companion filter narrows the results.
+        if (! $parsed && ! $hasCompanionFilter) {
+            return response()->json([]);
+        }
+
+        $parsed ??= ['name_segments' => [], 'set_code' => null, 'collector_number' => null];
 
         return response()->json(CommanderService::searchCommanders($format, $parsed, $filters));
     }

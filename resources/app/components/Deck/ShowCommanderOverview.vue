@@ -14,7 +14,7 @@ export type CommanderResult = {
     id: string;
     name: string;
     color_identity: string | null;
-    companion_type: "partner" | "partner_with" | "friends_forever" | "doctors_companion" | "background" | null;
+    companion_type: "partner" | "partner_with" | "partner_type" | "friends_forever" | "doctors_companion" | "background" | null;
     partner_with_name: string | null;
     faces: CommanderFace[];
 };
@@ -69,7 +69,9 @@ const ciTooltip = (ci: string | null): string => {
             content:
                 card.companion_type === 'partner_with'
                     ? $t('components.commander_picker.partner_with_tooltip', { name: card.partner_with_name })
-                    : $t(`components.commander_picker.${card.companion_type}_tooltip`),
+                    : card.companion_type === 'partner_type'
+                      ? $t('components.commander_picker.partner_type_tooltip', { type: card.partner_with_name })
+                      : $t(`components.commander_picker.${card.companion_type}_tooltip`),
             container: tooltipContainer ?? false
         }"
     >

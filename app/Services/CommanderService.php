@@ -13,7 +13,7 @@ class CommanderService
      * Search for cards that can be a commander (or companion).
      *
      * @param  array{name_segments: string[], set_code: string|null, collector_number: string|null}  $parsed
-     * @param  array{rule0: bool, partner: bool, friends_forever: bool, doctors_companion: bool, background: bool, exclude: string|null}  $filters
+     * @param  array{rule0: bool, partner: bool, friends_forever: bool, doctors_companion: bool, background: bool, partner_type: string|null, exclude: string|null}  $filters
      */
     public static function searchCommanders(CardFormat $format, array $parsed, array $filters): Collection
     {
@@ -83,6 +83,15 @@ class CommanderService
             });
         }
 
+        // When searching for a typed partner (e.g. "Partner—Survivors"), only return
+        // cards whose oracle text contains the same "Partner—<type>" tag.
+        if ($filters['partner_type']) {
+            $type = $filters['partner_type'];
+            $query->whereHas('faces', function (Builder $fq) use ($type): void {
+                $fq->where('oracle_text', 'like', "%Partner—$type%");
+            });
+        }
+
         return $query->select('id', 'name', 'color_identity')
             ->with(['faces' => fn ($q) => $q->select('oracle_card_id', 'face_index', 'mana_cost', 'type_line', 'oracle_text')
                 ->orderBy('face_index')])
@@ -122,7 +131,7 @@ class CommanderService
     /**
      * Determine the companion type from the combined oracle text and front-face type line.
      *
-     * @return array{type: 'partner'|'partner_with'|'friends_forever'|'doctors_companion'|'background'|null, partner_with_name: string|null}
+     * @return array{type: 'partner'|'partner_with'|'partner_type'|'friends_forever'|'doctors_companion'|'background'|null, partner_with_name: string|null}
      */
     public static function resolveCompanionType(string $oracleText, string $frontTypeLine): array
     {
@@ -141,6 +150,12 @@ class CommanderService
         // Time Lord Doctors can have a Doctor's companion in the command zone.
         if ($frontTypeLine === 'Legendary Creature — Time Lord Doctor') {
             return ['type' => 'doctors_companion', 'partner_with_name' => null];
+        }
+
+        // "Partner—Survivors", "Partner—Character Select", etc.
+        // These can only pair with other cards sharing the same typed partner tag.
+        if (preg_match('/Partner\x{2014}([^\n(]+)/iu', $oracleText, $matches)) {
+            return ['type' => 'partner_type', 'partner_with_name' => trim($matches[1])];
         }
 
         if (preg_match('/\bPartner\b|Legendary partner/i', $oracleText)) {

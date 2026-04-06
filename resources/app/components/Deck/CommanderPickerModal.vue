@@ -108,6 +108,51 @@ const companionLoading = ref(false);
 /** The currently selected companion, or null when nothing is picked yet. */
 const selectedCompanion = ref<CommanderResult | null>(null);
 let companionDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** Companion types with small enough card pools to list without searching. */
+const smallPoolTypes = new Set(["friends_forever", "doctors_companion", "partner_type"]);
+/** Whether the selected commander's companion type has a small card pool. */
+const isSmallPool = computed(() => smallPoolTypes.has(selected.value?.companion_type ?? ""));
+
+/** Build the companion filter params for the selected commander. */
+const appendCompanionParams = (params: URLSearchParams) => {
+    if (!selected.value) return;
+    params.set("exclude", selected.value.id);
+    if (selected.value.companion_type === "partner_type") {
+        params.set("partner_type", selected.value.partner_with_name ?? "");
+    } else {
+        const companionTypeParam: Record<string, string> = {
+            background: "background",
+            friends_forever: "friends_forever",
+            doctors_companion: "doctors_companion"
+        };
+        params.set(companionTypeParam[selected.value.companion_type ?? ""] ?? "partner", "1");
+    }
+};
+
+/** Fetch all companions for small-pool types (no search query needed). */
+const fetchAllCompanions = async () => {
+    companionLoading.value = true;
+    try {
+        const params = new URLSearchParams({ format: props.format });
+        appendCompanionParams(params);
+        const response = await fetch(`/api/commander?${params}`);
+        if (response.ok) {
+            companionResults.value = await response.json();
+        }
+    } finally {
+        companionLoading.value = false;
+    }
+};
+
+/** Auto-fetch all companions when a small-pool commander is selected. */
+watch(selected, card => {
+    companionResults.value = [];
+    if (card && smallPoolTypes.has(card.companion_type ?? "")) {
+        fetchAllCompanions();
+    }
+});
+
 /** Fetch companion cards matching the query, excluding the selected commander. */
 const fetchCompanions = async (q: string) => {
     if (q.length < 2) {
@@ -117,15 +162,7 @@ const fetchCompanions = async (q: string) => {
     companionLoading.value = true;
     try {
         const params = new URLSearchParams({ q, format: props.format });
-        if (selected.value) {
-            params.set("exclude", selected.value.id);
-            const companionTypeParam: Record<string, string> = {
-                background: "background",
-                friends_forever: "friends_forever",
-                doctors_companion: "doctors_companion"
-            };
-            params.set(companionTypeParam[selected.value.companion_type ?? ""] ?? "partner", "1");
-        }
+        appendCompanionParams(params);
         const response = await fetch(`/api/commander?${params}`);
         if (response.ok) {
             companionResults.value = await response.json();
@@ -149,8 +186,12 @@ const onCompanionSelected = (card: CommanderResult) => {
 /** Clear the companion selection so the user can search again. */
 const clearCompanion = async () => {
     selectedCompanion.value = null;
-    await nextTick();
-    companionInput.value?.focus();
+    if (isSmallPool.value) {
+        fetchAllCompanions();
+    } else {
+        await nextTick();
+        companionInput.value?.focus();
+    }
 };
 /** True while any API request (commander or companion) is in flight. */
 const processing = computed(() => loading.value || companionLoading.value);
@@ -180,7 +221,7 @@ const onConfirm = () => {
                         {{
                             $t(
                                 selectedCompanion && selected.companion_type
-                                    ? `components.commander_picker.change_commander_and_${selected.companion_type === "partner_with" ? "partner" : selected.companion_type}`
+                                    ? `components.commander_picker.change_commander_and_${selected.companion_type === "partner_with" || selected.companion_type === "partner_type" ? "partner" : selected.companion_type}`
                                     : "components.commander_picker.change"
                             )
                         }}
@@ -214,7 +255,7 @@ const onConfirm = () => {
                         </form-group>
                     </template>
                 </template>
-                <!-- Partner / Friends forever / Doctor's companion / Background: search for a companion -->
+                <!-- Partner / Partner—Type / Friends forever / Doctor's companion / Background: search for a companion -->
                 <template v-else-if="selected.companion_type">
                     <template v-if="selectedCompanion">
                         <form-group :label="$t(`components.commander_picker.${selected.companion_type}_selected`)">
@@ -228,6 +269,29 @@ const onConfirm = () => {
                                 {{ $t(`components.commander_picker.${selected.companion_type}_change`) }}
                             </button>
                         </form-group>
+                    </template>
+                    <template v-else-if="isSmallPool">
+                        <nav v-if="companionResults.length" class="commander-picker__wrapper">
+                            <div class="commander-picker__heading">
+                                <span>{{ $t(`components.commander_picker.${selected.companion_type}_select`) }}</span>
+                                <span
+                                    >{{ $t("components.commander_picker.color_identity") }}<br />{{
+                                        $t("components.commander_picker.partner_type")
+                                    }}</span
+                                >
+                            </div>
+                            <button
+                                class="commander-picker__commander"
+                                v-for="card in companionResults"
+                                :key="card.id"
+                                @click="onCompanionSelected(card)"
+                            >
+                                <show-commander-overview tooltip-container="#modal" :card="card" />
+                            </button>
+                        </nav>
+                        <paragraph v-else-if="!companionLoading">
+                            {{ $t(`components.commander_picker.${selected.companion_type}_no_results`) }}
+                        </paragraph>
                     </template>
                     <template v-else>
                         <form-group
