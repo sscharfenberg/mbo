@@ -599,7 +599,8 @@
             "title": "Deck erstellen",
             "link": "Deck erstellen",
             "commander": {
-                "choose": "Choose commander"
+                "choose": "Commander auswählen",
+                "search": "Commander suchen"
             },
             "submit": "Save deck"
         },
@@ -762,7 +763,8 @@
             "error": "Kartendetails konnten nicht geladen werden."
         },
         "commander_picker": {
-            "title": "Commander auswählen"
+            "title": "Commander auswählen",
+            "no_results": "Keine Commander gefunden."
         },
         "deck_format_capabilities": {
             "title": "Deckbau-Regeln",

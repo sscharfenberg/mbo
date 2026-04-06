@@ -599,7 +599,8 @@
             "title": "Create deck",
             "link": "Create deck",
             "commander": {
-                "choose": "Choose commander"
+                "choose": "Choose commander",
+                "search": "Search for commander"
             },
             "submit": "Save deck"
         },
@@ -762,7 +763,8 @@
             "error": "Could not load card details."
         },
         "commander_picker": {
-            "title": "Choose commander"
+            "title": "Choose commander",
+            "no_results": "No commanders found."
         },
         "deck_format_capabilities": {
             "title": "Deck construction rules",

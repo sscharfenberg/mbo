@@ -96,7 +96,7 @@ class OracleCard extends Model
      */
     public function defaults(): HasMany
     {
-        return $this->hasMany(DefaultCard::class, 'oracle_id', 'oracle_id');
+        return $this->hasMany(DefaultCard::class, 'oracle_id');
     }
 
     /**

@@ -102,6 +102,7 @@ onMounted(() => {
     position: fixed;
 
     overflow-y: hidden;
+    width: 100dvw;
     height: 100dvh;
     max-height: 100dvh;
     padding: 0;
@@ -130,7 +131,7 @@ onMounted(() => {
         max-width: map.get(s.$components, "modal", "max-width");
         max-height: calc(100dvh - 2rem);
         border: map.get(s.$components, "modal", "border") solid map.get(c.$components, "modal", "border");
-        margin: 1rem 0;
+        margin: 1rem auto;
 
         background-color: map.get(c.$components, "modal", "background");
         color: map.get(c.$components, "modal", "surface");
