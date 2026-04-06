@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import CommanderPickerModal from "Components/Deck/CommanderPickerModal.vue";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
@@ -56,11 +56,21 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
         {{ $t("pages.add_deck.title") }}
     </headline>
     <Form class="form" action="/decks/add" method="post" #default="{ errors, processing, validating, valid, validate }">
-        <form-group :label="$t('form.fields.format')" :required="true">
+        <form-group
+            :label="$t('form.fields.format')"
+            :required="true"
+            :error="errors.format ?? ''"
+            :invalid="!!errors?.format"
+            :validated="valid('format')"
+            :validating="validating"
+        >
             <mono-select
                 :options="formatOptions"
                 :selected="selectedFormat"
-                @change="selectedFormat = $event"
+                @change="
+                    selectedFormat = $event;
+                    nextTick(() => validate('format'));
+                "
                 addon-icon="card"
                 max="100%"
             />
@@ -70,7 +80,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </template>
         </form-group>
         <template v-if="selectedCapabilities?.requiresCommander">
-            <form-group v-if="commander" :label="$t('form.fields.commander')" :required="true">
+            <form-group v-if="commander" :label="$t('form.fields.commander')" :required="true" :validated="true">
                 <div class="commander-picker__commander commander-picker__commander--selected">
                     <show-commander-overview :card="commander" />
                 </div>
@@ -83,6 +93,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
                         `components.commander_picker.${commander.companion_type === 'partner_with' ? 'partner' : commander.companion_type}_selected`
                     )
                 "
+                :validated="true"
             >
                 <div class="commander-picker__commander commander-picker__commander--selected">
                     <show-commander-overview :card="companion" />
@@ -98,10 +109,10 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
         </template>
         <form-group
             for-id="deck_name"
-            :label="$t('form.fields.container.name')"
-            :error="errors.container_name ?? ''"
-            :invalid="!!errors?.container_name"
-            :validated="valid('container_name')"
+            :label="$t('form.fields.deck_name')"
+            :error="errors.deck_name ?? ''"
+            :invalid="!!errors?.deck_name"
+            :validated="valid('deck_name')"
             :validating="validating"
             :required="true"
             addon-icon="container-name"
@@ -112,7 +123,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
                 id="deck_name"
                 class="form-input"
                 :maxlength="nameMax"
-                @change="validate('container_name')"
+                @change="validate('deck_name')"
             />
         </form-group>
         <form-group
@@ -129,7 +140,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
                     name="deck_description"
                     id="deck_description"
                     :maxlength="props.descriptionMax"
-                    @change="validate('container_description')"
+                    @change="validate('deck_description')"
                 />
             </div>
         </form-group>

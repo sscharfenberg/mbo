@@ -113,6 +113,9 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('decks');
     Route::get('/decks/add', [DecksController::class, 'create'])
         ->name('decks.create');
+    Route::post('/decks/add', [DecksController::class, 'store'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('decks.store');
 
 });
 

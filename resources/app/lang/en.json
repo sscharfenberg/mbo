@@ -672,6 +672,7 @@
             "price": "Price",
             "total_price": "Total",
             "artist": "Artist",
+            "deck_name": "Deck name",
             "format": "Format",
             "created_at": "Added",
             "updated_at": "Changed",

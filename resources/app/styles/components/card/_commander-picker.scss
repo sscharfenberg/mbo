@@ -42,8 +42,18 @@
             background-color: map.get(c.$components, "commander-picker", "background", "hover");
         }
 
+        @include m.mq("landscape") {
+            padding: map.get(s.$components, "commander-picker", "padding", "landscape");
+        }
+
         &--selected {
+            padding-right: calc(0.5rem + 20px + 0.5ch);
+
             cursor: default;
+
+            @include m.mq("landscape") {
+                padding-right: calc(1rem + 20px + 0.5ch);
+            }
         }
 
         &::before {
@@ -67,10 +77,6 @@
             mask-composite: subtract;
 
             content: "";
-        }
-
-        @include m.mq("landscape") {
-            padding: map.get(s.$components, "commander-picker", "padding", "landscape");
         }
     }
 
