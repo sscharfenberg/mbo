@@ -23,6 +23,7 @@ class DeckCard extends Model
 
     protected $fillable = [
         'deck_id',
+        'oracle_card_id',
         'default_card_id',
         'card_stack_id',
         'category_id',
@@ -48,6 +49,16 @@ class DeckCard extends Model
     public function deck(): BelongsTo
     {
         return $this->belongsTo(Deck::class);
+    }
+
+    /**
+     * The oracle card (logical identity) this deck card references.
+     *
+     * @return BelongsTo<OracleCard, DeckCard>
+     */
+    public function oracleCard(): BelongsTo
+    {
+        return $this->belongsTo(OracleCard::class);
     }
 
     /**

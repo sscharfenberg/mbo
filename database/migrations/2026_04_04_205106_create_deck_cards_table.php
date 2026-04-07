@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreignUuid('deck_id')
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->foreignUuid('oracle_card_id')
+                ->constrained('oracle_cards')
+                ->cascadeOnDelete();
             $table->foreignUuid('default_card_id')
                 ->constrained('default_cards')
                 ->cascadeOnDelete();
@@ -40,6 +43,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['deck_id', 'zone']);
+            $table->index(['oracle_card_id']);
             $table->index(['default_card_id']);
             $table->index(['card_stack_id']);
         });

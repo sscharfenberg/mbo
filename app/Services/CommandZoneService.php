@@ -7,7 +7,7 @@ use App\Models\OracleCard;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-class CommanderService
+class CommandZoneService
 {
     /**
      * Search for cards that can be a commander (or companion).

@@ -26,6 +26,14 @@ class Commander extends Pivot
     }
 
     /**
+     * @return BelongsTo<OracleCard, Commander>
+     */
+    public function oracleCard(): BelongsTo
+    {
+        return $this->belongsTo(OracleCard::class);
+    }
+
+    /**
      * @return BelongsTo<DefaultCard, Commander>
      */
     public function defaultCard(): BelongsTo

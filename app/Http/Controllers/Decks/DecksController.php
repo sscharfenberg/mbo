@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Decks;
 use App\Enums\CardFormat;
 use App\Http\Controllers\Controller;
 use App\Models\Deck;
+use App\Models\OracleCard;
+use App\Services\DeckService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -23,22 +26,34 @@ class DecksController extends Controller
     }
 
     /**
-     * Validate the deck form fields.
+     * Validate and store a newly created deck.
      *
      * Wraps validation in a precognitive block so the frontend can perform
      * real-time field validation without triggering the actual store.
+     * Command zone cards are validated structurally here (exists in oracle_cards),
+     * domain validation (legal commander, valid pairing) is handled by DeckService.
      */
-    public function store(Request $request): void
+    public function store(Request $request): RedirectResponse
     {
         precognitive(function () use ($request) {
             $request->validate([
                 'format' => ['required', 'string', Rule::enum(CardFormat::class)],
                 'deck_name' => ['required', 'string', 'max:'.Deck::NAME_MAX],
                 'deck_description' => ['nullable', 'string', 'max:'.Deck::DESCRIPTION_MAX],
+                'commander_id' => ['nullable', 'string', Rule::exists(OracleCard::class, 'id')],
+                'companion_id' => ['nullable', 'string', Rule::exists(OracleCard::class, 'id')],
+                'signature_spell_id' => ['nullable', 'string', Rule::exists(OracleCard::class, 'id')],
             ]);
         });
 
-        // TODO: store deck
+        $deck = DeckService::createDeck($request->user(), $request->only([
+            'format', 'deck_name', 'deck_description', 'commander_id', 'companion_id', 'signature_spell_id',
+        ]));
+
+        $request->session()->flash('message', __('auth.deck_created', ['name' => $deck->name]));
+        $request->session()->flash('type', 'success');
+
+        return redirect(route('decks'));
     }
 
     /**

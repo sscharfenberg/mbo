@@ -18,12 +18,15 @@ return new class extends Migration
             $table->foreignUuid('deck_id')
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->foreignUuid('oracle_card_id')
+                ->constrained('oracle_cards')
+                ->cascadeOnDelete();
             $table->foreignUuid('default_card_id')
                 ->constrained('default_cards')
                 ->cascadeOnDelete();
             $table->boolean('is_partner')->default(false);
 
-            $table->primary(['deck_id', 'default_card_id']);
+            $table->primary(['deck_id', 'oracle_card_id']);
         });
     }
 

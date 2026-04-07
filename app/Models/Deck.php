@@ -82,13 +82,16 @@ class Deck extends Model
     /**
      * The commander cards for this deck (Commander/Oathbreaker/Brawl formats).
      *
-     * @return BelongsToMany<DefaultCard>
+     * Pivots on oracle_card_id (logical identity) and includes default_card_id
+     * (specific printing for display).
+     *
+     * @return BelongsToMany<OracleCard>
      */
     public function commanders(): BelongsToMany
     {
-        return $this->belongsToMany(DefaultCard::class, 'commanders')
+        return $this->belongsToMany(OracleCard::class, 'commanders', 'deck_id', 'oracle_card_id')
             ->using(Commander::class)
-            ->withPivot('is_partner');
+            ->withPivot('default_card_id', 'is_partner');
     }
 
     /**

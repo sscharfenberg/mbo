@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\CardFormat;
 use App\Http\Controllers\Controller;
 use App\Services\CardSearchParser;
-use App\Services\CommanderService;
+use App\Services\CommandZoneService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -67,7 +67,7 @@ class CommanderController extends Controller
 
         $parsed ??= ['name_segments' => [], 'set_code' => null, 'collector_number' => null];
 
-        return response()->json(CommanderService::searchCommanders($format, $parsed, $filters));
+        return response()->json(CommandZoneService::searchCommanders($format, $parsed, $filters));
     }
 
     /**
@@ -104,7 +104,7 @@ class CommanderController extends Controller
         }
 
         return response()->json(
-            CommanderService::searchOathbreaker(
+            CommandZoneService::searchOathbreaker(
                 $format,
                 $parsed,
                 $type,
