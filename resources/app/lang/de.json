@@ -611,7 +611,11 @@
                 "change": "Command Zone ändern",
                 "search": "Commander suchen"
             },
-            "submit": "Save deck"
+            "submit": "Save deck",
+            "oathbreaker": {
+                "choose": "Oathbreaker & Signaturzauber wählen",
+                "change": "Oathbreaker & Signaturzauber ändern"
+            }
         },
         "add_cards": {
             "title": "Karten hinzufügen",
@@ -820,6 +824,19 @@
             "background_change": "Hintergrund ändern",
             "background_select": "Hintergrund wählen",
             "partner_type": "Partner Art",
+            "confirm": "Command Zone bestätigen"
+        },
+        "oathbreaker_picker": {
+            "title": "Oathbreaker & Signaturzauber wählen",
+            "search_planeswalker": "Planeswalker suchen",
+            "selected_planeswalker": "Ausgewählter Oathbreaker",
+            "change_planeswalker": "Oathbreaker ändern",
+            "search_spell": "Signaturzauber suchen",
+            "selected_spell": "Ausgewählter Signaturzauber",
+            "change_spell": "Signaturzauber ändern",
+            "no_planeswalkers": "Keine Planeswalker gefunden.",
+            "no_spells": "Keine passenden Spontanzauber oder Hexereien gefunden.",
+            "include_rule0": "Nicht-legale Karten einschließen (Rule 0)",
             "confirm": "Command Zone bestätigen"
         },
         "deck_format_capabilities": {

@@ -611,7 +611,11 @@
                 "change": "Change command zone",
                 "search": "Search for commander"
             },
-            "submit": "Save deck"
+            "submit": "Save deck",
+            "oathbreaker": {
+                "choose": "Choose Oathbreaker & Signature Spell",
+                "change": "Change Oathbreaker & Signature Spell"
+            }
         },
         "add_cards": {
             "title": "Add cards",
@@ -820,6 +824,19 @@
             "background_change": "Change background",
             "background_select": "Select background",
             "partner_type": "Partner type",
+            "confirm": "Confirm Command Zone"
+        },
+        "oathbreaker_picker": {
+            "title": "Choose Oathbreaker & Signature Spell",
+            "search_planeswalker": "Search for a planeswalker",
+            "selected_planeswalker": "Selected oathbreaker",
+            "change_planeswalker": "Change oathbreaker",
+            "search_spell": "Search for a signature spell",
+            "selected_spell": "Selected signature spell",
+            "change_spell": "Change signature spell",
+            "no_planeswalkers": "No planeswalkers found.",
+            "no_spells": "No matching instants or sorceries found.",
+            "include_rule0": "Include non-legal cards (Rule 0)",
             "confirm": "Confirm Command Zone"
         },
         "deck_format_capabilities": {

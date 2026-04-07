@@ -69,4 +69,49 @@ class CommanderController extends Controller
 
         return response()->json(CommanderService::searchCommanders($format, $parsed, $filters));
     }
+
+    /**
+     * Search for Oathbreaker command-zone cards (planeswalker or signature spell).
+     *
+     * Required query parameters:
+     *  - `format=<key>` — CardFormat enum value.
+     *  - `type=planeswalker|spell` — which slot to search for.
+     *
+     * Optional query parameters:
+     *  - `q=<query>`      — search query (supports "set:xxx" and "number:xxx" tokens).
+     *  - `ci=<letters>`   — planeswalker's color identity for spell filtering (e.g. "WUB").
+     *  - `rule0=1`        — skip legality filters.
+     *  - `exclude=<uuid>` — exclude a specific oracle card.
+     */
+    public function searchOathbreaker(Request $request): JsonResponse
+    {
+        $format = CardFormat::tryFrom($request->query('format', ''));
+
+        if (! $format) {
+            return response()->json([]);
+        }
+
+        $type = $request->query('type', '');
+
+        if (! in_array($type, ['planeswalker', 'spell'], true)) {
+            return response()->json([]);
+        }
+
+        $parsed = CardSearchParser::parse(trim($request->query('q', '')));
+
+        if (! $parsed) {
+            return response()->json([]);
+        }
+
+        return response()->json(
+            CommanderService::searchOathbreaker(
+                $format,
+                $parsed,
+                $type,
+                $request->query('ci'),
+                $request->boolean('rule0'),
+                $request->query('exclude'),
+            )
+        );
+    }
 }

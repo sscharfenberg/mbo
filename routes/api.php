@@ -20,3 +20,7 @@ Route::get('/card-image',
 Route::get('/commander',
     [CommanderController::class, 'search']
 )->middleware('throttle:60,1');
+
+Route::get('/oathbreaker',
+    [CommanderController::class, 'searchOathbreaker']
+)->middleware('throttle:60,1');

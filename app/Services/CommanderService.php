@@ -129,6 +129,83 @@ class CommanderService
     }
 
     /**
+     * Search for Oathbreaker command-zone cards (planeswalker or signature spell).
+     *
+     * @param  array{name_segments: string[], set_code: string|null, collector_number: string|null}|null  $parsed
+     */
+    public static function searchOathbreaker(
+        CardFormat $format,
+        ?array $parsed,
+        string $type,
+        ?string $colorIdentity,
+        bool $rule0,
+        ?string $exclude,
+    ): Collection {
+        if (! $parsed) {
+            return collect();
+        }
+
+        $query = OracleCard::query();
+
+        if ($parsed['set_code']) {
+            $query->whereHas('defaults', fn (Builder $q) => $q->whereHas(
+                'set',
+                fn (Builder $sq) => $sq->where('code', $parsed['set_code'])
+            ));
+        }
+
+        foreach ($parsed['name_segments'] as $segment) {
+            $query->where('name', 'like', "%$segment%");
+        }
+
+        if ($exclude) {
+            $query->where('id', '!=', $exclude);
+        }
+
+        if (! $rule0) {
+            $query->legalIn($format);
+        }
+
+        if ($type === 'planeswalker') {
+            $query->whereHas('faces', function (Builder $fq): void {
+                $fq->where('face_index', 0)
+                    ->where('type_line', 'like', '%Planeswalker%')
+                    ->whereNotNull('loyalty');
+            });
+        } else {
+            // Signature spell: instant or sorcery on the front face only.
+            $query->whereHas('faces', function (Builder $fq): void {
+                $fq->where('face_index', 0)
+                    ->where(function (Builder $q): void {
+                        $q->where('type_line', 'like', '%Instant%')
+                            ->orWhere('type_line', 'like', '%Sorcery%');
+                    });
+            });
+
+            // Color identity must be a subset of the planeswalker's color identity.
+            if ($colorIdentity !== null) {
+                $allColors = ['W', 'U', 'B', 'R', 'G'];
+                foreach ($allColors as $color) {
+                    if (! str_contains($colorIdentity, $color)) {
+                        $query->where(function (Builder $q) use ($color): void {
+                            $q->whereNull('color_identity')
+                                ->orWhere('color_identity', 'not like', "%$color%");
+                        });
+                    }
+                }
+            }
+        }
+
+        return $query->select('id', 'name', 'color_identity')
+            ->with(['faces' => fn ($q) => $q->select('oracle_card_id', 'face_index', 'mana_cost', 'type_line', 'oracle_text')
+                ->orderBy('face_index')])
+            ->orderBy('name')
+            ->limit(50)
+            ->get()
+            ->map(fn (OracleCard $card) => self::mapCommanderCard($card));
+    }
+
+    /**
      * Determine the companion type from the combined oracle text and front-face type line.
      *
      * @return array{type: 'partner'|'partner_with'|'partner_type'|'friends_forever'|'doctors_companion'|'background'|null, partner_with_name: string|null}

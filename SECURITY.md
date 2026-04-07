@@ -42,4 +42,4 @@ The following are **out of scope**:
 
 ## Bug Bounty
 
-MBO is a community project maintained by a single developer. There is no bug bounty program, but responsible disclosure is appreciated and will be credited.
+MBO is a community project maintained by a single developer. There is no bug bounty program, but responsible disclosure is appreciated and will be credited if you'd likte (let us know your preference).

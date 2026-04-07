@@ -2,7 +2,6 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import CommandZonePickerModal from "Components/Deck/CommandZonePickerModal.vue";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
 import type { CommanderResult } from "Components/Deck/ShowCommanderOverview.vue";
 import ShowCommanderOverview from "Components/Deck/ShowCommanderOverview.vue";
@@ -12,6 +11,8 @@ import Headline from "Components/UI/Headline.vue";
 import Icon from "Components/UI/Icon.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import type { FormatCapabilities } from "Types/formatCapabilities";
+import CommanderCommandZonePickerModal from "./CommanderCommandZonePickerModal.vue";
+import OathbreakerCommandZonePickerModal from "./OathbreakerCommandZonePickerModal.vue";
 const props = defineProps<{
     formats: string[];
     capabilities: Record<string, FormatCapabilities>;
@@ -29,19 +30,29 @@ const selectedCapabilities = computed<FormatCapabilities | null>(
 );
 /** Whether the commander picker modal is open. */
 const commanderPickerOpen = ref(false);
+/** Whether the oathbreaker picker modal is open. */
+const oathbreakerPickerOpen = ref(false);
 /** Confirmed commander from the picker modal. */
 const commander = ref<CommanderResult | null>(null);
 /** Confirmed companion (partner or background) from the picker modal (may be null). */
 const companion = ref<CommanderResult | null>(null);
+/** Confirmed signature spell from the oathbreaker picker modal (may be null). */
+const signatureSpell = ref<CommanderResult | null>(null);
 /** Store the confirmed commander and optional companion from the picker modal. */
 const onCommandZoneConfirmed = (cmd: CommanderResult, comp: CommanderResult | null) => {
     commander.value = cmd;
     companion.value = comp;
 };
+/** Store the confirmed oathbreaker (planeswalker) and signature spell from the picker modal. */
+const onOathbreakerConfirmed = (pw: CommanderResult, spell: CommanderResult) => {
+    commander.value = pw;
+    signatureSpell.value = spell;
+};
 /** Clear command zone when format changes — legality may differ. */
 watch(selectedFormat, () => {
     commander.value = null;
     companion.value = null;
+    signatureSpell.value = null;
 });
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "pages.add_deck.link" }]);
@@ -79,7 +90,29 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
                 <deck-format-capabilities :capabilities="selectedCapabilities" />
             </template>
         </form-group>
-        <template v-if="selectedCapabilities?.requiresCommander">
+        <!-- Oathbreaker: planeswalker + signature spell -->
+        <template v-if="selectedCapabilities?.requiresCommander && selectedCapabilities?.hasSignatureSpell">
+            <form-group v-if="commander" :label="$t('components.oathbreaker_picker.selected_planeswalker')" :required="true" :validated="true">
+                <div class="commander-picker__commander commander-picker__commander--selected">
+                    <show-commander-overview :card="commander" />
+                </div>
+                <input type="hidden" name="commander_id" :value="commander.id" />
+            </form-group>
+            <form-group v-if="signatureSpell" :label="$t('components.oathbreaker_picker.selected_spell')" :validated="true">
+                <div class="commander-picker__commander commander-picker__commander--selected">
+                    <show-commander-overview :card="signatureSpell" />
+                </div>
+                <input type="hidden" name="signature_spell_id" :value="signatureSpell.id" />
+            </form-group>
+            <form-group>
+                <button type="button" class="btn-default" @click="oathbreakerPickerOpen = true">
+                    <icon name="register" />
+                    {{ $t(commander ? "pages.add_deck.oathbreaker.change" : "pages.add_deck.oathbreaker.choose") }}
+                </button>
+            </form-group>
+        </template>
+        <!-- Commander-family formats: commander + optional companion -->
+        <template v-else-if="selectedCapabilities?.requiresCommander">
             <form-group v-if="commander" :label="$t('form.fields.commander')" :required="true" :validated="true">
                 <div class="commander-picker__commander commander-picker__commander--selected">
                     <show-commander-overview :card="commander" />
@@ -150,11 +183,17 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </button>
         </form-group>
     </Form>
-    <command-zone-picker-modal
+    <commander-command-zone-picker-modal
         v-if="commanderPickerOpen"
         :format="selectedFormat"
         @close="commanderPickerOpen = false"
         @confirm="onCommandZoneConfirmed"
+    />
+    <oathbreaker-command-zone-picker-modal
+        v-if="oathbreakerPickerOpen"
+        :format="selectedFormat"
+        @close="oathbreakerPickerOpen = false"
+        @confirm="onOathbreakerConfirmed"
     />
 </template>
 
