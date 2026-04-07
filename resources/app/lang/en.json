@@ -603,11 +603,11 @@
             "title": "Your Decks",
             "link": "Decks"
         },
-        "add_deck": {
+        "create_deck": {
             "title": "Create deck",
             "link": "Create deck",
             "commander": {
-                "choose": "Choose commander",
+                "choose": "Choose command zone",
                 "change": "Change command zone",
                 "search": "Search for commander"
             },

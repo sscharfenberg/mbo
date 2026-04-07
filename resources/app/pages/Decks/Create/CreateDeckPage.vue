@@ -55,16 +55,16 @@ watch(selectedFormat, () => {
     signatureSpell.value = null;
 });
 const { setBreadcrumbs } = useBreadcrumbs();
-setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "pages.add_deck.link" }]);
+setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "pages.create_deck.link" }]);
 </script>
 
 <template>
     <Head>
-        <title>{{ $t("pages.add_deck.title") }}</title>
+        <title>{{ $t("pages.create_deck.title") }}</title>
     </Head>
     <headline>
         <icon name="deck" :size="3" />
-        {{ $t("pages.add_deck.title") }}
+        {{ $t("pages.create_deck.title") }}
     </headline>
     <Form class="form" action="/decks/add" method="post" #default="{ errors, processing, validating, valid, validate }">
         <form-group
@@ -107,7 +107,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             <form-group>
                 <button type="button" class="btn-default" @click="oathbreakerPickerOpen = true">
                     <icon name="register" />
-                    {{ $t(commander ? "pages.add_deck.oathbreaker.change" : "pages.add_deck.oathbreaker.choose") }}
+                    {{ $t(commander ? "pages.create_deck.oathbreaker.change" : "pages.create_deck.oathbreaker.choose") }}
                 </button>
             </form-group>
         </template>
@@ -136,7 +136,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             <form-group>
                 <button type="button" class="btn-default" @click="commanderPickerOpen = true">
                     <icon name="register" />
-                    {{ $t(commander ? "pages.add_deck.commander.change" : "pages.add_deck.commander.choose") }}
+                    {{ $t(commander ? "pages.create_deck.commander.change" : "pages.create_deck.commander.choose") }}
                 </button>
             </form-group>
         </template>
@@ -179,7 +179,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
         </form-group>
         <form-group>
             <button type="submit" class="btn-primary" :disabled="processing">
-                <icon name="save" />{{ $t("pages.add_deck.submit") }}
+                <icon name="save" />{{ $t("pages.create_deck.submit") }}
             </button>
         </form-group>
     </Form>

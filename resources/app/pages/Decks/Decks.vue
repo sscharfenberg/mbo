@@ -17,6 +17,6 @@ setBreadcrumbs([{ labelKey: "pages.decks.link" }]);
     </headline>
     <Link class="btn-default" href="/decks/add">
         <icon name="add" />
-        {{ $t("pages.add_deck.link") }}
+        {{ $t("pages.create_deck.link") }}
     </Link>
 </template>

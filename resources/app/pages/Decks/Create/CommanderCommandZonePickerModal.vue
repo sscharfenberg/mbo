@@ -328,7 +328,7 @@ const onConfirm = () => {
             </template>
             <template v-else>
                 <form-group
-                    :label="$t('pages.add_deck.commander.search')"
+                    :label="$t('pages.create_deck.commander.search')"
                     :required="true"
                     :validating="processing"
                     addon-icon="register"
