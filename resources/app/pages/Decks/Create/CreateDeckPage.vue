@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form, Head } from "@inertiajs/vue3";
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, nextTick, ref, useTemplateRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
 import type { CommanderResult } from "Components/Deck/ShowCommanderOverview.vue";
@@ -38,15 +38,25 @@ const commander = ref<CommanderResult | null>(null);
 const companion = ref<CommanderResult | null>(null);
 /** Confirmed signature spell from the oathbreaker picker modal (may be null). */
 const signatureSpell = ref<CommanderResult | null>(null);
+/** Reference to the deck name input element. */
+const deckNameInput = useTemplateRef<HTMLInputElement>("deckNameInput");
+/** Pre-fill the deck name with the commander's name when the field is empty. */
+const prefillDeckName = (name: string) => {
+    if (deckNameInput.value && !deckNameInput.value.value.trim()) {
+        deckNameInput.value.value = name;
+    }
+};
 /** Store the confirmed commander and optional companion from the picker modal. */
 const onCommandZoneConfirmed = (cmd: CommanderResult, comp: CommanderResult | null) => {
     commander.value = cmd;
     companion.value = comp;
+    prefillDeckName(cmd.name);
 };
 /** Store the confirmed oathbreaker (planeswalker) and signature spell from the picker modal. */
 const onOathbreakerConfirmed = (pw: CommanderResult, spell: CommanderResult) => {
     commander.value = pw;
     signatureSpell.value = spell;
+    prefillDeckName(pw.name);
 };
 /** Clear command zone when format changes — legality may differ. */
 watch(selectedFormat, () => {
@@ -151,6 +161,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             addon-icon="container-name"
         >
             <input
+                ref="deckNameInput"
                 type="text"
                 name="deck_name"
                 id="deck_name"

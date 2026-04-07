@@ -7,7 +7,6 @@ use App\Models\Deck;
 use App\Models\DefaultCard;
 use App\Models\OracleCard;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 
 class DeckService
 {
@@ -21,13 +20,9 @@ class DeckService
     {
         return DefaultCard::query()
             ->where('oracle_id', $oracleCardId)
-            ->whereHas('set')
-            ->orderByDesc(
-                fn (Builder $q) => $q->select('released_at')
-                    ->from('sets')
-                    ->whereColumn('sets.id', 'default_cards.set_id')
-                    ->limit(1)
-            )
+            ->join('sets', 'sets.id', '=', 'default_cards.set_id')
+            ->orderByDesc('sets.released_at')
+            ->select('default_cards.*')
             ->first();
     }
 
@@ -144,7 +139,13 @@ class DeckService
             return $partnerOracle && $partnerOracle->id === $companionOracleCardId;
         }
 
-        $parsed = ['name_segments' => [], 'set_code' => null, 'collector_number' => null];
+        $companionOracle = OracleCard::find($companionOracleCardId);
+
+        if (! $companionOracle) {
+            return false;
+        }
+
+        $parsed = ['name_segments' => [$companionOracle->name], 'set_code' => null, 'collector_number' => null];
         $results = CommandZoneService::searchCommanders($format, $parsed, $filters);
 
         return $results->contains('id', $companionOracleCardId);
