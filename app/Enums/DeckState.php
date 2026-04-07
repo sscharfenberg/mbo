@@ -6,4 +6,5 @@ enum DeckState: string
 {
     case Planned = 'planned';
     case Built = 'built';
+    case Archived = 'archived';
 }

@@ -36,6 +36,7 @@ class Deck extends Model
         'format',
         'visibility',
         'state',
+        'colors',
         'bracket',
         'default_card_id',
         'container_id',

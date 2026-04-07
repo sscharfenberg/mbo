@@ -26,6 +26,7 @@ return new class extends Migration
                 ->default(ContainerVisibility::Private->value);
             $table->string('state', 16)
                 ->default(DeckState::Planned->value);
+            $table->string('colors', 5)->nullable();
             $table->unsignedTinyInteger('bracket')->nullable();
             $table->foreignUuid('user_id')
                 ->constrained()

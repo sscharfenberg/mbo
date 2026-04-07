@@ -193,11 +193,19 @@ class DeckService
             }
         }
 
+        // Derive initial colors from commander's color identity (if applicable).
+        $colors = null;
+        if ($commanderOracleId) {
+            $commanderOracle = OracleCard::find($commanderOracleId);
+            $colors = $commanderOracle?->color_identity;
+        }
+
         $deck = Deck::create([
             'user_id' => $user->id,
             'name' => $data['deck_name'],
             'description' => $data['deck_description'] ?? null,
             'format' => $format,
+            'colors' => $colors,
         ]);
 
         // Attach command zone cards.
