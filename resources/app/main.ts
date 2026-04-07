@@ -23,17 +23,16 @@ let timeout: ReturnType<typeof setTimeout>;
  * mount Inertia App
  *****************************************************************************/
 createInertiaApp({
-    resolve: async name => {
-        const pages = import.meta.glob<{ default: DefineComponent }>("./pages/**/*.vue");
+    resolve: name => {
+        const pages = import.meta.glob<DefineComponent>("./pages/**/*.vue");
         const pageLoader = pages[`./pages/${name}.vue`];
         if (!pageLoader) {
             throw new Error(`Page not found: ${name}`);
         }
 
-        const page = await pageLoader();
-        page.default.layout = page.default.layout || FullLayout;
-        return page.default;
+        return pageLoader();
     },
+    layout: () => FullLayout,
     setup({ el, App, props, plugin }) {
         const { locale, supportedLocales } = props.initialPage.props as {
             locale?: string;
