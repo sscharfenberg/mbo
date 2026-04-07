@@ -2,7 +2,7 @@
 import { Form, Head } from "@inertiajs/vue3";
 import { computed, nextTick, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import CommanderPickerModal from "Components/Deck/CommanderPickerModal.vue";
+import CommandZonePickerModal from "Components/Deck/CommandZonePickerModal.vue";
 import DeckFormatCapabilities from "Components/Deck/DeckFormatCapabilities.vue";
 import type { CommanderResult } from "Components/Deck/ShowCommanderOverview.vue";
 import ShowCommanderOverview from "Components/Deck/ShowCommanderOverview.vue";
@@ -150,7 +150,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks" }, { labelKey: "p
             </button>
         </form-group>
     </Form>
-    <commander-picker-modal
+    <command-zone-picker-modal
         v-if="commanderPickerOpen"
         :format="selectedFormat"
         @close="commanderPickerOpen = false"
