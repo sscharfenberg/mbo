@@ -1,0 +1,103 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/mixins" as m;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/typography" as t;
+@use "Abstracts/z-indexes" as z;
+
+.decklist {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto auto;
+
+    padding: 0;
+    margin: 0;
+    gap: 1ex 0;
+
+    list-style: none;
+
+    @include m.mq("landscape") {
+        grid-template-columns: auto 1fr auto auto auto auto auto;
+    }
+
+    &__format {
+        font-family: map.get(t.$pages, "decklist", "format-title");
+        font-size: map.get(s.$pages, "decklist", "format", "font");
+    }
+
+    &__link {
+        display: grid;
+        position: relative;
+        align-items: center;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+
+        padding: map.get(s.$pages, "decklist", "deck", "padding");
+        gap: 1ch;
+
+        background-color: map.get(c.$pages, "decklist", "deck", "background", "odd");
+
+        color: map.get(c.$pages, "decklist", "deck", "surface");
+
+        border-radius: map.get(s.$pages, "decklist", "deck", "radius");
+
+        text-decoration: none;
+
+        &:nth-of-type(even) {
+            background-color: map.get(c.$pages, "decklist", "deck", "background", "even");
+        }
+
+        &::before {
+            position: absolute;
+            inset: 0;
+            z-index: map.get(z.$index, "background");
+
+            border: map.get(s.$pages, "decklist", "deck", "border") solid transparent;
+
+            background: linear-gradient(
+                    to bottom right,
+                    map.get(c.$pages, "decklist", "deck", "border-from"),
+                    map.get(c.$pages, "decklist", "deck", "border-to")
+                )
+                border-box;
+
+            border-radius: inherit;
+            mask:
+                linear-gradient(black, black) border-box,
+                linear-gradient(black, black) padding-box;
+            mask-composite: subtract;
+
+            content: "";
+        }
+    }
+
+    &__name {
+        overflow: hidden;
+
+        white-space: nowrap;
+
+        text-overflow: ellipsis;
+    }
+
+    &__timestamp {
+        display: none;
+
+        @include m.mq("landscape") {
+            display: block;
+        }
+    }
+
+    &__cards {
+        display: flex;
+        align-items: center;
+
+        gap: 0.5ch;
+
+        span {
+            display: none;
+
+            @include m.mq("landscape") {
+                display: block;
+            }
+        }
+    }
+}

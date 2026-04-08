@@ -5,6 +5,7 @@ import { VueDraggable } from "vue-draggable-plus";
 import { useI18n } from "vue-i18n";
 import ContainerMenu from "@/pages/Collection/common/ContainerMenu.vue";
 import Icon from "Components/UI/Icon.vue";
+import VisibilityBadge from "Components/UI/VisibilityBadge.vue";
 import { useFormatting } from "Composables/useFormatting";
 import type { Container } from "Types/container";
 const { t } = useI18n();
@@ -69,12 +70,7 @@ watch(
                     ><icon name="deck" />{{ formatDecimals(container.totalCards) }}</span
                 >
                 <span class="clist__price"><icon name="money" />{{ formatPrice(container.totalPrice) }}</span>
-                <span
-                    :class="['clist__visibility', 'clist__visibility--' + container.visibility]"
-                    v-tooltip="$t('form.fields.container.visibility_' + container.visibility)"
-                >
-                    <icon :name="container.visibility === 'private' ? 'visibility-off' : 'visibility-on'" />
-                </span>
+                <visibility-badge class="clist__visibility" :visibility="container.visibility" />
             </Link>
             <ContainerMenu :container="container" :containers="containers" />
         </li>
@@ -219,22 +215,8 @@ watch(
     &__visibility {
         display: none;
 
-        padding: map.get(s.$pages, "containers", "visibility", "padding");
-
-        border-radius: map.get(s.$pages, "containers", "visibility", "radius");
-
-        &--public {
-            background-color: map.get(c.$pages, "containers", "visibility", "public", "background");
-            color: map.get(c.$pages, "containers", "visibility", "public", "surface");
-        }
-
-        &--private {
-            background-color: map.get(c.$pages, "containers", "visibility", "private", "background");
-            color: map.get(c.$pages, "containers", "visibility", "private", "surface");
-        }
-
         @include m.mq("landscape") {
-            display: block;
+            display: inline-flex;
         }
     }
 

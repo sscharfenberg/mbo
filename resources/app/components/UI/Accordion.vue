@@ -13,6 +13,10 @@ const props = withDefaults(
         duration: 300
     }
 );
+const emit = defineEmits<{
+    /** Emitted after toggle, with the new open/closed state. */
+    toggle: [isOpen: boolean];
+}>();
 /** Tracks whether the body is currently visible. Initialized from the `initialOpen` prop. */
 const isOpen = ref(props.initialOpen);
 /** Tracks the intended open/closed state — toggled immediately on click for instant visual feedback (e.g. chevron rotation). */
@@ -29,6 +33,7 @@ function toggle() {
     if (animating.value || !body.value) return;
     animating.value = true;
     active.value = !active.value;
+    emit("toggle", active.value);
 
     if (isOpen.value) {
         collapse();
@@ -94,6 +99,21 @@ function collapse() {
         });
     });
 }
+/**
+ * Programmatically set the open/closed state from outside.
+ * No-ops if the requested state matches the current state or an animation is running.
+ */
+function setOpen(value: boolean): void {
+    if (value === active.value || animating.value || !body.value) return;
+    animating.value = true;
+    active.value = value;
+    if (value) {
+        expand();
+    } else {
+        collapse();
+    }
+}
+defineExpose({ setOpen });
 </script>
 
 <template>

@@ -65,6 +65,11 @@
             "oldschool": "Old School",
             "future": "Future"
         },
+        "deck_state": {
+            "planned": "Geplant",
+            "built": "Fertig",
+            "archived": "Archiviert"
+        },
         "card_languages": {
             "en": "Englisch",
             "de": "Deutsch",
@@ -601,7 +606,22 @@
         },
         "decks": {
             "title": "Deine Decks",
-            "link": "Decks"
+            "link": "Decks",
+            "no_decks": "Du hast noch keine Decks erstellt.",
+            "state_planned": "{count} geplantes Deck | {count} geplante Decks",
+            "state_built": "{count} fertiges Deck | {count} fertige Decks",
+            "state_archived": "{count} archiviertes Deck | {count} archivierte Decks",
+            "card_count_noun": "Karte | Karten",
+            "actions": {
+                "label": "Deck-Aktionen",
+                "delete": "Deck löschen",
+                "set_public": "Öffentlich machen",
+                "set_private": "Privat machen",
+                "archive": "Archivieren",
+                "unarchive": "Wiederherstellen",
+                "set_planned": "Als geplant markieren",
+                "set_built": "Als fertig markieren"
+            }
         },
         "create_deck": {
             "title": "Deck erstellen",

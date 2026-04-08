@@ -9,6 +9,7 @@ use App\Models\OracleCard;
 use App\Services\DeckService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,11 +19,44 @@ class DecksController extends Controller
     /**
      * Display the user decks page.
      *
-     * Renders the main decks view with the current request context.
+     * Queries all decks for the authenticated user with card counts and
+     * last-activity timestamps, then groups them by format (alphabetical).
+     * Decks within each format are sorted by last activity descending.
      */
     public function show(Request $request): Response
     {
-        return Inertia::render('Decks/Decks', []);
+        $decks = Deck::query()
+            ->where('user_id', $request->user()->id)
+            ->addSelect([
+                'card_count' => DB::table('deck_cards')
+                    ->selectRaw('COUNT(*)')
+                    ->whereColumn('deck_cards.deck_id', 'decks.id'),
+                'last_card_update' => DB::table('deck_cards')
+                    ->selectRaw('MAX(deck_cards.updated_at)')
+                    ->whereColumn('deck_cards.deck_id', 'decks.id'),
+            ])
+            ->get()
+            ->each(function (Deck $deck) {
+                $deck->last_activity = max($deck->updated_at, $deck->last_card_update ?? $deck->updated_at);
+            })
+            ->sortByDesc('last_activity');
+
+        $grouped = $decks
+            ->groupBy(fn (Deck $deck) => $deck->format->value)
+            ->sortKeys()
+            ->map(fn ($formatDecks) => $formatDecks->map(fn (Deck $deck) => [
+                'id' => $deck->id,
+                'name' => $deck->name,
+                'state' => $deck->state->value,
+                'visibility' => $deck->visibility->value,
+                'colors' => $deck->colors,
+                'card_count' => (int) $deck->card_count,
+                'last_activity' => $deck->last_activity,
+            ])->values());
+
+        return Inertia::render('Decks/Decks', [
+            'decksByFormat' => $grouped,
+        ]);
     }
 
     /**

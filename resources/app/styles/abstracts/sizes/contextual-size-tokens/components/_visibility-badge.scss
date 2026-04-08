@@ -1,0 +1,9 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$visibility-badge: (
+    "padding": 0.25rem,
+    "radius": 90dvw,
+    "size": calc(map.get(s.$icons, "medium") + 0.25rem)
+);

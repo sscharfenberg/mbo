@@ -1,0 +1,21 @@
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "sass:color"; // https://sass-lang.com/documentation/modules/color
+@use "../../global-color-tokens" as c;
+
+$decklist: (
+    "deck": (
+        "background": (
+            "even": light-dark(
+                    color.adjust(map.get(c.$grey, "infra"), $alpha: -0.65),
+                    color.adjust(map.get(c.$grey, "bunker"), $alpha: -0.65)
+                ),
+            "odd": light-dark(
+                    color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
+                    color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
+                )
+        ),
+        "surface": light-dark(#000, #fff),
+        "border-from": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "iron")),
+        "border-to": light-dark(map.get(c.$grey, "asher"), map.get(c.$grey, "fog"))
+    )
+);

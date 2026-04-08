@@ -42,7 +42,8 @@ $shadows: (
 $pages: (
     "container": pa.$container,
     "containers": pa.$containers,
-    "defaults": pa.$defaults
+    "defaults": pa.$defaults,
+    "decklist": pa.$decklist
 ) !default;
 
 // size tokens for components
@@ -81,5 +82,6 @@ $components: (
     "switch": co.$switch,
     "theme": co.$theme,
     "textlink": co.$textlink,
-    "toast": co.$toast
+    "toast": co.$toast,
+    "visibility-badge": co.$visibility-badge
 ) !default;
