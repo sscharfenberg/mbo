@@ -120,6 +120,7 @@
     "pages": {
         "welcome": {
             "title": "Welcome",
+            "label": "Welcome page",
             "claim": "Keep your collection of magic cards organized.",
             "intro": "While building a new deck, you want to add a specific card. You know that you own the card - somewhere in your 10+ binders/boxes/whatever. After searching for half an hour, you give up and buy a new copy. Sounds familiar? MBO is for you.",
             "scryfall_stats": {
@@ -622,6 +623,24 @@
                 "set_planned": "Set to planned",
                 "set_built": "Set to finished"
             }
+        },
+        "deck": {
+            "title": "Deck: {name}",
+            "link": "Deck",
+            "description": "Description",
+            "no_description": "No description.",
+            "format": "Format",
+            "state": "State",
+            "visibility": "Visibility",
+            "colors": "Colors",
+            "bracket": "Bracket",
+            "card_count": "Cards",
+            "last_activity": "Last activity",
+            "commanders": "Command Zone",
+            "cards": "Cards in Deck",
+            "categories": "Categories",
+            "no_cards": "No cards in this deck yet.",
+            "no_categories": "No categories defined."
         },
         "create_deck": {
             "title": "Create deck",

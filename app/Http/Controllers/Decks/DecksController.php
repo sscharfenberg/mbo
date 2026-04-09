@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Decks;
 use App\Enums\CardFormat;
 use App\Http\Controllers\Controller;
 use App\Models\Deck;
+use App\Models\DeckCard;
+use App\Models\DeckCategory;
 use App\Models\OracleCard;
 use App\Services\DeckService;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +25,7 @@ class DecksController extends Controller
      * last-activity timestamps, then groups them by format (alphabetical).
      * Decks within each format are sorted by last activity descending.
      */
-    public function show(Request $request): Response
+    public function list(Request $request): Response
     {
         $decks = Deck::query()
             ->where('user_id', $request->user()->id)
@@ -94,6 +96,123 @@ class DecksController extends Controller
         $request->session()->flash('type', 'success');
 
         return redirect(route('decks'));
+    }
+
+    /**
+     * Display a single deck with all its data.
+     *
+     * Loads commanders (with oracle card faces and default card image),
+     * deck cards (with oracle card faces and default card), and categories.
+     * Computes card count and last-activity timestamp the same way the list does.
+     */
+    public function show(Request $request, Deck $deck): Response
+    {
+        abort_unless($deck->user_id === $request->user()->id, 403);
+
+        $deck->load([
+            'defaultCard:id,card_image_0,card_image_1',
+            'commanders.faces',
+            'commanders.defaults' => fn ($q) => $q
+                ->select('id', 'oracle_id', 'card_image_0', 'card_image_1'),
+            'deckCards.oracleCard.faces',
+            'deckCards.defaultCard:id,name,card_image_0,card_image_1,set_id,oracle_id',
+            'deckCards.defaultCard.set:id,name,code',
+            'categories',
+        ]);
+
+        $cardCount = $deck->deckCards->count() + $deck->commanders->count();
+        $lastActivity = max(array_filter([
+            $deck->updated_at?->toIso8601String(),
+            $deck->deckCards->max('updated_at')?->toIso8601String(),
+            $deck->commanders->max(fn ($c) => $c->pivot->updated_at)?->toIso8601String(),
+        ]));
+
+        $commanders = $deck->commanders->map(fn (OracleCard $oracle) => [
+            'oracle_card_id' => $oracle->id,
+            'name' => $oracle->name,
+            'color_identity' => $oracle->color_identity,
+            'cmc' => $oracle->cmc,
+            'is_partner' => (bool) $oracle->pivot->is_partner,
+            'default_card' => [
+                'id' => $oracle->pivot->default_card_id,
+                'card_image_0' => $oracle->defaults
+                    ->firstWhere('id', $oracle->pivot->default_card_id)?->card_image_0,
+                'card_image_1' => $oracle->defaults
+                    ->firstWhere('id', $oracle->pivot->default_card_id)?->card_image_1,
+            ],
+            'faces' => $oracle->faces->sortBy('face_index')->map(fn ($face) => [
+                'name' => $face->name,
+                'mana_cost' => $face->mana_cost,
+                'type_line' => $face->type_line,
+                'oracle_text' => $face->oracle_text,
+                'power' => $face->power,
+                'toughness' => $face->toughness,
+                'loyalty' => $face->loyalty,
+                'defense' => $face->defense,
+            ])->values(),
+        ])->values();
+
+        $cards = $deck->deckCards->map(fn (DeckCard $dc) => [
+            'id' => $dc->id,
+            'oracle_card_id' => $dc->oracle_card_id,
+            'name' => $dc->oracleCard->name,
+            'color_identity' => $dc->oracleCard->color_identity,
+            'cmc' => $dc->oracleCard->cmc,
+            'zone' => $dc->zone->value,
+            'quantity' => $dc->quantity,
+            'finish' => $dc->finish->value,
+            'language' => $dc->language->value,
+            'category_id' => $dc->category_id,
+            'card_stack_id' => $dc->card_stack_id,
+            'default_card' => [
+                'id' => $dc->defaultCard?->id,
+                'name' => $dc->defaultCard?->name,
+                'card_image_0' => $dc->defaultCard?->card_image_0,
+                'card_image_1' => $dc->defaultCard?->card_image_1,
+                'set' => $dc->defaultCard?->set ? [
+                    'name' => $dc->defaultCard->set->name,
+                    'code' => $dc->defaultCard->set->code,
+                ] : null,
+            ],
+            'faces' => $dc->oracleCard->faces->sortBy('face_index')->map(fn ($face) => [
+                'name' => $face->name,
+                'mana_cost' => $face->mana_cost,
+                'type_line' => $face->type_line,
+                'oracle_text' => $face->oracle_text,
+                'power' => $face->power,
+                'toughness' => $face->toughness,
+                'loyalty' => $face->loyalty,
+                'defense' => $face->defense,
+            ])->values(),
+        ])->values();
+
+        $categories = $deck->categories->sortBy('sort_order')->map(fn (DeckCategory $cat) => [
+            'id' => $cat->id,
+            'name' => $cat->name,
+            'sort_order' => $cat->sort_order,
+        ])->values();
+
+        return Inertia::render('Decks/Deck/DeckPage', [
+            'deck' => [
+                'id' => $deck->id,
+                'name' => $deck->name,
+                'description' => $deck->description,
+                'format' => $deck->format->value,
+                'state' => $deck->state->value,
+                'visibility' => $deck->visibility->value,
+                'colors' => $deck->colors,
+                'bracket' => $deck->bracket,
+                'card_count' => $cardCount,
+                'last_activity' => $lastActivity,
+                'default_card_image' => $deck->defaultCard ? [
+                    'card_image_0' => $deck->defaultCard->card_image_0,
+                    'card_image_1' => $deck->defaultCard->card_image_1,
+                ] : null,
+            ],
+            'commanders' => $commanders,
+            'cards' => $cards,
+            'categories' => $categories,
+        ]);
     }
 
     /**

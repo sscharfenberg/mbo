@@ -193,11 +193,18 @@ class DeckService
             }
         }
 
-        // Derive initial colors from commander's color identity (if applicable).
+        // Derive initial colors from the combined color identity of all command zone cards.
         $colors = null;
-        if ($commanderOracleId) {
-            $commanderOracle = OracleCard::find($commanderOracleId);
-            $colors = $commanderOracle?->color_identity;
+        $commandZoneIds = array_filter([$commanderOracleId, $companionOracleId, $signatureSpellOracleId]);
+        if ($commandZoneIds) {
+            $identities = OracleCard::whereIn('id', $commandZoneIds)->pluck('color_identity');
+            $merged = collect($identities)
+                ->filter()
+                ->flatMap(fn (string $ci) => str_split($ci))
+                ->unique()
+                ->sort(fn (string $a, string $b) => array_search($a, ['W', 'U', 'B', 'R', 'G']) - array_search($b, ['W', 'U', 'B', 'R', 'G']))
+                ->implode('');
+            $colors = $merged ?: null;
         }
 
         $deck = Deck::create([

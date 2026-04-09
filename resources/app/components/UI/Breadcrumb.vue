@@ -14,7 +14,7 @@ function resolveLabel(crumb: (typeof crumbs.value)[number]): string {
 
 <template>
     <nav v-if="crumbs.length" class="breadcrumb" :aria-label="t('breadcrumb.nav')">
-        <Link href="/" class="breadcrumb__item"
+        <Link href="/" class="breadcrumb__item" :aria-label="t('pages.welcome.label')"
             ><span><icon name="home" /></span
         ></Link>
         <template v-for="(crumb, index) in crumbs" :key="crumb.labelKey ?? crumb.label">

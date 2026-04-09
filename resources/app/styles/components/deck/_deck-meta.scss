@@ -1,0 +1,40 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/mixins" as m;
+@use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
+@use "Abstracts/typography" as t;
+@use "Abstracts/z-indexes" as z;
+
+.deck-meta {
+    position: relative;
+
+    padding: map.get(s.$pages, "deck-meta", "padding");
+
+    background-color: map.get(c.$pages, "deck-meta", "background");
+    color: map.get(c.$pages, "deck-meta", "surface");
+    border-radius: map.get(s.$pages, "deck-meta", "radius");
+
+    &::before {
+        position: absolute;
+        inset: 0;
+        z-index: map.get(z.$index, "background");
+
+        border: map.get(s.$pages, "deck-meta", "border") solid transparent;
+
+        background: linear-gradient(
+                to bottom right,
+                map.get(c.$pages, "deck-meta", "border-from"),
+                map.get(c.$pages, "deck-meta", "border-to")
+            )
+            border-box;
+
+        border-radius: inherit;
+        mask:
+            linear-gradient(black, black) border-box,
+            linear-gradient(black, black) padding-box;
+        mask-composite: subtract;
+
+        content: "";
+    }
+}

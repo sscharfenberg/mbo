@@ -41,7 +41,7 @@ function mapStateToIcon(state: string): string {
 
 <template>
     <Link class="decklist__link" :href="`/decks/${deck.id}`">
-        <color-identity class="decklist__colors" :color-identity="deck.colors" />
+        <color-identity :color-identity="deck.colors" />
         <span class="decklist__name">{{ deck.name }}</span>
         <badge class="decklist__state" :type="mapStateToBadge(deck.state)">
             <icon :name="mapStateToIcon(deck.state)" />

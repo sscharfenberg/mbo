@@ -119,7 +119,8 @@
     },
     "pages": {
         "welcome": {
-            "title": "Welcome",
+            "title": "Willkommen",
+            "label": "Willkommensseite",
             "claim": "Organisiere deine Magic Sammlung.",
             "intro": "Du baust ein neues Deck und willst eine bestimmte Karte hinzufügen. Du weißt, das du die Karte besitzt - irgendwo in deinen 10+ Ordnern / Kartons / Displays o.ä.. Nachdem du eine halbe Stunde suchst, gibst du auf und kaufst eine neue Kopie der Karte. Klingt bekannt? MBO ist für dich.",
             "scryfall_stats": {
@@ -622,6 +623,24 @@
                 "set_planned": "Als geplant markieren",
                 "set_built": "Als fertig markieren"
             }
+        },
+        "deck": {
+            "title": "Deck: {name}",
+            "link": "Deck",
+            "description": "Beschreibung",
+            "no_description": "Keine Beschreibung.",
+            "format": "Format",
+            "state": "Status",
+            "visibility": "Sichtbarkeit",
+            "colors": "Farben",
+            "bracket": "Bracket",
+            "card_count": "Karten",
+            "last_activity": "Letzte Aktivität",
+            "commanders": "Command Zone",
+            "cards": "Karten im Deck",
+            "categories": "Kategorien",
+            "no_cards": "Noch keine Karten in diesem Deck.",
+            "no_categories": "Keine Kategorien definiert."
         },
         "create_deck": {
             "title": "Deck erstellen",
