@@ -92,7 +92,8 @@ class Deck extends Model
     {
         return $this->belongsToMany(OracleCard::class, 'commanders', 'deck_id', 'oracle_card_id')
             ->using(Commander::class)
-            ->withPivot('default_card_id', 'is_partner');
+            ->withPivot('default_card_id', 'is_partner')
+            ->withTimestamps();
     }
 
     /**

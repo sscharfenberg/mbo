@@ -12,6 +12,10 @@ $decklist: (
             "odd": light-dark(
                     color.adjust(map.get(c.$grey, "astral"), $alpha: -0.5),
                     color.adjust(map.get(c.$grey, "ebony"), $alpha: -0.5)
+                ),
+            "hover": light-dark(
+                    color.adjust(map.get(c.$grey, "white"), $alpha: -0.45),
+                    color.adjust(map.get(c.$grey, "black"), $alpha: -0.65)
                 )
         ),
         "surface": light-dark(#000, #fff),

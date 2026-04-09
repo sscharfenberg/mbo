@@ -11,7 +11,7 @@ class Commander extends Pivot
 
     public $incrementing = false;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $casts = [
         'is_partner' => 'boolean',

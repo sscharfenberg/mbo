@@ -2,6 +2,7 @@
 @use "Abstracts/colors" as c;
 @use "Abstracts/mixins" as m;
 @use "Abstracts/sizes" as s;
+@use "Abstracts/timings" as ti;
 @use "Abstracts/typography" as t;
 @use "Abstracts/z-indexes" as z;
 
@@ -42,8 +43,14 @@
 
         text-decoration: none;
 
+        transition: background-color map.get(ti.$timings, "fast") linear;
+
         &:nth-of-type(even) {
             background-color: map.get(c.$pages, "decklist", "deck", "background", "even");
+        }
+
+        &:hover {
+            background-color: map.get(c.$pages, "decklist", "deck", "background", "hover");
         }
 
         &::before {

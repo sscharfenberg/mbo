@@ -16,6 +16,12 @@ const props = withDefaults(
     }
 );
 const reference = ref("--" + props.reference);
+
+/** Toggle the popover imperatively. Prevents default so the component works inside <a>/<Link> elements. */
+function toggle(): void {
+    const el = document.getElementById(props.reference);
+    if (el) el.togglePopover();
+}
 </script>
 
 <template>
@@ -25,6 +31,7 @@ const reference = ref("--" + props.reference);
             :aria-label="ariaLabel || `Menu öffnen`"
             class="popover-button"
             :class="classString"
+            @click.stop.prevent="toggle"
         >
             <icon :name="icon" />
             {{ label }}

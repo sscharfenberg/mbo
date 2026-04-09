@@ -25,6 +25,7 @@ return new class extends Migration
                 ->constrained('default_cards')
                 ->cascadeOnDelete();
             $table->boolean('is_partner')->default(false);
+            $table->timestamps();
 
             $table->primary(['deck_id', 'oracle_card_id']);
         });

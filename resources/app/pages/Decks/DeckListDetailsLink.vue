@@ -44,7 +44,7 @@ function mapStateToIcon(state: string): string {
         <color-identity class="decklist__colors" :color-identity="deck.colors" />
         <span class="decklist__name">{{ deck.name }}</span>
         <badge class="decklist__state" :type="mapStateToBadge(deck.state)">
-            <icon :name="mapStateToIcon(deck.state)" :size="1" />
+            <icon :name="mapStateToIcon(deck.state)" />
             <span>{{ t(`enums.deck_state.${deck.state}`) }}</span>
         </badge>
         <span class="decklist__cards">
@@ -56,14 +56,12 @@ function mapStateToIcon(state: string): string {
             {{ formatDateTime(deck.last_activity) }}
         </time>
         <visibility-badge :visibility="deck.visibility" />
-        <!-- @click.prevent.stop: prevent link navigation and stop bubbling when opening the popover -->
         <pop-over
             icon="more"
             :aria-label="t('pages.decks.actions.label')"
             class-string="popover-button--rounded"
             :reference="popoverId"
             width="14rem"
-            @click.prevent.stop
         >
             <ul class="popover-list">
                 <li v-if="deck.visibility === 'private'">
@@ -138,7 +136,7 @@ function mapStateToIcon(state: string): string {
         display: none;
 
         @include m.mq("landscape") {
-            display: inline-block;
+            display: inline-flex;
         }
     }
 }

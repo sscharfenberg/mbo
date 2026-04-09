@@ -28,12 +28,15 @@ class DecksController extends Controller
         $decks = Deck::query()
             ->where('user_id', $request->user()->id)
             ->addSelect([
-                'card_count' => DB::table('deck_cards')
-                    ->selectRaw('COUNT(*)')
-                    ->whereColumn('deck_cards.deck_id', 'decks.id'),
-                'last_card_update' => DB::table('deck_cards')
-                    ->selectRaw('MAX(deck_cards.updated_at)')
-                    ->whereColumn('deck_cards.deck_id', 'decks.id'),
+                'card_count' => DB::raw('(
+                        SELECT COUNT(*) FROM deck_cards WHERE deck_cards.deck_id = decks.id
+                    ) + (
+                        SELECT COUNT(*) FROM commanders WHERE commanders.deck_id = decks.id
+                    )'),
+                'last_card_update' => DB::raw('GREATEST(
+                        COALESCE((SELECT MAX(updated_at) FROM deck_cards WHERE deck_cards.deck_id = decks.id), 0),
+                        COALESCE((SELECT MAX(updated_at) FROM commanders WHERE commanders.deck_id = decks.id), 0)
+                    )'),
             ])
             ->get()
             ->each(function (Deck $deck) {
