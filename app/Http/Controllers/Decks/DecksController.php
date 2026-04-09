@@ -27,20 +27,23 @@ class DecksController extends Controller
     {
         $decks = Deck::query()
             ->where('user_id', $request->user()->id)
+            ->withCount(['deckCards', 'commanders'])
             ->addSelect([
-                'card_count' => DB::raw('(
-                        SELECT COUNT(*) FROM deck_cards WHERE deck_cards.deck_id = decks.id
-                    ) + (
-                        SELECT COUNT(*) FROM commanders WHERE commanders.deck_id = decks.id
-                    )'),
-                'last_card_update' => DB::raw('GREATEST(
-                        COALESCE((SELECT MAX(updated_at) FROM deck_cards WHERE deck_cards.deck_id = decks.id), 0),
-                        COALESCE((SELECT MAX(updated_at) FROM commanders WHERE commanders.deck_id = decks.id), 0)
-                    )'),
+                'last_card_update' => DB::table('deck_cards')
+                    ->selectRaw('MAX(deck_cards.updated_at)')
+                    ->whereColumn('deck_cards.deck_id', 'decks.id'),
+                'last_commander_update' => DB::table('commanders')
+                    ->selectRaw('MAX(commanders.updated_at)')
+                    ->whereColumn('commanders.deck_id', 'decks.id'),
             ])
             ->get()
             ->each(function (Deck $deck) {
-                $deck->last_activity = max($deck->updated_at, $deck->last_card_update ?? $deck->updated_at);
+                $deck->card_count = $deck->deck_cards_count + $deck->commanders_count;
+                $deck->last_activity = max(array_filter([
+                    $deck->updated_at,
+                    $deck->last_card_update,
+                    $deck->last_commander_update,
+                ]));
             })
             ->sortByDesc('last_activity');
 
