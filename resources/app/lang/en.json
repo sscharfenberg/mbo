@@ -83,6 +83,13 @@
             "zht": "Chinese (Traditional)",
             "ru": "Russian",
             "ph": "Phyrexian"
+        },
+        "bracket": {
+            "1": "Exhibition",
+            "2": "Core",
+            "3": "Upgraded",
+            "4": "Optimized",
+            "5": "cEDH"
         }
     },
     "header": {
@@ -631,6 +638,7 @@
             "no_description": "No description.",
             "format": "Format",
             "state": "State",
+            "state_is": "Deck is",
             "visibility": "Visibility",
             "colors": "Colors",
             "bracket": "Bracket",

@@ -26,6 +26,9 @@ $main: (
 $pages: (
     "decklist": (
         "format-title": map.get(t.$font, "headline")
+    ),
+    "deck": (
+        "name": map.get(t.$font, "headline")
     )
 ) !default;
 

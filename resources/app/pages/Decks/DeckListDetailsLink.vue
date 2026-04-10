@@ -4,38 +4,22 @@ import { useId } from "vue";
 import { useI18n } from "vue-i18n";
 import type { DeckRow } from "@/pages/Decks/Decks.vue";
 import ColorIdentity from "Components/Card/ColorIdentity.vue";
-import Badge from "Components/UI/Badge.vue";
+import DeckState from "Components/Deck/DeckState.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import VisibilityBadge from "Components/UI/VisibilityBadge.vue";
 import { useFormatting } from "Composables/useFormatting.ts";
-
 defineProps<{
     /** A single deck row from the controller. */
     deck: DeckRow;
 }>();
-
 const { t } = useI18n();
 const { formatDateTime } = useFormatting();
 const popoverId = useId();
-
 /** Close the action popover programmatically. */
 function closePopover(): void {
     const dialog = document.getElementById(popoverId);
     if (dialog !== null) dialog.hidePopover();
-}
-
-/** Map deck state to Badge component type. */
-function mapStateToBadge(state: string): "info" | "success" | "warning" {
-    if (state === "built") return "success";
-    if (state === "archived") return "warning";
-    return "info";
-}
-
-/** Map deck state to icon name. */
-function mapStateToIcon(state: string): string {
-    if (state === "built") return "finished";
-    return state;
 }
 </script>
 
@@ -43,10 +27,7 @@ function mapStateToIcon(state: string): string {
     <Link class="decklist__link" :href="`/decks/${deck.id}`">
         <color-identity :color-identity="deck.colors" />
         <span class="decklist__name">{{ deck.name }}</span>
-        <badge class="decklist__state" :type="mapStateToBadge(deck.state)">
-            <icon :name="mapStateToIcon(deck.state)" />
-            <span>{{ t(`enums.deck_state.${deck.state}`) }}</span>
-        </badge>
+        <deck-state :state="deck.state" />
         <span class="decklist__cards">
             <icon name="deck" />
             {{ deck.card_count }}
@@ -129,7 +110,7 @@ function mapStateToIcon(state: string): string {
     justify-self: end;
 }
 
-:deep(.badge) {
+:deep(.deck-state) {
     font-size: 0.8em;
 
     span {

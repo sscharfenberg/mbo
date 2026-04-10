@@ -101,9 +101,9 @@ class DecksController extends Controller
     /**
      * Display a single deck with all its data.
      *
-     * Loads commanders (with oracle card faces and default card image),
-     * deck cards (with oracle card faces and default card), and categories.
-     * Computes card count and last-activity timestamp the same way the list does.
+     * Loads commanders (with default card image), deck cards (with default card),
+     * and categories. Computes card count and last-activity timestamp the same way
+     * the list does.
      */
     public function show(Request $request, Deck $deck): Response
     {
@@ -111,10 +111,9 @@ class DecksController extends Controller
 
         $deck->load([
             'defaultCard:id,card_image_0,card_image_1',
-            'commanders.faces',
             'commanders.defaults' => fn ($q) => $q
                 ->select('id', 'oracle_id', 'card_image_0', 'card_image_1'),
-            'deckCards.oracleCard.faces',
+            'deckCards.oracleCard',
             'deckCards.defaultCard:id,name,card_image_0,card_image_1,set_id,oracle_id',
             'deckCards.defaultCard.set:id,name,code',
             'categories',
@@ -140,16 +139,6 @@ class DecksController extends Controller
                 'card_image_1' => $oracle->defaults
                     ->firstWhere('id', $oracle->pivot->default_card_id)?->card_image_1,
             ],
-            'faces' => $oracle->faces->sortBy('face_index')->map(fn ($face) => [
-                'name' => $face->name,
-                'mana_cost' => $face->mana_cost,
-                'type_line' => $face->type_line,
-                'oracle_text' => $face->oracle_text,
-                'power' => $face->power,
-                'toughness' => $face->toughness,
-                'loyalty' => $face->loyalty,
-                'defense' => $face->defense,
-            ])->values(),
         ])->values();
 
         $cards = $deck->deckCards->map(fn (DeckCard $dc) => [
@@ -174,16 +163,6 @@ class DecksController extends Controller
                     'code' => $dc->defaultCard->set->code,
                 ] : null,
             ],
-            'faces' => $dc->oracleCard->faces->sortBy('face_index')->map(fn ($face) => [
-                'name' => $face->name,
-                'mana_cost' => $face->mana_cost,
-                'type_line' => $face->type_line,
-                'oracle_text' => $face->oracle_text,
-                'power' => $face->power,
-                'toughness' => $face->toughness,
-                'loyalty' => $face->loyalty,
-                'defense' => $face->defense,
-            ])->values(),
         ])->values();
 
         $categories = $deck->categories->sortBy('sort_order')->map(fn (DeckCategory $cat) => [

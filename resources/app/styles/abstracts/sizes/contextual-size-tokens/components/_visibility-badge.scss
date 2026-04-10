@@ -3,7 +3,7 @@
 @use "../../global-size-tokens" as s;
 
 $visibility-badge: (
-    "padding": 0.25rem,
+    "padding": 0.5rem,
     "radius": 90dvw,
-    "size": calc(map.get(s.$icons, "medium") + 0.25rem)
+    "size": calc(map.get(s.$icons, "medium") + 0.5rem)
 );

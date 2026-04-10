@@ -1,15 +1,3 @@
-/** Face data for a card in the deck (oracle card face). */
-export interface DeckCardFace {
-    name: string;
-    mana_cost: string | null;
-    type_line: string;
-    oracle_text: string | null;
-    power: string | null;
-    toughness: string | null;
-    loyalty: string | null;
-    defense: string | null;
-}
-
 /** Default card image attached to a commander. */
 export interface DeckCommanderDefaultCard {
     id: string;
@@ -25,7 +13,6 @@ export interface DeckCommander {
     cmc: number;
     is_partner: boolean;
     default_card: DeckCommanderDefaultCard;
-    faces: DeckCardFace[];
 }
 
 /** Default card (specific printing) attached to a deck card. */
@@ -51,7 +38,6 @@ export interface DeckCardRow {
     category_id: string | null;
     card_stack_id: string | null;
     default_card: DeckCardDefaultCard;
-    faces: DeckCardFace[];
 }
 
 /** A user-defined category within a deck. */

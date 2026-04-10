@@ -3,7 +3,7 @@
 @use "../../global-size-tokens" as s;
 
 $badge: (
-    "padding": 0.25lh 1.5ch,
+    "padding": 0.3rem 0.5rem,
     "border": map.get(s.$border, "base"),
     "radius": map.get(s.$radius, "featured")
 );

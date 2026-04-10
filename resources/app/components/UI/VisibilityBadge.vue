@@ -12,7 +12,7 @@ const { t } = useI18n();
 
 <template>
     <span
-        v-tooltip="t(`enums.visibility.${visibility}`)"
+        v-tooltip="t('pages.deck.visibility') + ': ' + t(`enums.visibility.${visibility}`)"
         :class="['visibility-badge', `visibility-badge--${visibility}`]"
     >
         <icon :name="visibility === 'private' ? 'visibility-off' : 'visibility-on'" :size="1" />

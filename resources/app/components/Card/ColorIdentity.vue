@@ -46,7 +46,7 @@ const colors = computed(() => {
 
 <style scoped lang="scss">
 .color-identity {
-    display: inline-flex;
+    display: flex;
 
     vertical-align: middle;
 

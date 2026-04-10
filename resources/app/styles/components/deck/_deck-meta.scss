@@ -1,15 +1,20 @@
 @use "sass:map";
 @use "Abstracts/colors" as c;
 @use "Abstracts/mixins" as m;
+@use "Abstracts/shadows" as sh;
 @use "Abstracts/sizes" as s;
 @use "Abstracts/timings" as ti;
 @use "Abstracts/typography" as t;
 @use "Abstracts/z-indexes" as z;
 
 .deck-meta {
+    display: flex;
     position: relative;
+    flex-direction: column;
 
     padding: map.get(s.$pages, "deck-meta", "padding");
+
+    gap: 1ex;
 
     background-color: map.get(c.$pages, "deck-meta", "background");
     color: map.get(c.$pages, "deck-meta", "surface");
@@ -36,5 +41,31 @@
         mask-composite: subtract;
 
         content: "";
+    }
+
+    &__name {
+        display: flex;
+
+        gap: 0.5ch;
+
+        color: map.get(c.$pages, "deck-meta", "name");
+
+        font-family: map.get(t.$pages, "deck", "name");
+        font-size: map.get(s.$pages, "deck-meta", "name");
+        font-style: italic;
+        font-weight: 400;
+        line-height: 1;
+        text-shadow: map.get(sh.$pages, "deck", "name");
+        letter-spacing: 0.1ch;
+
+        .popover {
+            margin-left: auto;
+        }
+    }
+
+    &__badges {
+        display: flex;
+
+        gap: 0.5ch;
     }
 }

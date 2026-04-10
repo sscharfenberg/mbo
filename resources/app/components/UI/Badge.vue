@@ -19,7 +19,7 @@ withDefaults(
 @use "Abstracts/colors" as c;
 
 .badge {
-    display: inline-flex;
+    display: flex;
     align-items: center;
 
     padding: map.get(s.$components, "badge", "padding");
