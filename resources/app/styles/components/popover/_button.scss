@@ -8,7 +8,7 @@
 @use "Abstracts/timings" as ti;
 
 .popover-button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
 
     padding: map.get(s.$components, "popover", "button-padding");

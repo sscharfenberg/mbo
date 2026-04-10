@@ -5,5 +5,6 @@
 $deck-meta: (
     "border": map.get(s.$border, "base"),
     "padding": 1rem,
-    "radius": map.get(s.$radius, "featured")
+    "radius": map.get(s.$radius, "featured"),
+    "name": 2rem
 );

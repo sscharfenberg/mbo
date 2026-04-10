@@ -81,7 +81,7 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks", icon: "deck" }, 
 
     <section>
         <h2>{{ $t("pages.deck.commanders") }}</h2>
-        <pre>{{ JSON.stringify(commanders, null, 2) }}</pre>
+        <span>{{ JSON.stringify(commanders, null, 2) }}</span>
     </section>
 
     <section>
