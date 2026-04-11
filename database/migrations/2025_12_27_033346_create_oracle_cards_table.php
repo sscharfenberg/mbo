@@ -17,6 +17,7 @@ return new class extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
             $table->uuid('id')->primary();
             $table->string('name', 160);
+            $table->string('searchable_name', 160);
             $table->string('collector_number', 10);
             $table->string('layout', 48);
             $table->string('lang', 8);
@@ -25,6 +26,8 @@ return new class extends Migration
             $table->boolean('reserved')->default(false);
             $table->boolean('game_changer')->default(false);
             $table->string('scryfall_uri', 255);
+
+            $table->index('searchable_name');
         });
     }
 

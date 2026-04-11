@@ -12,7 +12,7 @@ class CommandZoneService
     /**
      * Search for cards that can be a commander (or companion).
      *
-     * @param  array{name_segments: string[], set_code: string|null, collector_number: string|null}  $parsed
+     * @param  array{name_segments: string[], normalized_name_segments: string[], set_code: string|null, collector_number: string|null}  $parsed
      * @param  array{rule0: bool, partner: bool, friends_forever: bool, doctors_companion: bool, background: bool, partner_type: string|null, exclude: string|null}  $filters
      */
     public static function searchCommanders(CardFormat $format, array $parsed, array $filters): Collection
@@ -26,8 +26,8 @@ class CommandZoneService
             ));
         }
 
-        foreach ($parsed['name_segments'] as $segment) {
-            $query->where('name', 'like', "%$segment%");
+        foreach ($parsed['normalized_name_segments'] as $segment) {
+            $query->where('searchable_name', 'like', "%$segment%");
         }
 
         if ($filters['exclude']) {
@@ -92,10 +92,11 @@ class CommandZoneService
             });
         }
 
+        self::applyNameRanking($query, $parsed['normalized_name_segments']);
+
         return $query->select('id', 'name', 'color_identity')
             ->with(['faces' => fn ($q) => $q->select('oracle_card_id', 'face_index', 'mana_cost', 'type_line', 'oracle_text')
                 ->orderBy('face_index')])
-            ->orderBy('name')
             ->limit(50)
             ->get()
             ->map(fn (OracleCard $card) => self::mapCommanderCard($card));
@@ -131,7 +132,7 @@ class CommandZoneService
     /**
      * Search for Oathbreaker command-zone cards (planeswalker or signature spell).
      *
-     * @param  array{name_segments: string[], set_code: string|null, collector_number: string|null}|null  $parsed
+     * @param  array{name_segments: string[], normalized_name_segments: string[], set_code: string|null, collector_number: string|null}|null  $parsed
      */
     public static function searchOathbreaker(
         CardFormat $format,
@@ -154,8 +155,8 @@ class CommandZoneService
             ));
         }
 
-        foreach ($parsed['name_segments'] as $segment) {
-            $query->where('name', 'like', "%$segment%");
+        foreach ($parsed['normalized_name_segments'] as $segment) {
+            $query->where('searchable_name', 'like', "%$segment%");
         }
 
         if ($exclude) {
@@ -196,10 +197,11 @@ class CommandZoneService
             }
         }
 
+        self::applyNameRanking($query, $parsed['normalized_name_segments']);
+
         return $query->select('id', 'name', 'color_identity')
             ->with(['faces' => fn ($q) => $q->select('oracle_card_id', 'face_index', 'mana_cost', 'type_line', 'oracle_text')
                 ->orderBy('face_index')])
-            ->orderBy('name')
             ->limit(50)
             ->get()
             ->map(fn (OracleCard $card) => self::mapCommanderCard($card));
@@ -240,5 +242,31 @@ class CommandZoneService
         }
 
         return ['type' => null, 'partner_with_name' => null];
+    }
+
+    /**
+     * Order a query by exact/prefix/contains rank on the first normalized
+     * segment, falling back to name length and alphabetical order.
+     *
+     * Expects the query to already have one WHERE per segment on the
+     * `searchable_name` column; this only adds ORDER BY clauses.
+     *
+     * @param  string[]  $normalizedSegments
+     */
+    private static function applyNameRanking(Builder $query, array $normalizedSegments): void
+    {
+        $first = $normalizedSegments[0] ?? null;
+        if ($first !== null) {
+            $query->orderByRaw(
+                'CASE
+                    WHEN searchable_name = ? THEN 0
+                    WHEN searchable_name LIKE ? THEN 1
+                    ELSE 2
+                END',
+                [$first, $first.'%']
+            );
+        }
+
+        $query->orderByRaw('CHAR_LENGTH(name)')->orderBy('name');
     }
 }

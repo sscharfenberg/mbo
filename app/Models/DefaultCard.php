@@ -56,6 +56,7 @@ class DefaultCard extends Model
     protected $fillable = [
         'id',
         'name',
+        'searchable_name',
         'collector_number',
         'layout',
         'lang',

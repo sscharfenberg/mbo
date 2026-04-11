@@ -40,8 +40,20 @@ class DefaultCardsController extends Controller
             $query->where('collector_number', $parsed['collector_number']);
         }
 
-        foreach ($parsed['name_segments'] as $segment) {
-            $query->where('name', 'like', "%$segment%");
+        foreach ($parsed['normalized_name_segments'] as $segment) {
+            $query->where('searchable_name', 'like', "%$segment%");
+        }
+
+        $first = $parsed['normalized_name_segments'][0] ?? null;
+        if ($first !== null) {
+            $query->orderByRaw(
+                'CASE
+                    WHEN searchable_name = ? THEN 0
+                    WHEN searchable_name LIKE ? THEN 1
+                    ELSE 2
+                END',
+                [$first, $first.'%']
+            );
         }
 
         return $query;

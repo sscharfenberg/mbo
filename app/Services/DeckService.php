@@ -11,6 +11,27 @@ use App\Models\User;
 class DeckService
 {
     /**
+     * Build a CommandZoneService-compatible parsed array from a raw card name.
+     *
+     * CommandZoneService matches against `searchable_name` via the
+     * `normalized_name_segments` list, so the oracle name must go through
+     * the same normalizer that {@see CardSearchParser} uses for user queries.
+     *
+     * @return array{name_segments: string[], normalized_name_segments: string[], set_code: null, collector_number: null}
+     */
+    private static function parsedForCardName(string $name): array
+    {
+        $normalized = CardNameNormalizer::normalize($name);
+
+        return [
+            'name_segments' => [$name],
+            'normalized_name_segments' => $normalized === '' ? [] : explode(' ', $normalized),
+            'set_code' => null,
+            'collector_number' => null,
+        ];
+    }
+
+    /**
      * Resolve the newest default card (printing) for an oracle card.
      *
      * Joins through the set's released_at to pick the most recent printing.
@@ -40,7 +61,7 @@ class DeckService
             return false;
         }
 
-        $parsed = ['name_segments' => [$oracle->name], 'set_code' => null, 'collector_number' => null];
+        $parsed = self::parsedForCardName($oracle->name);
         $filters = [
             'rule0' => false,
             'partner' => false,
@@ -67,7 +88,7 @@ class DeckService
             return false;
         }
 
-        $parsed = ['name_segments' => [$oracle->name], 'set_code' => null, 'collector_number' => null];
+        $parsed = self::parsedForCardName($oracle->name);
 
         $results = CommandZoneService::searchOathbreaker($format, $parsed, 'planeswalker', null, false, null);
 
@@ -86,7 +107,7 @@ class DeckService
             return false;
         }
 
-        $parsed = ['name_segments' => [$oracle->name], 'set_code' => null, 'collector_number' => null];
+        $parsed = self::parsedForCardName($oracle->name);
 
         $results = CommandZoneService::searchOathbreaker(
             $format,
@@ -145,7 +166,7 @@ class DeckService
             return false;
         }
 
-        $parsed = ['name_segments' => [$companionOracle->name], 'set_code' => null, 'collector_number' => null];
+        $parsed = self::parsedForCardName($companionOracle->name);
         $results = CommandZoneService::searchCommanders($format, $parsed, $filters);
 
         return $results->contains('id', $companionOracleCardId);

@@ -176,7 +176,24 @@ Starts all development services in parallel (via `concurrently`):
 
 ### `composer test`
 
-Clears config cache, then runs PHPUnit.
+Clears config cache, then runs PHPUnit against the default SQLite in-memory driver configured in `phpunit.xml`. Fast, local, no DB setup required — covers all unit tests and feature tests that do not depend on MariaDB-specific features.
+
+### `composer test:mysql`
+
+Runs the same suite but against MariaDB. Use this on staging (or any server with a populated `mbos` database) to exercise feature tests that require real Scryfall data and MariaDB-only SQL (`REGEXP` color-identity filters, accent-folding collations).
+
+```bash
+# On staging
+composer test:mysql                                   # full suite
+composer test:mysql -- --filter=DeckServiceTest       # filtered (note the `--`)
+```
+
+**Prerequisites:**
+* `DB_CONNECTION=mysql` and `DB_DATABASE=mbos` must point at a real MariaDB instance. The composer script injects these via `@putenv` so they beat `phpunit.xml`'s non-forced `<env>` tags — do not override them on the CLI.
+* The database must contain a full Scryfall import. Run `php artisan scryfall:update` first — the MariaDB-only tests assert on bedrock cards (Sol Ring, Lightning Bolt, Atraxa, Yoshimaru, etc.) that only exist after the sync.
+* `phpunit.xml` must exist on the target machine (it is not `.dist`-suffixed, so PhpStorm deployment must not exclude it).
+
+Tests in `tests/Feature/Services/` that need MariaDB self-skip with a `markTestSkipped()` guard when `DB::connection()->getDriverName() !== 'mysql'`, so running `composer test` locally silently drops them instead of failing. Run `composer test:mysql` on staging whenever those skipped tests matter.
 
 ## NPM commands
 

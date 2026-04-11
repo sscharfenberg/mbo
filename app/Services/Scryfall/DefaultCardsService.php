@@ -5,6 +5,7 @@ namespace App\Services\Scryfall;
 use App\Enums\Finish;
 use App\Enums\Game;
 use App\Models\DefaultCard;
+use App\Services\CardNameNormalizer;
 use App\Services\FormatService;
 use Cerbero\JsonParser\JsonParser;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +73,7 @@ class DefaultCardsService
         $arr = [
             'id' => $card['id'],
             'name' => $card['name'],
+            'searchable_name' => CardNameNormalizer::normalize($card['name']),
             'collector_number' => $card['collector_number'],
             'lang' => $card['lang'],
             'card_image_0' => $cardImages['card_image_0'],

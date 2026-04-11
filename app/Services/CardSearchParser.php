@@ -10,7 +10,12 @@ namespace App\Services;
  *   - set:xxx (aliases: s:, e:)     → filter by set code
  *   - number:xxx (alias: cn:)       → filter by collector number
  *
- * @phpstan-type ParsedSearch array{name_segments: string[], set_code: string|null, collector_number: string|null}
+ * @phpstan-type ParsedSearch array{
+ *     name_segments: string[],
+ *     normalized_name_segments: string[],
+ *     set_code: string|null,
+ *     collector_number: string|null
+ * }
  */
 class CardSearchParser
 {
@@ -19,6 +24,11 @@ class CardSearchParser
      *
      * Returns null when the input is too short to run a meaningful search
      * (no set/number filter and name query < 2 characters).
+     *
+     * The result exposes both `name_segments` (raw, as typed) and
+     * `normalized_name_segments` (passed through {@see CardNameNormalizer})
+     * so legacy consumers that match against `name` keep working while new
+     * consumers can match against `searchable_name`.
      *
      * @return ParsedSearch|null
      */
@@ -55,8 +65,19 @@ class CardSearchParser
             return null;
         }
 
+        $rawSegments = array_values(
+            array_filter(explode(' ', $remaining), fn (string $s) => $s !== '')
+        );
+        $normalizedRemaining = CardNameNormalizer::normalize($remaining);
+        $normalizedSegments = $normalizedRemaining === ''
+            ? []
+            : array_values(
+                array_filter(explode(' ', $normalizedRemaining), fn (string $s) => $s !== '')
+            );
+
         return [
-            'name_segments' => array_values(array_filter(explode(' ', $remaining), fn (string $s) => $s !== '')),
+            'name_segments' => $rawSegments,
+            'normalized_name_segments' => $normalizedSegments,
             'set_code' => $setCode,
             'collector_number' => $collectorNumber,
         ];

@@ -65,7 +65,12 @@ class CommanderController extends Controller
             return response()->json([]);
         }
 
-        $parsed ??= ['name_segments' => [], 'set_code' => null, 'collector_number' => null];
+        $parsed ??= [
+            'name_segments' => [],
+            'normalized_name_segments' => [],
+            'set_code' => null,
+            'collector_number' => null,
+        ];
 
         return response()->json(CommandZoneService::searchCommanders($format, $parsed, $filters));
     }

@@ -95,7 +95,7 @@ class DecksController extends Controller
         $request->session()->flash('message', __('auth.deck_created', ['name' => $deck->name]));
         $request->session()->flash('type', 'success');
 
-        return redirect(route('decks'));
+        return redirect(route('decks.show', $deck));
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CardStackPreviewController;
+use App\Http\Controllers\Api\DeckCardSearchController;
 use App\Http\Controllers\Collection\CardStackController;
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Collection\ContainerController;
@@ -124,6 +125,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('decks.store');
     Route::get('/decks/{deck}', [DecksController::class, 'show'])
         ->name('decks.show');
+    Route::get('/api/decks/{deck}/card-search', [DeckCardSearchController::class, 'search'])
+        ->name('api.decks.card-search');
 
 });
 

@@ -6,6 +6,7 @@ use App\Enums\CardLegality;
 use App\Models\OracleCard;
 use App\Models\OracleCardFace;
 use App\Models\OracleCardLegality;
+use App\Services\CardNameNormalizer;
 use App\Services\FormatService;
 use Cerbero\JsonParser\JsonParser;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +69,7 @@ class OracleCardsService
         $arr = [
             'id' => $card['oracle_id'],
             'name' => $card['name'],
+            'searchable_name' => CardNameNormalizer::normalize($card['name']),
             'collector_number' => $card['collector_number'],
             'lang' => $card['lang'],
             'cmc' => $card['cmc'],

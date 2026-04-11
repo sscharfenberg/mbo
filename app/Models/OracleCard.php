@@ -58,6 +58,7 @@ class OracleCard extends Model
     protected $fillable = [
         'id',
         'name',
+        'searchable_name',
         'collector_number',
         'layout',
         'lang',

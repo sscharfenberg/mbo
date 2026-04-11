@@ -17,6 +17,7 @@ return new class extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
             $table->uuid('id')->primary();
             $table->string('name', 160);
+            $table->string('searchable_name', 160);
             $table->string('collector_number', 10);
             $table->string('layout', 48);
             $table->string('lang', 8);
@@ -46,6 +47,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->index(['set_id', 'collector_number']);
+            $table->index('searchable_name');
         });
     }
 

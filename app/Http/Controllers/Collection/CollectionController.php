@@ -91,6 +91,11 @@ class CollectionController extends Controller
                     $q->where('default_cards.collector_number', $parsed['collector_number']);
                 }
 
+                // DataTable search keeps raw-segment / raw-column matching so
+                // the compound "card OR set OR container name" semantics stay
+                // intact. The utf8mb4_unicode_ci collation already folds
+                // accents and case for LIKE comparisons, and the table has
+                // user-driven column sort, so relevance ranking isn't needed.
                 foreach ($parsed['name_segments'] as $segment) {
                     $q->where(function ($q) use ($segment) {
                         $q->where('default_cards.name', 'like', "%{$segment}%")
