@@ -24,14 +24,11 @@ use Tests\TestCase;
  *
  * To run on staging (where `.env` points at the real MariaDB):
  *
- *     DB_CONNECTION=mysql DB_DATABASE=mbos \
- *         php artisan test --filter=DeckCardSearchServiceTest
+ *     composer test:mysql -- --filter=DeckCardSearchServiceTest
  *
- * The overrides are required because `phpunit.xml` sets
- * `DB_CONNECTION=sqlite` / `DB_DATABASE=:memory:` by default and PHPUnit
- * applies those before Laravel loads `.env`. Setting them on the CLI puts
- * them in the process env first, so PHPUnit's non-forced `<env>` tags skip
- * them and Laravel's config picks them up.
+ * The composer script injects `DB_CONNECTION=mysql` / `DB_DATABASE=mbos` via
+ * `@putenv` so they beat PHPUnit's non-forced `<env>` tags and Laravel's
+ * config picks them up.
  */
 class DeckCardSearchServiceTest extends TestCase
 {
@@ -59,10 +56,12 @@ class DeckCardSearchServiceTest extends TestCase
         ]);
     }
 
+    // ── Oracle path ────────────────────────────────────────────────────────
+
     #[Test]
-    public function returns_empty_array_for_too_short_query(): void
+    public function oracle_returns_empty_array_for_too_short_query(): void
     {
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $this->makeDeck(CardFormat::Commander),
             'a'
         );
@@ -73,7 +72,7 @@ class DeckCardSearchServiceTest extends TestCase
     #[Test]
     public function oracle_path_finds_sol_ring_in_commander(): void
     {
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $this->makeDeck(CardFormat::Commander),
             'sol ring'
         );
@@ -87,11 +86,11 @@ class DeckCardSearchServiceTest extends TestCase
     }
 
     #[Test]
-    public function ranks_exact_match_above_contains_match(): void
+    public function oracle_ranks_exact_match_above_contains_match(): void
     {
         // 5-color Commander deck ('WUBRG') so the CI filter doesn't exclude
         // blue cards — this test is about ranking, not color identity.
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $this->makeDeck(CardFormat::Commander, 'WUBRG'),
             'counterspell'
         );
@@ -101,9 +100,9 @@ class DeckCardSearchServiceTest extends TestCase
     }
 
     #[Test]
-    public function multi_segment_query_requires_all_segments(): void
+    public function oracle_multi_segment_query_requires_all_segments(): void
     {
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $this->makeDeck(CardFormat::Commander, 'WUBRG'),
             'lightning bolt'
         );
@@ -120,11 +119,11 @@ class DeckCardSearchServiceTest extends TestCase
     }
 
     #[Test]
-    public function normalizes_accents_and_apostrophes(): void
+    public function oracle_normalizes_accents_and_apostrophes(): void
     {
         // "Lim-Dul's Vault" (no accent, plain apostrophe) should still find
         // "Lim-Dûl's Vault" via the searchable_name normalizer.
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $this->makeDeck(CardFormat::Commander, 'WUBRG'),
             "Lim-Dul's Vault"
         );
@@ -135,121 +134,84 @@ class DeckCardSearchServiceTest extends TestCase
     }
 
     #[Test]
-    public function color_identity_excludes_out_of_identity_cards(): void
+    public function oracle_color_identity_excludes_out_of_identity_cards(): void
     {
         // Mono-white Commander deck must not return Lightning Bolt (red).
         $deck = $this->makeDeck(CardFormat::Commander, 'W');
-        $results = DeckCardSearchService::searchCardForDeck($deck, 'lightning bolt');
+        $results = DeckCardSearchService::searchOracleForDeck($deck, 'lightning bolt');
 
         $names = array_column($results, 'name');
         $this->assertNotContains('Lightning Bolt', $names);
     }
 
     #[Test]
-    public function color_identity_allows_colorless_cards(): void
+    public function oracle_color_identity_allows_colorless_cards(): void
     {
         // Sol Ring is colorless — every color identity should include it.
         $deck = $this->makeDeck(CardFormat::Commander, 'W');
-        $results = DeckCardSearchService::searchCardForDeck($deck, 'sol ring');
+        $results = DeckCardSearchService::searchOracleForDeck($deck, 'sol ring');
 
         $this->assertNotEmpty($results);
         $this->assertSame('Sol Ring', $results[0]['name']);
     }
 
     #[Test]
-    public function format_without_color_identity_enforcement_ignores_deck_colors(): void
+    public function oracle_format_without_color_identity_enforcement_ignores_deck_colors(): void
     {
         // Modern does not enforce color identity — deck->colors is irrelevant.
         $deck = $this->makeDeck(CardFormat::Modern, 'W');
-        $results = DeckCardSearchService::searchCardForDeck($deck, 'lightning bolt');
+        $results = DeckCardSearchService::searchOracleForDeck($deck, 'lightning bolt');
 
         $this->assertNotEmpty($results);
         $this->assertSame('Lightning Bolt', $results[0]['name']);
     }
 
     #[Test]
-    public function legality_filter_excludes_banned_cards_from_commander(): void
+    public function oracle_legality_filter_excludes_banned_cards_from_commander(): void
     {
         // Black Lotus is banned in Commander.
         $deck = $this->makeDeck(CardFormat::Commander);
-        $results = DeckCardSearchService::searchCardForDeck($deck, 'black lotus');
+        $results = DeckCardSearchService::searchOracleForDeck($deck, 'black lotus');
 
         $names = array_column($results, 'name');
         $this->assertNotContains('Black Lotus', $names);
     }
 
     #[Test]
-    public function legality_filter_includes_legal_cards_in_vintage(): void
+    public function oracle_legality_filter_includes_legal_cards_in_vintage(): void
     {
         // Black Lotus is restricted (but legal) in Vintage.
         $deck = $this->makeDeck(CardFormat::Vintage);
-        $results = DeckCardSearchService::searchCardForDeck($deck, 'black lotus');
+        $results = DeckCardSearchService::searchOracleForDeck($deck, 'black lotus');
 
         $names = array_column($results, 'name');
         $this->assertContains('Black Lotus', $names);
     }
 
     #[Test]
-    public function set_token_switches_to_printing_path(): void
+    public function oracle_path_ignores_set_and_cn_tokens(): void
     {
-        // `set:lea` pins the results to Limited Edition Alpha printings.
+        // The oracle path is name-by-card, not by printing. `set:lea` and
+        // `cn:269` must be stripped by the parser and not filter the result.
         $deck = $this->makeDeck(CardFormat::Vintage);
-        $results = DeckCardSearchService::searchCardForDeck($deck, 'sol ring set:lea');
-
-        $this->assertNotEmpty($results);
-        foreach ($results as $card) {
-            $this->assertSame('lea', $card['printing']['set_code']);
-        }
-        $this->assertSame('Sol Ring', $results[0]['name']);
-    }
-
-    #[Test]
-    public function cn_token_filters_to_specific_collector_number(): void
-    {
-        // Sol Ring in LEA is collector number 269.
-        $deck = $this->makeDeck(CardFormat::Vintage);
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $deck,
             'sol ring set:lea cn:269'
         );
 
         $this->assertNotEmpty($results);
-        $this->assertSame('269', $results[0]['printing']['collector_number']);
-        $this->assertSame('lea', $results[0]['printing']['set_code']);
         $this->assertSame('Sol Ring', $results[0]['name']);
-    }
-
-    #[Test]
-    public function printing_path_respects_color_identity(): void
-    {
-        // Even with a set filter, a mono-white Commander deck must not return
-        // a red card like Lightning Bolt.
-        $deck = $this->makeDeck(CardFormat::Commander, 'W');
-        $results = DeckCardSearchService::searchCardForDeck(
-            $deck,
-            'lightning bolt set:lea'
-        );
-
-        $this->assertEmpty($results);
-    }
-
-    #[Test]
-    public function printing_path_respects_legality(): void
-    {
-        // Black Lotus exists in LEA but is banned in Commander.
-        $deck = $this->makeDeck(CardFormat::Commander);
-        $results = DeckCardSearchService::searchCardForDeck(
-            $deck,
-            'black lotus set:lea'
-        );
-
-        $this->assertEmpty($results);
+        // Oracle path returns distinct oracle cards — there should be exactly
+        // one Sol Ring entry, and its resolved newest printing is NOT pinned
+        // to LEA (newest released set wins).
+        $solRings = array_filter($results, fn (array $c): bool => $c['name'] === 'Sol Ring');
+        $this->assertCount(1, $solRings);
     }
 
     #[Test]
     public function oracle_result_shape_matches_contract(): void
     {
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $this->makeDeck(CardFormat::Commander),
             'sol ring'
         );
@@ -272,10 +234,115 @@ class DeckCardSearchServiceTest extends TestCase
         $this->assertArrayHasKey('collector_number', $printing);
     }
 
+    // ── Printings path ─────────────────────────────────────────────────────
+
     #[Test]
-    public function printing_result_shape_matches_contract(): void
+    public function printings_returns_empty_array_for_too_short_query(): void
     {
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $this->makeDeck(CardFormat::Commander),
+            'a'
+        );
+
+        $this->assertSame([], $results);
+    }
+
+    #[Test]
+    public function printings_set_token_pins_results_to_set(): void
+    {
+        // `set:lea` pins the results to Limited Edition Alpha printings.
+        $deck = $this->makeDeck(CardFormat::Vintage);
+        $results = DeckCardSearchService::searchPrintingsForDeck($deck, 'sol ring set:lea');
+
+        $this->assertNotEmpty($results);
+        foreach ($results as $card) {
+            $this->assertSame('lea', $card['printing']['set_code']);
+        }
+        $this->assertSame('Sol Ring', $results[0]['name']);
+    }
+
+    #[Test]
+    public function printings_cn_token_filters_to_specific_collector_number(): void
+    {
+        // Sol Ring in LEA is collector number 269.
+        $deck = $this->makeDeck(CardFormat::Vintage);
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $deck,
+            'sol ring set:lea cn:269'
+        );
+
+        $this->assertNotEmpty($results);
+        $this->assertSame('269', $results[0]['printing']['collector_number']);
+        $this->assertSame('lea', $results[0]['printing']['set_code']);
+        $this->assertSame('Sol Ring', $results[0]['name']);
+    }
+
+    #[Test]
+    public function printings_respect_color_identity(): void
+    {
+        // Even with a set filter, a mono-white Commander deck must not return
+        // a red card like Lightning Bolt.
+        $deck = $this->makeDeck(CardFormat::Commander, 'W');
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $deck,
+            'lightning bolt set:lea'
+        );
+
+        $this->assertEmpty($results);
+    }
+
+    #[Test]
+    public function printings_respect_legality_by_default(): void
+    {
+        // Black Lotus exists in LEA but is banned in Commander.
+        $deck = $this->makeDeck(CardFormat::Commander);
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $deck,
+            'black lotus set:lea'
+        );
+
+        $this->assertEmpty($results);
+    }
+
+    #[Test]
+    public function printings_include_non_legal_flag_returns_banned_cards(): void
+    {
+        // Same query as the previous test, but with the escape hatch engaged:
+        // Black Lotus should now come through in a Commander deck.
+        $deck = $this->makeDeck(CardFormat::Commander);
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $deck,
+            'black lotus set:lea',
+            DeckCardSearchService::DEFAULT_LIMIT,
+            true,
+        );
+
+        $this->assertNotEmpty($results);
+        $names = array_column($results, 'name');
+        $this->assertContains('Black Lotus', $names);
+    }
+
+    #[Test]
+    public function printings_include_non_legal_still_enforces_color_identity(): void
+    {
+        // Flag drops only legality. A mono-white Commander deck must still
+        // not see Lightning Bolt even with include_non_legal=true.
+        $deck = $this->makeDeck(CardFormat::Commander, 'W');
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $deck,
+            'lightning bolt',
+            DeckCardSearchService::DEFAULT_LIMIT,
+            true,
+        );
+
+        $names = array_column($results, 'name');
+        $this->assertNotContains('Lightning Bolt', $names);
+    }
+
+    #[Test]
+    public function printings_result_shape_matches_contract(): void
+    {
+        $results = DeckCardSearchService::searchPrintingsForDeck(
             $this->makeDeck(CardFormat::Vintage),
             'sol ring set:lea'
         );

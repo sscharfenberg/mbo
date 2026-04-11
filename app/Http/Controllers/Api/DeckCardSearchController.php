@@ -11,22 +11,41 @@ use Illuminate\Http\Request;
 class DeckCardSearchController extends Controller
 {
     /**
-     * Search cards eligible to be added to a deck.
+     * Oracle-level card search for the deck (quick-add input).
      *
-     * Filters by the deck's format legality and, for formats that enforce it,
-     * the deck's color identity. Supports `set:xxx` / `cn:xxx` tokens via
-     * `CardSearchParser` — presence of either switches from the oracle
-     * autocomplete path to the printing picker path.
-     *
-     * Delegates all query building to {@see DeckCardSearchService}.
+     * Returns distinct oracle cards with their newest printing auto-resolved.
+     * Any `set:` / `cn:` tokens in the query are ignored — this endpoint is
+     * for picking a card by name, not by printing.
      */
-    public function search(Request $request, Deck $deck): JsonResponse
+    public function oracle(Request $request, Deck $deck): JsonResponse
     {
         abort_unless($deck->user_id === $request->user()->id, 403);
 
-        $results = DeckCardSearchService::searchCardForDeck(
+        $results = DeckCardSearchService::searchOracleForDeck(
             $deck,
             trim((string) $request->query('q', ''))
+        );
+
+        return response()->json($results);
+    }
+
+    /**
+     * Printing-level card search for the deck (full card-add modal).
+     *
+     * Honors `set:` / `cn:` tokens so the user can pin results to a specific
+     * printing, and can return multiple printings of the same oracle card.
+     * When `include_non_legal=1`, the format-legality filter is dropped but
+     * color identity is still enforced — the Rule 0 escape hatch.
+     */
+    public function printings(Request $request, Deck $deck): JsonResponse
+    {
+        abort_unless($deck->user_id === $request->user()->id, 403);
+
+        $results = DeckCardSearchService::searchPrintingsForDeck(
+            $deck,
+            trim((string) $request->query('q', '')),
+            DeckCardSearchService::DEFAULT_LIMIT,
+            $request->boolean('include_non_legal'),
         );
 
         return response()->json($results);

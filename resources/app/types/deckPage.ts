@@ -47,6 +47,28 @@ export interface DeckCategoryRow {
     sort_order: number;
 }
 
+/**
+ * One result row returned by the deck card search API.
+ *
+ * Same shape for both the oracle endpoint (`/card-search/oracle`) and the
+ * printings endpoint (`/card-search/printings`). `printing` is nullable on
+ * the oracle path in the rare case an oracle card has no default card
+ * printing yet; the printings path always populates it.
+ */
+export interface DeckSearchResult {
+    oracle_id: string;
+    name: string;
+    cmc: number;
+    color_identity: string | null;
+    printing: {
+        id: string;
+        card_image_0: string | null;
+        card_image_1: string | null;
+        set_code: string;
+        collector_number: string;
+    } | null;
+}
+
 /** Deck metadata as passed by the controller. */
 export interface DeckMeta {
     id: string;

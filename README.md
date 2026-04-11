@@ -176,7 +176,12 @@ Starts all development services in parallel (via `concurrently`):
 
 ### `composer test`
 
-Clears config cache, then runs PHPUnit against the default SQLite in-memory driver configured in `phpunit.xml`. Fast, local, no DB setup required — covers all unit tests and feature tests that do not depend on MariaDB-specific features.
+Runs PHPUnit against the default SQLite in-memory driver configured in `phpunit.xml`. Fast, local, no DB setup required — covers all unit tests and feature tests that do not depend on MariaDB-specific features.
+
+```bash
+composer test                                         # full suite
+composer test -- --filter=DeckCardSearchServiceTest   # filtered (note the `--`)
+```
 
 ### `composer test:mysql`
 
@@ -189,9 +194,10 @@ composer test:mysql -- --filter=DeckServiceTest       # filtered (note the `--`)
 ```
 
 **Prerequisites:**
-* `DB_CONNECTION=mysql` and `DB_DATABASE=mbos` must point at a real MariaDB instance. The composer script injects these via `@putenv` so they beat `phpunit.xml`'s non-forced `<env>` tags — do not override them on the CLI.
+* `DB_CONNECTION=mysql` and `DB_DATABASE=mbos` must point at a real MariaDB instance. The composer script injects these as inline shell environment variables before `php artisan test` so they beat `phpunit.xml`'s non-forced `<env>` tags — do not override them on the CLI.
 * The database must contain a full Scryfall import. Run `php artisan scryfall:update` first — the MariaDB-only tests assert on bedrock cards (Sol Ring, Lightning Bolt, Atraxa, Yoshimaru, etc.) that only exist after the sync.
 * `phpunit.xml` must exist on the target machine (it is not `.dist`-suffixed, so PhpStorm deployment must not exclude it).
+* If you recently ran `php artisan config:cache`, clear it first with `php artisan config:clear` — the test scripts no longer do this implicitly (it conflicts with forwarding `--filter` through the script chain).
 
 Tests in `tests/Feature/Services/` that need MariaDB self-skip with a `markTestSkipped()` guard when `DB::connection()->getDriverName() !== 'mysql'`, so running `composer test` locally silently drops them instead of failing. Run `composer test:mysql` on staging whenever those skipped tests matter.
 

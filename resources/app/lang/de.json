@@ -689,7 +689,12 @@
                 }
             },
             "add": {
-                "label": "Add cards"
+                "label": "Karten hinzufügen",
+                "title": "Karten hinzufügen",
+                "search_label": "Nach einer Karte suchen",
+                "include_non_legal": "Nicht legale Karten einschließen",
+                "submit": "Suchen",
+                "no_results": "Keine Karten gefunden."
             },
             "quick_add": {
                 "label": "Quick add"

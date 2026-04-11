@@ -11,28 +11,44 @@ use Illuminate\Support\Facades\DB;
 /**
  * Searches for cards eligible to be added to a deck.
  *
- * Two code paths, same response shape:
+ * Two public entry points, same response shape, different use cases:
  *
- *  - Oracle path (no `set:` / `cn:` token) — searches unique oracle cards
- *    and auto-picks the newest printing for display. This is the quick
- *    autocomplete path.
- *  - Printing path (`set:` or `cn:` token present) — searches specific
- *    printings so the user can pick an exact set/collector number. This
- *    can return multiple printings of the same oracle card, which is the
- *    point of the full printing picker.
+ *  - {@see searchOracleForDeck} — oracle-level search. Ignores any
+ *    `set:` / `cn:` tokens and returns distinct oracle cards with their
+ *    newest printing auto-resolved. Used by the quick-add input so the
+ *    user types a name and picks an oracle card without worrying about
+ *    which printing to show.
+ *  - {@see searchPrintingsForDeck} — printing-level search. Honors
+ *    `set:` / `cn:` tokens and can return multiple printings of the
+ *    same oracle card. Used by the full card-add modal where the user
+ *    explicitly picks a specific printing. An optional `includeNonLegal`
+ *    flag drops the format-legality filter while keeping color identity
+ *    enforcement — for when the user wants to sleeve up something banned
+ *    in a Rule 0 / kitchen table context.
  *
  * Both paths:
- *  - Filter by the deck's format legality via `OracleCard::scopeLegalIn`
  *  - Filter by commander color identity when the format enforces it
  *  - AND-match every normalized query segment against `searchable_name`
  *  - Rank exact > prefix > contains on the first segment
+ *
+ * Legality is applied unconditionally in the oracle path and conditionally
+ * in the printings path.
  */
 final class DeckCardSearchService
 {
     public const DEFAULT_LIMIT = 20;
 
     /**
-     * Search cards for the given deck. Returns DTO arrays ready for JSON.
+     * Oracle-level search — returns up to $limit distinct oracle cards,
+     * each with its newest printing resolved.
+     *
+     * Any `set:` / `cn:` tokens in the query are ignored; this path is
+     * about picking a card by name, not a specific printing.
+     *
+     * The newest printing is fetched in a single batched query rather than
+     * via an Eloquent `hasOneOfMany` relationship, because Laravel's
+     * `ofMany` builder can't express "aggregate on a joined table column"
+     * without generating an invalid dotted SQL alias.
      *
      * @return array<int, array{
      *     oracle_id: string,
@@ -48,32 +64,13 @@ final class DeckCardSearchService
      *     }|null
      * }>
      */
-    public static function searchCardForDeck(Deck $deck, string $rawQuery, int $limit = self::DEFAULT_LIMIT): array
+    public static function searchOracleForDeck(Deck $deck, string $rawQuery, int $limit = self::DEFAULT_LIMIT): array
     {
         $parsed = CardSearchParser::parse($rawQuery);
         if (! $parsed) {
             return [];
         }
 
-        return ($parsed['set_code'] || $parsed['collector_number'])
-            ? self::searchPrintings($deck, $parsed, $limit)
-            : self::searchOracle($deck, $parsed, $limit);
-    }
-
-    /**
-     * Oracle-level search — returns up to $limit distinct oracle cards,
-     * each with its newest printing resolved.
-     *
-     * The newest printing is fetched in a single batched query rather than
-     * via an Eloquent `hasOneOfMany` relationship, because Laravel's
-     * `ofMany` builder can't express "aggregate on a joined table column"
-     * without generating an invalid dotted SQL alias.
-     *
-     * @param  array{name_segments: string[], normalized_name_segments: string[], set_code: string|null, collector_number: string|null}  $parsed
-     * @return array<int, array<string, mixed>>
-     */
-    private static function searchOracle(Deck $deck, array $parsed, int $limit): array
-    {
         $query = OracleCard::query()->legalIn($deck->format);
 
         self::applyColorIdentityFilter($query, $deck);
@@ -154,14 +151,37 @@ final class DeckCardSearchService
      * Printing-level search — returns up to $limit specific printings.
      * Filters push into the related oracle card so legality + CI still apply.
      *
-     * @param  array{name_segments: string[], normalized_name_segments: string[], set_code: string|null, collector_number: string|null}  $parsed
-     * @return array<int, array<string, mixed>>
+     * Honors `set:` / `cn:` tokens from the query so the user can pin
+     * results to a specific printing. When `$includeNonLegal` is true,
+     * the format-legality filter is dropped but color identity is still
+     * enforced — this is the escape hatch for Rule 0 / kitchen table play.
+     *
+     * @return array<int, array{
+     *     oracle_id: string,
+     *     name: string,
+     *     cmc: float,
+     *     color_identity: string|null,
+     *     printing: array{
+     *         id: string,
+     *         card_image_0: string|null,
+     *         card_image_1: string|null,
+     *         set_code: string,
+     *         collector_number: string
+     *     }
+     * }>
      */
-    private static function searchPrintings(Deck $deck, array $parsed, int $limit): array
+    public static function searchPrintingsForDeck(Deck $deck, string $rawQuery, int $limit = self::DEFAULT_LIMIT, bool $includeNonLegal = false): array
     {
+        $parsed = CardSearchParser::parse($rawQuery);
+        if (! $parsed) {
+            return [];
+        }
+
         $query = DefaultCard::query()
-            ->whereHas('oracle', function (Builder $q) use ($deck): void {
-                $q->legalIn($deck->format);
+            ->whereHas('oracle', function (Builder $q) use ($deck, $includeNonLegal): void {
+                if (! $includeNonLegal) {
+                    $q->legalIn($deck->format);
+                }
                 self::applyColorIdentityFilter($q, $deck);
             })
             ->with(['set:id,code', 'oracle:id,name,cmc,color_identity']);
