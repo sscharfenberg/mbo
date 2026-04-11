@@ -648,7 +648,26 @@
             "cards": "Karten im Deck",
             "categories": "Kategorien",
             "no_cards": "Noch keine Karten in diesem Deck.",
-            "no_categories": "Keine Kategorien definiert."
+            "no_categories": "Keine Kategorien definiert.",
+            "navigation": {
+                "label": "Deck-Navigation",
+                "view": {
+                    "label": "Ansicht wechseln",
+                    "text": "Als Text",
+                    "cards": "Als Karten"
+                },
+                "sort": {
+                    "label": "Sortieren nach",
+                    "name": "Name",
+                    "mana": "Mana value"
+                }
+            },
+            "add": {
+                "label": "Add cards"
+            },
+            "quick_add": {
+                "label": "Quick add"
+            }
         },
         "create_deck": {
             "title": "Deck erstellen",

@@ -1,26 +1,19 @@
 <script setup lang="ts">
-import { useId } from "vue";
 import { useI18n } from "vue-i18n";
+import DeckActions from "@/pages/Decks/Deck/DeckActions.vue";
 import ColorIdentity from "Components/Card/ColorIdentity.vue";
 import DeckState from "Components/Deck/DeckState.vue";
 import Badge from "Components/UI/Badge.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
-import PopOver from "Components/UI/PopOver.vue";
 import VisibilityBadge from "Components/UI/VisibilityBadge.vue";
 import type { DeckMeta } from "Types/deckPage.ts";
-const popoverId = useId();
 defineProps<{
     /** Deck metadata (name, format, state, colors, etc.). */
     deck: DeckMeta;
     /** hasCommanders **/
     hasCommanders: boolean;
 }>();
-/** Close the action popover programmatically. */
-function closePopover(): void {
-    const dialog = document.getElementById(popoverId);
-    if (dialog !== null) dialog.hidePopover();
-}
 const { t } = useI18n();
 </script>
 
@@ -28,22 +21,7 @@ const { t } = useI18n();
     <section class="deck-meta">
         <header class="deck-meta__name">
             {{ deck.name.toUpperCase() }}
-            <pop-over
-                icon="more"
-                aria-label="test"
-                class-string="popover-button--rounded"
-                :reference="popoverId"
-                width="14rem"
-            >
-                <ul class="popover-list">
-                    <li v-if="deck.visibility === 'private'">
-                        <button class="popover-list-item" @click="closePopover">
-                            <icon name="visibility-on" :size="1" />
-                            {{ $t("pages.decks.actions.set_public") }}
-                        </button>
-                    </li>
-                </ul>
-            </pop-over>
+            <deck-actions :deck="deck" />
         </header>
         <div class="deck-meta__badges">
             <badge v-if="deck.colors"><color-identity :color-identity="deck.colors" /></badge>

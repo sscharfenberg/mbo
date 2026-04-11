@@ -648,7 +648,26 @@
             "cards": "Cards in Deck",
             "categories": "Categories",
             "no_cards": "No cards in this deck yet.",
-            "no_categories": "No categories defined."
+            "no_categories": "No categories defined.",
+            "navigation": {
+                "label": "Deck navigation",
+                "view": {
+                    "label": "Change view",
+                    "text": "As text",
+                    "cards": "As cards"
+                },
+                "sort": {
+                    "label": "Sort by",
+                    "name": "Name",
+                    "mana": "Mana value"
+                }
+            },
+            "add": {
+                "label": "Add cards"
+            },
+            "quick_add": {
+                "label": "Quick add"
+            }
         },
         "create_deck": {
             "title": "Create deck",

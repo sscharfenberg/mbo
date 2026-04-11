@@ -14,6 +14,7 @@
 
     padding: map.get(s.$pages, "deck-meta", "padding");
 
+    margin: 0 0 1rem;
     gap: 1ex;
 
     background-color: map.get(c.$pages, "deck-meta", "background");

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
 import DeckHeader from "@/pages/Decks/Deck/DeckHeader.vue";
+import DeckNavigation from "@/pages/Decks/Deck/Navigation/DeckNavigation.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
 import type { DeckCardRow, DeckCategoryRow, DeckCommander, DeckMeta } from "Types/deckPage";
 const props = defineProps<{
@@ -21,8 +22,8 @@ setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks", icon: "deck" }, 
     <Head
         ><title>{{ $t("pages.deck.title", { name: deck.name }) }}</title></Head
     >
-
     <deck-header :deck="deck" :has-commanders="commanders.length > 0" />
+    <deck-navigation :deck="deck" />
 
     <section>
         <template v-if="deck.default_card_image">
