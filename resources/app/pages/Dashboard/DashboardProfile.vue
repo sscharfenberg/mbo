@@ -12,7 +12,9 @@ const email = ref(user?.email ?? "");
 </script>
 
 <template>
-    <headline :size="3" anchor-id="profileSection">{{ $t("pages.dashboard.profile.headline") }}</headline>
+    <headline :size="3" anchor-id="profileSection"
+        ><icon name="mail" />{{ $t("pages.dashboard.profile.headline") }}</headline
+    >
     <Form
         action="/user/profile-information"
         method="put"
@@ -64,7 +66,7 @@ const email = ref(user?.email ?? "");
             />
         </form-group>
         <form-group>
-            <button type="submit" class="btn-primary" :disabled="processing">
+            <button type="submit" class="btn-default" :disabled="processing">
                 <icon name="save" />
                 {{ $t("pages.dashboard.profile.submit") }}
                 <loading-spinner v-if="processing" :size="2" />

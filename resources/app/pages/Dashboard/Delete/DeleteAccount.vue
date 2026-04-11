@@ -11,7 +11,9 @@ const showModal = ref(false);
 </script>
 
 <template>
-    <headline :size="3" anchor-id="deleteSection">{{ $t("pages.dashboard.deletion.title") }}</headline>
+    <headline :size="3" anchor-id="deleteSection"
+        ><icon name="delete" />{{ $t("pages.dashboard.deletion.title") }}</headline
+    >
     <form class="form" @submit.prevent="showModal = true">
         <Paragraph style="margin: 0">
             <i18n-t keypath="pages.dashboard.deletion.explanation" scope="global">

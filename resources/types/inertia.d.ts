@@ -11,10 +11,14 @@ declare module "@inertiajs/core" {
                     id: number;
                     name: string;
                     email: string;
+                    deck_view_default: "text" | "cards";
+                    deck_sort_default: "mana" | "name";
                 } | null;
             };
             locale: string;
             supportedLocales: string[];
+            supportedDeckViews: ("text" | "cards")[];
+            supportedDeckSorts: ("mana" | "name")[];
             features: {
                 registration: boolean;
                 resetPasswords: boolean;
@@ -23,6 +27,7 @@ declare module "@inertiajs/core" {
             flash: {
                 message: string;
                 type: FlashType;
+                nonce: string | null;
             };
         };
     }

@@ -70,6 +70,14 @@
             "built": "Fertig",
             "archived": "Archiviert"
         },
+        "deck_view": {
+            "text": "Text",
+            "cards": "Karten"
+        },
+        "deck_sort": {
+            "mana": "Manawert",
+            "name": "Name"
+        },
         "card_languages": {
             "en": "Englisch",
             "de": "Deutsch",
@@ -238,6 +246,24 @@
                 },
                 "submit": "Ändern"
             },
+            "deck_view": {
+                "headline": "Standard-Deckansicht",
+                "link": "Deckansicht",
+                "intro": "Wähle, welche Ansicht standardmäßig verwendet wird, wenn du ein Deck öffnest. Einzelne Decks merken sich ihre eigene Ansicht, sobald du sie änderst — diese Einstellung gilt nur für Decks ohne eigene Ansicht.",
+                "radio_label": "Standardansicht",
+                "apply_existing": "Auch auf bestehende Decks anwenden",
+                "apply_existing_hint": "Wenn aktiviert, werden alle bereits gesetzten Deck-Ansichten auf den neuen Standardwert zurückgesetzt.",
+                "submit": "Standardansicht aktualisieren"
+            },
+            "deck_sort": {
+                "headline": "Standard-Decksortierung",
+                "link": "Decksortierung",
+                "intro": "Wähle, welche Sortierung standardmäßig verwendet wird, wenn du ein Deck öffnest. Einzelne Decks merken sich ihre eigene Sortierung, sobald du sie änderst — diese Einstellung gilt nur für Decks ohne eigene Sortierung.",
+                "radio_label": "Standardsortierung",
+                "apply_existing": "Auch auf bestehende Decks anwenden",
+                "apply_existing_hint": "Wenn aktiviert, werden alle bereits gesetzten Deck-Sortierungen auf den neuen Standardwert zurückgesetzt.",
+                "submit": "Standardsortierung aktualisieren"
+            },
             "two_factor": {
                 "headline": "Zwei-Faktor Authentifizierung",
                 "link": "Zwei-Faktor",
@@ -282,7 +308,7 @@
             "deletion": {
                 "title": "Benutzerkonto löschen",
                 "link": "Benutzerkonto löschen",
-                "explanation": "Wen nötig kannst du hier dein Benutzerkonto löschen. {caution} - diese Aktion löscht alles was zu dem Benutzerkonto gehört, inklusive deiner Sammlung und allen Decks.",
+                "explanation": "Wen nötig kannst du hier dein Benutzerkonto löschen. {caution} - diese Aktion löscht alles was zu dem Benutzerkonto gehört, inklusive deiner Sammlung und aller Decks.",
                 "caution": "Achtung",
                 "no_soft_deletes": "Wir verwenden kein {soft_deletes}, das Benutzerkonto wird permanent gelöscht.",
                 "soft_deletes": "markiert als gelöscht",
@@ -652,12 +678,12 @@
             "navigation": {
                 "label": "Deck-Navigation",
                 "view": {
-                    "label": "Ansicht wechseln",
+                    "label": "Ansicht",
                     "text": "Als Text",
                     "cards": "Als Karten"
                 },
                 "sort": {
-                    "label": "Sortieren nach",
+                    "label": "Sortierung",
                     "name": "Name",
                     "mana": "Mana value"
                 }

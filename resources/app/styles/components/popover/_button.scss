@@ -25,6 +25,10 @@
         border-radius: 100vw;
     }
 
+    &--padded {
+        padding: map.get(s.$components, "popover", "button-extra-padding");
+    }
+
     &:hover {
         background-color: map.get(c.$components, "popover", "button", "background-hover");
         color: map.get(c.$components, "popover", "button", "surface-hover");

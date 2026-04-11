@@ -6,5 +6,6 @@ $popover: (
     "radius": map.get(s.$radius, "base"),
     "padding": math.round(s.$base * 0.5),
     "border": map.get(s.$border, "base"),
-    "button-padding": math.round(map.get(s.$border, "base") * 2)
+    "button-padding": math.round(map.get(s.$border, "base") * 2),
+    "button-extra-padding": math.round(map.get(s.$border, "base") * 2) math.round(s.$base * 0.5)
 );

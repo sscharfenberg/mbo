@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\Currency;
+use App\Enums\DeckSort;
+use App\Enums\DeckView;
 use App\Enums\Locale;
 use App\Notifications\PasswordResetLinkNotification;
 use App\Notifications\VerifyEmailNotification;
@@ -36,6 +38,8 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         'email',
         'locale',
         'currency',
+        'deck_view_default',
+        'deck_sort_default',
         'email_verified_at',
         'password',
         'two_factor_secret',
@@ -65,6 +69,8 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
             'password' => 'hashed',
             'locale' => Locale::class,
             'currency' => Currency::class,
+            'deck_view_default' => DeckView::class,
+            'deck_sort_default' => DeckSort::class,
         ];
     }
 

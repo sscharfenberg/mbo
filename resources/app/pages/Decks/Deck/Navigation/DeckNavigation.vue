@@ -20,6 +20,7 @@ defineProps<{
 <style lang="scss" scoped>
 .deck-navigation {
     display: flex;
+    align-items: flex-end;
 
     gap: 1rem;
 }

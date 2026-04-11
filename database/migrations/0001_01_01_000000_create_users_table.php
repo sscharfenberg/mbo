@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('locale', 8)->default(config('app.locale'));
             $table->string('currency', 3)->default('eur');
+            $table->string('deck_view_default', 8)->default('text');
+            $table->string('deck_sort_default', 8)->default('mana');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('two_factor_secret')->nullable();

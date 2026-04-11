@@ -15,7 +15,9 @@ const showPasswordConfirmation = ref(false);
 </script>
 
 <template>
-    <headline :size="3" anchor-id="passwordSection">{{ $t("pages.dashboard.password.headline") }}</headline>
+    <headline :size="3" anchor-id="passwordSection"
+        ><icon name="key" />{{ $t("pages.dashboard.password.headline") }}</headline
+    >
     <Form
         action="/user/password"
         method="put"
@@ -135,7 +137,7 @@ const showPasswordConfirmation = ref(false);
             </template>
         </form-group>
         <form-group>
-            <button type="submit" class="btn-primary" :disabled="processing">
+            <button type="submit" class="btn-default" :disabled="processing">
                 <icon name="save" />
                 {{ $t("pages.dashboard.password.submit") }}
                 <loading-spinner v-if="processing" :size="2" />

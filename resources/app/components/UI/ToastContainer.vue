@@ -9,10 +9,16 @@ const { t } = useI18n();
 const { activeToasts, addToast, removeToast } = useToast();
 const page = usePage();
 // Bridge Inertia session flash messages into the toast queue.
+// We watch `flash.nonce` (a fresh per-response token set by HandleInertiaRequests
+// whenever a message is flashed) instead of the `flash` object itself. Two
+// consecutive submits with an identical message would otherwise share the same
+// object reference after Inertia's merge, silencing the watcher.
 // { immediate: true } catches messages that arrive on the initial page load.
 watch(
-    () => page.props.flash,
-    flash => {
+    () => page.props.flash?.nonce,
+    nonce => {
+        if (nonce === null || nonce === undefined) return;
+        const flash = page.props.flash;
         if (flash?.message) {
             addToast(flash.message, (flash.type as ToastType) ?? "info", 7000);
         }

@@ -11,6 +11,8 @@ use App\Http\Controllers\Decks\DecksController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\DeckSortController;
+use App\Http\Controllers\User\DeckViewController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\HandleControllerPrecognitiveRequest;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +41,10 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('dashboard');
     Route::post('/currency/{currency}', [CurrencyController::class, 'update'])
         ->name('currency');
+    Route::post('/deck-view-default', [DeckViewController::class, 'update'])
+        ->name('deck_view_default.update');
+    Route::post('/deck-sort-default', [DeckSortController::class, 'update'])
+        ->name('deck_sort_default.update');
 
     // collection
     Route::get('/collection', [CollectionController::class, 'list'])

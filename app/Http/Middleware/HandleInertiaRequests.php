@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Enums\Currency;
+use App\Enums\DeckSort;
+use App\Enums\DeckView;
 use App\Enums\Locale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -44,9 +46,15 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => fn () => $request->user()
-                    ? $request->user()->only('id', 'name', 'email')
+                    ? [
+                        ...$request->user()->only('id', 'name', 'email'),
+                        'deck_view_default' => $request->user()->deck_view_default->value,
+                        'deck_sort_default' => $request->user()->deck_sort_default->value,
+                    ]
                     : null,
             ],
+            'supportedDeckViews' => array_column(DeckView::cases(), 'value'),
+            'supportedDeckSorts' => array_column(DeckSort::cases(), 'value'),
             'locale' => app()->getLocale(),
             'supportedLocales' => array_column(Locale::cases(), 'value'),
             'currency' => fn () => $request->user()?->currency?->value
@@ -57,9 +65,13 @@ class HandleInertiaRequests extends Middleware
                 'resetPasswords' => Features::enabled(Features::resetPasswords()),
                 'emailVerification' => Features::enabled(Features::emailVerification()),
             ],
-            'flash' => [
-                'message' => fn () => $request->session()->get('message'),
-                'type' => fn () => $request->session()->get('type'),
+            'flash' => fn () => [
+                'message' => $request->session()->get('message'),
+                'type' => $request->session()->get('type'),
+                // Fresh per-response nonce so the Vue toast watcher always
+                // sees a new reference, even when two consecutive submits
+                // produce an identical message + type.
+                'nonce' => $request->session()->has('message') ? uniqid('', true) : null,
             ],
         ];
     }

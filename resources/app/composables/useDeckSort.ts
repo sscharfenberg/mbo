@@ -1,0 +1,124 @@
+import { usePage } from "@inertiajs/vue3";
+import type { Ref } from "vue";
+import { ref } from "vue";
+
+/** Supported deck sort modes. Mirrors `App\Enums\DeckSort`. */
+export type DeckSort = "mana" | "name";
+
+/** Return type of {@link useDeckSort}. */
+export type UseDeckSortReturn = {
+    /** Current sort mode for this deck — reactive, initialised from localStorage or user default. */
+    sortMode: Ref<DeckSort>;
+    /** Persist a new sort mode to localStorage and update the reactive state. */
+    setSortMode: (mode: DeckSort) => void;
+};
+
+/** Prefix for per-deck localStorage entries. */
+const STORAGE_PREFIX = "mbo:deck-sort:";
+
+/** Values that are considered valid persisted modes. */
+const VALID_MODES: ReadonlySet<DeckSort> = new Set<DeckSort>(["mana", "name"]);
+
+/**
+ * Module-level cache: ensures every caller of `useDeckSort(deckId)` for the
+ * same deck id shares the same reactive ref. Without this, DeckPage.vue and
+ * a nested DeckNavigationSort would each have their own isolated state.
+ */
+const instances = new Map<string, Ref<DeckSort>>();
+
+/**
+ * Read a persisted sort override for the given deck id.
+ *
+ * Wrapped in try/catch to survive localStorage being unavailable
+ * (SSR, privacy mode, disabled storage, quota errors on read).
+ *
+ * @param deckId - Deck identifier used as part of the storage key.
+ * @returns The stored sort mode, or null if none is set or storage is unavailable.
+ */
+function readOverride(deckId: string): DeckSort | null {
+    try {
+        const raw = window.localStorage.getItem(`${STORAGE_PREFIX}${deckId}`);
+        if (raw === null) return null;
+        return VALID_MODES.has(raw as DeckSort) ? (raw as DeckSort) : null;
+    }
+    catch {
+        return null;
+    }
+}
+
+/**
+ * Persist a sort override for the given deck id. Fails silently on error.
+ *
+ * @param deckId - Deck identifier used as part of the storage key.
+ * @param mode - Sort mode to persist.
+ */
+function writeOverride(deckId: string, mode: DeckSort): void {
+    try {
+        window.localStorage.setItem(`${STORAGE_PREFIX}${deckId}`, mode);
+    }
+    catch {
+        // Storage is unavailable or quota exceeded — sort still works, just not persisted.
+    }
+}
+
+/**
+ * Remove every `mbo:deck-sort:*` entry from localStorage.
+ *
+ * Called from the dashboard when the user accepts "apply default to all
+ * existing decks" after updating their preference. Iterates keys defensively
+ * so a mid-loop mutation from `removeItem` can't skip entries, and stays
+ * inside a single try/catch so any storage failure is a no-op.
+ */
+export function clearAllDeckSortOverrides(): void {
+    try {
+        const keysToRemove: string[] = [];
+        for (let i = 0; i < window.localStorage.length; i++) {
+            const key = window.localStorage.key(i);
+            if (key !== null && key.startsWith(STORAGE_PREFIX)) {
+                keysToRemove.push(key);
+            }
+        }
+        for (const key of keysToRemove) {
+            window.localStorage.removeItem(key);
+        }
+    }
+    catch {
+        // Nothing to do — if storage is unreachable there's nothing to clear.
+    }
+    // Drop any cached refs so the next `useDeckSort(deckId)` call re-reads
+    // from (the now-empty) localStorage and falls through to the user default.
+    instances.clear();
+}
+
+/**
+ * Per-deck sort mode state, backed by localStorage with a user-default fallback.
+ *
+ * Flow on mount:
+ *  1. Try reading the per-deck override from localStorage.
+ *  2. Fall back to `auth.user.deck_sort_default` from Inertia shared props.
+ *  3. Final fallback is `"mana"` if the user is unauthenticated (shouldn't
+ *     happen on the deck page, but keeps the type safe).
+ *
+ * No SSR in this project (`INERTIA_SSR_ENABLED=false`), so `setup()` runs
+ * client-side and the first paint already has the correct value — no flash.
+ *
+ * @param deckId - Identifier of the deck whose sort state we're tracking.
+ * @returns Reactive sort mode and a setter that also persists to localStorage.
+ */
+export function useDeckSort(deckId: string): UseDeckSortReturn {
+    let sortMode = instances.get(deckId);
+    if (sortMode === undefined) {
+        const page = usePage();
+        const userDefault = (page.props.auth.user?.deck_sort_default ?? "mana") as DeckSort;
+        sortMode = ref<DeckSort>(readOverride(deckId) ?? userDefault);
+        instances.set(deckId, sortMode);
+    }
+
+    /** Set a new sort mode locally and persist it as a per-deck override. */
+    function setSortMode(mode: DeckSort): void {
+        sortMode!.value = mode;
+        writeOverride(deckId, mode);
+    }
+
+    return { sortMode, setSortMode };
+}

@@ -21,6 +21,7 @@ const handleModalClose = () => {
 
 <template>
     <headline :size="3" anchor-id="2faSection">
+        <icon name="security" />
         {{ $t("pages.dashboard.two_factor.headline") }}
         <template #right>
             <badge v-if="!twoFactorEnabled" type="warning"><icon name="key" />{{ $t("state.disabled") }}</badge>

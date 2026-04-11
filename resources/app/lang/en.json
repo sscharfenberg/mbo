@@ -70,6 +70,14 @@
             "built": "Finished",
             "archived": "Archived"
         },
+        "deck_view": {
+            "text": "Text",
+            "cards": "Cards"
+        },
+        "deck_sort": {
+            "mana": "Mana value",
+            "name": "Name"
+        },
         "card_languages": {
             "en": "English",
             "de": "German",
@@ -237,6 +245,24 @@
                     "name": "Change username"
                 },
                 "submit": "Change"
+            },
+            "deck_view": {
+                "headline": "Default deck view",
+                "link": "Deck view",
+                "intro": "Choose the default view used when you open a deck. Individual decks remember their own view once you change it — this setting only applies to decks without an override.",
+                "radio_label": "Default view",
+                "apply_existing": "Also apply to my existing decks",
+                "apply_existing_hint": "When enabled, any per-deck overrides you've already set will be reset to this new default.",
+                "submit": "Update default view"
+            },
+            "deck_sort": {
+                "headline": "Default deck sort",
+                "link": "Deck sort",
+                "intro": "Choose the default sort order used when you open a deck. Individual decks remember their own sort order once you change it — this setting only applies to decks without an override.",
+                "radio_label": "Default sort",
+                "apply_existing": "Also apply to my existing decks",
+                "apply_existing_hint": "When enabled, any per-deck overrides you've already set will be reset to this new default.",
+                "submit": "Update default sort"
             },
             "two_factor": {
                 "headline": "Two-Factor authentication",
@@ -652,12 +678,12 @@
             "navigation": {
                 "label": "Deck navigation",
                 "view": {
-                    "label": "Change view",
+                    "label": "View",
                     "text": "As text",
                     "cards": "As cards"
                 },
                 "sort": {
-                    "label": "Sort by",
+                    "label": "Sort",
                     "name": "Name",
                     "mana": "Mana value"
                 }
