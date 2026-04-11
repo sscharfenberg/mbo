@@ -44,7 +44,7 @@ Then seed containers and card stacks:
 php artisan db:seed
 ```
 
-The seeder creates the test user, wipes existing containers and card stacks for the first user, creates 10 sample containers, and distributes 60 random cards across them.
+The seeder creates the test user, wipes existing containers and card stacks for the first user, creates 10 sample containers, and distributes 60 random cards across them. Needs populated oracle_cards and default_cards tables.
 
 ## Setup IDE for development
 
