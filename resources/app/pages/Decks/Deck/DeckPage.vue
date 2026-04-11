@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
+import CardViewImage from "@/pages/Decks/Deck/Cards/CardViewImage.vue";
+import CardViewText from "@/pages/Decks/Deck/Cards/CardViewText.vue";
 import DeckHeader from "@/pages/Decks/Deck/DeckHeader.vue";
 import DeckNavigation from "@/pages/Decks/Deck/Navigation/DeckNavigation.vue";
 import { useBreadcrumbs } from "Composables/useBreadcrumbs.ts";
@@ -30,8 +32,8 @@ const { sortMode } = useDeckSort(props.deck.id);
     >
     <deck-header :deck="deck" :has-commanders="commanders.length > 0" />
     <deck-navigation :deck="deck" />
-
-    <pre>effective view mode: {{ viewMode }}</pre>
+    <card-view-text v-if="viewMode === 'text'" />
+    <card-view-image v-if="viewMode === 'cards'" />
     <pre>effective sort mode: {{ sortMode }}</pre>
 
     <section>
