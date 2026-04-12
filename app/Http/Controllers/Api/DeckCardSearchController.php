@@ -44,7 +44,6 @@ class DeckCardSearchController extends Controller
         $results = DeckCardSearchService::searchPrintingsForDeck(
             $deck,
             trim((string) $request->query('q', '')),
-            DeckCardSearchService::DEFAULT_LIMIT,
             $request->boolean('include_non_legal'),
         );
 

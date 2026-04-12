@@ -1,3 +1,5 @@
+import type { DefaultCardImage } from "Types/defaultCardImage.ts";
+
 /** Default card image attached to a commander. */
 export interface DeckCommanderDefaultCard {
     id: string;
@@ -60,13 +62,7 @@ export interface DeckSearchResult {
     name: string;
     cmc: number;
     color_identity: string | null;
-    printing: {
-        id: string;
-        card_image_0: string | null;
-        card_image_1: string | null;
-        set_code: string;
-        collector_number: string;
-    } | null;
+    printing: DefaultCardImage | null;
 }
 
 /** Deck metadata as passed by the controller. */

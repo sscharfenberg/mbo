@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Finish;
 use App\Models\Deck;
 use App\Models\DefaultCard;
 use App\Models\OracleCard;
@@ -148,7 +149,7 @@ final class DeckCardSearchService
     }
 
     /**
-     * Printing-level search — returns up to $limit specific printings.
+     * Printing-level search — returns all matching printings.
      * Filters push into the related oracle card so legality + CI still apply.
      *
      * Honors `set:` / `cn:` tokens from the query so the user can pin
@@ -163,14 +164,17 @@ final class DeckCardSearchService
      *     color_identity: string|null,
      *     printing: array{
      *         id: string,
+     *         name: string,
      *         card_image_0: string|null,
      *         card_image_1: string|null,
-     *         set_code: string,
-     *         collector_number: string
+     *         artist: string|null,
+     *         cn: string,
+     *         finishes: array<string>,
+     *         set: array{name: string, code: string, path: string|null}|null
      *     }
      * }>
      */
-    public static function searchPrintingsForDeck(Deck $deck, string $rawQuery, int $limit = self::DEFAULT_LIMIT, bool $includeNonLegal = false): array
+    public static function searchPrintingsForDeck(Deck $deck, string $rawQuery, bool $includeNonLegal = false): array
     {
         $parsed = CardSearchParser::parse($rawQuery);
         if (! $parsed) {
@@ -184,7 +188,7 @@ final class DeckCardSearchService
                 }
                 self::applyColorIdentityFilter($q, $deck);
             })
-            ->with(['set:id,code', 'oracle:id,name,cmc,color_identity']);
+            ->with(['set:id,name,code,path', 'oracle:id,name,cmc,color_identity', 'artist:id,name']);
 
         if ($parsed['set_code']) {
             $query->whereHas('set', fn (Builder $q) => $q->where('code', $parsed['set_code']));
@@ -198,8 +202,7 @@ final class DeckCardSearchService
         self::applyNameRanking($query, 'default_cards.searchable_name', 'default_cards.name', $parsed['normalized_name_segments']);
 
         return $query
-            ->select('default_cards.id', 'default_cards.oracle_id', 'default_cards.name', 'default_cards.card_image_0', 'default_cards.card_image_1', 'default_cards.collector_number', 'default_cards.set_id', 'default_cards.searchable_name')
-            ->limit($limit)
+            ->select('default_cards.id', 'default_cards.oracle_id', 'default_cards.name', 'default_cards.card_image_0', 'default_cards.card_image_1', 'default_cards.collector_number', 'default_cards.finishes', 'default_cards.artist_id', 'default_cards.set_id', 'default_cards.searchable_name')
             ->get()
             ->map(fn (DefaultCard $card): array => [
                 'oracle_id' => $card->oracle_id,
@@ -208,10 +211,17 @@ final class DeckCardSearchService
                 'color_identity' => $card->oracle?->color_identity,
                 'printing' => [
                     'id' => $card->id,
+                    'name' => $card->name,
                     'card_image_0' => $card->card_image_0,
                     'card_image_1' => $card->card_image_1,
-                    'set_code' => $card->set->code,
-                    'collector_number' => $card->collector_number,
+                    'artist' => $card->artist?->name,
+                    'cn' => $card->collector_number,
+                    'finishes' => Finish::labelsFromMask($card->finishes),
+                    'set' => $card->set ? [
+                        'name' => $card->set->name,
+                        'code' => $card->set->code,
+                        'path' => $card->set->path,
+                    ] : null,
                 ],
             ])
             ->all();

@@ -14,6 +14,10 @@ $face-image: (
                 color.adjust(map.get(c.$grey, "black"), $alpha: -0.35),
                 color.adjust(map.get(c.$grey, "white"), $alpha: -0.25)
             ),
+        "background-hover": light-dark(
+                color.adjust(map.get(c.$grey, "black"), $alpha: -0.1),
+                color.adjust(map.get(c.$grey, "white"), $alpha: -0.1)
+            ),
         "surface": light-dark(#fff, #000)
     )
 );

@@ -1,0 +1,17 @@
+@use "sass:math"; // https://sass-lang.com/documentation/modules/math/
+@use "sass:map"; // https://sass-lang.com/documentation/modules/map
+@use "../../global-size-tokens" as s;
+
+$deck: (
+    "meta": (
+        "border": map.get(s.$border, "base"),
+        "padding": 1rem,
+        "radius": map.get(s.$radius, "featured"),
+        "name": 2rem
+    ),
+    "add-card": (
+        "results-min": 10rem,
+        "gap": 0.25rem,
+        "radius": map.get(s.$radius, "featured")
+    )
+);

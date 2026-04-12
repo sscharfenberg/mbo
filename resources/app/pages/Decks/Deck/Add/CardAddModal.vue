@@ -9,6 +9,7 @@ import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import type { DeckMeta } from "Types/deckPage.ts";
+import CardAddResults from "./CardAddResults.vue";
 const props = defineProps<{
     /** Deck metadata — used to scope card search by format and color identity. */
     deck: DeckMeta;
@@ -57,7 +58,7 @@ onMounted(() => searchInput.value?.focus());
         <template #header>
             {{ $t("pages.deck.add.title") }}
         </template>
-        <form class="card-add-modal" @submit.prevent="runSearch">
+        <form class="form" @submit.prevent="runSearch">
             <form-group
                 :label="$t('pages.deck.add.search_label')"
                 :validating="processing"
@@ -92,31 +93,10 @@ onMounted(() => searchInput.value?.focus());
                 </button>
             </form-group>
             <search-syntax v-if="!results.length && !processing" />
-            <pre v-if="results.length" class="card-add-modal__dump">{{ JSON.stringify(results, null, 2) }}</pre>
+            <card-add-results v-if="results.length" :results="results" />
             <paragraph v-else-if="query.length >= 2 && !processing">
                 {{ $t("pages.deck.add.no_results") }}
             </paragraph>
         </form>
     </modal>
 </template>
-
-<style lang="scss" scoped>
-.card-add-modal {
-    display: flex;
-    flex-direction: column;
-
-    gap: 1rem;
-
-    &__dump {
-        overflow: auto;
-        max-height: 50dvh;
-        padding: 1rem;
-
-        background: rgb(0 0 0 / 30%);
-        border-radius: 0.5rem;
-
-        font-family: monospace;
-        font-size: 0.85rem;
-    }
-}
-</style>

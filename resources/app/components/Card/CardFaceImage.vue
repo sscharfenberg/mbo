@@ -6,6 +6,8 @@ defineProps<{
     card: DefaultCardImage;
     /** When true, shows a zoom effect on hover. Use in clickable contexts (e.g. results grid). */
     interactive?: boolean;
+    /** CSS selector for the FloatingVue tooltip container. Defaults to `body`. */
+    tooltipContainer?: string;
 }>();
 /** True when the back face is showing. */
 const flipped = ref(false);
@@ -45,7 +47,10 @@ function onFlip() {
                     class="face-image__set"
                     :alt="`${card.set.code.toUpperCase()} - ${card.set.name}`"
                     :title="`${card.set.code.toUpperCase()} - ${card.set.name}`"
-                    v-tooltip="`${card.set.code.toUpperCase()} - ${card.set.name}`"
+                    v-tooltip="{
+                        content: `${card.set.code.toUpperCase()} - ${card.set.name}`,
+                        container: tooltipContainer ?? false
+                    }"
                 />
             </span>
             <span v-if="card.artist" class="face-image__panel-artist">
@@ -79,9 +84,13 @@ function onFlip() {
 
         width: 100%;
 
+        filter: grayscale(0);
+
         border-radius: inherit;
 
-        transition: transform map.get(ti.$timings, "medium") ease;
+        transition:
+            transform map.get(ti.$timings, "medium") ease,
+            filter map.get(ti.$timings, "medium") ease;
     }
 
     &__back {
@@ -110,8 +119,6 @@ function onFlip() {
 
         padding: 0.5rem;
         border: 0;
-
-        // transform: translateY(-50%);
 
         background-color: map.get(c.$components, "face-image", "flip", "background");
         color: map.get(c.$components, "face-image", "flip", "surface");
@@ -160,6 +167,21 @@ function onFlip() {
             opacity: 0.8;
 
             font-size: 0.8em;
+        }
+    }
+
+    &--interactive {
+        cursor: pointer;
+
+        &:hover {
+            .face-image__front,
+            .face-image__back {
+                filter: grayscale(1);
+            }
+
+            .face-image__panel {
+                background-color: map.get(c.$components, "face-image", "meta", "background-hover");
+            }
         }
     }
 
