@@ -1,4 +1,4 @@
-STAGING_HOST = mbo
+STAGING_HOST = cantrip
 STAGING_LOGS = /var/www/mbos/storage/logs
 LOCAL_LOGS   = storage/logs
 

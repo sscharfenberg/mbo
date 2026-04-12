@@ -226,7 +226,7 @@ Ensure `.env` has `APP_ENV=production`, `APP_DEBUG=false`, and `APP_URL` pointin
 
 Command for your local dev machine. Downloads all log files from the staging server into the local `storage/logs/` directory.
 
-Uses the `mbo` SSH alias (configured in `~/.ssh/config`). Since `storage/logs/` is excluded from IntelliJ's deployment sync, this is the quickest way to pull logs locally for inspection.
+Uses the `cantrip` SSH alias (configured in `~/.ssh/config`). Since `storage/logs/` is excluded from IntelliJ's deployment sync, this is the quickest way to pull logs locally for inspection. Update with your host.
 
 ## License
 `cantrip.me` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
