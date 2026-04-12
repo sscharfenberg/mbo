@@ -125,7 +125,7 @@
     },
     "footer": {
         "nav_label": "Links to legal information",
-        "disclaimer": "MBO is unofficial Fan Content permitted under the {fcp}. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. © Wizards of the Coast LLC.",
+        "disclaimer": "cantrip.me is unofficial Fan Content permitted under the {fcp}. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. © Wizards of the Coast LLC.",
         "fcp": "Fan Content Policy"
     },
     "toast": {
@@ -137,7 +137,7 @@
             "title": "Welcome",
             "label": "Welcome page",
             "claim": "Keep your collection of magic cards organized.",
-            "intro": "While building a new deck, you want to add a specific card. You know that you own the card - somewhere in your 10+ binders/boxes/whatever. After searching for half an hour, you give up and buy a new copy. Sounds familiar? MBO is for you.",
+            "intro": "While building a new deck, you want to add a specific card. You know that you own the card - somewhere in your 10+ binders/boxes/whatever. After searching for half an hour, you give up and buy a new copy. Sounds familiar? cantrip.me is for you.",
             "scryfall_stats": {
                 "title": "Scryfall data",
                 "oracle": {
@@ -170,18 +170,18 @@
                 }
             },
             "collection_stats": {
-                "title": "MBO data",
+                "title": "cantrip.me data",
                 "cards": {
                     "title": "Total cards",
                     "explanation": "The number of cards in collections."
                 },
                 "containers": {
                     "title": "Containers",
-                    "explanation": "The number of containers organized in MBO."
+                    "explanation": "The number of containers organized in cantrip.me."
                 },
                 "worth": {
                     "title": "Total worth",
-                    "explanation": "The total worth of cards organized in MBO collections."
+                    "explanation": "The total worth of cards organized in cantrip.me collections."
                 }
             }
         },
@@ -322,17 +322,17 @@
             }
         },
         "about": {
-            "title": "About MBO",
+            "title": "About cantrip.me",
             "link": "About",
             "hello": "Hello, I'm Sven.",
-            "intro": "MBO is a hobby project with a single developer. I started developing the site not because I wasn't happy with the 'other' MtG sites, but because I wanted to do it a bit differently. This is the result.",
+            "intro": "cantrip.me is a hobby project with a single developer. I started developing the site not because I wasn't happy with the 'other' MtG sites, but because I wanted to do it a bit differently. This is the result.",
             "security": "Security policy",
             "security_text": "Do not open public Github Issues for security vulnerabilities - instead, check our {link}, which includes instructions how to report them.",
             "security_link": "security policy",
             "attribution": {
                 "title": "Attribution",
-                "scryfall": "The pillar of MtG community websites. Scryfall provides the data that drives MBO - all data about cards, sets, artists and all card images come from them. Sites like this would not be possible without the developers and the community over at Scryfall.",
-                "laravel": "{cite} provides the backend (server) framework for MBO. Laravel is an opinionated full-stack framework.",
+                "scryfall": "The pillar of MtG community websites. Scryfall provides the data that drives cantrip.me - all data about cards, sets, artists and all card images come from them. Sites like this would not be possible without the developers and the community over at Scryfall.",
+                "laravel": "{cite} provides the backend (server) framework for cantrip.me. Laravel is an opinionated full-stack framework.",
                 "vue": "is the frontend framework that powers the client - what's running in your browser. VueJS is easy to get into, and complex enough to power enterprise solutions.",
                 "images": "Images {maintenance} and {notfound} by {author} from {source} licensed under the {license}.",
                 "icons": "Icons used throughout the site are from {link}, licensed under the Apache-2.0 License.",
@@ -602,12 +602,12 @@
             "submit": "Start import",
             "source": "Source format",
             "sources": {
-                "mbo": "MBO",
+                "cantrip": "cantrip.me",
                 "moxfield": "Moxfield",
                 "archidekt": "Archidekt"
             },
             "explanations": {
-                "mbo": {
+                "cantrip": {
                     "line1": "When importing from our own import format, we will match the container according to the container id column - the 'Import to' dropdown is ignored.",
                     "line2": "If you want to import all cards to a specific container - regardless of origin - empty the 'container id' column in the CSV file."
                 },

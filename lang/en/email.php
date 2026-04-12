@@ -4,7 +4,7 @@ return [
 
     'greeting' => 'Hello!',
     'regards' => 'Regards,',
-    'team' => 'the MtG Binder Organizer team.',
+    'team' => 'the cantrip.me team.',
     'footer' => 'All rights reserved.',
     'subcopy' => 'If you\'re having trouble clicking the ":actionText" button, copy and paste the URL below into your web browser:',
 

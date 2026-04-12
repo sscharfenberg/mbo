@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/vue3";
 </script>
 
 <template>
-    <Link href="/"><img src="./logo.svg" alt="MtG Binder Organizer Logo" /></Link>
+    <Link href="/"><img src="./logo.svg" alt="cantrip.me Logo" /></Link>
 </template>
 
 <style scoped lang="scss">

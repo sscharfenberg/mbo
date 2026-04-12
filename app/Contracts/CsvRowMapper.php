@@ -5,7 +5,7 @@ namespace App\Contracts;
 /**
  * Contract for source-specific CSV row mappers.
  *
- * Each implementation handles one import source (MBO, Moxfield, Archidekt),
+ * Each implementation handles one import source (cantrip.me, Moxfield, Archidekt),
  * declaring its required headers and normalizing raw CSV values to the
  * canonical format used by CsvImportService.
  */

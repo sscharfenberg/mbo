@@ -125,7 +125,7 @@
     },
     "footer": {
         "nav_label": "Links zu rechtlichen Informationen",
-        "disclaimer": "MBO ist inoffizieller Fan-Content, der gemäß der {fcp} gestattet ist. Nicht von Wizards genehmigt oder unterstützt. Teile der verwendeten Materialien sind Eigentum von Wizards of the Coast. © Wizards of the Coast LLC.",
+        "disclaimer": "cantrip.me ist inoffizieller Fan-Content, der gemäß der {fcp} gestattet ist. Nicht von Wizards genehmigt oder unterstützt. Teile der verwendeten Materialien sind Eigentum von Wizards of the Coast. © Wizards of the Coast LLC.",
         "fcp": "Fan Content Policy"
     },
     "toast": {
@@ -137,7 +137,7 @@
             "title": "Willkommen",
             "label": "Willkommensseite",
             "claim": "Organisiere deine Magic Sammlung.",
-            "intro": "Du baust ein neues Deck und willst eine bestimmte Karte hinzufügen. Du weißt, das du die Karte besitzt - irgendwo in deinen 10+ Ordnern / Kartons / Displays o.ä.. Nachdem du eine halbe Stunde suchst, gibst du auf und kaufst eine neue Kopie der Karte. Klingt bekannt? MBO ist für dich.",
+            "intro": "Du baust ein neues Deck und willst eine bestimmte Karte hinzufügen. Du weißt, das du die Karte besitzt - irgendwo in deinen 10+ Ordnern / Kartons / Displays o.ä.. Nachdem du eine halbe Stunde suchst, gibst du auf und kaufst eine neue Kopie der Karte. Klingt bekannt? cantrip.me ist für dich.",
             "scryfall_stats": {
                 "title": "Scryfall Daten",
                 "oracle": {
@@ -170,18 +170,18 @@
                 }
             },
             "collection_stats": {
-                "title": "MBO Daten",
+                "title": "cantrip.me Daten",
                 "cards": {
                     "title": "Karten gesamt",
                     "explanation": "Die Anzahl von Karten in Sammlungen."
                 },
                 "containers": {
                     "title": "Container",
-                    "explanation": "Die Anzahl von Containern die in MBO erfasst wurden."
+                    "explanation": "Die Anzahl von Containern die in cantrip.me erfasst wurden."
                 },
                 "worth": {
                     "title": "Gesamtwert",
-                    "explanation": "Der Gesamtwert der Karten die in MBO erfasst wurden."
+                    "explanation": "Der Gesamtwert der Karten die in cantrip.me erfasst wurden."
                 }
             }
         },
@@ -322,17 +322,17 @@
             }
         },
         "about": {
-            "title": "Über MBO",
-            "link": "Über MBO",
+            "title": "Über cantrip.me",
+            "link": "Über cantrip.me",
             "hello": "Hallo, ich bin Sven.",
-            "intro": "MBO ist ein Hobbyprojekt mit einem einzigen Entwickler. Ich habe die Seite nicht entwickelt, weil ich mit den 'anderen' MtG-Seiten unzufrieden war, sondern weil ich es ein bisschen anders machen wollte. Das hier ist das Ergebnis.",
+            "intro": "cantrip.me ist ein Hobbyprojekt mit einem einzigen Entwickler. Ich habe die Seite nicht entwickelt, weil ich mit den 'anderen' MtG-Seiten unzufrieden war, sondern weil ich es ein bisschen anders machen wollte. Das hier ist das Ergebnis.",
             "security": "Sicherheitsrichtlinie",
             "security_text": "Bitte erstelle keine öffentlichen Github Issues für Sicherheitslücken - schau stattdessen in unsere {link}, die Anweisungen enthält, wie man sie melden kann.",
             "security_link": "Sicherheitsrichtlinie",
             "attribution": {
                 "title": "Danksagungen",
-                "scryfall": "Das Rückgrat aller MtG-Community-Websites. Scryfall liefert die Daten, die MBO antreiben - alle Daten über Karten, Sets, Künstler und alle Kartenbilder stammen von ihnen. Seiten wie diese wären ohne die Entwickler und die Community bei Scryfall nicht möglich.",
-                "laravel": "{cite} stellt das Backend-Framework (Server) für MBO bereit. Laravel ist ein umfassendes Full-Stack-Framework.",
+                "scryfall": "Das Rückgrat aller MtG-Community-Websites. Scryfall liefert die Daten, die cantrip.me antreiben - alle Daten über Karten, Sets, Künstler und alle Kartenbilder stammen von ihnen. Seiten wie diese wären ohne die Entwickler und die Community bei Scryfall nicht möglich.",
+                "laravel": "{cite} stellt das Backend-Framework (Server) für cantrip.me bereit. Laravel ist ein umfassendes Full-Stack-Framework.",
                 "vue": "ist das Frontend-Framework, das den Client antreibt - also das, was in deinem Browser läuft. VueJS ist leicht zu erlernen und komplex genug, um auch für Unternehmensanwendungen eingesetzt zu werden.",
                 "images": "Bilder {maintenance} und {notfound} von {author} von {source} lizenziert unter der {license}.",
                 "icons": "Die auf der Seite verwendeten Icons stammen von {link}, lizenziert unter der Apache-2.0 Lizenz.",
@@ -602,12 +602,12 @@
             "submit": "Import starten",
             "source": "Quellformat",
             "sources": {
-                "mbo": "MBO",
+                "cantrip": "cantrip.me",
                 "moxfield": "Moxfield",
                 "archidekt": "Archidekt"
             },
             "explanations": {
-                "mbo": {
+                "cantrip": {
                     "line1": "Beim Import unseres eigenen CSV Formates versuchen wir die Karten anhand der 'container id' dem richtigen Container zuzuordnen - das 'Importieren nach' dropdown wird ignoriert wenn eine 'container id' existiert.",
                     "line2": "Wenn du Karten in einen bestimmten Container importieren möchtest - unabhängig vom Ursprungs-Container - leere die Spalte 'container id' in der CSV Datei, dann wird der Wert des 'Importieren nach' Dropdowns verwendet."
                 },

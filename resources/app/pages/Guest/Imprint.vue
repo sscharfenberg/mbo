@@ -33,7 +33,7 @@ setBreadcrumbs([{ labelKey: "pages.imprint.link" }]);
         ><br />
         {{ $t("pages.imprint.phone") }} 04144-7774<br />
         {{ $t("pages.imprint.email") }}
-        <labelled-link href="mailto:admin@mtgbo.de">admin@mtgbo.de</labelled-link>
+        <labelled-link href="mailto:admin@cantrip.me">admin@cantrip.me</labelled-link>
     </paragraph>
     <paragraph>
         <strong>{{ $t("pages.imprint.responsible") }}</strong

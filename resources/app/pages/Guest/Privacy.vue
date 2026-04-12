@@ -29,7 +29,7 @@ setBreadcrumbs([{ labelKey: "pages.privacy.link" }]);
     </paragraph>
     <paragraph>
         {{ $t("pages.privacy.email_label") }}
-        <labelled-link href="mailto:admin@mtgbo.de">admin@mtgbo.de</labelled-link>
+        <labelled-link href="mailto:admin@cantrip.me">admin@cantrip.me</labelled-link>
     </paragraph>
     <headline :size="3">{{ $t("pages.privacy.processing_overview") }}</headline>
     <paragraph>{{ $t("pages.privacy.processing_overview_text") }}</paragraph>

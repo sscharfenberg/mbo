@@ -30,7 +30,7 @@ return [
     */
     'scryfall' => [
         'header' => [
-            'User-Agent' => 'MTG Binder Organizer'
+            'User-Agent' => 'cantrip.me - MtG collection manager'
                 .' v'.config('app.version')
                 .config('app.url')
                 .' <'.config('app.contact').'>',

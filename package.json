@@ -1,6 +1,6 @@
 {
-    "name": "mbo",
-    "description": "MtG Binder Organizer",
+    "name": "cantrip",
+    "description": "cantrip.me - MtG collection manager",
     "license": "UNLICENSED",
     "private": true,
     "version": "0.0.1",

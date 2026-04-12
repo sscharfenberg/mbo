@@ -64,7 +64,7 @@ createInertiaApp({
 
         loadLocaleMessages(i18n, initialLocale).then(() => app.mount(el));
     },
-    title: title => (title ? `MBO: ${title}` : `MBO`),
+    title: title => (title ? `cantrip.me: ${title}` : `cantrip.me`),
     progress: false // disable inertia NProgress implementation for more control
 }).then(() => {
     console.log("app created");

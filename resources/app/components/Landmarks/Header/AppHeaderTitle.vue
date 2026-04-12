@@ -1,8 +1,6 @@
 <template>
     <h1>
-        <span class="line">MtG</span>
-        <span class="line">Binder</span>
-        <span class="line">Organizer</span>
+        <span class="line">cantrip.me</span>
     </h1>
 </template>
 
@@ -37,19 +35,12 @@ h1 {
         margin-left: calc((sibling-count() - sibling-index()) * map.get(s.$components, "header", "step-margin"));
         transform: skew(-15deg);
 
-        text-transform: capitalize;
+        color: map.get(c.$components, "header", "title-first-letter");
 
-        &::first-letter {
-            margin-right: 0.15ch;
+        font-weight: 900;
+        text-shadow: map.get(sh.$header, "title-first-letter");
 
-            color: map.get(c.$components, "header", "title-first-letter");
-
-            font-weight: 900;
-            text-shadow: map.get(sh.$header, "title-first-letter");
-            text-transform: uppercase;
-
-            @include m.mqset("font-size", 1.2rem, 1.6rem, 2.1rem, 2.5rem);
-        }
+        @include m.mqset("font-size", 1.2rem, 1.6rem, 2.1rem, 2.5rem);
     }
 }
 </style>

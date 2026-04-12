@@ -2,13 +2,13 @@
 
 ## Supported Versions
 
-Only the latest version of MBO running on [mtgbo.de](https://mtgbo.de) is actively maintained. There are no prior releases or backported security fixes.
+Only the latest version of cantrip.me running on [cantrip.me](https://cantrip.me) is actively maintained. There are no prior releases or backported security fixes.
 
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability, please report it responsibly via email:
 
-**security@mtgbo.de**
+**security@cantrip.me**
 
 Please do **not** open a public GitHub issue for security vulnerabilities.
 
@@ -29,8 +29,8 @@ Please do **not** open a public GitHub issue for security vulnerabilities.
 
 The following are **in scope**:
 
-- The MBO application (this repository)
-- The live instance at [mtgbo.de](https://mtgbo.de)
+- The cantrip.me application (this repository)
+- The live instance at [cantrip.me](https://cantrip.me)
 
 The following are **out of scope**:
 
@@ -42,4 +42,4 @@ The following are **out of scope**:
 
 ## Bug Bounty
 
-MBO is a community project maintained by a single developer. There is no bug bounty program, but responsible disclosure is appreciated and will be credited if you'd likte (let us know your preference).
+cantrip.me is a community project maintained by a single developer. There is no bug bounty program, but responsible disclosure is appreciated and will be credited if you'd likte (let us know your preference).

@@ -19,11 +19,11 @@ const props = defineProps<{
     container: Container | null;
     /** All containers belonging to the user, for the target dropdown. */
     containers: ContainerListItem[];
-    /** Maximum upload size in bytes, from config('mbo.csv_upload.max_bytes'). */
+    /** Maximum upload size in bytes, from config('cantrip.csv_upload.max_bytes'). */
     maxUploadBytes: number;
     /** Allowed file extensions for the upload input (e.g. [".csv"]). */
     allowedTypes: string[];
-    /** Available import source format identifiers (e.g. ["mbo", "moxfield", "archidekt"]). */
+    /** Available import source format identifiers (e.g. ["cantrip", "moxfield", "archidekt"]). */
     sources: string[];
     /** Import results returned by ImportController::store(), null on initial GET. */
     results?: {
@@ -61,7 +61,7 @@ const sourceOptions = computed(() =>
     }))
 );
 const selectedContainer = ref(props.container?.id ?? "");
-const selectedSource = ref("mbo");
+const selectedSource = ref("cantrip");
 /** Server-generated filename on the tmp disk, set after successful XHR upload. */
 const uploadedFilename = ref("");
 /** Error message from the XHR upload (file too large, not parseable, etc.). */
@@ -105,16 +105,16 @@ const canSubmit = computed(() => uploadedFilename.value && !isUploading.value);
                 />
                 <input type="hidden" name="source" v-model="selectedSource" />
             </form-group>
-            <form-group v-if="['mbo', 'archidekt'].includes(selectedSource)">
+            <form-group v-if="['cantrip', 'archidekt'].includes(selectedSource)">
                 <form-legend
-                    v-if="selectedSource === 'mbo'"
+                    v-if="selectedSource === 'cantrip'"
                     :items="[
                         { slot: 'line1', icon: 'info' },
                         { slot: 'line2', icon: 'info' }
                     ]"
                 >
-                    <template #line1>{{ $t("pages.import.explanations.mbo.line1") }}</template>
-                    <template #line2>{{ $t("pages.import.explanations.mbo.line2") }}</template>
+                    <template #line1>{{ $t("pages.import.explanations.cantrip.line1") }}</template>
+                    <template #line2>{{ $t("pages.import.explanations.cantrip.line2") }}</template>
                 </form-legend>
                 <form-legend
                     v-else-if="selectedSource === 'archidekt'"

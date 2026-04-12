@@ -13,7 +13,7 @@ use App\Models\DefaultCard;
 use App\Models\Set;
 use App\Models\User;
 use App\Services\CsvMappers\ArchidektMapper;
-use App\Services\CsvMappers\MboMapper;
+use App\Services\CsvMappers\CantripMapper;
 use App\Services\CsvMappers\MoxfieldMapper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -45,7 +45,7 @@ class CsvImportService
     public static function import(User $user, string $filename, ImportSource $source, ?string $containerId): array
     {
         $mapper = match ($source) {
-            ImportSource::Mbo => new MboMapper,
+            ImportSource::Cantrip => new CantripMapper,
             ImportSource::Moxfield => new MoxfieldMapper,
             ImportSource::Archidekt => new ArchidektMapper,
         };
@@ -53,7 +53,7 @@ class CsvImportService
         $path = Storage::disk('tmp')->path($filename);
         $handle = fopen($path, 'r');
 
-        // Skip UTF-8 BOM if present (written by Excel or MBO export for Excel compatibility).
+        // Skip UTF-8 BOM if present (written by Excel or cantrip.me export for Excel compatibility).
         $bom = fread($handle, 3);
         if ($bom !== "\xEF\xBB\xBF") {
             rewind($handle);
@@ -115,7 +115,7 @@ class CsvImportService
             $validRows[] = $row;
         }
 
-        // Phase 3b: For MBO imports, resolve per-row container IDs.
+        // Phase 3b: For cantrip.me imports, resolve per-row container IDs.
         $ownedContainerIds = self::resolveOwnedContainers($user, $validRows);
 
         // Assign effective container ID per row: CSV container_id (if owned) → form container → null.

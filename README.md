@@ -1,4 +1,4 @@
-# MTG Binder Organizer
+# cantrip.me
 
 A Magic: The Gathering card collection manager with a focus on UX: Dark/Light mode. Multi-language. Accessibility first. Responsive. Fast.
 
@@ -229,7 +229,7 @@ Command for your local dev machine. Downloads all log files from the staging ser
 Uses the `mbo` SSH alias (configured in `~/.ssh/config`). Since `storage/logs/` is excluded from IntelliJ's deployment sync, this is the quickest way to pull logs locally for inspection.
 
 ## License
-`MBO` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+`cantrip.me` is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## A note on AI usage
-`MBO` contains code that was written by a coding assistant, following strict guidelines on how to structure and architect the code. Every part that was not authored by a human has been reviewed and tested by a human.
+`cantrip.me` contains code that was written by a coding assistant, following strict guidelines on how to structure and architect the code. Every part that was not authored by a human has been reviewed and tested by a human.
