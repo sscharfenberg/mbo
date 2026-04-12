@@ -17,7 +17,7 @@ if (currentYear > startYear) {
                 <labelled-link href="/about">{{ $t("pages.about.link") }}</labelled-link>
                 <labelled-link href="/privacy">{{ $t("pages.privacy.link") }}</labelled-link>
                 <labelled-link href="/imprint">{{ $t("pages.imprint.link") }}</labelled-link>
-                <labelled-link href="https://github.com/sscharfenberg/mbo" icon=""
+                <labelled-link href="https://github.com/sscharfenberg/cantrip.me" icon=""
                     ><img src="./github.svg" alt="Github Repository"
                 /></labelled-link>
             </link-group>
