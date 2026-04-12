@@ -31,7 +31,7 @@ const { sortMode } = useDeckSort(props.deck.id);
         ><title>{{ $t("pages.deck.title", { name: deck.name }) }}</title></Head
     >
     <deck-header :deck="deck" :has-commanders="commanders.length > 0" />
-    <deck-navigation :deck="deck" />
+    <deck-navigation :deck="deck" :cards="cards" />
     <card-view-text v-if="viewMode === 'text'" />
     <card-view-image v-if="viewMode === 'cards'" />
     <pre>effective sort mode: {{ sortMode }}</pre>

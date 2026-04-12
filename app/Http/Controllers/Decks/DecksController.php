@@ -182,6 +182,8 @@ class DecksController extends Controller
                 'colors' => $deck->colors,
                 'bracket' => $deck->bracket,
                 'card_count' => $cardCount,
+                'max_deck_size' => $deck->format->rules()->maxDeckSize(),
+                'max_sideboard_size' => $deck->format->rules()->maxSideboardSize(),
                 'last_activity' => $lastActivity,
                 'default_card_image' => $deck->defaultCard ? [
                     'card_image_0' => $deck->defaultCard->card_image_0,

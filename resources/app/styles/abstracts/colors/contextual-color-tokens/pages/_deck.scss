@@ -9,5 +9,20 @@ $deck: (
         "border-from": light-dark(map.get(c.$grey, "slate"), map.get(c.$grey, "asher")),
         "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker")),
         "name": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "bunker"))
+    ),
+    "add": (
+        "zone": (
+            "background": light-dark(color.adjust(#000, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),
+            "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog"))
+        ),
+        "zone-btn": (
+            "background": light-dark(
+                    color.adjust(map.get(c.$grey, "mystic"), $alpha: -0.15),
+                    color.adjust(map.get(c.$grey, "bunker"), $alpha: -0.15)
+                ),
+            "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "infra")),
+            "background-hover": light-dark(map.get(c.$grey, "bunker"), map.get(c.$grey, "mystic")),
+            "surface-hover": light-dark(map.get(c.$grey, "white"), map.get(c.$grey, "black"))
+        )
     )
 );

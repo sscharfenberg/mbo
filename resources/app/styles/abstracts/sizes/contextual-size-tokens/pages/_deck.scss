@@ -13,5 +13,9 @@ $deck: (
         "results-min": 10rem,
         "gap": 0.25rem,
         "radius": map.get(s.$radius, "featured")
+    ),
+    "zone-btn": (
+        "padding": 0.5rem 1rem,
+        "radius": map.get(s.$radius, "base")
     )
 );

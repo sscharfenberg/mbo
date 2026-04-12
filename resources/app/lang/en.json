@@ -70,6 +70,10 @@
             "built": "Finished",
             "archived": "Archived"
         },
+        "zone": {
+            "main": "Main deck",
+            "side": "Sideboard"
+        },
         "deck_view": {
             "text": "Text",
             "cards": "Cards"
@@ -694,7 +698,8 @@
                 "search_label": "Search for a card",
                 "include_non_legal": "Include non-legal cards",
                 "submit": "Search",
-                "no_results": "No cards match your search."
+                "no_results": "No cards match your search.",
+                "added": "{name} added to {zone}."
             },
             "quick_add": {
                 "label": "Quick add"

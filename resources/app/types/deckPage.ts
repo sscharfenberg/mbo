@@ -76,6 +76,8 @@ export interface DeckMeta {
     colors: string | null;
     bracket: number | null;
     card_count: number;
+    max_deck_size: number | null;
+    max_sideboard_size: number;
     last_activity: string;
     default_card_image: {
         card_image_0: string | null;

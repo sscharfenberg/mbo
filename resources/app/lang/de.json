@@ -70,6 +70,10 @@
             "built": "Fertig",
             "archived": "Archiviert"
         },
+        "zone": {
+            "main": "Maindeck",
+            "side": "Sideboard"
+        },
         "deck_view": {
             "text": "Text",
             "cards": "Karten"
@@ -694,7 +698,8 @@
                 "search_label": "Nach einer Karte suchen",
                 "include_non_legal": "Nicht legale Karten einschließen",
                 "submit": "Suchen",
-                "no_results": "Keine Karten gefunden."
+                "no_results": "Keine Karten gefunden.",
+                "added": "{name} zum {zone} hinzugefügt."
             },
             "quick_add": {
                 "label": "Quick add"

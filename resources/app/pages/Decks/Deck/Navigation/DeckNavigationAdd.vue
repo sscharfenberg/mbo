@@ -2,10 +2,12 @@
 import { ref } from "vue";
 import CardAddModal from "@/pages/Decks/Deck/Add/CardAddModal.vue";
 import Icon from "Components/UI/Icon.vue";
-import type { DeckMeta } from "Types/deckPage.ts";
+import type { DeckCardRow, DeckMeta } from "Types/deckPage.ts";
 defineProps<{
     /** Deck metadata (name, format, state, colors, etc.). */
     deck: DeckMeta;
+    /** All cards in the deck — forwarded for zone capacity checks. */
+    cards: DeckCardRow[];
 }>();
 /** Controls visibility of the full card-add modal. */
 const showAddModal = ref(false);
@@ -20,7 +22,7 @@ const showAddModal = ref(false);
         <div class="deck-navigation-add__quick">
             <input type="text" class="form-input" :placeholder="$t('pages.deck.quick_add.label')" />
         </div>
-        <card-add-modal v-if="showAddModal" :deck="deck" @close="showAddModal = false" />
+        <card-add-modal v-if="showAddModal" :deck="deck" :cards="cards" @close="showAddModal = false" />
     </div>
 </template>
 

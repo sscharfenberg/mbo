@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\CardStackPreviewController;
-use App\Http\Controllers\Api\DeckCardSearchController;
 use App\Http\Controllers\Collection\CardStackController;
 use App\Http\Controllers\Collection\CollectionController;
 use App\Http\Controllers\Collection\ContainerController;
 use App\Http\Controllers\Collection\ExportController;
 use App\Http\Controllers\Collection\ImportController;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\Decks\DeckCardController;
+use App\Http\Controllers\Decks\DeckCardSearchController;
 use App\Http\Controllers\Decks\DecksController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LocaleController;
@@ -129,6 +130,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('api.decks.card-search.oracle');
     Route::get('/api/decks/{deck}/card-search/printings', [DeckCardSearchController::class, 'printings'])
         ->name('api.decks.card-search.printings');
+    Route::post('/api/decks/{deck}/cards', [DeckCardController::class, 'store'])
+        ->name('api.decks.cards.store');
 
 });
 
