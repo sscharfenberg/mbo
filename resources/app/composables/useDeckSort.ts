@@ -14,7 +14,7 @@ export type UseDeckSortReturn = {
 };
 
 /** Prefix for per-deck localStorage entries. */
-const STORAGE_PREFIX = "mbo:deck-sort:";
+const STORAGE_PREFIX = "cantrip:deck-sort:";
 
 /** Values that are considered valid persisted modes. */
 const VALID_MODES: ReadonlySet<DeckSort> = new Set<DeckSort>(["mana", "name"]);
@@ -62,7 +62,7 @@ function writeOverride(deckId: string, mode: DeckSort): void {
 }
 
 /**
- * Remove every `mbo:deck-sort:*` entry from localStorage.
+ * Remove every `cantrip:deck-sort:*` entry from localStorage.
  *
  * Called from the dashboard when the user accepts "apply default to all
  * existing decks" after updating their preference. Iterates keys defensively

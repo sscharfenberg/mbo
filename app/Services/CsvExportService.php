@@ -83,11 +83,11 @@ class CsvExportService
     }
 
     /**
-     * Build a CSV filename: mbo-{username}-{label}-{timestamp}.csv
+     * Build a CSV filename: cantrip-{username}-{label}-{timestamp}.csv
      */
     private static function filename(User $user, string $label): string
     {
-        return 'mbo-'.Str::slug($user->name)."-{$label}-".now()->format('Y-m-d').'.csv';
+        return 'cantrip-'.Str::slug($user->name)."-{$label}-".now()->format('Y-m-d').'.csv';
     }
 
     /**

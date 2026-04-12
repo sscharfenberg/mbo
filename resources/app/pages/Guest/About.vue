@@ -26,7 +26,7 @@ setBreadcrumbs([{ labelKey: "pages.about.link" }]);
     <paragraph>
         <i18n-t keypath="pages.about.security_text" scope="global">
             <template #link>
-                <labelled-link href="https://github.com/sscharfenberg/mbo/blob/main/SECURITY.md">{{
+                <labelled-link href="https://github.com/sscharfenberg/cantrip.me/blob/main/SECURITY.md">{{
                     $t("pages.about.security_link")
                 }}</labelled-link>
             </template>

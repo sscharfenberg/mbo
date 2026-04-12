@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 
-const STORAGE_KEY = "mbo:add-cards-defaults";
+const STORAGE_KEY = "cantrip:add-cards-defaults";
 
 /** Shape of the persisted defaults. All fields are optional — absent fields fall back to app defaults. */
 export type AddCardsDefaults = {

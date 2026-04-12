@@ -14,7 +14,7 @@ export type UseDeckViewReturn = {
 };
 
 /** Prefix for per-deck localStorage entries. */
-const STORAGE_PREFIX = "mbo:deck-view:";
+const STORAGE_PREFIX = "cantrip:deck-view:";
 
 /** Values that are considered valid persisted modes. */
 const VALID_MODES: ReadonlySet<DeckView> = new Set<DeckView>(["text", "cards"]);
@@ -62,7 +62,7 @@ function writeOverride(deckId: string, mode: DeckView): void {
 }
 
 /**
- * Remove every `mbo:deck-view:*` entry from localStorage.
+ * Remove every `cantrip:deck-view:*` entry from localStorage.
  *
  * Called from the dashboard when the user accepts "apply default to all
  * existing decks" after updating their preference. Iterates keys defensively
