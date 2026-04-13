@@ -678,6 +678,17 @@
             "cards": "Cards in Deck",
             "categories": "Categories",
             "no_cards": "No cards in this deck yet.",
+            "groups": {
+                "creature": "Creatures",
+                "planeswalker": "Planeswalkers",
+                "battle": "Battles",
+                "artifact": "Artifacts",
+                "enchantment": "Enchantments",
+                "instant": "Instants",
+                "sorcery": "Sorceries",
+                "land": "Lands",
+                "other": "Other"
+            },
             "no_categories": "No categories defined.",
             "navigation": {
                 "label": "Deck navigation",

@@ -32,8 +32,8 @@ const { sortMode } = useDeckSort(props.deck.id);
     >
     <deck-header :deck="deck" :has-commanders="commanders.length > 0" />
     <deck-navigation :deck="deck" :cards="cards" />
-    <card-view-text v-if="viewMode === 'text'" />
-    <card-view-image v-if="viewMode === 'cards'" />
+    <card-view-text v-if="viewMode === 'text'" :commanders="commanders" :cards="cards" />
+    <card-view-image v-if="viewMode === 'cards'" :commanders="commanders" :cards="cards" />
     <pre>effective sort mode: {{ sortMode }}</pre>
 
     <section>
@@ -50,19 +50,6 @@ const { sortMode } = useDeckSort(props.deck.id);
                 :alt="deck.name"
             />
         </template>
-    </section>
-
-    <section>
-        <h2>{{ $t("pages.deck.commanders") }}</h2>
-        <span>{{ JSON.stringify(commanders, null, 2) }}</span>
-    </section>
-
-    <section>
-        <h2>{{ $t("pages.deck.cards") }}</h2>
-        <template v-if="cards.length">
-            <pre>{{ JSON.stringify(cards, null, 2) }}</pre>
-        </template>
-        <p v-else>{{ $t("pages.deck.no_cards") }}</p>
     </section>
 
     <section>

@@ -33,6 +33,7 @@ export interface DeckCardRow {
     name: string;
     color_identity: string | null;
     cmc: number;
+    type_line: string;
     zone: string;
     quantity: number;
     finish: string;

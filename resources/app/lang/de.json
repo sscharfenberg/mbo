@@ -678,6 +678,17 @@
             "cards": "Karten im Deck",
             "categories": "Kategorien",
             "no_cards": "Noch keine Karten in diesem Deck.",
+            "groups": {
+                "creature": "Kreaturen",
+                "planeswalker": "Planeswalker",
+                "battle": "Schlachten",
+                "artifact": "Artefakte",
+                "enchantment": "Verzauberungen",
+                "instant": "Spontanzauber",
+                "sorcery": "Hexereien",
+                "land": "Länder",
+                "other": "Sonstige"
+            },
             "no_categories": "Keine Kategorien definiert.",
             "navigation": {
                 "label": "Deck-Navigation",

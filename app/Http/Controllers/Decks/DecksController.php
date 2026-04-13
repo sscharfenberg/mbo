@@ -114,6 +114,9 @@ class DecksController extends Controller
             'commanders.defaults' => fn ($q) => $q
                 ->select('id', 'oracle_id', 'card_image_0', 'card_image_1'),
             'deckCards.oracleCard',
+            'deckCards.oracleCard.faces' => fn ($q) => $q
+                ->select('oracle_card_id', 'face_index', 'type_line')
+                ->where('face_index', 0),
             'deckCards.defaultCard:id,name,card_image_0,card_image_1,set_id,oracle_id',
             'deckCards.defaultCard.set:id,name,code',
             'categories',
@@ -147,6 +150,7 @@ class DecksController extends Controller
             'name' => $dc->oracleCard->name,
             'color_identity' => $dc->oracleCard->color_identity,
             'cmc' => $dc->oracleCard->cmc,
+            'type_line' => $dc->oracleCard->faces->first()?->type_line ?? '',
             'zone' => $dc->zone->value,
             'quantity' => $dc->quantity,
             'finish' => $dc->finish->value,
