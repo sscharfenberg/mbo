@@ -689,6 +689,7 @@
                 "land": "Länder",
                 "other": "Sonstige"
             },
+            "create_group": "Neue Gruppe erstellen",
             "no_categories": "Keine Kategorien definiert.",
             "navigation": {
                 "label": "Deck-Navigation",

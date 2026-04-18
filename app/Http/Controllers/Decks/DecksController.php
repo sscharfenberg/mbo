@@ -114,9 +114,8 @@ class DecksController extends Controller
             'commanders.defaults' => fn ($q) => $q
                 ->select('id', 'oracle_id', 'card_image_0', 'card_image_1'),
             'deckCards.oracleCard',
-            'deckCards.oracleCard.faces' => fn ($q) => $q
-                ->select('oracle_card_id', 'face_index', 'type_line')
-                ->where('face_index', 0),
+            'commanders.faces:oracle_card_id,face_index,mana_cost',
+            'deckCards.oracleCard.faces:oracle_card_id,face_index,type_line,mana_cost',
             'deckCards.defaultCard:id,name,card_image_0,card_image_1,set_id,oracle_id',
             'deckCards.defaultCard.set:id,name,code',
             'categories',
@@ -134,6 +133,7 @@ class DecksController extends Controller
             'name' => $oracle->name,
             'color_identity' => $oracle->color_identity,
             'cmc' => $oracle->cmc,
+            'mana_cost' => $oracle->faces->sortBy('face_index')->pluck('mana_cost')->values()->all(),
             'is_partner' => (bool) $oracle->pivot->is_partner,
             'default_card' => [
                 'id' => $oracle->pivot->default_card_id,
@@ -150,7 +150,8 @@ class DecksController extends Controller
             'name' => $dc->oracleCard->name,
             'color_identity' => $dc->oracleCard->color_identity,
             'cmc' => $dc->oracleCard->cmc,
-            'type_line' => $dc->oracleCard->faces->first()?->type_line ?? '',
+            'type_line' => $dc->oracleCard->faces->firstWhere('face_index', 0)?->type_line ?? '',
+            'mana_cost' => $dc->oracleCard->faces->sortBy('face_index')->pluck('mana_cost')->values()->all(),
             'zone' => $dc->zone->value,
             'quantity' => $dc->quantity,
             'finish' => $dc->finish->value,

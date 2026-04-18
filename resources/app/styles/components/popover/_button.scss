@@ -38,4 +38,12 @@
         background-color: map.get(c.$components, "popover", "button", "background-active");
         color: map.get(c.$components, "popover", "button", "surface-active");
     }
+
+    &--tiny {
+        padding: 0;
+
+        .icon {
+            --icon-size: 1.25rem;
+        }
+    }
 }

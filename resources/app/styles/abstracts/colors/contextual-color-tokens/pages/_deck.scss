@@ -10,6 +10,34 @@ $deck: (
         "border-to": light-dark(map.get(c.$grey, "fog"), map.get(c.$grey, "bunker")),
         "name": light-dark(map.get(c.$grey, "infra"), map.get(c.$grey, "bunker"))
     ),
+    "card": (
+        "background": light-dark(color.adjust(#fff, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),
+        "surface": light-dark(map.get(c.$grey, "abbey"), map.get(c.$grey, "fog")),
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "iron"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            )
+    ),
+    "group": (
+        "headline": (
+            "surface": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
+            "background": light-dark(map.get(c.$brand, "dark1", "contrast"), map.get(c.$brand, "light1", "contrast")),
+            "border": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color"))
+        ),
+        "create-new": (
+            "surface": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
+            "background": light-dark(map.get(c.$brand, "dark1", "contrast"), map.get(c.$brand, "light1", "contrast")),
+            "border": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color"))
+        )
+    ),
+    "card-preview": (
+        "flip": (
+            "background": hsl(from light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "infra")) h s l / 50%),
+            "surface": light-dark(#fff, #000),
+            "background-hover": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color")),
+            "surface-hover": light-dark(map.get(c.$brand, "dark1", "contrast"), map.get(c.$brand, "light1", "contrast"))
+        )
+    ),
     "add": (
         "zone": (
             "background": light-dark(color.adjust(#000, $alpha: -0.5), color.adjust(#000, $alpha: -0.5)),

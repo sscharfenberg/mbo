@@ -689,6 +689,7 @@
                 "land": "Lands",
                 "other": "Other"
             },
+            "create_group": "Create new group",
             "no_categories": "No categories defined.",
             "navigation": {
                 "label": "Deck navigation",

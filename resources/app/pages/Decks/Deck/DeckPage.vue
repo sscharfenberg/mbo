@@ -32,9 +32,8 @@ const { sortMode } = useDeckSort(props.deck.id);
     >
     <deck-header :deck="deck" :has-commanders="commanders.length > 0" />
     <deck-navigation :deck="deck" :cards="cards" />
-    <card-view-text v-if="viewMode === 'text'" :commanders="commanders" :cards="cards" />
-    <card-view-image v-if="viewMode === 'cards'" :commanders="commanders" :cards="cards" />
-    <pre>effective sort mode: {{ sortMode }}</pre>
+    <card-view-text v-if="viewMode === 'text'" :commanders="commanders" :cards="cards" :sort-mode="sortMode" />
+    <card-view-image v-if="viewMode === 'cards'" :commanders="commanders" :cards="cards" :sort-mode="sortMode" />
 
     <section>
         <template v-if="deck.default_card_image">

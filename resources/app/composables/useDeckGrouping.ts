@@ -1,5 +1,6 @@
 import type { ComputedRef, MaybeRefOrGetter } from "vue";
 import { computed, toValue } from "vue";
+import type { DeckSort } from "Composables/useDeckSort.ts";
 import type { DeckCardRow } from "Types/deckPage";
 
 /** Supported deck card type groups, in display order. */
@@ -75,6 +76,17 @@ function resolveGroup(typeLine: string): DeckCardGroup {
 }
 
 /**
+ * Comparator for deck cards based on the active sort mode. Mana sorts by
+ * `cmc` ascending and breaks ties alphabetically; name sorts purely by name.
+ */
+function compareCards(mode: DeckSort): (a: DeckCardRow, b: DeckCardRow) => number {
+    if (mode === "name") {
+        return (a, b) => a.name.localeCompare(b.name);
+    }
+    return (a, b) => (a.cmc - b.cmc) || a.name.localeCompare(b.name);
+}
+
+/**
  * Group a reactive list of deck cards by their primary card type.
  *
  * The input can be a ref, a getter, or a plain array — `toValue` normalises
@@ -83,10 +95,15 @@ function resolveGroup(typeLine: string): DeckCardGroup {
  * omitted so consumers can `v-for` without guarding.
  *
  * @param cards - Deck cards to group. Accepts any `MaybeRefOrGetter<DeckCardRow[]>`.
+ * @param sortMode - Sort order within each group. Defaults to mana value.
  * @returns Reactive list of non-empty groups.
  */
-export function useDeckGrouping(cards: MaybeRefOrGetter<DeckCardRow[]>): UseDeckGroupingReturn {
+export function useDeckGrouping(
+    cards: MaybeRefOrGetter<DeckCardRow[]>,
+    sortMode: MaybeRefOrGetter<DeckSort> = () => "mana",
+): UseDeckGroupingReturn {
     const groups = computed<DeckCardGrouping[]>(() => {
+        const comparator = compareCards(toValue(sortMode));
         const buckets = new Map<DeckCardGroup, DeckCardGrouping>();
         for (const card of toValue(cards)) {
             const group = resolveGroup(card.type_line);
@@ -97,6 +114,9 @@ export function useDeckGrouping(cards: MaybeRefOrGetter<DeckCardRow[]>): UseDeck
             }
             bucket.cards.push(card);
             bucket.count += card.quantity;
+        }
+        for (const bucket of buckets.values()) {
+            bucket.cards.sort(comparator);
         }
         return GROUP_ORDER
             .map((group) => buckets.get(group))

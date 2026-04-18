@@ -1,0 +1,42 @@
+@use "sass:map";
+@use "Abstracts/colors" as c;
+@use "Abstracts/sizes" as s;
+
+.card-groups {
+    display: flex;
+
+    gap: 1rem;
+
+    &__column {
+        display: flex;
+        flex-direction: column;
+
+        min-width: 0;
+
+        flex: 1;
+
+        gap: 1rem;
+    }
+}
+
+.card-group {
+    &__list {
+        display: flex;
+        flex-direction: column;
+
+        padding: 0;
+        margin: 0;
+        gap: map.get(s.$pages, "deck", "group", "gap");
+
+        list-style: none;
+    }
+
+    &__drop-target {
+        border: map.get(s.$pages, "deck", "group", "create-new", "border") dashed
+            map.get(c.$pages, "deck", "group", "create-new", "border");
+
+        background-color: map.get(c.$pages, "deck", "group", "create-new", "background");
+        color: map.get(c.$pages, "deck", "group", "create-new", "surface");
+        border-radius: map.get(s.$pages, "deck", "group", "create-new", "radius");
+    }
+}

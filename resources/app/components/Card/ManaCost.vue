@@ -37,19 +37,15 @@ const symbols = computed(() => {
 
 <template>
     <span v-if="symbols.length" class="mana-cost">
-        <img
-            v-for="(sym, i) in symbols"
-            :key="i"
-            :src="sym.path"
-            :alt="`{${sym.token}}`"
-            class="mana-cost__symbol"
-        />
+        <img v-for="(sym, i) in symbols" :key="i" :src="sym.path" :alt="`{${sym.token}}`" class="mana-cost__symbol" />
     </span>
 </template>
 
 <style scoped lang="scss">
 .mana-cost {
     display: inline-flex;
+
+    gap: 0.125rem;
 
     vertical-align: -0.125em;
 

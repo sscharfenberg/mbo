@@ -13,6 +13,7 @@ export interface DeckCommander {
     name: string;
     color_identity: string | null;
     cmc: number;
+    mana_cost: (string | null)[];
     is_partner: boolean;
     default_card: DeckCommanderDefaultCard;
 }
@@ -34,6 +35,7 @@ export interface DeckCardRow {
     color_identity: string | null;
     cmc: number;
     type_line: string;
+    mana_cost: (string | null)[];
     zone: string;
     quantity: number;
     finish: string;
