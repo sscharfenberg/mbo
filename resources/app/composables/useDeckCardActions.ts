@@ -1,6 +1,7 @@
 import { router, usePage } from "@inertiajs/vue3";
 import type { ComputedRef } from "vue";
 import { computed, ref, watch } from "vue";
+import type { DeckCardRow } from "Types/deckPage";
 
 /** Parameters for {@link useDeckCardActions}. */
 export interface DeckCardActionParams {
@@ -39,8 +40,14 @@ const DEBOUNCE_MS = 500;
  * Tracks an optimistic local quantity so that `canIncrement` stays
  * accurate across rapid clicks (e.g. disables the button at the copy
  * limit). Clicks within {@link DEBOUNCE_MS} are collapsed into a single
- * PATCH request carrying the net delta. A partial Inertia reload
- * (`cards` + `deck`) syncs the page after the server confirms.
+ * PATCH request carrying the net delta.
+ *
+ * After a successful response the composable updates the Inertia page
+ * props in place — mutating the same reactive `cards` array the
+ * components reference — so the DOM patches without a full reload.
+ * Only destructive actions (delete) trigger a lightweight
+ * `router.reload({ only: ["deck"] })` to refresh deck metadata
+ * (card count, colors).
  *
  * @param params — card identity, format rules, and a reactive quantity getter.
  * @param closePopover — callback to dismiss the host popover after destructive actions.
@@ -77,7 +84,22 @@ export function useDeckCardActions(
         flushTimer = setTimeout(() => void flush(), DEBOUNCE_MS);
     }
 
-    /** Send the accumulated delta to the server, then reload card data. */
+    /**
+     * Remove a card from the Inertia page props array by id.
+     * Triggers Vue reactivity so the card disappears from the DOM
+     * without a full page reload.
+     */
+    function spliceCard(): void {
+        const cards = page.props.cards as DeckCardRow[];
+        const idx = cards.findIndex((c) => c.id === params.cardId);
+        if (idx !== -1) cards.splice(idx, 1);
+    }
+
+    /**
+     * Send the accumulated delta to the server, then patch page props
+     * in place. Only reloads deck metadata when the card is deleted
+     * (card count / colors may have changed).
+     */
     async function flush(): Promise<void> {
         flushTimer = null;
         const delta = effectiveQty.value - params.quantity();
@@ -93,10 +115,20 @@ export function useDeckCardActions(
             body: JSON.stringify({ delta }),
         });
 
-        if (response.ok) {
-            router.reload({ only: ["cards", "deck"] });
-        } else {
+        if (!response.ok) {
             effectiveQty.value = params.quantity();
+            return;
+        }
+
+        const data = (await response.json()) as { quantity?: number; deleted?: boolean };
+
+        if (data.deleted) {
+            spliceCard();
+            router.reload({ only: ["deck"] });
+        } else if (data.quantity !== undefined) {
+            const cards = page.props.cards as DeckCardRow[];
+            const card = cards.find((c) => c.id === params.cardId);
+            if (card) card.quantity = data.quantity;
         }
     }
 
@@ -136,7 +168,8 @@ export function useDeckCardActions(
         });
 
         if (response.ok) {
-            router.reload({ only: ["cards", "deck"] });
+            spliceCard();
+            router.reload({ only: ["deck"] });
         }
     }
 
