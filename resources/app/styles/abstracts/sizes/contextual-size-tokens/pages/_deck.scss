@@ -28,6 +28,13 @@ $deck: (
             "radius": map.get(s.$radius, "base")
         )
     ),
+    "manage_groups": (
+        "gap": 0.5rem,
+        "group-gap": 0.5rem,
+        "padding": 0.25rem 0.5rem,
+        "border": map.get(s.$border, "base"),
+        "radius": map.get(s.$radius, "featured")
+    ),
     "add-card": (
         "results-min": 10rem,
         "gap": 0.25rem,

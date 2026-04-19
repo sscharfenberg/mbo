@@ -7,12 +7,18 @@ import Badge from "Components/UI/Badge.vue";
 import Icon from "Components/UI/Icon.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
 import VisibilityBadge from "Components/UI/VisibilityBadge.vue";
-import type { DeckMeta } from "Types/deckPage.ts";
+import type { DeckCardRow, DeckCategoryRow, DeckMeta } from "Types/deckPage.ts";
 defineProps<{
     /** Deck metadata (name, format, state, colors, etc.). */
     deck: DeckMeta;
     /** hasCommanders **/
     hasCommanders: boolean;
+    /** All cards in the deck. */
+    cards: DeckCardRow[];
+    /** User-defined categories for this deck. */
+    categories: DeckCategoryRow[];
+    /** Maximum length for a category name. */
+    categoryNameMax: number;
 }>();
 const { t } = useI18n();
 </script>
@@ -21,7 +27,7 @@ const { t } = useI18n();
     <section class="deck-meta">
         <header class="deck-meta__name">
             {{ deck.name.toUpperCase() }}
-            <deck-actions :deck="deck" />
+            <deck-actions :deck="deck" :cards="cards" :categories="categories" :category-name-max="categoryNameMax" />
         </header>
         <div class="deck-meta__badges">
             <badge v-if="deck.colors"><color-identity :color-identity="deck.colors" /></badge>

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Decks;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Decks\DestroyDeckCategoryRequest;
 use App\Http\Requests\Decks\StoreDeckCategoryRequest;
 use App\Models\Deck;
 use App\Models\DeckCard;
 use App\Models\DeckCategory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 class DeckCategoryController extends Controller
@@ -39,5 +41,23 @@ class DeckCategoryController extends Controller
         $request->session()->flash('type', 'success');
 
         return redirect()->back();
+    }
+
+    /**
+     * Delete a custom category and return its cards to the default type groups.
+     *
+     * Nulls `category_id` on all cards that belonged to this category before
+     * deleting the category itself, so cards revert to their natural type-based
+     * grouping.
+     */
+    public function destroy(DestroyDeckCategoryRequest $request, Deck $deck, DeckCategory $deckCategory): JsonResponse
+    {
+        DeckCard::where('deck_id', $deck->id)
+            ->where('category_id', $deckCategory->id)
+            ->update(['category_id' => null]);
+
+        $deckCategory->delete();
+
+        return response()->json([], 200);
     }
 }

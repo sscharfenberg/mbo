@@ -691,9 +691,19 @@
             },
             "create_group": {
                 "title": "Neue Gruppe erstellen",
-                "link": "Neue Gruppe erstellen",
+                "link": "Neue Gruppe",
                 "explanation": "Erstelle eine neue benutzerdefinierte Gruppe für die Karte {card} — danach kannst du weitere Karten in diese Gruppe ziehen. Nutze dies für Gruppen wie 'Interaktion', 'Massenentfernung', 'Kartenziehen' usw.",
+                "explanation_empty": "Erstelle eine neue benutzerdefinierte Gruppe — danach kannst du Karten in diese Gruppe ziehen. Nutze dies für Gruppen wie 'Interaktion', 'Massenentfernung', 'Kartenziehen' usw.",
                 "submit": "Gruppe erstellen"
+            },
+            "custom_groups": {
+                "title": "Gruppen verwalten",
+                "link": "Gruppen verwalten",
+                "delete": {
+                    "link": "Löschen",
+                    "explanation": "Eine Gruppe zu löschen die Karten beinhaltet verschiebt diese Karten nach dem Löschen in die Standard Gruppe des Kartentyps. Es gibt keine weitere Bestätigungs Abfrage.",
+                    "success": "Kategorie gelöscht."
+                }
             },
             "no_categories": "Keine Kategorien definiert.",
             "navigation": {

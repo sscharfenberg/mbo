@@ -10,14 +10,14 @@ const emit = defineEmits<{ close: [] }>();
 const props = defineProps<{
     /** UUID of the deck this category belongs to. */
     deckId: string;
-    /** The card that was dragged to trigger group creation. */
-    card: DeckCardRow;
+    /** The card that was dragged to trigger group creation, if any. */
+    card?: DeckCardRow;
     /** Maximum length for a category name — passed from the backend model constant. */
     categoryNameMax: number;
 }>();
 const form = useForm({
     group_name: "",
-    card_id: props.card.id,
+    card_id: props.card?.id ?? null,
 });
 const inputRef = ref<HTMLInputElement | null>(null);
 onMounted(() => {
@@ -36,7 +36,9 @@ const submit = () => {
         <form class="form" @submit.prevent="submit">
             <form-legend :items="[{ slot: 'explanation', icon: 'info' }]">
                 <template #explanation>{{
-                    $t("pages.deck.create_group.explanation", { card: props.card.name })
+                    props.card
+                        ? $t("pages.deck.create_group.explanation", { card: props.card.name })
+                        : $t("pages.deck.create_group.explanation_empty")
                 }}</template>
             </form-legend>
             <form-group

@@ -96,6 +96,7 @@ onMounted(() => {
 @use "sass:map";
 @use "Abstracts/colors" as c;
 @use "Abstracts/sizes" as s;
+@use "Abstracts/typography" as t;
 @forward "modal-animations";
 
 .modal-dialog {
@@ -111,6 +112,8 @@ onMounted(() => {
 
     background: transparent;
     outline: 0;
+
+    font-style: normal;
 
     &::backdrop {
         opacity: 0;
@@ -139,9 +142,11 @@ onMounted(() => {
 
         // reset modal styles, since we might open the modal from within an
         // element with different values, and we don't want to inherit them.
+        font-family: map.get(t.$main, "modal-content");
         font-size: 1rem;
         font-weight: normal;
         text-shadow: none;
+        letter-spacing: 0;
     }
 }
 </style>

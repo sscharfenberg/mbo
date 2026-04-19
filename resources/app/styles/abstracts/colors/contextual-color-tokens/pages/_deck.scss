@@ -30,6 +30,12 @@ $deck: (
             "border": light-dark(map.get(c.$brand, "dark1", "color"), map.get(c.$brand, "light1", "color"))
         )
     ),
+    "manage_groups": (
+        "border": light-dark(
+                color.adjust(map.get(c.$grey, "iron"), $alpha: -0.25),
+                color.adjust(map.get(c.$grey, "charcoal"), $alpha: -0.25)
+            )
+    ),
     "card-preview": (
         "flip": (
             "background": hsl(from light-dark(map.get(c.$grey, "black"), map.get(c.$grey, "infra")) h s l / 50%),

@@ -19,7 +19,8 @@ $header: () !default;
 $main: (
     "h2": map.get(t.$font, "headline"),
     "h3": map.get(t.$font, "headline"),
-    "modal-title": map.get(t.$font, "headline")
+    "modal-title": map.get(t.$font, "headline"),
+    "modal-content": map.get(t.$font, "text")
 ) !default;
 
 // type for pages
