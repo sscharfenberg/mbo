@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Decks;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Decks\SearchDeckOracleRequest;
+use App\Http\Requests\Decks\SearchDeckPrintingsRequest;
 use App\Models\Deck;
 use App\Services\DeckCardSearchService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class DeckCardSearchController extends Controller
 {
@@ -17,10 +18,8 @@ class DeckCardSearchController extends Controller
      * Any `set:` / `cn:` tokens in the query are ignored — this endpoint is
      * for picking a card by name, not by printing.
      */
-    public function oracle(Request $request, Deck $deck): JsonResponse
+    public function oracle(SearchDeckOracleRequest $request, Deck $deck): JsonResponse
     {
-        abort_unless($deck->user_id === $request->user()->id, 403);
-
         $results = DeckCardSearchService::searchOracleForDeck(
             $deck,
             trim((string) $request->query('q', ''))
@@ -37,10 +36,8 @@ class DeckCardSearchController extends Controller
      * When `include_non_legal=1`, the format-legality filter is dropped but
      * color identity is still enforced — the Rule 0 escape hatch.
      */
-    public function printings(Request $request, Deck $deck): JsonResponse
+    public function printings(SearchDeckPrintingsRequest $request, Deck $deck): JsonResponse
     {
-        abort_unless($deck->user_id === $request->user()->id, 403);
-
         $results = DeckCardSearchService::searchPrintingsForDeck(
             $deck,
             trim((string) $request->query('q', '')),

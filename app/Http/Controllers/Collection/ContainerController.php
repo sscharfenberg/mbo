@@ -6,6 +6,9 @@ use App\Enums\ContainerType;
 use App\Enums\ContainerVisibility;
 use App\Enums\Locale;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Collection\ContainerQrSvgRequest;
+use App\Http\Requests\Collection\EditContainerRequest;
+use App\Http\Requests\Collection\GenerateContainerQrRequest;
 use App\Models\Container;
 use App\Models\DefaultCard;
 use App\Services\CardSearchParser;
@@ -97,12 +100,10 @@ class ContainerController extends Controller
      * Display the "edit container" page.
      *
      * Loads the container with its default card and set so the form can be
-     * pre-populated. Aborts with 403 if the container belongs to another user.
+     * pre-populated.
      */
-    public function edit(Request $request, Container $container): Response
+    public function edit(EditContainerRequest $request, Container $container): Response
     {
-        abort_if($container->user_id !== $request->user()->id, 403);
-
         $container->load('defaultCard.set', 'defaultCard.artist');
 
         return Inertia::render('Collection/Container/ContainerFormPage', [
@@ -318,16 +319,12 @@ class ContainerController extends Controller
      *
      * When a container is provided via route model binding, it is pre-selected
      * and ownership is verified. Otherwise the user can pick from all their
-     * containers. Aborts with 403 if the container belongs to another user.
+     * containers.
      *
      * @param  Container|null  $container  Pre-selected container, or null when accessed without an ID.
      */
-    public function generateQr(Request $request, ?Container $container = null): Response
+    public function generateQr(GenerateContainerQrRequest $request, ?Container $container = null): Response
     {
-        if ($container) {
-            abort_if($container->user_id !== $request->user()->id, 403);
-        }
-
         $containers = Container::query()
             ->where('user_id', $request->user()->id)
             ->orderBy('name')
@@ -344,10 +341,8 @@ class ContainerController extends Controller
      *
      * Returns the SVG markup as JSON so the frontend can embed it inline.
      */
-    public function qrSvg(Request $request, Container $container): JsonResponse
+    public function qrSvg(ContainerQrSvgRequest $request, Container $container): JsonResponse
     {
-        abort_if($container->user_id !== $request->user()->id, 403);
-
         $url = route('container.show', $container);
         $svg = QrCodeService::generateSvg($url);
 

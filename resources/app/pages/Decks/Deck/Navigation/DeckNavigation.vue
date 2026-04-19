@@ -25,6 +25,7 @@ defineProps<{
     align-items: flex-end;
     flex-wrap: wrap;
 
+    margin: 0 0 1rem;
     gap: 1rem;
 }
 </style>

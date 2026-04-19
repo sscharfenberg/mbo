@@ -26,11 +26,6 @@ class DeckCategory extends Model
     protected $fillable = [
         'deck_id',
         'name',
-        'sort_order',
-    ];
-
-    protected $casts = [
-        'sort_order' => 'integer',
     ];
 
     /**

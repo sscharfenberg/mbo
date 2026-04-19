@@ -21,7 +21,6 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
             $table->string('name', DeckCategory::NAME_MAX);
-            $table->unsignedSmallInteger('sort_order')->default(0);
         });
     }
 

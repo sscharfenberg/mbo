@@ -32,11 +32,21 @@
     }
 
     &__drop-target {
+        position: relative;
+
         border: map.get(s.$pages, "deck", "group", "create-new", "border") dashed
             map.get(c.$pages, "deck", "group", "create-new", "border");
 
         background-color: map.get(c.$pages, "deck", "group", "create-new", "background");
         color: map.get(c.$pages, "deck", "group", "create-new", "surface");
         border-radius: map.get(s.$pages, "deck", "group", "create-new", "radius");
+    }
+
+    &__drop-zone {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+
+        overflow: hidden;
     }
 }

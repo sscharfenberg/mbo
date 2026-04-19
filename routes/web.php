@@ -9,6 +9,7 @@ use App\Http\Controllers\Collection\ImportController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Decks\DeckCardController;
 use App\Http\Controllers\Decks\DeckCardSearchController;
+use App\Http\Controllers\Decks\DeckCategoryController;
 use App\Http\Controllers\Decks\DecksController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LocaleController;
@@ -132,6 +133,9 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
         ->name('api.decks.card-search.printings');
     Route::post('/api/decks/{deck}/cards', [DeckCardController::class, 'store'])
         ->name('api.decks.cards.store');
+    Route::post('/decks/{deck}/categories', [DeckCategoryController::class, 'store'])
+        ->middleware([HandleControllerPrecognitiveRequest::class])
+        ->name('decks.categories.store');
 
 });
 

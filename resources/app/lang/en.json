@@ -689,7 +689,12 @@
                 "land": "Lands",
                 "other": "Other"
             },
-            "create_group": "Create new group",
+            "create_group": {
+                "title": "Create new group",
+                "link": "Create new group",
+                "explanation": "Create a new custom group for the card {card} - after this, you can drag more cards to this custom group. Use this for groups like 'interaction', 'mass disruption', 'card draw' etc.",
+                "submit": "Create group"
+            },
             "no_categories": "No categories defined.",
             "navigation": {
                 "label": "Deck navigation",
@@ -791,6 +796,7 @@
             "total_price": "Total",
             "artist": "Artist",
             "deck_name": "Deck name",
+            "group_name": "Group name",
             "format": "Format",
             "created_at": "Added",
             "updated_at": "Changed",

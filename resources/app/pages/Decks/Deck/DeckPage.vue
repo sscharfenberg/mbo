@@ -17,6 +17,8 @@ const props = defineProps<{
     cards: DeckCardRow[];
     /** User-defined categories for this deck. */
     categories: DeckCategoryRow[];
+    /** Maximum length for a category name. */
+    categoryNameMax: number;
 }>();
 const { setBreadcrumbs } = useBreadcrumbs();
 setBreadcrumbs([{ labelKey: "pages.decks.link", href: "/decks", icon: "deck" }, { label: props.deck.name }]);
@@ -32,7 +34,15 @@ const { sortMode } = useDeckSort(props.deck.id);
     >
     <deck-header :deck="deck" :has-commanders="commanders.length > 0" />
     <deck-navigation :deck="deck" :cards="cards" />
-    <card-view-text v-if="viewMode === 'text'" :commanders="commanders" :cards="cards" :sort-mode="sortMode" />
+    <card-view-text
+        v-if="viewMode === 'text'"
+        :deck-id="deck.id"
+        :commanders="commanders"
+        :cards="cards"
+        :categories="categories"
+        :sort-mode="sortMode"
+        :category-name-max="categoryNameMax"
+    />
     <card-view-image v-if="viewMode === 'cards'" :commanders="commanders" :cards="cards" :sort-mode="sortMode" />
 
     <section>
@@ -49,13 +59,5 @@ const { sortMode } = useDeckSort(props.deck.id);
                 :alt="deck.name"
             />
         </template>
-    </section>
-
-    <section>
-        <h2>{{ $t("pages.deck.categories") }}</h2>
-        <template v-if="categories.length">
-            <pre>{{ JSON.stringify(categories, null, 2) }}</pre>
-        </template>
-        <p v-else>{{ $t("pages.deck.no_categories") }}</p>
     </section>
 </template>

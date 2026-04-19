@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Decks;
 
 use App\Enums\CardFormat;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Decks\ShowDeckRequest;
 use App\Models\Deck;
 use App\Models\DeckCard;
 use App\Models\DeckCategory;
@@ -105,10 +106,8 @@ class DecksController extends Controller
      * and categories. Computes card count and last-activity timestamp the same way
      * the list does.
      */
-    public function show(Request $request, Deck $deck): Response
+    public function show(ShowDeckRequest $request, Deck $deck): Response
     {
-        abort_unless($deck->user_id === $request->user()->id, 403);
-
         $deck->load([
             'defaultCard:id,card_image_0,card_image_1',
             'commanders.defaults' => fn ($q) => $q
@@ -170,10 +169,9 @@ class DecksController extends Controller
             ],
         ])->values();
 
-        $categories = $deck->categories->sortBy('sort_order')->map(fn (DeckCategory $cat) => [
+        $categories = $deck->categories->sortBy('name')->map(fn (DeckCategory $cat) => [
             'id' => $cat->id,
             'name' => $cat->name,
-            'sort_order' => $cat->sort_order,
         ])->values();
 
         return Inertia::render('Decks/Deck/DeckPage', [
@@ -198,6 +196,7 @@ class DecksController extends Controller
             'commanders' => $commanders,
             'cards' => $cards,
             'categories' => $categories,
+            'categoryNameMax' => DeckCategory::NAME_MAX,
         ]);
     }
 

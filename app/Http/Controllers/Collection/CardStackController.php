@@ -6,6 +6,8 @@ use App\Enums\CardCondition;
 use App\Enums\CardLanguage;
 use App\Enums\Finish;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Collection\AddCardStackRequest;
+use App\Http\Requests\Collection\EditCardStackRequest;
 use App\Models\CardStack;
 use App\Models\Container;
 use App\Models\DefaultCard;
@@ -26,14 +28,11 @@ class CardStackController extends Controller
      * - Add cards to a specific container (when $container is provided via route)
      * - Add cards to the collection unsorted (when no container is specified)
      *
-     * Aborts with 403 if a container is specified but belongs to another user.
-     *
      * @param  Container|null  $container  Pre-selected container, or null for unsorted.
      */
-    public function add(Request $request, ?Container $container = null): Response
+    public function add(AddCardStackRequest $request, ?Container $container = null): Response
     {
         if ($container) {
-            abort_if($container->user_id !== $request->user()->id, 403);
             $container->load('defaultCard.set', 'defaultCard.artist');
         }
 
@@ -121,10 +120,8 @@ class CardStackController extends Controller
      * pre-populated. The card is locked (not changeable) — only amount,
      * language, condition, finish and container can be edited.
      */
-    public function edit(Request $request, CardStack $cardStack): Response
+    public function edit(EditCardStackRequest $request, CardStack $cardStack): Response
     {
-        abort_if($cardStack->user_id !== $request->user()->id, 403);
-
         $cardStack->load('defaultCard.set', 'defaultCard.artist', 'container');
 
         $containers = $request->user()->containers()

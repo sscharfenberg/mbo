@@ -2,7 +2,6 @@ import type { ComputedRef, MaybeRefOrGetter } from "vue";
 import { computed, toValue } from "vue";
 import type { DeckSort } from "Composables/useDeckSort.ts";
 import type { DeckCardRow } from "Types/deckPage";
-
 /** Supported deck card type groups, in display order. */
 export type DeckCardGroup =
     | "creature"
@@ -14,7 +13,6 @@ export type DeckCardGroup =
     | "sorcery"
     | "land"
     | "other";
-
 /** A group of deck cards sharing a primary card type. */
 export type DeckCardGrouping = {
     /** Primary card type for this group. */
@@ -24,13 +22,11 @@ export type DeckCardGrouping = {
     /** Sum of quantities of the cards in this group. */
     count: number;
 };
-
 /** Return type of {@link useDeckGrouping}. */
 export type UseDeckGroupingReturn = {
     /** Non-empty groups in canonical display order. */
     groups: ComputedRef<DeckCardGrouping[]>;
 };
-
 /**
  * Canonical display order and precedence for primary card types. A card is
  * placed in the first group its type line matches when scanned in this order.
@@ -47,9 +43,8 @@ const GROUP_ORDER: readonly DeckCardGroup[] = [
     "sorcery",
     "artifact",
     "enchantment",
-    "other",
+    "other"
 ] as const;
-
 /** Match tokens (case-insensitive) used to bucket a type line into a group. */
 const GROUP_MATCHERS: Record<Exclude<DeckCardGroup, "other">, string> = {
     land: "Land",
@@ -59,9 +54,8 @@ const GROUP_MATCHERS: Record<Exclude<DeckCardGroup, "other">, string> = {
     instant: "Instant",
     sorcery: "Sorcery",
     artifact: "Artifact",
-    enchantment: "Enchantment",
+    enchantment: "Enchantment"
 };
-
 /**
  * Determine the primary card-type group for a single card based on its
  * front-face type line. Falls back to `"other"` for cards with an empty
@@ -74,7 +68,6 @@ function resolveGroup(typeLine: string): DeckCardGroup {
     }
     return "other";
 }
-
 /**
  * Comparator for deck cards based on the active sort mode. Mana sorts by
  * `cmc` ascending and breaks ties alphabetically; name sorts purely by name.
@@ -83,9 +76,8 @@ function compareCards(mode: DeckSort): (a: DeckCardRow, b: DeckCardRow) => numbe
     if (mode === "name") {
         return (a, b) => a.name.localeCompare(b.name);
     }
-    return (a, b) => (a.cmc - b.cmc) || a.name.localeCompare(b.name);
+    return (a, b) => a.cmc - b.cmc || a.name.localeCompare(b.name);
 }
-
 /**
  * Group a reactive list of deck cards by their primary card type.
  *
@@ -100,7 +92,7 @@ function compareCards(mode: DeckSort): (a: DeckCardRow, b: DeckCardRow) => numbe
  */
 export function useDeckGrouping(
     cards: MaybeRefOrGetter<DeckCardRow[]>,
-    sortMode: MaybeRefOrGetter<DeckSort> = () => "mana",
+    sortMode: MaybeRefOrGetter<DeckSort> = () => "mana"
 ): UseDeckGroupingReturn {
     const groups = computed<DeckCardGrouping[]>(() => {
         const comparator = compareCards(toValue(sortMode));
@@ -118,9 +110,9 @@ export function useDeckGrouping(
         for (const bucket of buckets.values()) {
             bucket.cards.sort(comparator);
         }
-        return GROUP_ORDER
-            .map((group) => buckets.get(group))
-            .filter((bucket): bucket is DeckCardGrouping => bucket !== undefined);
+        return GROUP_ORDER.map(group => buckets.get(group)).filter(
+            (bucket): bucket is DeckCardGrouping => bucket !== undefined
+        );
     });
 
     return { groups };

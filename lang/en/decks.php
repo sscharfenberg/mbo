@@ -14,4 +14,6 @@ return [
         ],
     ],
 
+    'category_created' => 'Created new group ":group" for the deck ":deck".',
+
 ];

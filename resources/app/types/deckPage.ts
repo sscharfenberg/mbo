@@ -49,7 +49,6 @@ export interface DeckCardRow {
 export interface DeckCategoryRow {
     id: string;
     name: string;
-    sort_order: number;
 }
 
 /**

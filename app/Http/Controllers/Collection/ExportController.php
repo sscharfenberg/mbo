@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Collection;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Collection\ExportContainerRequest;
 use App\Models\Container;
 use App\Services\CsvExportService;
 use Illuminate\Http\Request;
@@ -12,13 +13,9 @@ class ExportController extends Controller
 {
     /**
      * Stream a CSV export of a single container's card stacks.
-     *
-     * Aborts with 403 if the container belongs to another user.
      */
-    public function container(Request $request, Container $container): StreamedResponse
+    public function container(ExportContainerRequest $request, Container $container): StreamedResponse
     {
-        abort_if($container->user_id !== $request->user()->id, 403);
-
         return CsvExportService::streamContainerCsv($request->user(), $container);
     }
 

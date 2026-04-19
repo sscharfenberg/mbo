@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Decks;
 
-use App\Enums\DeckZone;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Decks\StoreDeckCardRequest;
 use App\Models\Deck;
 use App\Models\DeckCard;
 use App\Models\DefaultCard;
 use App\Services\DeckCardService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class DeckCardController extends Controller
 {
@@ -20,14 +18,9 @@ class DeckCardController extends Controller
      * Expects `default_card_id` (specific printing) and `zone` (main/side).
      * The oracle card is resolved from the default card automatically.
      */
-    public function store(Request $request, Deck $deck): JsonResponse
+    public function store(StoreDeckCardRequest $request, Deck $deck): JsonResponse
     {
-        abort_unless($deck->user_id === $request->user()->id, 403);
-
-        $validated = $request->validate([
-            'default_card_id' => ['required', 'uuid', 'exists:default_cards,id'],
-            'zone' => ['required', Rule::enum(DeckZone::class)],
-        ]);
+        $validated = $request->validated();
 
         $defaultCard = DefaultCard::findOrFail($validated['default_card_id']);
 

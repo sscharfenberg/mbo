@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Collection;
 
 use App\Enums\ImportSource;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Collection\ShowImportRequest;
 use App\Models\Container;
 use App\Services\CardStackService;
 use App\Services\ContainerService;
@@ -23,12 +24,11 @@ class ImportController extends Controller
      * Show the CSV import page.
      *
      * When a container is provided via route model binding, it is pre-selected
-     * as the import target. Aborts with 403 if the container belongs to another user.
+     * as the import target.
      */
-    public function show(Request $request, ?Container $container = null): Response
+    public function show(ShowImportRequest $request, ?Container $container = null): Response
     {
         if ($container) {
-            abort_if($container->user_id !== $request->user()->id, 403);
             $container->load('defaultCard.set', 'defaultCard.artist');
             $container->loadSum('cardStacks', 'amount');
             $container->total_price = ContainerService::totalPrice($container, $request->user()->currency);

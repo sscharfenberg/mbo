@@ -689,7 +689,12 @@
                 "land": "Länder",
                 "other": "Sonstige"
             },
-            "create_group": "Neue Gruppe erstellen",
+            "create_group": {
+                "title": "Neue Gruppe erstellen",
+                "link": "Neue Gruppe erstellen",
+                "explanation": "Erstelle eine neue benutzerdefinierte Gruppe für die Karte {card} — danach kannst du weitere Karten in diese Gruppe ziehen. Nutze dies für Gruppen wie 'Interaktion', 'Massenentfernung', 'Kartenziehen' usw.",
+                "submit": "Gruppe erstellen"
+            },
             "no_categories": "Keine Kategorien definiert.",
             "navigation": {
                 "label": "Deck-Navigation",
@@ -791,6 +796,7 @@
             "total_price": "Gesamt",
             "artist": "Künstler",
             "deck_name": "Deckname",
+            "group_name": "Gruppenname",
             "format": "Format",
             "created_at": "Hinzugefügt",
             "updated_at": "Geändert",
