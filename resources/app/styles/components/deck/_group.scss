@@ -24,6 +24,8 @@
         display: flex;
         flex-direction: column;
 
+        // Ensures empty lists remain a usable drop target during drag.
+        min-height: 2rem;
         padding: 0;
         margin: 0;
         gap: map.get(s.$pages, "deck", "group", "gap");
@@ -48,5 +50,16 @@
         opacity: 0;
 
         overflow: hidden;
+    }
+
+    &__list--droppable {
+        border: map.get(s.$pages, "deck", "group", "create-new", "border") dashed
+            map.get(c.$pages, "deck", "group", "create-new", "border");
+
+        border-radius: map.get(s.$pages, "deck", "group", "create-new", "radius");
+    }
+
+    &--unavailable {
+        opacity: 0.2;
     }
 }

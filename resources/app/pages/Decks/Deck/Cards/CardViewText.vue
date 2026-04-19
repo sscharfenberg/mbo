@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { ref } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { useI18n } from "vue-i18n";
 import DeckAddGroupModal from "@/pages/Decks/Deck/Add/DeckAddGroupModal.vue";
@@ -9,8 +9,10 @@ import DeckGroupHeadline from "@/pages/Decks/Deck/Cards/DeckGroupHeadline.vue";
 import CardImagePreview from "Components/Card/CardImagePreview.vue";
 import ManaCost from "Components/Card/ManaCost.vue";
 import Icon from "Components/UI/Icon.vue";
-import { useDeckGrouping } from "Composables/useDeckGrouping.ts";
+import { useDeckCardDrag } from "Composables/useDeckCardDrag.ts";
+import { useDeckSections } from "Composables/useDeckSections.ts";
 import type { DeckSort } from "Composables/useDeckSort.ts";
+import { useResponsiveColumns } from "Composables/useResponsiveColumns.ts";
 import type { DeckCardRow, DeckCategoryRow, DeckCommander } from "Types/deckPage";
 /** Shape of the data needed by the preview modal. */
 interface PreviewTarget {
@@ -18,24 +20,6 @@ interface PreviewTarget {
     cardImage0: string | null;
     cardImage1: string | null;
 }
-/** A unified card group — either a default type group or a custom category. */
-interface CardSection {
-    key: string;
-    label: string;
-    cards: DeckCardRow[];
-    count: number;
-}
-/** A visual section: commander zone, card group, or the "create group" drop target. */
-type Section =
-    | { kind: "commanders"; commanders: DeckCommander[] }
-    | { kind: "group"; group: CardSection }
-    | { kind: "create-group" };
-/** Minimum column width in pixels. Columns are added when the container can fit another one. */
-const MIN_COL_WIDTH = 256;
-/** Hard cap on the number of columns regardless of available width. */
-const MAX_COLUMNS = 4;
-/** Gap between columns in pixels — must match the CSS gap value. */
-const COL_GAP = 16;
 const props = defineProps<{
     /** UUID of the deck. */
     deckId: string;
@@ -51,105 +35,33 @@ const props = defineProps<{
     categoryNameMax: number;
 }>();
 const { t } = useI18n();
-/** Cards without a custom category — grouped by card type. */
-const { groups: typeGroups } = useDeckGrouping(
-    () => props.cards.filter(c => c.category_id === null),
-    () => props.sortMode
+const {
+    dragging,
+    draggedTypeGroup,
+    onDragStart,
+    onDragEnd,
+    isUnavailable,
+    groupFor,
+    dropTargetList,
+    createGroupTarget,
+    showCreateGroupModal,
+    droppedCard,
+    onDropToCreateGroup,
+    onDropToGroup
+} = useDeckCardDrag(props.deckId, () => props.cards);
+const { sections, dragTargets } = useDeckSections(
+    () => props.cards,
+    () => props.commanders,
+    () => props.categories,
+    () => props.sortMode,
+    t,
+    draggedTypeGroup
 );
-/**
- * Merge default type groups and custom categories into a single alphabetically
- * sorted list. Default group labels are resolved via i18n so sorting is
- * locale-aware.
- */
-const allGroups = computed<CardSection[]>(() => {
-    const sections: CardSection[] = [];
-    for (const g of typeGroups.value) {
-        sections.push({
-            key: g.group,
-            label: t(`pages.deck.groups.${g.group}`),
-            cards: g.cards,
-            count: g.count,
-        });
-    }
-    const catBuckets = new Map<string, CardSection>();
-    for (const cat of props.categories) {
-        catBuckets.set(cat.id, { key: `cat-${cat.id}`, label: cat.name, cards: [], count: 0 });
-    }
-    for (const card of props.cards) {
-        if (card.category_id === null) continue;
-        const bucket = catBuckets.get(card.category_id);
-        if (bucket) {
-            bucket.cards.push(card);
-            bucket.count += card.quantity;
-        }
-    }
-    for (const bucket of catBuckets.values()) {
-        if (bucket.cards.length > 0) sections.push(bucket);
-    }
-    sections.sort((a, b) => a.label.localeCompare(b.label));
-    return sections;
+const { containerRef, columns } = useResponsiveColumns(sections, {
+    minColWidth: 256,
+    maxColumns: 4,
+    colGap: 16
 });
-/** Template ref for the card-groups container element. */
-const containerRef = ref<HTMLElement | null>(null);
-/** Number of columns that fit in the current container width. */
-const colCount = ref(1);
-let observer: ResizeObserver | null = null;
-onMounted(() => {
-    if (!containerRef.value) return;
-    observer = new ResizeObserver(([entry]) => {
-        const width = entry.contentBoxSize[0].inlineSize;
-        // How many columns fit: solve width >= n * MIN_COL_WIDTH + (n-1) * COL_GAP
-        const n = Math.floor((width + COL_GAP) / (MIN_COL_WIDTH + COL_GAP));
-        colCount.value = Math.max(1, Math.min(n, MAX_COLUMNS));
-    });
-    observer.observe(containerRef.value);
-});
-onBeforeUnmount(() => {
-    observer?.disconnect();
-});
-/**
- * Distribute sections column-first: fill each column top-to-bottom before
- * moving to the next. Column count is driven by container width via ResizeObserver.
- */
-const columns = computed<Section[][]>(() => {
-    const sections: Section[] = [];
-    if (props.commanders.length > 0) {
-        sections.push({ kind: "commanders", commanders: props.commanders });
-    }
-    for (const group of allGroups.value) {
-        sections.push({ kind: "group", group });
-    }
-    const count = Math.min(sections.length, colCount.value);
-    if (count === 0) return [];
-    const perCol = Math.ceil(sections.length / count);
-    const cols: Section[][] = Array.from({ length: count }, () => []);
-    for (let i = 0; i < sections.length; i++) {
-        cols[Math.floor(i / perCol)].push(sections[i]);
-    }
-    cols[cols.length - 1].push({ kind: "create-group" });
-    return cols;
-});
-/** True while a card is being dragged — shows the drop target and dims default groups. */
-const dragging = ref(false);
-/** SortableJS group config for default groups: cards can be dragged out but not dropped in. */
-const defaultGroup = { name: "deck-cards", pull: "clone" as const, put: false };
-/** Items dropped on the "create new group" target. Kept as a ref for VueDraggable v-model. */
-const dropTargetList = ref<DeckCardRow[]>([]);
-/** SortableJS group config for the "create new group" drop target: accepts drops only. */
-const createGroupTarget = { name: "deck-cards", pull: false, put: true };
-/** True when the "create group" modal should be shown. */
-const showCreateGroupModal = ref(false);
-/** The card that was dropped on the "create new group" target. */
-const droppedCard = ref<DeckCardRow | null>(null);
-/** Called when a card is dropped on the "create new group" target. */
-function onDropToCreateGroup(): void {
-    dragging.value = false;
-    if (dropTargetList.value.length > 0) {
-        droppedCard.value = dropTargetList.value[0];
-        dropTargetList.value = [];
-        showCreateGroupModal.value = true;
-    }
-}
 /** The card currently shown in the preview modal, or null when hidden. */
 const previewTarget = ref<PreviewTarget | null>(null);
 </script>
@@ -164,7 +76,7 @@ const previewTarget = ref<PreviewTarget | null>(null);
                 <section
                     v-if="section.kind === 'commanders'"
                     class="card-group"
-                    :class="{ 'card-group--dragging': dragging }"
+                    :class="{ 'card-group--unavailable': dragging }"
                 >
                     <deck-group-headline
                         >{{ $t("pages.deck.commanders") }} ({{ section.commanders.length }})</deck-group-headline
@@ -192,23 +104,25 @@ const previewTarget = ref<PreviewTarget | null>(null);
                 <section
                     v-else-if="section.kind === 'group'"
                     class="card-group"
-                    :class="{ 'card-group--dragging': dragging }"
+                    :class="{
+                        'card-group--unavailable': isUnavailable(section.group)
+                    }"
                 >
-                    <deck-group-headline
-                        >{{ section.group.label }} ({{ section.group.count }})</deck-group-headline
-                    >
+                    <deck-group-headline>{{ section.group.label }} ({{ section.group.count }})</deck-group-headline>
                     <VueDraggable
                         :model-value="section.group.cards"
                         tag="ul"
                         class="card-group__list"
+                        :class="{ 'card-group__list--droppable': dragging && !isUnavailable(section.group) }"
                         handle=".card__drag-handle"
-                        :group="defaultGroup"
+                        :group="groupFor(section.group)"
                         :sort="false"
                         ghost-class="card--ghost"
-                        @start="dragging = true"
-                        @end="dragging = false"
+                        @start="onDragStart"
+                        @end="onDragEnd"
+                        @add="(evt: { item: HTMLElement }) => onDropToGroup(evt, section.group.categoryId)"
                     >
-                        <li v-for="card in section.group.cards" :key="card.id" class="card">
+                        <li v-for="card in section.group.cards" :key="card.id" :data-card-id="card.id" class="card">
                             <span class="card__drag-handle"><icon name="drag" :size="1" /></span>
                             <card-image-preview
                                 :src="card.default_card.card_image_0"
@@ -228,7 +142,7 @@ const previewTarget = ref<PreviewTarget | null>(null);
                         </li>
                     </VueDraggable>
                 </section>
-                <section v-else-if="dragging" class="card-group card-group__drop-target">
+                <section v-else-if="dragging && section.kind === 'create-group'" class="card-group card-group__drop-target">
                     <icon name="add" :size="2" />
                     {{ $t("pages.deck.create_group.link") }}
                     <VueDraggable
@@ -238,6 +152,23 @@ const previewTarget = ref<PreviewTarget | null>(null);
                         :group="createGroupTarget"
                         ghost-class="card--ghost"
                         @add="onDropToCreateGroup"
+                    />
+                </section>
+            </template>
+            <!-- Extra drop targets rendered outside the column distribution
+                 so that appearing mid-drag doesn't cause a redistribution. -->
+            <template v-if="dragging && ci === columns.length - 1">
+                <section v-for="target in dragTargets" :key="target.key" class="card-group">
+                    <deck-group-headline>{{ target.label }} ({{ target.count }})</deck-group-headline>
+                    <VueDraggable
+                        :model-value="target.cards"
+                        tag="ul"
+                        class="card-group__list card-group__list--droppable"
+                        handle=".card__drag-handle"
+                        :group="groupFor(target)"
+                        :sort="false"
+                        ghost-class="card--ghost"
+                        @add="(evt: { item: HTMLElement }) => onDropToGroup(evt, target.categoryId)"
                     />
                 </section>
             </template>

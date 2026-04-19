@@ -61,7 +61,7 @@ const GROUP_MATCHERS: Record<Exclude<DeckCardGroup, "other">, string> = {
  * front-face type line. Falls back to `"other"` for cards with an empty
  * or unrecognised type line (tokens, schemes, etc.).
  */
-function resolveGroup(typeLine: string): DeckCardGroup {
+export function resolveGroup(typeLine: string): DeckCardGroup {
     for (const group of GROUP_ORDER) {
         if (group === "other") continue;
         if (typeLine.includes(GROUP_MATCHERS[group])) return group;
@@ -72,7 +72,7 @@ function resolveGroup(typeLine: string): DeckCardGroup {
  * Comparator for deck cards based on the active sort mode. Mana sorts by
  * `cmc` ascending and breaks ties alphabetically; name sorts purely by name.
  */
-function compareCards(mode: DeckSort): (a: DeckCardRow, b: DeckCardRow) => number {
+export function compareCards(mode: DeckSort): (a: DeckCardRow, b: DeckCardRow) => number {
     if (mode === "name") {
         return (a, b) => a.name.localeCompare(b.name);
     }

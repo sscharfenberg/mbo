@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
+import { nextTick, onMounted, ref } from "vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import Modal from "Components/Modal/Modal.vue";
@@ -17,6 +18,10 @@ const props = defineProps<{
 const form = useForm({
     group_name: "",
     card_id: props.card.id,
+});
+const inputRef = ref<HTMLInputElement | null>(null);
+onMounted(() => {
+    nextTick(() => inputRef.value?.focus());
 });
 const submit = () => {
     form.post(`/decks/${props.deckId}/categories`, {
@@ -43,6 +48,7 @@ const submit = () => {
                 addon-icon="text"
             >
                 <input
+                    ref="inputRef"
                     v-model="form.group_name"
                     type="text"
                     name="group_name"

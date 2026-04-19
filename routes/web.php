@@ -136,6 +136,8 @@ Route::middleware(array_filter(['auth', Features::enabled(Features::emailVerific
     Route::post('/decks/{deck}/categories', [DeckCategoryController::class, 'store'])
         ->middleware([HandleControllerPrecognitiveRequest::class])
         ->name('decks.categories.store');
+    Route::patch('/api/decks/{deck}/cards/{deckCard}/category', [DeckCardController::class, 'updateCategory'])
+        ->name('api.decks.cards.update-category');
 
 });
 

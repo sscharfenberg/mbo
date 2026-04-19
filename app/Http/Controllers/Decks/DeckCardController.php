@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Decks;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Decks\StoreDeckCardRequest;
+use App\Http\Requests\Decks\UpdateDeckCardCategoryRequest;
 use App\Models\Deck;
 use App\Models\DeckCard;
 use App\Models\DefaultCard;
 use App\Services\DeckCardService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class DeckCardController extends Controller
 {
@@ -34,5 +36,18 @@ class DeckCardController extends Controller
         DeckCardService::recalculateColors($deck);
 
         return response()->json(['id' => $deckCard->id], 201);
+    }
+
+    /**
+     * Update a deck card's category assignment.
+     *
+     * Accepts a nullable `category_id` — null removes the card from any
+     * custom category, returning it to the default type-based grouping.
+     */
+    public function updateCategory(UpdateDeckCardCategoryRequest $request, Deck $deck, DeckCard $deckCard): RedirectResponse
+    {
+        $deckCard->update($request->validated());
+
+        return redirect()->back();
     }
 }
