@@ -705,6 +705,11 @@
                     "success": "Category deleted."
                 }
             },
+            "card_quantity": {
+                "increment": "Add one card",
+                "decrement": "Remove one card",
+                "destroy": "Remove all"
+            },
             "no_categories": "No categories defined.",
             "navigation": {
                 "label": "Deck navigation",

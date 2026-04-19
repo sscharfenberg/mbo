@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, useId } from "vue";
-import DeckAddGroupModal from "@/pages/Decks/Deck/Add/DeckAddGroupModal.vue";
+import DeckAddGroupModal from "@/pages/Decks/Deck/Modals/DeckAddGroupModal.vue";
 import Icon from "Components/UI/Icon.vue";
 import PopOver from "Components/UI/PopOver.vue";
 import type { DeckCardRow, DeckCategoryRow, DeckMeta } from "Types/deckPage.ts";
-import DeckCustomGroupsModal from "./DeckCustomGroupsModal.vue";
+import DeckCustomGroupsModal from "../Modals/DeckCustomGroupsModal.vue";
 const props = defineProps<{
     /** Deck metadata (name, format, state, colors, etc.). */
     deck: DeckMeta;

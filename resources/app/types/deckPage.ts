@@ -36,6 +36,7 @@ export interface DeckCardRow {
     cmc: number;
     type_line: string;
     mana_cost: (string | null)[];
+    is_basic_land: boolean;
     zone: string;
     quantity: number;
     finish: string;
@@ -80,6 +81,8 @@ export interface DeckMeta {
     card_count: number;
     max_deck_size: number | null;
     max_sideboard_size: number;
+    max_copies: number;
+    is_singleton: boolean;
     last_activity: string;
     default_card_image: {
         card_image_0: string | null;

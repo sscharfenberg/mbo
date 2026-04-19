@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import DeckActions from "@/pages/Decks/Deck/DeckActions.vue";
+import DeckActionsMenu from "@/pages/Decks/Deck/Actions/DeckActionsMenu.vue";
 import ColorIdentity from "Components/Card/ColorIdentity.vue";
 import DeckState from "Components/Deck/DeckState.vue";
 import Badge from "Components/UI/Badge.vue";
@@ -27,7 +27,12 @@ const { t } = useI18n();
     <section class="deck-meta">
         <header class="deck-meta__name">
             {{ deck.name.toUpperCase() }}
-            <deck-actions :deck="deck" :cards="cards" :categories="categories" :category-name-max="categoryNameMax" />
+            <deck-actions-menu
+                :deck="deck"
+                :cards="cards"
+                :categories="categories"
+                :category-name-max="categoryNameMax"
+            />
         </header>
         <div class="deck-meta__badges">
             <badge v-if="deck.colors"><color-identity :color-identity="deck.colors" /></badge>

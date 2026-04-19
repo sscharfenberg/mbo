@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { router, usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
-import DeckAddGroupModal from "@/pages/Decks/Deck/Add/DeckAddGroupModal.vue";
+import DeckAddGroupModal from "@/pages/Decks/Deck/Modals/DeckAddGroupModal.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";

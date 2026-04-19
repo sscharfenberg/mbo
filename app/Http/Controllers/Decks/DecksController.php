@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Decks;
 
 use App\Enums\CardFormat;
+use App\Formats\FormatProfile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Decks\ShowDeckRequest;
 use App\Models\Deck;
@@ -151,6 +152,7 @@ class DecksController extends Controller
             'cmc' => $dc->oracleCard->cmc,
             'type_line' => $dc->oracleCard->faces->firstWhere('face_index', 0)?->type_line ?? '',
             'mana_cost' => $dc->oracleCard->faces->sortBy('face_index')->pluck('mana_cost')->values()->all(),
+            'is_basic_land' => in_array($dc->oracleCard->name, FormatProfile::BASIC_LANDS, true),
             'zone' => $dc->zone->value,
             'quantity' => $dc->quantity,
             'finish' => $dc->finish->value,
@@ -187,6 +189,8 @@ class DecksController extends Controller
                 'card_count' => $cardCount,
                 'max_deck_size' => $deck->format->rules()->maxDeckSize(),
                 'max_sideboard_size' => $deck->format->rules()->maxSideboardSize(),
+                'max_copies' => $deck->format->rules()->maxCopies(),
+                'is_singleton' => $deck->format->rules()->maxCopies() === 1,
                 'last_activity' => $lastActivity,
                 'default_card_image' => $deck->defaultCard ? [
                     'card_image_0' => $deck->defaultCard->card_image_0,

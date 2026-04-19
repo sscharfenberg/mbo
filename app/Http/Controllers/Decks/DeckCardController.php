@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Decks;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Decks\ModifyDeckCardRequest;
 use App\Http\Requests\Decks\StoreDeckCardRequest;
 use App\Http\Requests\Decks\UpdateDeckCardCategoryRequest;
+use App\Http\Requests\Decks\UpdateDeckCardQuantityRequest;
 use App\Models\Deck;
 use App\Models\DeckCard;
 use App\Models\DefaultCard;
@@ -36,6 +38,55 @@ class DeckCardController extends Controller
         DeckCardService::recalculateColors($deck);
 
         return response()->json(['id' => $deckCard->id], 201);
+    }
+
+    /**
+     * Change a deck card's quantity by a signed delta.
+     *
+     * Positive deltas are validated against format rules (singleton, max copies,
+     * deck size). When the resulting quantity reaches zero or below the card row
+     * is deleted entirely.
+     */
+    public function updateQuantity(UpdateDeckCardQuantityRequest $request, Deck $deck, DeckCard $deckCard): JsonResponse
+    {
+        $delta = $request->validated()['delta'];
+        $newQuantity = $deckCard->quantity + $delta;
+
+        if ($newQuantity <= 0) {
+            $deckCard->delete();
+            DeckCardService::recalculateColors($deck);
+
+            return response()->json(['deleted' => true]);
+        }
+
+        if ($delta > 0) {
+            $oracleCard = $deckCard->oracleCard;
+            $currentDeckSize = $deck->deckCards()->sum('quantity');
+
+            $result = $deck->format->rules()->canAddCopy(
+                $oracleCard,
+                $newQuantity - 1,
+                $currentDeckSize + $delta - 1,
+            );
+
+            abort_unless($result->allowed, 422);
+        }
+
+        $deckCard->update(['quantity' => $newQuantity]);
+
+        return response()->json(['quantity' => $newQuantity]);
+    }
+
+    /**
+     * Remove a deck card entirely, regardless of quantity.
+     */
+    public function destroy(ModifyDeckCardRequest $request, Deck $deck, DeckCard $deckCard): JsonResponse
+    {
+        $deckCard->delete();
+
+        DeckCardService::recalculateColors($deck);
+
+        return response()->json(status: 204);
     }
 
     /**

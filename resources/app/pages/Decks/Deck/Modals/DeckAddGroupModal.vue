@@ -5,7 +5,7 @@ import FormGroup from "Components/Form/FormGroup.vue";
 import FormLegend from "Components/Form/FormLegend.vue";
 import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
-import type { DeckCardRow } from "Types/deckPage";
+import type { DeckCardRow } from "Types/deckPage.ts";
 const emit = defineEmits<{ close: [] }>();
 const props = defineProps<{
     /** UUID of the deck this category belongs to. */
@@ -17,7 +17,7 @@ const props = defineProps<{
 }>();
 const form = useForm({
     group_name: "",
-    card_id: props.card?.id ?? null,
+    card_id: props.card?.id ?? null
 });
 const inputRef = ref<HTMLInputElement | null>(null);
 onMounted(() => {
@@ -25,7 +25,7 @@ onMounted(() => {
 });
 const submit = () => {
     form.post(`/decks/${props.deckId}/categories`, {
-        onSuccess: () => emit("close"),
+        onSuccess: () => emit("close")
     });
 };
 </script>

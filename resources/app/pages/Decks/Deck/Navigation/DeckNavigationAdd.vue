@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import CardAddModal from "@/pages/Decks/Deck/Add/CardAddModal.vue";
+import CardAddModal from "@/pages/Decks/Deck/Modals/CardAddModal.vue";
 import Icon from "Components/UI/Icon.vue";
 import type { DeckCardRow, DeckMeta } from "Types/deckPage.ts";
 defineProps<{

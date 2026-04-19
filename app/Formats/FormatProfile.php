@@ -21,7 +21,7 @@ use App\Models\OracleCard;
 abstract class FormatProfile
 {
     /** Basic land names exempt from the singleton / max-copies rules. */
-    protected const BASIC_LANDS = [
+    public const BASIC_LANDS = [
         'Plains', 'Island', 'Swamp', 'Mountain', 'Forest', 'Wastes',
         'Snow-Covered Plains', 'Snow-Covered Island', 'Snow-Covered Swamp',
         'Snow-Covered Mountain', 'Snow-Covered Forest', 'Snow-Covered Wastes',

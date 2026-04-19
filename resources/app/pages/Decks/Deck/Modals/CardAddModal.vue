@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { router, usePage } from "@inertiajs/vue3";
 import { computed, onMounted, ref, useTemplateRef, watch } from "vue";
-import { useDeckSearch } from "@/composables/useDeckSearch";
 import SearchSyntax from "Components/Card/SearchSyntax.vue";
 import FormGroup from "Components/Form/FormGroup.vue";
 import Switch from "Components/Form/Switch.vue";
@@ -9,8 +8,9 @@ import Modal from "Components/Modal/Modal.vue";
 import Icon from "Components/UI/Icon.vue";
 import LoadingSpinner from "Components/UI/LoadingSpinner.vue";
 import Paragraph from "Components/UI/Paragraph.vue";
+import { useDeckSearch } from "Composables/useDeckSearch.ts";
 import type { DeckCardRow, DeckMeta, DeckSearchResult } from "Types/deckPage.ts";
-import CardAddResults from "./CardAddResults.vue";
+import CardAddModalResults from "./CardAddModalResults.vue";
 const props = defineProps<{
     /** Deck metadata — used to scope card search by format and color identity. */
     deck: DeckMeta;
@@ -149,7 +149,7 @@ onMounted(() => searchInput.value?.focus());
                 </button>
             </form-group>
             <search-syntax v-if="!results.length && !processing && !feedback" />
-            <card-add-results
+            <card-add-modal-results
                 v-if="results.length"
                 :results="results"
                 :can-add-to-main="canAddToMain"

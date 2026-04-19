@@ -705,6 +705,11 @@
                     "success": "Kategorie gelöscht."
                 }
             },
+            "card_quantity": {
+                "increment": "Add one card",
+                "decrement": "Remove one card",
+                "destroy": "Remove all"
+            },
             "no_categories": "Keine Kategorien definiert.",
             "navigation": {
                 "label": "Deck-Navigation",

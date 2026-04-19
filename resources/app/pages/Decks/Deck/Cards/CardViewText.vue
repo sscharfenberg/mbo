@@ -2,10 +2,10 @@
 import { ref } from "vue";
 import { VueDraggable } from "vue-draggable-plus";
 import { useI18n } from "vue-i18n";
-import DeckAddGroupModal from "@/pages/Decks/Deck/Add/DeckAddGroupModal.vue";
-import DeckCardActionsMenu from "@/pages/Decks/Deck/Cards/DeckCardActionsMenu.vue";
-import DeckCardPreviewModal from "@/pages/Decks/Deck/Cards/DeckCardPreviewModal.vue";
+import DeckCardActionsMenu from "@/pages/Decks/Deck/Actions/DeckCardActionsMenu.vue";
 import DeckGroupHeadline from "@/pages/Decks/Deck/Cards/DeckGroupHeadline.vue";
+import DeckAddGroupModal from "@/pages/Decks/Deck/Modals/DeckAddGroupModal.vue";
+import DeckCardPreviewModal from "@/pages/Decks/Deck/Modals/DeckCardPreviewModal.vue";
 import CardImagePreview from "Components/Card/CardImagePreview.vue";
 import ManaCost from "Components/Card/ManaCost.vue";
 import Icon from "Components/UI/Icon.vue";
@@ -33,6 +33,10 @@ const props = defineProps<{
     sortMode: DeckSort;
     /** Maximum length for a category name. */
     categoryNameMax: number;
+    /** Maximum copies allowed by the deck's format (e.g. 4, or 1 for singleton). */
+    maxCopies: number;
+    /** Whether the deck's format is singleton. */
+    isSingleton: boolean;
 }>();
 const { t } = useI18n();
 const {
@@ -94,10 +98,9 @@ const previewTarget = ref<PreviewTarget | null>(null);
                                     }
                                 "
                             >
-                                {{ commander.name }}
+                                <span class="card__qty">1x </span>{{ commander.name }}
                             </card-image-preview>
                             <mana-cost v-for="(cost, i) in commander.mana_cost" :key="i" :mana-cost="cost" />
-                            <deck-card-actions-menu />
                         </li>
                     </ul>
                 </section>
@@ -135,14 +138,24 @@ const previewTarget = ref<PreviewTarget | null>(null);
                                     }
                                 "
                             >
-                                {{ card.name }}
+                                <span class="card__qty">{{ card.quantity }}x </span>{{ card.name }}
                             </card-image-preview>
                             <mana-cost v-for="(cost, i) in card.mana_cost" :key="i" :mana-cost="cost" />
-                            <deck-card-actions-menu />
+                            <deck-card-actions-menu
+                                :deck-id="props.deckId"
+                                :card-id="card.id"
+                                :quantity="card.quantity"
+                                :is-basic-land="card.is_basic_land"
+                                :max-copies="props.maxCopies"
+                                :is-singleton="props.isSingleton"
+                            />
                         </li>
                     </VueDraggable>
                 </section>
-                <section v-else-if="dragging && section.kind === 'create-group'" class="card-group card-group__drop-target">
+                <section
+                    v-else-if="dragging && section.kind === 'create-group'"
+                    class="card-group card-group__drop-target"
+                >
                     <icon name="add" :size="2" />
                     {{ $t("pages.deck.create_group.link") }}
                     <VueDraggable
@@ -213,6 +226,10 @@ const previewTarget = ref<PreviewTarget | null>(null);
 
     &__drag-handle {
         cursor: move;
+    }
+
+    &__qty {
+        font-weight: 600;
     }
 }
 
